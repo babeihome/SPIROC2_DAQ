@@ -10,11 +10,16 @@ using System.Windows.Forms;
 
 namespace SPIROC_DAQ
 {
-    public partial class Form1 : Form
+    public partial class Main_Form : Form
     {
-        public Form1()
+        public Main_Form()
         {
             InitializeComponent();
+        }
+
+        private void normal_task_panel_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }
