@@ -21,5 +21,11 @@ namespace SPIROC_DAQ
         {
 
         }
+
+
+        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
