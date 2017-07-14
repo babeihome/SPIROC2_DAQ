@@ -64,10 +64,6 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.Msg_label = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            this.label1 = new System.Windows.Forms.Label();
-            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
-            this.label2 = new System.Windows.Forms.Label();
             this.Status_panel.SuspendLayout();
             this.USB_status_group.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -85,8 +81,6 @@
             this.File_group.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             this.SuspendLayout();
             // 
             // Status_panel
@@ -98,14 +92,14 @@
             this.Status_panel.Controls.Add(this.Acq_status_group, 0, 2);
             this.Status_panel.Controls.Add(this.Warning_group, 0, 3);
             this.Status_panel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Status_panel.Location = new System.Drawing.Point(735, 43);
+            this.Status_panel.Location = new System.Drawing.Point(734, 43);
             this.Status_panel.Name = "Status_panel";
             this.Status_panel.RowCount = 4;
             this.Status_panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.Status_panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.Status_panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.Status_panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.Status_panel.Size = new System.Drawing.Size(179, 496);
+            this.Status_panel.Size = new System.Drawing.Size(180, 496);
             this.Status_panel.TabIndex = 6;
             // 
             // USB_status_group
@@ -208,7 +202,7 @@
             // 
             this.Status_label.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.Status_label.AutoSize = true;
-            this.Status_label.Location = new System.Drawing.Point(804, 19);
+            this.Status_label.Location = new System.Drawing.Point(803, 19);
             this.Status_label.Name = "Status_label";
             this.Status_label.Size = new System.Drawing.Size(41, 12);
             this.Status_label.TabIndex = 5;
@@ -220,7 +214,7 @@
             this.Main_group.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Main_group.Location = new System.Drawing.Point(194, 43);
             this.Main_group.Name = "Main_group";
-            this.Main_group.Size = new System.Drawing.Size(535, 496);
+            this.Main_group.Size = new System.Drawing.Size(534, 496);
             this.Main_group.TabIndex = 4;
             this.Main_group.TabStop = false;
             this.Main_group.Text = "SPIROC_CONTROL";
@@ -234,7 +228,7 @@
             this.Main_tab.Location = new System.Drawing.Point(3, 17);
             this.Main_tab.Name = "Main_tab";
             this.Main_tab.SelectedIndex = 0;
-            this.Main_tab.Size = new System.Drawing.Size(529, 476);
+            this.Main_tab.Size = new System.Drawing.Size(528, 476);
             this.Main_tab.TabIndex = 0;
             // 
             // Flow_tab
@@ -243,7 +237,7 @@
             this.Flow_tab.Location = new System.Drawing.Point(4, 22);
             this.Flow_tab.Name = "Flow_tab";
             this.Flow_tab.Padding = new System.Windows.Forms.Padding(3);
-            this.Flow_tab.Size = new System.Drawing.Size(521, 450);
+            this.Flow_tab.Size = new System.Drawing.Size(520, 450);
             this.Flow_tab.TabIndex = 0;
             this.Flow_tab.Text = "Task";
             this.Flow_tab.UseVisualStyleBackColor = true;
@@ -262,7 +256,7 @@
             this.task_panel.RowCount = 2;
             this.task_panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.44144F));
             this.task_panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 83.55856F));
-            this.task_panel.Size = new System.Drawing.Size(515, 444);
+            this.task_panel.Size = new System.Drawing.Size(514, 444);
             this.task_panel.TabIndex = 0;
             // 
             // normal_label
@@ -287,7 +281,7 @@
             this.normal_task_panel.Location = new System.Drawing.Point(89, 4);
             this.normal_task_panel.Name = "normal_task_panel";
             this.normal_task_panel.Padding = new System.Windows.Forms.Padding(3);
-            this.normal_task_panel.Size = new System.Drawing.Size(422, 66);
+            this.normal_task_panel.Size = new System.Drawing.Size(421, 66);
             this.normal_task_panel.TabIndex = 1;
             this.normal_task_panel.Paint += new System.Windows.Forms.PaintEventHandler(this.normal_task_panel_Paint);
             // 
@@ -303,10 +297,12 @@
             this.normal_usbcon_button.TabIndex = 0;
             this.normal_usbcon_button.Text = "USB connect";
             this.normal_usbcon_button.UseVisualStyleBackColor = false;
+            this.normal_usbcon_button.Click += new System.EventHandler(this.normal_usbcon_button_Click);
             // 
             // normal_config_button
             // 
             this.normal_config_button.BackColor = System.Drawing.Color.White;
+            this.normal_config_button.Enabled = false;
             this.normal_config_button.Location = new System.Drawing.Point(125, 6);
             this.normal_config_button.Margin = new System.Windows.Forms.Padding(3, 3, 15, 3);
             this.normal_config_button.Name = "normal_config_button";
@@ -318,6 +314,7 @@
             // normal_acq_button
             // 
             this.normal_acq_button.BackColor = System.Drawing.Color.White;
+            this.normal_acq_button.Enabled = false;
             this.normal_acq_button.Location = new System.Drawing.Point(217, 6);
             this.normal_acq_button.Margin = new System.Windows.Forms.Padding(3, 3, 15, 3);
             this.normal_acq_button.Name = "normal_acq_button";
@@ -329,6 +326,7 @@
             // normal_stop_button
             // 
             this.normal_stop_button.BackColor = System.Drawing.Color.White;
+            this.normal_stop_button.Enabled = false;
             this.normal_stop_button.Location = new System.Drawing.Point(309, 6);
             this.normal_stop_button.Margin = new System.Windows.Forms.Padding(3, 3, 15, 3);
             this.normal_stop_button.Name = "normal_stop_button";
@@ -344,7 +342,7 @@
             this.SC_tab.Location = new System.Drawing.Point(4, 22);
             this.SC_tab.Name = "SC_tab";
             this.SC_tab.Padding = new System.Windows.Forms.Padding(3);
-            this.SC_tab.Size = new System.Drawing.Size(521, 450);
+            this.SC_tab.Size = new System.Drawing.Size(520, 450);
             this.SC_tab.TabIndex = 1;
             this.SC_tab.Text = "Slow Control";
             this.SC_tab.UseVisualStyleBackColor = true;
@@ -354,29 +352,26 @@
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox2.Location = new System.Drawing.Point(3, 197);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(515, 100);
+            this.groupBox2.Size = new System.Drawing.Size(514, 100);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "groupBox2";
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.numericUpDown2);
-            this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.numericUpDown1);
-            this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.input_dac_num);
             this.groupBox1.Controls.Add(this.input_dac_label1);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(515, 194);
+            this.groupBox1.Size = new System.Drawing.Size(514, 194);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Channel Control";
             // 
             // input_dac_num
             // 
+            this.input_dac_num.Hexadecimal = true;
             this.input_dac_num.Location = new System.Drawing.Point(80, 18);
             this.input_dac_num.Maximum = new decimal(new int[] {
             255,
@@ -386,23 +381,23 @@
             this.input_dac_num.Name = "input_dac_num";
             this.input_dac_num.Size = new System.Drawing.Size(56, 21);
             this.input_dac_num.TabIndex = 1;
-            this.input_dac_num.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
+            this.input_dac_num.ValueChanged += new System.EventHandler(this.input_dac_num_ValueChanged);
             // 
             // input_dac_label1
             // 
             this.input_dac_label1.AutoSize = true;
             this.input_dac_label1.Location = new System.Drawing.Point(9, 22);
             this.input_dac_label1.Name = "input_dac_label1";
-            this.input_dac_label1.Size = new System.Drawing.Size(65, 12);
+            this.input_dac_label1.Size = new System.Drawing.Size(59, 12);
             this.input_dac_label1.TabIndex = 0;
-            this.input_dac_label1.Text = "INPUT DAC1";
+            this.input_dac_label1.Text = "INPUT DAC";
             // 
             // Debug_tab
             // 
             this.Debug_tab.Location = new System.Drawing.Point(4, 22);
             this.Debug_tab.Name = "Debug_tab";
             this.Debug_tab.Padding = new System.Windows.Forms.Padding(3);
-            this.Debug_tab.Size = new System.Drawing.Size(521, 450);
+            this.Debug_tab.Size = new System.Drawing.Size(520, 450);
             this.Debug_tab.TabIndex = 2;
             this.Debug_tab.Text = "Debug";
             this.Debug_tab.UseVisualStyleBackColor = true;
@@ -423,7 +418,7 @@
             this.File_group.Dock = System.Windows.Forms.DockStyle.Fill;
             this.File_group.Location = new System.Drawing.Point(194, 545);
             this.File_group.Name = "File_group";
-            this.File_group.Size = new System.Drawing.Size(535, 51);
+            this.File_group.Size = new System.Drawing.Size(534, 51);
             this.File_group.TabIndex = 2;
             this.File_group.TabStop = false;
             this.File_group.Text = "File Path";
@@ -436,7 +431,7 @@
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 17);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(529, 31);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(528, 31);
             this.flowLayoutPanel1.TabIndex = 0;
             // 
             // file_path_label
@@ -496,7 +491,7 @@
             this.tableLayoutPanel1.ColumnCount = 3;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25.16469F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 74.83531F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 184F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 185F));
             this.tableLayoutPanel1.Controls.Add(this.Msg_label, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.textBox1, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.File_group, 1, 2);
@@ -516,48 +511,6 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.424084F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(927, 609);
             this.tableLayoutPanel1.TabIndex = 0;
-            // 
-            // numericUpDown1
-            // 
-            this.numericUpDown1.Location = new System.Drawing.Point(80, 44);
-            this.numericUpDown1.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(56, 21);
-            this.numericUpDown1.TabIndex = 3;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(9, 48);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(65, 12);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "INPUT DAC1";
-            // 
-            // numericUpDown2
-            // 
-            this.numericUpDown2.Location = new System.Drawing.Point(80, 71);
-            this.numericUpDown2.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.numericUpDown2.Name = "numericUpDown2";
-            this.numericUpDown2.Size = new System.Drawing.Size(56, 21);
-            this.numericUpDown2.TabIndex = 5;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(9, 75);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(65, 12);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "INPUT DAC1";
             // 
             // Main_Form
             // 
@@ -587,8 +540,6 @@
             this.flowLayoutPanel1.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -631,10 +582,6 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.NumericUpDown input_dac_num;
         private System.Windows.Forms.Label input_dac_label1;
-        private System.Windows.Forms.NumericUpDown numericUpDown2;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
-        private System.Windows.Forms.Label label1;
     }
 }
 
