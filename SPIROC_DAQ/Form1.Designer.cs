@@ -92,14 +92,14 @@
             this.Status_panel.Controls.Add(this.Acq_status_group, 0, 2);
             this.Status_panel.Controls.Add(this.Warning_group, 0, 3);
             this.Status_panel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Status_panel.Location = new System.Drawing.Point(734, 43);
+            this.Status_panel.Location = new System.Drawing.Point(732, 43);
             this.Status_panel.Name = "Status_panel";
             this.Status_panel.RowCount = 4;
             this.Status_panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.Status_panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.Status_panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.Status_panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.Status_panel.Size = new System.Drawing.Size(180, 496);
+            this.Status_panel.Size = new System.Drawing.Size(182, 496);
             this.Status_panel.TabIndex = 6;
             // 
             // USB_status_group
@@ -202,7 +202,7 @@
             // 
             this.Status_label.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.Status_label.AutoSize = true;
-            this.Status_label.Location = new System.Drawing.Point(803, 19);
+            this.Status_label.Location = new System.Drawing.Point(802, 19);
             this.Status_label.Name = "Status_label";
             this.Status_label.Size = new System.Drawing.Size(41, 12);
             this.Status_label.TabIndex = 5;
@@ -214,7 +214,7 @@
             this.Main_group.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Main_group.Location = new System.Drawing.Point(194, 43);
             this.Main_group.Name = "Main_group";
-            this.Main_group.Size = new System.Drawing.Size(534, 496);
+            this.Main_group.Size = new System.Drawing.Size(532, 496);
             this.Main_group.TabIndex = 4;
             this.Main_group.TabStop = false;
             this.Main_group.Text = "SPIROC_CONTROL";
@@ -228,7 +228,7 @@
             this.Main_tab.Location = new System.Drawing.Point(3, 17);
             this.Main_tab.Name = "Main_tab";
             this.Main_tab.SelectedIndex = 0;
-            this.Main_tab.Size = new System.Drawing.Size(528, 476);
+            this.Main_tab.Size = new System.Drawing.Size(526, 476);
             this.Main_tab.TabIndex = 0;
             // 
             // Flow_tab
@@ -237,7 +237,7 @@
             this.Flow_tab.Location = new System.Drawing.Point(4, 22);
             this.Flow_tab.Name = "Flow_tab";
             this.Flow_tab.Padding = new System.Windows.Forms.Padding(3);
-            this.Flow_tab.Size = new System.Drawing.Size(520, 450);
+            this.Flow_tab.Size = new System.Drawing.Size(518, 450);
             this.Flow_tab.TabIndex = 0;
             this.Flow_tab.Text = "Task";
             this.Flow_tab.UseVisualStyleBackColor = true;
@@ -256,7 +256,7 @@
             this.task_panel.RowCount = 2;
             this.task_panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.44144F));
             this.task_panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 83.55856F));
-            this.task_panel.Size = new System.Drawing.Size(514, 444);
+            this.task_panel.Size = new System.Drawing.Size(512, 444);
             this.task_panel.TabIndex = 0;
             // 
             // normal_label
@@ -266,7 +266,7 @@
             this.normal_label.Font = new System.Drawing.Font("SimSun", 15F, System.Drawing.FontStyle.Bold);
             this.normal_label.Location = new System.Drawing.Point(4, 1);
             this.normal_label.Name = "normal_label";
-            this.normal_label.Size = new System.Drawing.Size(78, 72);
+            this.normal_label.Size = new System.Drawing.Size(77, 72);
             this.normal_label.TabIndex = 0;
             this.normal_label.Text = "NORMAL";
             this.normal_label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -278,10 +278,10 @@
             this.normal_task_panel.Controls.Add(this.normal_acq_button);
             this.normal_task_panel.Controls.Add(this.normal_stop_button);
             this.normal_task_panel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.normal_task_panel.Location = new System.Drawing.Point(89, 4);
+            this.normal_task_panel.Location = new System.Drawing.Point(88, 4);
             this.normal_task_panel.Name = "normal_task_panel";
             this.normal_task_panel.Padding = new System.Windows.Forms.Padding(3);
-            this.normal_task_panel.Size = new System.Drawing.Size(421, 66);
+            this.normal_task_panel.Size = new System.Drawing.Size(420, 66);
             this.normal_task_panel.TabIndex = 1;
             this.normal_task_panel.Paint += new System.Windows.Forms.PaintEventHandler(this.normal_task_panel_Paint);
             // 
@@ -310,6 +310,7 @@
             this.normal_config_button.TabIndex = 1;
             this.normal_config_button.Text = "CONFIG";
             this.normal_config_button.UseVisualStyleBackColor = false;
+            this.normal_config_button.Click += new System.EventHandler(this.normal_config_button_Click);
             // 
             // normal_acq_button
             // 
@@ -322,6 +323,7 @@
             this.normal_acq_button.TabIndex = 2;
             this.normal_acq_button.Text = "Start ACQ";
             this.normal_acq_button.UseVisualStyleBackColor = false;
+            this.normal_acq_button.Click += new System.EventHandler(this.normal_acq_button_Click);
             // 
             // normal_stop_button
             // 
@@ -342,7 +344,7 @@
             this.SC_tab.Location = new System.Drawing.Point(4, 22);
             this.SC_tab.Name = "SC_tab";
             this.SC_tab.Padding = new System.Windows.Forms.Padding(3);
-            this.SC_tab.Size = new System.Drawing.Size(520, 450);
+            this.SC_tab.Size = new System.Drawing.Size(518, 450);
             this.SC_tab.TabIndex = 1;
             this.SC_tab.Text = "Slow Control";
             this.SC_tab.UseVisualStyleBackColor = true;
@@ -352,7 +354,7 @@
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox2.Location = new System.Drawing.Point(3, 197);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(514, 100);
+            this.groupBox2.Size = new System.Drawing.Size(512, 100);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "groupBox2";
@@ -364,7 +366,7 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(514, 194);
+            this.groupBox1.Size = new System.Drawing.Size(512, 194);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Channel Control";
@@ -397,7 +399,7 @@
             this.Debug_tab.Location = new System.Drawing.Point(4, 22);
             this.Debug_tab.Name = "Debug_tab";
             this.Debug_tab.Padding = new System.Windows.Forms.Padding(3);
-            this.Debug_tab.Size = new System.Drawing.Size(520, 450);
+            this.Debug_tab.Size = new System.Drawing.Size(519, 450);
             this.Debug_tab.TabIndex = 2;
             this.Debug_tab.Text = "Debug";
             this.Debug_tab.UseVisualStyleBackColor = true;
@@ -418,7 +420,7 @@
             this.File_group.Dock = System.Windows.Forms.DockStyle.Fill;
             this.File_group.Location = new System.Drawing.Point(194, 545);
             this.File_group.Name = "File_group";
-            this.File_group.Size = new System.Drawing.Size(534, 51);
+            this.File_group.Size = new System.Drawing.Size(532, 51);
             this.File_group.TabIndex = 2;
             this.File_group.TabStop = false;
             this.File_group.Text = "File Path";
@@ -431,7 +433,7 @@
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 17);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(528, 31);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(526, 31);
             this.flowLayoutPanel1.TabIndex = 0;
             // 
             // file_path_label
@@ -491,7 +493,7 @@
             this.tableLayoutPanel1.ColumnCount = 3;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25.16469F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 74.83531F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 185F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 187F));
             this.tableLayoutPanel1.Controls.Add(this.Msg_label, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.textBox1, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.File_group, 1, 2);

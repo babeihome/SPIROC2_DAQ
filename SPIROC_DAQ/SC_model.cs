@@ -33,7 +33,92 @@ namespace SPIROC_DAQ
         {
             // default settings
             config_data = new uint[175];
+            this.set_property(settings.TRIG_EXT, 0);
+            this.set_property(settings.FLAG_TDC_EXT, 0);
+            this.set_property(settings.START_RAMP_ADC_EXT, 0);
+            this.set_property(settings.START_RAMP_TDC_EXT, 0);
+            this.set_property(settings.ADC_GRAY, 1);
+            this.set_property(settings.CHIPID, 0x80);
+            this.set_property(settings.PROBE_OTA, 0);
+            this.set_property(settings.ENABLE_ANALOGUE_OUTPUT, 1);
+            this.set_property(settings.DISABLE_ANALOGUE_OUTPUT_PP, 1);
+            this.set_property(settings.NC, 0);
+            this.set_property(settings.EN_OR36, 1);
+            this.set_property(settings.ADC_RAMP_SLOPE, 0);
+            this.set_property(settings.ADC_RAMP_CURRENT_SOURCE, 1);
+            this.set_property(settings.ADC_RAMP_INTEGRATOR, 1);
+            for(int i = 0; i<36; i++)
+            {
+                this.set_property(settings.INDAC[i], 0x1fe);
+            }
+            this.set_property(settings.CAP_HG_PA_COMPENSATION, 0x0f);
+            this.set_property(settings.NC2, 0);
+            this.set_property(settings.FS, 1);
+            this.set_property(settings.NC3, 0);
+            this.set_property(settings.CAP_LG_PA_COMPENSATION, 0x0e);
+            this.set_property(settings.ENABLE_PREAMP_PP, 1);
+            for(int i =0;i<36;i++)
+            {
+                this.set_property(settings.PREAMP_GAIN[i], 0xec);
+            }
+            //disable channel 0
+            this.set_property(settings.PREAMP_GAIN[0], 0xee);
+            this.set_property(settings.ENABLE_LG_SS_FOLLOWER_PP, 1);
+            this.set_property(settings.LG_SS_TIME_CONSTANT, 0x03);
+            this.set_property(settings.ENABLE_LG_SS_PP, 1);
+            this.set_property(settings.ENABLE_HG_SS_FOLLOWER_PP, 1);
+            this.set_property(settings.HG_SS_TIME_CONSTANT, 0x03);
+            this.set_property(settings.ENABLE_HG_SS_PP, 1);
+            this.set_property(settings.FS_FOLLOWER_PP, 1);
+            this.set_property(settings.FS_PP, 1);
+            this.set_property(settings.BACKUP_SCA, 0);
+            this.set_property(settings.SCA_PP, 1);
+            this.set_property(settings.EN_BANDGAP, 1);
+            this.set_property(settings.BANDGAP_PP, 1);
+            this.set_property(settings.EN_DAC, 1);
+            this.set_property(settings.DAC_PP, 1);
+            this.set_property(settings.TRIG_DAC, 0x0fa);
+            this.set_property(settings.GAIN_DAC, 0x1f4);
+            this.set_property(settings.DELAY_START_RAMP_TDC_PP, 1);
+            this.set_property(settings.DELAY_START_RAMP_TDC, 1);
+            this.set_property(settings.TDC_RAMP_SLOPE_GC, 0);
+            this.set_property(settings.TDC_RAMP_PP, 1);
+            this.set_property(settings.ADC_DISCRI_PP, 1);
+            this.set_property(settings.GAIN_SELECT_DISCRI_PP, 1);
+            this.set_property(settings.AUTO_GAIN, 0);
+            this.set_property(settings.GAIN_SELECT, 0);
+            this.set_property(settings.ADC_EXT_INPUT, 0);
+            this.set_property(settings.SWITCH_TDC_ON, 1);
+            this.set_property(settings.DISCRIMINATOR_MASK1, 0);
+            this.set_property(settings.DISCRIMINATOR_MASK2, 0);
+            this.set_property(settings.NC4, 0);
+            this.set_property(settings.DISCRI_DELAY_PP, 1);
+            this.set_property(settings.DELAY_TRIGGER, 0x02);
+            
+            for(int i = 0;i<36;i++)
+            {
+                this.set_property(settings.DISCRI_4BIT_ADJUST[i], 0);
+            }
+
+            this.set_property(settings.ADJUST_4BIT_DAC, 0);
+            this.set_property(settings.DAC_4BIT_PP, 1);
+            this.set_property(settings.TRIG_DISCRI_PP, 1);
+            this.set_property(settings.DELAY_VALIDHOLD_PP, 1);
+            this.set_property(settings.DELAY_VALIDHOLD, 0x14);
+            this.set_property(settings.DELAY_RSTCOL_PP, 1);
+            this.set_property(settings.DELAY_RSTCOL, 0x14);
+            this.set_property(settings.CLOCK_LVDS_RECEIVE, 1);
+            this.set_property(settings.POD, 0);
+            this.set_property(settings.END_READOUT, 1);
+            this.set_property(settings.START_READOUT, 1);
+            this.set_property(settings.CHIPSAT, 1);
+            this.set_property(settings.TRANSMITON2, 1);
+            this.set_property(settings.TRANSMITON1, 1);
+            this.set_property(settings.DOUT2, 1);
+            this.set_property(settings.DOUT1, 1);
+
         }
+
 
         // test method redundant for any test function
         public void test()
@@ -65,7 +150,7 @@ namespace SPIROC_DAQ
 
         }
 
-        public void bit_transform(ref byte[] bit_block)
+        public int bit_transform(ref byte[] bit_block)
         {
             // to record how many bit has been transformed
             int bit_count = 0;
@@ -73,22 +158,47 @@ namespace SPIROC_DAQ
 
             StringBuilder bit_As_Char = new StringBuilder(1000);
             String bit_string;
+            // now bit is as this
+            // location 0   1   2   3   4   ... 13  14  15
+            // bit      1   1   1   1   1   ... 1   x   x
             for(int i = 0; i < 175; i++)
             {
                 // 将配置的bit串用字符串的形式保存
                 bit_As_Char.Append(Convert.ToString(config_data[i], 2).PadLeft(property_length[i], '0'));
             }
-            bit_string = bit_As_Char.ToString();
+
+            // reverse sequence of chars in bit_As_Char
+            // now bit is as this
+            // location 13  12  11  10  9   ... 3   2   1
+            // bit      1   1   1   1   1   ... 1   1   1
+            StringBuilder bitAsChar_MsbFirst = new StringBuilder(bit_length);
+            for( int i = bit_length - 1; i>=0; i--)
+            {
+                bitAsChar_MsbFirst.Append(bit_As_Char[i]);
+            }
+
+
+            bit_string = bitAsChar_MsbFirst.ToString();
 
 
             // transform 'bit in char form' into real bit stream
+            // MSB in byte is bigger conig bit
             while(bit_count + 8 < bit_length)
             {
                 bit_block[byte_count] = Convert.ToByte(bit_string.Substring(bit_count, 8),2);
                 byte_count++;
                 bit_count += 8;
             }
+
+            
             bit_block[byte_count] = Convert.ToByte(bit_string.Substring(bit_count, bit_length - bit_count).PadRight(8,'0'));
+
+            // for example if congfig data is 1101 0100 10
+            // so now the bit block is 0100 1010 1100
+            // bit_block[0]: 0x4
+            // bit_block[1]: 0xA
+            // bit_block[2]: 0xC
+            return byte_count;
 
         }
 
