@@ -4,7 +4,9 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.IO;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CyUSB;
@@ -19,13 +21,18 @@ namespace SPIROC_DAQ
         private CyBulkEndPoint bulkOutEndPt;
         private SC_model slowConfig;
         private bool usbStatus = false;
+        private string fileDic;    // store path of data file
+        private string fileName;
         private const int VID = 0x04B4;
         private const int PID = 0x1004;
+        private CancellationTokenSource dataAcqTks = new CancellationTokenSource();
+        private StringBuilder exceptionReport = new StringBuilder();
 
 
         public Main_Form()
         {
             InitializeComponent();
+            File_path_showbox.Text = folderBrowserDialog1.SelectedPath;
 
             // Dynamic list of USB devices bound to CyUSB.sys
             usbDevices = new USBDeviceList(CyConst.DEVICES_CYUSB);
@@ -111,7 +118,7 @@ namespace SPIROC_DAQ
             return bResult;
         }
         //data recieve method
-        private bool DataRecieve(byte[] InData, int xferLen)
+        private bool DataRecieve(byte[] InData, ref int xferLen)
         {
             bool bResult;
             bResult = bulkInEndPt.XferData(ref InData, ref xferLen, true);
@@ -186,6 +193,87 @@ namespace SPIROC_DAQ
                 MessageBox.Show("USB is not connected");
             }
 
+            // Start data acquision thread
+            try
+            {
+                Task dataAcqTsk = Task.Factory.StartNew(() => dataAcq_threadFunc(dataAcqTks.Token), dataAcqTks.Token);
+            }
+            catch (AggregateException excption)
+            {
+ 
+                foreach (var v in excption.InnerExceptions)
+                {
+
+                    exceptionReport.AppendLine(excption.Message + " " + v.Message);
+                }
+                    
+            }
         }
+
+        private void normal_stop_button_Click(object sender, EventArgs e)
+        {
+            byte[] cmdBytes = new byte[2];
+
+            // start acq cmd is 0x0200;
+            cmdBytes[1] = 0x02;
+            cmdBytes[0] = 0x00;
+
+            // check USB status
+            if (usbStatus == false)
+            {
+                MessageBox.Show("USB is not connected");
+            }
+            dataAcqTks.Cancel();
+
+        }
+
+        private void File_path_select_button_Click(object sender, EventArgs e)
+        {
+            folderBrowserDialog1.ShowDialog();
+            fileDic = folderBrowserDialog1.SelectedPath;
+            File_path_showbox.Text = fileDic;
+
+        }
+
+        #region Thread-used function
+        private void dataAcq_threadFunc(CancellationToken token)
+        {
+            byte[] data_buffer = new byte[512];
+            int len;
+            fileName = DateTime.Now.ToString() + ".dat";
+            BinaryWriter bw = new BinaryWriter(File.Open(fileDic + fileName, FileMode.Append));
+            bool bResult;
+            while(true)
+            {
+                if(token.IsCancellationRequested == true)
+                {
+                    Thread.Sleep(100);
+                    len = 512;
+                    bResult = DataRecieve(data_buffer, ref len); // len could be changed for transmit actually num of byte that received
+                    bw.Write(data_buffer, 0, len);   // data source, start_index, data_length
+                    if(bResult == false)
+                    {
+                        break;
+                    }
+                }
+                else
+                {
+                    len = 512;
+                    bResult = DataRecieve(data_buffer, ref len); // len could be changed for transmit actually num of byte that received
+                    bw.Write(data_buffer, 0, len);
+                }
+                
+            }
+            bw.Flush();
+            bw.Close();
+            bw.Dispose();
+
+            token.ThrowIfCancellationRequested();
+            
+        }
+
+        #endregion
+
+
     }
 }

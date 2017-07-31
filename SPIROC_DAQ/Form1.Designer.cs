@@ -64,6 +64,7 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.Msg_label = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.Status_panel.SuspendLayout();
             this.USB_status_group.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -92,14 +93,14 @@
             this.Status_panel.Controls.Add(this.Acq_status_group, 0, 2);
             this.Status_panel.Controls.Add(this.Warning_group, 0, 3);
             this.Status_panel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Status_panel.Location = new System.Drawing.Point(732, 43);
+            this.Status_panel.Location = new System.Drawing.Point(731, 43);
             this.Status_panel.Name = "Status_panel";
             this.Status_panel.RowCount = 4;
             this.Status_panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.Status_panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.Status_panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.Status_panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.Status_panel.Size = new System.Drawing.Size(182, 496);
+            this.Status_panel.Size = new System.Drawing.Size(183, 496);
             this.Status_panel.TabIndex = 6;
             // 
             // USB_status_group
@@ -212,7 +213,7 @@
             // 
             this.Main_group.Controls.Add(this.Main_tab);
             this.Main_group.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Main_group.Location = new System.Drawing.Point(194, 43);
+            this.Main_group.Location = new System.Drawing.Point(193, 43);
             this.Main_group.Name = "Main_group";
             this.Main_group.Size = new System.Drawing.Size(532, 496);
             this.Main_group.TabIndex = 4;
@@ -336,6 +337,7 @@
             this.normal_stop_button.TabIndex = 3;
             this.normal_stop_button.Text = "Stop ACQ";
             this.normal_stop_button.UseVisualStyleBackColor = false;
+            this.normal_stop_button.Click += new System.EventHandler(this.normal_stop_button_Click);
             // 
             // SC_tab
             // 
@@ -399,7 +401,7 @@
             this.Debug_tab.Location = new System.Drawing.Point(4, 22);
             this.Debug_tab.Name = "Debug_tab";
             this.Debug_tab.Padding = new System.Windows.Forms.Padding(3);
-            this.Debug_tab.Size = new System.Drawing.Size(519, 450);
+            this.Debug_tab.Size = new System.Drawing.Size(518, 450);
             this.Debug_tab.TabIndex = 2;
             this.Debug_tab.Text = "Debug";
             this.Debug_tab.UseVisualStyleBackColor = true;
@@ -418,7 +420,7 @@
             // 
             this.File_group.Controls.Add(this.flowLayoutPanel1);
             this.File_group.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.File_group.Location = new System.Drawing.Point(194, 545);
+            this.File_group.Location = new System.Drawing.Point(193, 545);
             this.File_group.Name = "File_group";
             this.File_group.Size = new System.Drawing.Size(532, 51);
             this.File_group.TabIndex = 2;
@@ -448,8 +450,10 @@
             // 
             // File_path_showbox
             // 
+            this.File_path_showbox.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.File_path_showbox.Location = new System.Drawing.Point(98, 3);
             this.File_path_showbox.Name = "File_path_showbox";
+            this.File_path_showbox.ReadOnly = true;
             this.File_path_showbox.Size = new System.Drawing.Size(361, 21);
             this.File_path_showbox.TabIndex = 1;
             // 
@@ -461,6 +465,7 @@
             this.File_path_select_button.TabIndex = 2;
             this.File_path_select_button.Text = "Select";
             this.File_path_select_button.UseVisualStyleBackColor = true;
+            this.File_path_select_button.Click += new System.EventHandler(this.File_path_select_button_Click);
             // 
             // textBox1
             // 
@@ -473,7 +478,7 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
             this.textBox1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.textBox1.Size = new System.Drawing.Size(175, 496);
+            this.textBox1.Size = new System.Drawing.Size(174, 496);
             this.textBox1.TabIndex = 1;
             // 
             // Msg_label
@@ -482,7 +487,7 @@
             this.Msg_label.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Msg_label.Location = new System.Drawing.Point(13, 10);
             this.Msg_label.Name = "Msg_label";
-            this.Msg_label.Size = new System.Drawing.Size(175, 30);
+            this.Msg_label.Size = new System.Drawing.Size(174, 30);
             this.Msg_label.TabIndex = 0;
             this.Msg_label.Text = "Message";
             this.Msg_label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -493,7 +498,7 @@
             this.tableLayoutPanel1.ColumnCount = 3;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25.16469F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 74.83531F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 187F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 188F));
             this.tableLayoutPanel1.Controls.Add(this.Msg_label, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.textBox1, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.File_group, 1, 2);
@@ -513,6 +518,10 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.424084F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(927, 609);
             this.tableLayoutPanel1.TabIndex = 0;
+            // 
+            // folderBrowserDialog1
+            // 
+            this.folderBrowserDialog1.SelectedPath = "D:\\Experiment_Data\\SPIROC2b_xx";
             // 
             // Main_Form
             // 
@@ -584,6 +593,7 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.NumericUpDown input_dac_num;
         private System.Windows.Forms.Label input_dac_label1;
+        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
     }
 }
 

@@ -83,6 +83,6 @@ namespace SPIROC_DAQ
         public readonly static int DOUT2 = 173;
         public readonly static int DOUT1 = 174;
 
-
+        public readonly static string DEFAULT_DIC = @"D:\Experiment_Data\SPIROC2b_xx\";
     }
 }
