@@ -8,13 +8,19 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace SPIROC_DAQ
 {
+    [Serializable]
     class SC_model
     {
         // member variables
         private uint[] config_data;
         private static int properties_num = 175;
+        public string settingName
+        {
+            get;
+            set;
+        }
         public const int bit_length = 929;
-
+        public String bit_string;
 
         private const string cache_loc = ".\\cache\\";
 
@@ -33,6 +39,7 @@ namespace SPIROC_DAQ
         {
             // default settings
             config_data = new uint[175];
+            settingName = "default";
             this.set_property(settings.TRIG_EXT, 0);
             this.set_property(settings.FLAG_TDC_EXT, 0);
             this.set_property(settings.START_RAMP_ADC_EXT, 0);
@@ -47,9 +54,9 @@ namespace SPIROC_DAQ
             this.set_property(settings.ADC_RAMP_SLOPE, 0);
             this.set_property(settings.ADC_RAMP_CURRENT_SOURCE, 1);
             this.set_property(settings.ADC_RAMP_INTEGRATOR, 1);
-            for(int i = 0; i<36; i++)
+            for (int i = 0; i < 36; i++)
             {
-                this.set_property(settings.INDAC[i], 0x1fe);
+                this.set_property(settings.INDAC[i], 0x1ff);
             }
             this.set_property(settings.CAP_HG_PA_COMPENSATION, 0x0f);
             this.set_property(settings.NC2, 0);
@@ -57,7 +64,7 @@ namespace SPIROC_DAQ
             this.set_property(settings.NC3, 0);
             this.set_property(settings.CAP_LG_PA_COMPENSATION, 0x0e);
             this.set_property(settings.ENABLE_PREAMP_PP, 1);
-            for(int i =0;i<36;i++)
+            for (int i = 0; i < 36; i++)
             {
                 this.set_property(settings.PREAMP_GAIN[i], 0xec);
             }
@@ -94,8 +101,8 @@ namespace SPIROC_DAQ
             this.set_property(settings.NC4, 0);
             this.set_property(settings.DISCRI_DELAY_PP, 1);
             this.set_property(settings.DELAY_TRIGGER, 0x02);
-            
-            for(int i = 0;i<36;i++)
+
+            for (int i = 0; i < 36; i++)
             {
                 this.set_property(settings.DISCRI_4BIT_ADJUST[i], 0);
             }
@@ -157,7 +164,7 @@ namespace SPIROC_DAQ
             int byte_count = 0; //byte_count shold be bit_count/8;
 
             StringBuilder bit_As_Char = new StringBuilder(1000);
-            String bit_string;
+            
             // now bit is as this
             // location 0   1   2   3   4   ... 13  14  15
             // bit      1   1   1   1   1   ... 1   x   x
@@ -198,7 +205,7 @@ namespace SPIROC_DAQ
             // bit_block[0]: 0x4
             // bit_block[1]: 0xA
             // bit_block[2]: 0xC
-            return byte_count;
+            return byte_count+1;
 
         }
 
@@ -213,7 +220,7 @@ namespace SPIROC_DAQ
 
             FileStream fileStream = new FileStream(cache_path, FileMode.Create);
             BinaryFormatter b = new BinaryFormatter();
-            b.Serialize(fileStream, this.config_data);
+            b.Serialize(fileStream, this);
             fileStream.Close();
 
         }
@@ -230,7 +237,12 @@ namespace SPIROC_DAQ
 
             FileStream fileStream = new FileStream(cache_path, FileMode.Open, FileAccess.Read, FileShare.Read);
             BinaryFormatter b = new BinaryFormatter();
-            this.config_data = b.Deserialize(fileStream) as uint[];
+
+            // restore config_data and settingName property
+            var tmp = b.Deserialize(fileStream) as SC_model;
+            tmp.config_data.CopyTo(this.config_data, 0);
+            this.settingName = tmp.settingName;
+
             fileStream.Close();
 
         }
