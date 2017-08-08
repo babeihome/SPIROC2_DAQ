@@ -198,7 +198,7 @@ namespace SPIROC_DAQ
             }
 
             
-            bit_block[byte_count] = Convert.ToByte(bit_string.Substring(bit_count, bit_length - bit_count).PadRight(8,'0'));
+            bit_block[byte_count] = Convert.ToByte(bit_string.Substring(bit_count, bit_length - bit_count).PadRight(8,'0'),2);
 
             // for example if congfig data is 1101 0100 10
             // so now the bit block is 0100 1010 1100

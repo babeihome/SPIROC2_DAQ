@@ -20,19 +20,14 @@ namespace SPIROC_DAQ
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Main_Form());
 
+        
             //test code
-            /*
-            SC_model slowConfig = new SC_model();
-            String filePath = Directory.GetCurrentDirectory() + "\\test.txt";
-            FileStream fw = new FileStream(filePath, FileMode.Create);
-            byte[] tmp = new byte[1000];
-            slowConfig.bit_transform(ref tmp);
-            byte[] data = System.Text.Encoding.Default.GetBytes(slowConfig.bit_string);
-            fw.Write(data, 0, data.Length);
             
-            fw.Flush();
-            fw.Close();
-            */
+            SC_model slowConfig = new SC_model();
+            byte[] bit_block = new byte[117];
+            slowConfig.set_property(settings.TRIG_EXT, 1);
+            slowConfig.bit_transform(ref bit_block);
+            
         }
     }
 }

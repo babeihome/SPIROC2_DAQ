@@ -276,6 +276,7 @@
             this.discri_checkbox33 = new System.Windows.Forms.CheckBox();
             this.discri_checkbox34 = new System.Windows.Forms.CheckBox();
             this.discri_checkbox35 = new System.Windows.Forms.CheckBox();
+            this.Ext_trigger_fpga_enable = new System.Windows.Forms.CheckBox();
             this.Status_panel.SuspendLayout();
             this.USB_status_group.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -2670,6 +2671,7 @@
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.Ext_trigger_fpga_enable);
             this.panel2.Controls.Add(this.flag_tdc_ext_pin);
             this.panel2.Controls.Add(this.analog_output_select);
             this.panel2.Controls.Add(this.label61);
@@ -2704,7 +2706,7 @@
             // flag_tdc_ext_pin
             // 
             this.flag_tdc_ext_pin.AutoSize = true;
-            this.flag_tdc_ext_pin.Location = new System.Drawing.Point(352, 12);
+            this.flag_tdc_ext_pin.Location = new System.Drawing.Point(314, 11);
             this.flag_tdc_ext_pin.Name = "flag_tdc_ext_pin";
             this.flag_tdc_ext_pin.Size = new System.Drawing.Size(120, 16);
             this.flag_tdc_ext_pin.TabIndex = 2;
@@ -3141,6 +3143,17 @@
             this.discri_checkbox35.Text = "35";
             this.discri_checkbox35.UseVisualStyleBackColor = true;
             // 
+            // Ext_trigger_fpga_enable
+            // 
+            this.Ext_trigger_fpga_enable.AutoSize = true;
+            this.Ext_trigger_fpga_enable.Location = new System.Drawing.Point(458, 12);
+            this.Ext_trigger_fpga_enable.Name = "Ext_trigger_fpga_enable";
+            this.Ext_trigger_fpga_enable.Size = new System.Drawing.Size(114, 16);
+            this.Ext_trigger_fpga_enable.TabIndex = 3;
+            this.Ext_trigger_fpga_enable.Text = "Trig Ext Enable";
+            this.Ext_trigger_fpga_enable.UseVisualStyleBackColor = true;
+            this.Ext_trigger_fpga_enable.CheckedChanged += new System.EventHandler(this.Ext_trigger_fpga_enable_CheckedChanged);
+            // 
             // Main_Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -3438,6 +3451,7 @@
         private System.Windows.Forms.CheckBox discri_checkbox2;
         private System.Windows.Forms.CheckBox discri_checkbox1;
         private System.Windows.Forms.CheckBox discri_checkbox0;
+        private System.Windows.Forms.CheckBox Ext_trigger_fpga_enable;
     }
 }
 

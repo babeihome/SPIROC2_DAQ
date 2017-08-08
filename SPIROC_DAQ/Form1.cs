@@ -811,5 +811,25 @@ namespace SPIROC_DAQ
             textBox1.AppendText("Flag tdc pin has been set:" + (flag_tdc_ext_pin.Checked ? "high" :"low"));
 
         }
+
+        private void Ext_trigger_fpga_enable_CheckedChanged(object sender, EventArgs e)
+        {
+            byte[] commandByte = new byte[2];
+            commandByte[1] = 0x0c;
+            commandByte[0] = triggerExt_enable.Checked ? (byte)0x06 : (byte)0x02;
+
+            var isUSBConnected = check_USB();
+            if (isUSBConnected)
+            {
+                CommandSend(commandByte, 2);
+            }
+            else
+            {
+                MessageBox.Show("Please connect USB first", "Error");
+                return;
+            }
+
+            textBox1.AppendText("Ext trigger has been changed");
+        }
     }
 }
