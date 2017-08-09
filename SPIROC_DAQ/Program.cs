@@ -22,12 +22,12 @@ namespace SPIROC_DAQ
 
         
             //test code
-            
+            /*
             SC_model slowConfig = new SC_model();
             byte[] bit_block = new byte[117];
             slowConfig.set_property(settings.TRIG_EXT, 1);
             slowConfig.bit_transform(ref bit_block);
-            
+            */
         }
     }
 }

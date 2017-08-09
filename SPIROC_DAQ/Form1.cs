@@ -43,11 +43,13 @@ namespace SPIROC_DAQ
             InitializeComponent();
             bindEventHandle(inputDAC_group, new EventHandler(inputDAC_Changed));
             bindEventHandle(discri_groupbox, new EventHandler(discri_Changed));
+            bindEventHandle(preamp_group, new EventHandler(preamp_Changed));
             File_path_showbox.Text = folderBrowserDialog1.SelectedPath;
             fileDic = folderBrowserDialog1.SelectedPath + "\\\\default_test";
 
             // Dynamic list of USB devices bound to CyUSB.sys
             usbDevices = new USBDeviceList(CyConst.DEVICES_CYUSB);
+            loadsettings();
             slowConfig = new SC_model();
             slowConfig.save_settings(0);
             refreshParamPanel();
@@ -270,6 +272,45 @@ namespace SPIROC_DAQ
 
         }
 
+
+        private void preamp_Changed(object sender, EventArgs e)
+        {
+            int chnNum;
+            string controlName = (sender as Control).Name;
+            Regex chnNum_reg = new Regex(@"preamp(Check|Value)_(\d+)");
+
+            var result = chnNum_reg.Match(controlName);
+            chnNum = int.Parse(result.Groups[2].Value);
+            if (string.Equals(result.Groups[1].Value, "Value"))
+            {
+                //is textbox whose name is preampValue_x
+                uint value;
+                Regex rx_int = new Regex(rx_Integer);
+                if (rx_int.IsMatch((sender as TextBox).Text))
+                {
+                    value = uint.Parse((sender as TextBox).Text);
+                    uint old_value = slowConfig.get_property(settings.PREAMP_GAIN[chnNum]);
+                    uint new_value = (value << 2) + (old_value & 0x03);
+                    slowConfig.set_property(settings.PREAMP_GAIN[chnNum], new_value);
+                }
+                else
+                {
+                    MessageBox.Show("Input DAC is configured by 8bit, 0-255 is valid", "Invalid Value");
+                }
+            }
+            else
+            {
+                //is checkbox whose name is preampCheck_x;
+                bool isEnable = (sender as CheckBox).Checked;
+                uint value = isEnable ? 0U : 1U;
+                uint old_value = slowConfig.get_property(settings.PREAMP_GAIN[chnNum]);
+                uint new_value = (old_value & 0xfd) + value<<1;  // old_value & 111111 0 1 + 000000 ? 0
+                slowConfig.set_property(settings.PREAMP_GAIN[chnNum], new_value);
+                (sender as CheckBox).Text = isEnable ? "Enable" : "Disable";
+            }
+
+
+        }
 
         private void discri_Changed(object sender, EventArgs e)
         {
@@ -769,6 +810,25 @@ namespace SPIROC_DAQ
         private void recallSetting_btn_Click(object sender, EventArgs e)
         {
             slowConfig.recall_settings(settingChoosen);
+
+            switch (settingChoosen)
+            {
+                case 1:
+                    config_set1.Text = slowConfig.settingName;
+                    break;
+                case 2:
+                    config_set2.Text = slowConfig.settingName;
+                    break;
+                case 3:
+                    config_set3.Text = slowConfig.settingName;
+                    break;
+                case 4:
+                    config_set4.Text = slowConfig.settingName;
+                    break;
+                default:
+                    MessageBox.Show("Please choose which setting plot you want to use", "Error");
+                    break;
+            }
             refreshParamPanel();
         }
 
@@ -830,6 +890,68 @@ namespace SPIROC_DAQ
             }
 
             textBox1.AppendText("Ext trigger has been changed");
+        }
+
+        private void autoGain_Check_CheckedChanged(object sender, EventArgs e)
+        {
+            uint value = autoGain_Check.Checked ? 1U : 0U;
+            autoGain_Check.Text = autoGain_Check.Checked ? "High" : "Low";
+            slowConfig.set_property(settings.AUTO_GAIN, value);
+
+        }
+
+        private void gainSelect_Check_CheckedChanged(object sender, EventArgs e)
+        {
+            uint value = gainSelect_Check.Checked ? 1U : 0U;
+            gainSelect_Check.Text = gainSelect_Check.Checked ? "High" : "Low";
+            slowConfig.set_property(settings.GAIN_SELECT, value);
+        }
+
+        private void adcExtInput_Check_CheckedChanged(object sender, EventArgs e)
+        {
+            uint value = adcExtInput_Check.Checked ? 1U : 0U;
+            adcExtInput_Check.Text = adcExtInput_Check.Checked ? "Enable" : "Disable";
+            slowConfig.set_property(settings.ADC_EXT_INPUT, value);
+        }
+
+        private void switchTDCon_Check_CheckedChanged(object sender, EventArgs e)
+        {
+            uint value = switchTDCon_Check.Checked ? 1U : 0U;
+            switchTDCon_Check.Text = switchTDCon_Check.Checked ? "High" : "Low";
+            slowConfig.set_property(settings.SWITCH_TDC_ON, value);
+        }
+
+        private void bandGap_Check_CheckedChanged(object sender, EventArgs e)
+        {
+            uint value = bandGap_Check.Checked ? 1U : 0U;
+            bandGap_Check.Text = bandGap_Check.Checked ? "Enable" : "Disable";
+            slowConfig.set_property(settings.EN_BANDGAP, value);
+        }
+
+        private void dacEnable_Check_CheckedChanged(object sender, EventArgs e)
+        {
+            uint value = dacEnable_Check.Checked ? 1U : 0U;
+            dacEnable_Check.Text = dacEnable_Check.Checked ? "Enable" : "Disable";
+            slowConfig.set_property(settings.EN_DAC, value);
+        }
+        
+
+        private void HV_value_ValueChanged(object sender, EventArgs e)
+        {
+            decimal voltage;
+            byte[] voltage_hex = new byte[4];
+            uint temp;
+            byte[] cmd = new byte[100];
+            int cmd_length = 0;
+
+            voltage = HV_value.Value;
+            temp = (uint)(voltage / (decimal)1.812 * 1000);
+            voltage_hex[0] = toascii((byte)(temp >> 12));
+            voltage_hex[1] = toascii((byte)((temp >> 8) & 0x0f));
+            voltage_hex[2] = toascii((byte)((temp >> 4) & 0x0f));
+            voltage_hex[3] = toascii((byte)(temp & 0x0f));
+
+            //"HST".CopyTo()
         }
     }
 }

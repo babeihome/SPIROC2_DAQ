@@ -232,7 +232,9 @@ namespace SPIROC_DAQ
             String cache_path = cache_loc + settings_id.ToString() + ".cache";
 
             if (!File.Exists(cache_path))
+            {
                 throw new InvalidOperationException("Settings doesn't exist");
+            }
 
 
             FileStream fileStream = new FileStream(cache_path, FileMode.Open, FileAccess.Read, FileShare.Read);
