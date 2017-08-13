@@ -21,6 +21,11 @@ namespace SPIROC_DAQ
         private CyUSBDevice myDevice;
         private CyBulkEndPoint bulkInEndPt;
         private CyBulkEndPoint bulkOutEndPt;
+
+        private USBDeviceList AFG_list;
+        private CyUSBDevice AFG3252;
+        private CyBulkEndPoint AFG3252_command_point;
+
         private SC_model slowConfig;
         private bool usbStatus = false;
         private string fileDic;    // store path of data file
@@ -99,7 +104,7 @@ namespace SPIROC_DAQ
             cmdBytes[1] = 0x08;
             cmdBytes[0] = 0x00;
             CommandSend(cmdBytes, 2);
-
+            Thread.Sleep(10);
             // send config data
             cmdBytes[1] = 0x03;
             for (int i = 0; i < byte_count; i++)
@@ -876,7 +881,7 @@ namespace SPIROC_DAQ
         {
             byte[] commandByte = new byte[2];
             commandByte[1] = 0x0c;
-            commandByte[0] = triggerExt_enable.Checked ? (byte)0x06 : (byte)0x02;
+            commandByte[0] = Ext_trigger_fpga_enable.Checked ? (byte)0x06 : (byte)0x02;
 
             var isUSBConnected = check_USB();
             if (isUSBConnected)
@@ -889,7 +894,7 @@ namespace SPIROC_DAQ
                 return;
             }
 
-            textBox1.AppendText("Ext trigger has been changed");
+            textBox1.AppendText("Ext trigger has been changed\n");
         }
 
         private void autoGain_Check_CheckedChanged(object sender, EventArgs e)
@@ -952,6 +957,12 @@ namespace SPIROC_DAQ
             voltage_hex[3] = toascii((byte)(temp & 0x0f));
 
             //"HST".CopyTo()
+        }
+
+        private void afg3252_btn_Click(object sender, EventArgs e)
+        {
+            string cmd = afg3252_cmd.Text;
+
         }
     }
 }

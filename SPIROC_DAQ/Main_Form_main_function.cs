@@ -12,12 +12,13 @@ namespace SPIROC_DAQ
 {
     partial class Main_Form
     {
-
+        
         // private function
         private bool check_USB()
         {
+            bool result = true;
             myDevice = usbDevices[VID, PID] as CyUSBDevice;
-
+            AFG3252 = usbDevices[0x0699, 0x0345] as CyUSBDevice;
             if (myDevice != null)
             {
                 Usb_status_label.Text = "USB device connected";
@@ -31,7 +32,6 @@ namespace SPIROC_DAQ
 
                 bulkInEndPt.XferSize = bulkInEndPt.MaxPktSize * 8;  // transfer size means the max limits of data in USB driver
                 bulkInEndPt.TimeOut = 100;
-                return true;
 
             }
             else
@@ -46,10 +46,34 @@ namespace SPIROC_DAQ
                 bulkOutEndPt = null;
                 bulkInEndPt = null;
 
-                return false;
+                result = false;
 
             }
 
+            if (AFG3252 != null)
+            {
+                afg3252_label.Text = "Connected";
+                afg3252_label.ForeColor = Color.Green;
+                //usbStatus = true;
+
+                //normal_config_button.Enabled = true;
+
+                AFG3252_command_point = AFG3252.EndPointOf(0x01) as CyBulkEndPoint; // EP0               
+
+
+            }
+            else
+            {
+                afg3252_label.Text = "USB not connected";
+                afg3252_label.ForeColor = Color.Red;
+
+                AFG3252_command_point = null;
+
+
+                result = false;
+
+            }
+            return result;
         }
 
     
@@ -255,6 +279,19 @@ namespace SPIROC_DAQ
             return bResult;
         }
 
+        private bool AFGcmdSend(byte[] OutData, int xferLen)
+        {
+            bool bResult = false;
+            if (AFG3252_command_point == null)
+            {
+                bResult = false;
+            }
+            else
+            {
+                bResult = AFG3252_command_point.XferData(ref OutData, ref xferLen);
+            }
+            return bResult;
+        }
         #endregion
 
         #region Thread-used function
