@@ -20,13 +20,14 @@ namespace SPIROC_DAQ
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Main_Form());
 
-        
+
+
             //test code
             /*
-            SC_model slowConfig = new SC_model();
-            byte[] bit_block = new byte[117];
-            slowConfig.set_property(settings.TRIG_EXT, 1);
-            slowConfig.bit_transform(ref bit_block);
+            AFG3252 signalSource = new AFG3252();
+            signalSource.initial(settings.AFG_DESCR);
+            signalSource.Write("*RCL 4");
+            signalSource.openOutput();
             */
         }
     }

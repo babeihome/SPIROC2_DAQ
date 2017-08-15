@@ -12,6 +12,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CyUSB;
+using NationalInstruments.VisaNS;
 
 namespace SPIROC_DAQ
 {
@@ -22,9 +23,8 @@ namespace SPIROC_DAQ
         private CyBulkEndPoint bulkInEndPt;
         private CyBulkEndPoint bulkOutEndPt;
 
-        private USBDeviceList AFG_list;
-        private CyUSBDevice AFG3252;
-        private CyBulkEndPoint AFG3252_command_point;
+        //private MessageBasedSession AFG_Session; //for test, should never use
+        private AFG3252 SignalSource = new AFG3252();
 
         private SC_model slowConfig;
         private bool usbStatus = false;
@@ -33,6 +33,7 @@ namespace SPIROC_DAQ
         private const int VID = 0x04B4;
         private const int PID = 0x1004;
         private CancellationTokenSource dataAcqTks = new CancellationTokenSource();
+        private CancellationTokenSource SweepTks = new CancellationTokenSource();
         private StringBuilder exceptionReport = new StringBuilder();
 
         private string rx_Command = @"\b[0-9a-fA-F]{4}\b";//match 16 bit Hex
@@ -42,6 +43,10 @@ namespace SPIROC_DAQ
 
         private int settingChoosen = 0;
 
+        private DateTime startTime;
+        // recording information such as slow control config of every data;
+        private string recordPath = "record.txt";
+        private FileStream resultRecord;
 
         public Main_Form()
         {
@@ -51,7 +56,6 @@ namespace SPIROC_DAQ
             bindEventHandle(preamp_group, new EventHandler(preamp_Changed));
             File_path_showbox.Text = folderBrowserDialog1.SelectedPath;
             fileDic = folderBrowserDialog1.SelectedPath + "\\\\default_test";
-
             // Dynamic list of USB devices bound to CyUSB.sys
             usbDevices = new USBDeviceList(CyConst.DEVICES_CYUSB);
             loadsettings();
@@ -76,6 +80,17 @@ namespace SPIROC_DAQ
         private void deviceRemoved(object sender, EventArgs e)
         {
             check_USB();
+        }
+
+        private void close_windows(object sender, FormClosingEventArgs e)
+        {
+            if(SignalSource.isConnected())
+                SignalSource.Close();
+            if (resultRecord != null)
+            {
+                resultRecord.Close();
+                resultRecord.Dispose();
+            }
         }
 
         private void normal_usbcon_button_Click(object sender, EventArgs e)
@@ -140,10 +155,22 @@ namespace SPIROC_DAQ
                 MessageBox.Show("USB is not connected");
             }
 
+            // create file writer
+            fileName = string.Format("{0:yyyyMMdd_HHmmss}", DateTime.Now) + ".dat";
+            if (!Directory.Exists(fileDic))
+            {
+                Directory.CreateDirectory(fileDic);
+            }
+
+            BinaryWriter bw = new BinaryWriter(File.Open(fileDic + "\\\\" + fileName, FileMode.Append));
+            resultRecord = new FileStream(fileDic + '\\' + recordPath, FileMode.Append);
+
             // Start data acquision thread
             try
             {
-                Task dataAcqTsk = Task.Factory.StartNew(() => this.dataAcq_threadFunc(dataAcqTks.Token), dataAcqTks.Token);
+                Task dataAcqTsk = Task.Factory.StartNew(() => this.dataAcq_threadFunc(dataAcqTks.Token, bw), dataAcqTks.Token);
+                startTime = DateTime.Now;
+                timer1.Start();
             }
             catch (AggregateException excption)
             {
@@ -160,6 +187,13 @@ namespace SPIROC_DAQ
 
             Acq_status_label.ForeColor = Color.Firebrick;
             Acq_status_label.Text = "Acquiring";
+
+            // record information of this acq action
+            byte[] titleByte = Encoding.Default.GetBytes(fileName+'\n');
+            byte[] infByte = Encoding.Default.GetBytes(slowConfig.getTag()+'\n'+'\n');
+            resultRecord.Write(titleByte, 0, titleByte.Length);
+            resultRecord.Write(infByte, 0, infByte.Length);
+            
         }
 
         private void normal_stop_button_Click(object sender, EventArgs e)
@@ -178,6 +212,11 @@ namespace SPIROC_DAQ
                 MessageBox.Show("USB is not connected");
             }
             dataAcqTks.Cancel();
+
+            timer1.Stop();
+            time_textbox.Text = "00:00:00:00";
+
+            resultRecord.Close();
 
             normal_acq_button.Enabled = true;
             normal_stop_button.Enabled = false;
@@ -961,7 +1000,65 @@ namespace SPIROC_DAQ
 
         private void afg3252_btn_Click(object sender, EventArgs e)
         {
+            /*
+             * Use CyUSB driver, which is not valid
             string cmd = afg3252_cmd.Text;
+            byte[] cmdCharShort = Encoding.Default.GetBytes(cmd);
+            byte[] cmd_byte = new byte[100];
+            cmdCharShort.CopyTo(cmd_byte,0);
+            cmd_byte[cmd.Length] = 0x00;
+            if(AFGcmdSend(cmd_byte, cmd.Length + 1) == false)
+            {
+                MessageBox.Show("AFG command sending failed", "Error");
+
+            }
+            */
+            try
+            {
+                SignalSource.Write(afg3252_cmd.Text);
+            }
+            catch (Exception exp)
+            {
+                MessageBox.Show(exp.Message);
+            }
+
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            DateTime now = DateTime.Now;
+            TimeSpan duration = now - startTime;
+            time_textbox.Text = string.Format("{0:hh}:{0:mm}:{0:ss}.{0:ff}", duration);
+
+            }
+
+
+        private void voltageSweep_btn_Click(object sender, EventArgs e)
+        {
+
+            SweepTks.Dispose();       //clean up old token source
+            SweepTks = new CancellationTokenSource(); // generate a new token
+            if(!SignalSource.isConnected())
+            {
+                MessageBox.Show("Instrument is not connected", "Error");
+                return;
+            }
+            try
+            {
+                Task voltageSweepTsk = Task.Factory.StartNew(() => this.voltageSweep_threadFunc(SweepTks.Token), SweepTks.Token);
+                startTime = DateTime.Now;
+                timer1.Start();
+            }
+            catch (AggregateException excption)
+            {
+
+                foreach (var v in excption.InnerExceptions)
+                {
+
+                    exceptionReport.AppendLine(excption.Message + " " + v.Message);
+                }
+
+            }
 
         }
     }

@@ -1,4 +1,6 @@
 ﻿// this file save function that user defined and thread function
+using CyUSB;
+using NationalInstruments.VisaNS;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -6,8 +8,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
-using CyUSB;
-
+using System.Threading.Tasks;
 namespace SPIROC_DAQ
 {
     partial class Main_Form
@@ -18,7 +19,7 @@ namespace SPIROC_DAQ
         {
             bool result = true;
             myDevice = usbDevices[VID, PID] as CyUSBDevice;
-            AFG3252 = usbDevices[0x0699, 0x0345] as CyUSBDevice;
+            //AFG3252 = usbDevices[0x0699, 0x0354] as CyUSBDevice;
             if (myDevice != null)
             {
                 Usb_status_label.Text = "USB device connected";
@@ -50,7 +51,24 @@ namespace SPIROC_DAQ
 
             }
 
-            if (AFG3252 != null)
+            try
+            {
+                SignalSource.initial(settings.AFG_DESCR);
+                //AFG_Session = (MessageBasedSession)ResourceManager.GetLocalManager().Open("USB0::0x0699::0x0345::C022722::INSTR");         
+            }
+            catch (InvalidCastException)
+            {
+                MessageBox.Show("Resource selected must be a message-based session");
+            }
+            catch (Exception exp)
+            {
+                MessageBox.Show(exp.Message);
+            }
+            finally
+            {
+                Cursor.Current = Cursors.Default;
+            }
+            if (SignalSource.isConnected())
             {
                 afg3252_label.Text = "Connected";
                 afg3252_label.ForeColor = Color.Green;
@@ -58,7 +76,7 @@ namespace SPIROC_DAQ
 
                 //normal_config_button.Enabled = true;
 
-                AFG3252_command_point = AFG3252.EndPointOf(0x01) as CyBulkEndPoint; // EP0               
+                //AFG3252_command_point = AFG3252.BulkOutEndPt; // EP0               
 
 
             }
@@ -67,7 +85,7 @@ namespace SPIROC_DAQ
                 afg3252_label.Text = "USB not connected";
                 afg3252_label.ForeColor = Color.Red;
 
-                AFG3252_command_point = null;
+                //AFG3252_command_point = null;
 
 
                 result = false;
@@ -108,7 +126,7 @@ namespace SPIROC_DAQ
         }
 
         private void loadsettings()
-        {
+        {   // unfinished
             const string cache_loc = ".\\cache\\";
 
         }
@@ -279,33 +297,14 @@ namespace SPIROC_DAQ
             return bResult;
         }
 
-        private bool AFGcmdSend(byte[] OutData, int xferLen)
-        {
-            bool bResult = false;
-            if (AFG3252_command_point == null)
-            {
-                bResult = false;
-            }
-            else
-            {
-                bResult = AFG3252_command_point.XferData(ref OutData, ref xferLen);
-            }
-            return bResult;
-        }
         #endregion
 
         #region Thread-used function
-        private void dataAcq_threadFunc(CancellationToken token)
+        private void dataAcq_threadFunc(CancellationToken token, BinaryWriter bw)
         {
             byte[] data_buffer = new byte[512];
             int len;
-            fileName = string.Format("{0:yyyyMMdd_HHmmss}", DateTime.Now) + ".dat";
-            if (!Directory.Exists(fileDic))
-            {
-                Directory.CreateDirectory(fileDic);
-            }
 
-            BinaryWriter bw = new BinaryWriter(File.Open(fileDic + "\\\\" + fileName, FileMode.Append));
             bool bResult;
             while (true)
             {
@@ -331,6 +330,107 @@ namespace SPIROC_DAQ
             bw.Flush();
             bw.Close();
             bw.Dispose();
+
+        }
+
+        private void voltageSweep_threadFunc(CancellationToken taskToken)
+        {
+            int startVoltage = int.Parse(startVol_textbox.Text);
+            int stepVoltage = int.Parse(stepVol_textbox.Text);
+            int stopVoltage = int.Parse(stopVol_textbox.Text);
+
+            BinaryWriter bw;
+
+            DateTime dayStamp = DateTime.Now;
+            string subDic = string.Format("{0:yyyyMMdd}_{0:hhmm}_VoltageSweep", dayStamp);
+            string fullPath = folderBrowserDialog1.SelectedPath + '\\' + subDic;
+            if (!Directory.Exists(fullPath))
+                Directory.CreateDirectory(fullPath);
+
+            // use default settings
+            SignalSource.Write("*RCL 4");
+            SignalSource.closeOutput();
+            for (int v = startVoltage; v < stopVoltage; v += stepVoltage)
+            {
+                textBox1.AppendText("Start acq at " + v.ToString() + " mV of Signal Source\n");
+                if(taskToken.IsCancellationRequested == true)
+                {
+                    break;
+                }
+                else
+                {
+                    //file name include voltage value;
+                    string fileName = v.ToString() + "mV.dat";
+                    //create file writer
+                    bw = new BinaryWriter(File.Open(fullPath + "\\\\" + fileName, FileMode.Create));
+
+                    // tune voltage of channel 1
+                    SignalSource.setVoltage(1, v);
+                    SignalSource.openOutput();
+                    Thread.Sleep(2000); //wait 2 seconds
+
+                    // For each voltage, acq DURATION_SWEEP ms. Now set the timer
+                    /*
+                    System.Timers.Timer taskTimer = new System.Timers.Timer(settings.DURATION_SWEEP);
+                    taskTimer.AutoReset = false;
+                    taskTimer.
+                    */
+
+                    dataAcqTks.Dispose();       //clean up old token source
+                    dataAcqTks = new CancellationTokenSource(); // generate a new token
+
+
+                    byte[] cmdBytes = new byte[2];
+                    // start acq cmd is 0x0100;
+                    cmdBytes[1] = 0x01;
+                    cmdBytes[0] = 0x00;
+
+                    CommandSend(cmdBytes, 2);
+                    // check USB status
+                    if (usbStatus == false)
+                    {
+                        MessageBox.Show("USB is not connected");
+                    }
+                    
+
+                    // Start data acquision thread
+                    try
+                    {
+                        Task dataAcqTsk = Task.Factory.StartNew(() => this.dataAcq_threadFunc(dataAcqTks.Token, bw), dataAcqTks.Token);
+
+                    }
+                    catch (AggregateException excption)
+                    {
+
+                        foreach (var value in excption.InnerExceptions)
+                        {
+
+                            exceptionReport.AppendLine(excption.Message + " " + value.Message);
+                        }
+
+                    }
+                    Thread.Sleep(settings.DURATION_SWEEP);
+
+                    // time up!
+                    // stop asic first
+                    cmdBytes[1] = 0x02;
+                    cmdBytes[0] = 0x00;
+                    CommandSend(cmdBytes, 2);
+
+                    // stop data receiving
+                    dataAcqTks.Cancel();
+
+                    // stop signal
+                    SignalSource.closeOutput();
+
+
+                }
+
+
+            }
+            
+
+            
 
         }
 

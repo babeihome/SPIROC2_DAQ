@@ -248,5 +248,21 @@ namespace SPIROC_DAQ
             fileStream.Close();
 
         }
+
+        public string getTag()
+        {
+            string result;
+            StringBuilder builder = new StringBuilder();
+            builder.AppendLine("\tTrigger_Ext:\t" + this.get_property(settings.TRIG_EXT).ToString() );
+            builder.AppendLine("\tPreamp 1:\t" + this.get_property(settings.PREAMP_GAIN[0]).ToString());
+            builder.AppendLine("\tSwitch TDC On:\t" + this.get_property(settings.SWITCH_TDC_ON).ToString());
+            builder.AppendLine("\tAuto Gain:\t" + this.get_property(settings.AUTO_GAIN).ToString());
+            builder.AppendLine("\tGain Select:\t" + this.get_property(settings.GAIN_SELECT).ToString());
+            builder.AppendLine("\tHigh Gain Shaper\t" + this.get_property(settings.HG_SS_TIME_CONSTANT).ToString());
+            builder.AppendLine("\tTrigger Delay\t" + this.get_property(settings.DELAY_TRIGGER).ToString());
+            builder.AppendLine("");
+            result = builder.ToString();
+            return result;
+        }
     }
 }
