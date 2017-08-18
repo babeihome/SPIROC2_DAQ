@@ -66,10 +66,10 @@ namespace SPIROC_DAQ
             this.set_property(settings.ENABLE_PREAMP_PP, 1);
             for (int i = 0; i < 36; i++)
             {
-                this.set_property(settings.PREAMP_GAIN[i], 0xec);
+                this.set_property(settings.PREAMP_GAIN[i], 0x80);
             }
             //disable channel 0
-            this.set_property(settings.PREAMP_GAIN[0], 0xee);
+            //this.set_property(settings.PREAMP_GAIN[0], 0xec);
             this.set_property(settings.ENABLE_LG_SS_FOLLOWER_PP, 1);
             this.set_property(settings.LG_SS_TIME_CONSTANT, 0x03);
             this.set_property(settings.ENABLE_LG_SS_PP, 1);

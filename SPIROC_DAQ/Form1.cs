@@ -33,7 +33,8 @@ namespace SPIROC_DAQ
         private const int VID = 0x04B4;
         private const int PID = 0x1004;
         private CancellationTokenSource dataAcqTks = new CancellationTokenSource();
-        private CancellationTokenSource SweepTks = new CancellationTokenSource();
+        private CancellationTokenSource voltageSweepTks = new CancellationTokenSource();
+        private CancellationTokenSource scSweepTks = new CancellationTokenSource();
         private StringBuilder exceptionReport = new StringBuilder();
 
         private string rx_Command = @"\b[0-9a-fA-F]{4}\b";//match 16 bit Hex
@@ -47,6 +48,9 @@ namespace SPIROC_DAQ
         // recording information such as slow control config of every data;
         private string recordPath = "record.txt";
         private FileStream resultRecord;
+
+        // for changing textbox1.Text from different thread (not from main thread)
+        delegate void SetTextCallback(string text);
 
         public Main_Form()
         {
@@ -109,6 +113,11 @@ namespace SPIROC_DAQ
             byte[] bit_block = new byte[117];  //SPIROC2b has 929 config bit, 929 / 8 = 116 ... 1, need 117 bytes
             byte_count = slowConfig.bit_transform(ref bit_block);
 
+            // reset spiroc2b
+            cmdBytes[1] = 0x04;
+            cmdBytes[0] = 0x00;
+            CommandSend(cmdBytes, 2);
+            Thread.Sleep(100);
 
             // set probe/sc setting as slow control
             cmdBytes[1] = 0x06;
@@ -119,13 +128,14 @@ namespace SPIROC_DAQ
             cmdBytes[1] = 0x08;
             cmdBytes[0] = 0x00;
             CommandSend(cmdBytes, 2);
-            Thread.Sleep(10);
+            Thread.Sleep(100);
             // send config data
             cmdBytes[1] = 0x03;
             for (int i = 0; i < byte_count; i++)
             {
                 cmdBytes[0] = bit_block[i];
                 CommandSend(cmdBytes, 2);
+                Thread.Sleep(100);
             }
 
             // show relative message
@@ -339,7 +349,7 @@ namespace SPIROC_DAQ
                 }
                 else
                 {
-                    MessageBox.Show("Input DAC is configured by 8bit, 0-255 is valid", "Invalid Value");
+                    MessageBox.Show("Input DAC is configured by 6bit,LSB -> MSB, 0-63 is valid", "Invalid Value");
                 }
             }
             else
@@ -546,7 +556,7 @@ namespace SPIROC_DAQ
                 }
             }
 
-            MessageBox.Show("value need be in range of 0-1023", "Value invalid");
+            MessageBox.Show("value need be in range of 0-63", "Value invalid");
 
         }
 
@@ -1036,8 +1046,8 @@ namespace SPIROC_DAQ
         private void voltageSweep_btn_Click(object sender, EventArgs e)
         {
 
-            SweepTks.Dispose();       //clean up old token source
-            SweepTks = new CancellationTokenSource(); // generate a new token
+            voltageSweepTks.Dispose();       //clean up old token source
+            voltageSweepTks = new CancellationTokenSource(); // generate a new token
             if(!SignalSource.isConnected())
             {
                 MessageBox.Show("Instrument is not connected", "Error");
@@ -1045,7 +1055,7 @@ namespace SPIROC_DAQ
             }
             try
             {
-                Task voltageSweepTsk = Task.Factory.StartNew(() => this.voltageSweep_threadFunc(SweepTks.Token), SweepTks.Token);
+                Task voltageSweepTask = Task.Factory.StartNew(() => this.voltageSweep_threadFunc(voltageSweepTks.Token), voltageSweepTks.Token);
                 startTime = DateTime.Now;
                 timer1.Start();
             }
@@ -1060,6 +1070,39 @@ namespace SPIROC_DAQ
 
             }
 
+        }
+
+        private void volSweepStop_btn_Click(object sender, EventArgs e)
+        {
+            voltageSweepTks.Cancel();
+            textBox1.AppendText("Sweep stop\n");
+        }
+
+        private void scSweep_btn_Click(object sender, EventArgs e)
+        {
+            scSweepTks.Dispose();       //clean up old token source
+            scSweepTks = new CancellationTokenSource(); // generate a new token
+            if (usbStatus == false)
+            {
+                MessageBox.Show("USB is not connected");
+                return;
+            }
+
+            try
+            {
+                Task scSweepTask = Task.Factory.StartNew(() => this.scSweep_threadFunc(scSweepTks.Token),scSweepTks.Token);
+
+            }
+            catch (AggregateException excption)
+            {
+
+                foreach (var v in excption.InnerExceptions)
+                {
+
+                    exceptionReport.AppendLine(excption.Message + " " + v.Message);
+                }
+
+            }
         }
     }
 }
