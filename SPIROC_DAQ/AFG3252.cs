@@ -109,7 +109,19 @@ namespace SPIROC_DAQ
             }
         }
 
-
+        public void delaySet(int channel, int value)
+        {
+            string cmd;
+            try
+            {
+                cmd = string.Format("SOURce{0}:BURSt:TDELay {1}ns", channel, value);
+                session.Write(cmd);
+            }
+            catch(Exception exp)
+            {
+                MessageBox.Show(exp.Message);
+            }
+        }
         // core operation
         public void Write(string cmd)
         {

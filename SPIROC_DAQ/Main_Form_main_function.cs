@@ -328,6 +328,7 @@ namespace SPIROC_DAQ
                     len = 512;
                     bResult = DataRecieve(data_buffer, ref len); // len could be changed for transmit actually num of byte that received
                     bw.Write(data_buffer, 0, len);
+                    bw.Flush();
                 }
 
             }
@@ -354,7 +355,7 @@ namespace SPIROC_DAQ
             // use default settings
             //SignalSource.Write("*RCL 4");
             SignalSource.closeOutput();
-            for (int v = startVoltage; v < stopVoltage; v += stepVoltage)
+            for (int v = startVoltage; v <= stopVoltage; v += stepVoltage)
             {
                 sendMessage("Start acq at " + v.ToString() + " mV of Signal Source\n");
                 if(taskToken.IsCancellationRequested == true)
@@ -365,9 +366,9 @@ namespace SPIROC_DAQ
                 {
                     //file name include voltage value;
                     double real_v = (double)v / double.Parse(atten_textbox.Text);
-                    string fileName = string.Format("{0:##.#}mV.dat",real_v);
+                    string fileName = string.Format("{0:#0.#}mV.dat",real_v);
                     //create file writer
-                    bw = new BinaryWriter(File.Open(fullPath + '\\' + fileName, FileMode.Create));
+                    bw = new BinaryWriter(File.Open(fullPath + '\\' + fileName, FileMode.Create,FileAccess.Write,FileShare.Read));
 
                     // tune voltage of channel 1
                     SignalSource.setVoltage(1, v);
@@ -427,26 +428,27 @@ namespace SPIROC_DAQ
 
                     // stop signal
                     SignalSource.closeOutput();
-
+                    Thread.Sleep(500);
 
                 }
 
 
             }
-                 
 
+            Acq_status_label.Text = "IDLE";
+            Acq_status_label.ForeColor = Color.Black;
         }
 
-        private void scSweep_threadFunc(CancellationToken taskToken)
+        private void scSweep_threadFunc(CancellationToken taskToken, string selectedPara)
         {
-            int startValue = int.Parse(scSweepStart_value.Text);
-            int stepValue = int.Parse(scSweepStep_value.Text);
-            int stopValue = int.Parse(scSweepStop_value.Text);
+            uint startValue = uint.Parse(scSweepStart_value.Text);
+            uint stepValue = uint.Parse(scSweepStep_value.Text);
+            uint stopValue = uint.Parse(scSweepStop_value.Text);
             Dictionary<string, int> propertyTable = new Dictionary<string, int>();
 
-            string selectedPara = scSweepPara_select.SelectedText;
             // property Table information
             propertyTable.Add("trig delay", settings.DELAY_TRIGGER);
+            propertyTable.Add("trig dac", settings.TRIG_DAC);
 
             BinaryWriter bw;
 
@@ -459,9 +461,9 @@ namespace SPIROC_DAQ
             // use default settings
             //SignalSource.Write("*RCL 4");
             SignalSource.closeOutput();
-            for (int v = startValue; v < stopValue; v += stepValue)
+            for (uint v = startValue; v <= stopValue; v += stepValue)
             {
-                sendMessage("Start acq at " + v.ToString() + selectedPara);
+                sendMessage("Start acq at " + v.ToString() + selectedPara + "\n");
                 if (taskToken.IsCancellationRequested == true)
                 {
                     break;
@@ -469,21 +471,22 @@ namespace SPIROC_DAQ
                 else
                 {
                     //file name include voltage value;                  
-                    string fileName = string.Format("{0:##}__{1}__.dat", v,selectedPara.Replace(' ','_'));
+                    string fileName = string.Format("{1}_{0:#0}.dat", v,selectedPara.Replace(' ','_'));
 
                     //create file writer
-                    bw = new BinaryWriter(File.Open(fullPath + '\\' + fileName, FileMode.Create));
+                    bw = new BinaryWriter(File.Open(fullPath + '\\' + fileName, FileMode.Create,FileAccess.Write,FileShare.Read));
 
                     // tune voltage of channel 1
                     //SignalSource.setVoltage(1, v);
                     SignalSource.openOutput();
-                    Thread.Sleep(1000); //wait 1 seconds
+                    Thread.Sleep(100); //wait 1 seconds
 
 
                     // get ready for start acq thread
                     dataAcqTks.Dispose();       //clean up old token source
                     dataAcqTks = new CancellationTokenSource(); // generate a new token
 
+                    slowConfig.set_property(propertyTable[selectedPara], v);
                     normal_config_button_Click(null, null);
                     Thread.Sleep(100);
                     byte[] cmdBytes = new byte[2];
@@ -531,10 +534,346 @@ namespace SPIROC_DAQ
 
 
                 }
-
-
             }
+            Acq_status_label.Text = "IDLE";
+            Acq_status_label.ForeColor = Color.Black;
+
         }
+
+        private void preampSweep_threadFunc(CancellationToken taskToken)
+        {
+            uint startValue = uint.Parse(scSweepStart_value.Text);
+            uint stepValue = uint.Parse(scSweepStep_value.Text);
+            uint stopValue = uint.Parse(scSweepStop_value.Text);
+
+
+            BinaryWriter bw;
+
+            DateTime dayStamp = DateTime.Now;
+            string subDic = string.Format("{0:yyyyMMdd}_{0:hhmm}_preampSweep", dayStamp);
+            string fullPath = folderBrowserDialog1.SelectedPath + '\\' + subDic;
+            if (!Directory.Exists(fullPath))
+                Directory.CreateDirectory(fullPath);
+
+            // use default settings
+            //SignalSource.Write("*RCL 4");
+            SignalSource.closeOutput();
+            for (uint v = startValue; v <= stopValue; v += stepValue)
+            {
+                sendMessage("Start acq at " + v.ToString() + " preamp\n");
+                if (taskToken.IsCancellationRequested == true)
+                {
+                    break;
+                }
+                else
+                {
+                    //file name include voltage value;                  
+                    string fileName = string.Format("preamp_{0:#0}.dat", v);
+
+                    //create file writer
+                    bw = new BinaryWriter(File.Open(fullPath + '\\' + fileName, FileMode.Create, FileAccess.Write, FileShare.Read));
+
+
+
+
+                    // get ready for start acq thread
+                    dataAcqTks.Dispose();       //clean up old token source
+                    dataAcqTks = new CancellationTokenSource(); // generate a new token
+
+                    for(int chn = 0; chn<36; chn++)
+                    {
+                        slowConfig.set_property(settings.PREAMP_GAIN[chn], v);
+                    }
+                    
+                    normal_config_button_Click(null, null);
+                    Thread.Sleep(100);
+
+                    SignalSource.openOutput();
+                    Thread.Sleep(100); //wait 1 seconds
+
+                    byte[] cmdBytes = new byte[2];
+                    // start acq cmd is 0x0100;
+                    cmdBytes[1] = 0x01;
+                    cmdBytes[0] = 0x00;
+
+                    CommandSend(cmdBytes, 2);
+                    // check USB status
+                    if (usbStatus == false)
+                    {
+                        MessageBox.Show("USB is not connected");
+                    }
+
+
+                    // Start data acquision thread
+                    try
+                    {
+                        Task dataAcqTsk = Task.Factory.StartNew(() => this.dataAcq_threadFunc(dataAcqTks.Token, bw), dataAcqTks.Token);
+
+                    }
+                    catch (AggregateException excption)
+                    {
+
+                        foreach (var value in excption.InnerExceptions)
+                        {
+
+                            exceptionReport.AppendLine(excption.Message + " " + value.Message);
+                        }
+
+                    }
+                    Thread.Sleep(int.Parse(scSweepTime_value.Text) * 1000);
+
+                    // time up!
+                    // stop asic first
+                    cmdBytes[1] = 0x02;
+                    cmdBytes[0] = 0x00;
+                    CommandSend(cmdBytes, 2);
+
+                    // stop data receiving
+                    dataAcqTks.Cancel();
+
+                    // stop signal
+                    SignalSource.closeOutput();
+
+
+                }
+            }
+            Acq_status_label.Text = "IDLE";
+            Acq_status_label.ForeColor = Color.Black;
+        }
+
+        private void delayMatrix_threadFunc(CancellationToken taskToken, Form2 paraWindows)
+        {
+
+            
+            // extDelay is the duration that signal minus trigger
+            // unit is nano-second
+            int extDelay_start = int.Parse(paraWindows.start2.Text);
+            int extDelay_step = int.Parse(paraWindows.step2.Text);
+            int extDelay_stop = int.Parse(paraWindows.stop2.Text);
+
+            uint asicDelay_start = uint.Parse(paraWindows.start1.Text);
+            uint asicDelay_step = uint.Parse(paraWindows.step1.Text);
+            uint asicDelay_stop = uint.Parse(paraWindows.stop1.Text);
+
+
+            // initial file writer and file
+            BinaryWriter bw;
+
+            DateTime dayStamp = DateTime.Now;
+            string subDic = string.Format("{0:yyyyMMdd}_{0:hhmm}_DelayMatrix", dayStamp);
+            string fullPath = folderBrowserDialog1.SelectedPath + '\\' + subDic;
+            if (!Directory.Exists(fullPath))
+                Directory.CreateDirectory(fullPath);
+
+
+            // use default settings
+            //SignalSource.Write("*RCL 4");
+            SignalSource.closeOutput();
+            
+            // outside loop is by sc
+            for (uint delay_asic = asicDelay_start; delay_asic <= asicDelay_stop; delay_asic += asicDelay_step)
+            {
+                if(taskToken.IsCancellationRequested == true)
+                {
+                    break;
+                }
+                slowConfig.set_property(settings.DELAY_TRIGGER, delay_asic);
+                normal_config_button_Click(null, null);
+                Thread.Sleep(100);
+
+                // inside loop is by AFG3252
+                for (int delay_afg = extDelay_start; delay_afg <= extDelay_stop; delay_afg += extDelay_step)
+                {
+                    sendMessage("Sweep point: \n\t delay of asic:\t" + delay_asic.ToString() + "\n\t delay of AFG:\t" + delay_afg.ToString() + "\n");
+                    if (taskToken.IsCancellationRequested == true)
+                    {
+                        break;
+                    }
+                    // Source1 is signal channel and Source2 is pulse channel
+                    if(delay_afg < 0)
+                    {
+                        SignalSource.delaySet(1, 0);
+                        SignalSource.delaySet(2, -delay_afg);
+                    }
+                    else
+                    {
+                        SignalSource.delaySet(1, delay_afg);
+                        SignalSource.delaySet(2, 0);
+                    }
+
+                    SignalSource.openOutput();
+                    //file name include voltage value;                  
+                    string fileName = string.Format("delay_{0:#0}x{1:#0}.dat", delay_asic, delay_afg);
+                    //create file writer
+                    bw = new BinaryWriter(File.Open(fullPath + '\\' + fileName, FileMode.Create, FileAccess.Write, FileShare.Read));
+
+
+                    // get ready for start acq thread
+                    dataAcqTks.Dispose();       //clean up old token source
+                    dataAcqTks = new CancellationTokenSource(); // generate a new token
+
+                    SignalSource.openOutput(0);
+                    Thread.Sleep(100); //wait 100ms
+
+                    byte[] cmdBytes = new byte[2];
+                    // start acq cmd is 0x0100;
+                    cmdBytes[1] = 0x01;
+                    cmdBytes[0] = 0x00;
+
+                    CommandSend(cmdBytes, 2);
+                    // check USB status
+
+                    // Start data acquision thread
+                    try
+                    {
+                        Task dataAcqTsk = Task.Factory.StartNew(() => this.dataAcq_threadFunc(dataAcqTks.Token, bw), dataAcqTks.Token);
+
+                    }
+                    catch (AggregateException excption)
+                    {
+
+                        foreach (var value in excption.InnerExceptions)
+                        {
+
+                            exceptionReport.AppendLine(excption.Message + " " + value.Message);
+                        }
+
+                    }
+                    Thread.Sleep(5 * 1000);  //acq 5 seconds
+                    // time up!
+                    // stop asic first
+                    cmdBytes[1] = 0x02;
+                    cmdBytes[0] = 0x00;
+                    CommandSend(cmdBytes, 2);
+
+                    // stop data receiving
+                    dataAcqTks.Cancel();
+                    Thread.Sleep(500);
+
+                    // stop signal
+                    SignalSource.closeOutput();
+                }
+            }
+
+            Acq_status_label.Text = "IDLE";
+            Acq_status_label.ForeColor = Color.Black;
+        }
+
+        private void preampDelay_sweep_threadFunc(CancellationToken taskToken, Form2 paraWindows)
+        {
+            // extDelay is the duration that signal minus trigger
+            // unit is nano-second
+
+
+            uint preamp_start = uint.Parse(paraWindows.start1.Text);
+            uint preamp_step = uint.Parse(paraWindows.step1.Text);
+            uint preamp_stop = uint.Parse(paraWindows.stop1.Text);
+
+            uint delay_start = uint.Parse(paraWindows.start2.Text);
+            uint delay_step = uint.Parse(paraWindows.step2.Text);
+            uint delay_stop = uint.Parse(paraWindows.stop2.Text);
+
+
+            // initial file writer and file
+            BinaryWriter bw;
+
+            DateTime dayStamp = DateTime.Now;
+            string subDic = string.Format("{0:yyyyMMdd}_{0:hhmm}_PreampDelaySweep", dayStamp);
+            string fullPath = folderBrowserDialog1.SelectedPath + '\\' + subDic;
+            if (!Directory.Exists(fullPath))
+                Directory.CreateDirectory(fullPath);
+
+
+            // use default settings
+            //SignalSource.Write("*RCL 4");
+            SignalSource.closeOutput();
+
+            // outside loop is for preamp gain
+            for (uint preamp = preamp_start; preamp <= preamp_stop; preamp += preamp_step)
+            {
+                if (taskToken.IsCancellationRequested == true)
+                {
+                    break;
+                }
+                for(int chn = 0; chn<36;chn ++)
+                {
+                    slowConfig.set_property(settings.PREAMP_GAIN[chn], preamp);
+                }
+                // inside loop is for trig_delay
+                for (uint delay = delay_start; delay <= delay_stop; delay += delay_step)
+                {
+                    slowConfig.set_property(settings.DELAY_TRIGGER, delay);
+                    sendMessage("Sweep point: \n\t delay of asic:\t" + delay.ToString() + "\n\t preamp:\t" + preamp.ToString() + "\n");
+
+                    if (taskToken.IsCancellationRequested == true)
+                    {
+                        break;
+                    }
+                    // Source1 is signal channel and Source2 is pulse channel
+                    normal_config_button_Click(null, null);
+                    Thread.Sleep(500);
+                    //file name include voltage value;                  
+                    string fileName = string.Format("preamp_{0:#0}xdelay_{1:#0}.dat", preamp, delay);
+                    //create file writer
+                    bw = new BinaryWriter(File.Open(fullPath + '\\' + fileName, FileMode.Create, FileAccess.Write, FileShare.Read));
+
+
+                    // get ready for start acq thread
+                    dataAcqTks.Dispose();       //clean up old token source
+                    dataAcqTks = new CancellationTokenSource(); // generate a new token
+
+                    SignalSource.openOutput();
+                    Thread.Sleep(100); //wait 100ms
+
+                    byte[] cmdBytes = new byte[2];
+                    // start acq cmd is 0x0100;
+                    cmdBytes[1] = 0x01;
+                    cmdBytes[0] = 0x00;
+
+                    CommandSend(cmdBytes, 2);
+                    // check USB status
+
+                    // Start data acquision thread
+                    try
+                    {
+                        Task dataAcqTsk = Task.Factory.StartNew(() => this.dataAcq_threadFunc(dataAcqTks.Token, bw), dataAcqTks.Token);
+
+                    }
+                    catch (AggregateException excption)
+                    {
+
+                        foreach (var value in excption.InnerExceptions)
+                        {
+
+                            exceptionReport.AppendLine(excption.Message + " " + value.Message);
+                        }
+
+                    }
+                    Thread.Sleep(5 * 1000);  //acq 5 seconds
+                    // time up!
+                    // stop asic first
+                    cmdBytes[1] = 0x02;
+                    cmdBytes[0] = 0x00;
+                    CommandSend(cmdBytes, 2);
+
+                    // stop data receiving
+                    dataAcqTks.Cancel();
+                    Thread.Sleep(300);
+                    // stop signal
+                    SignalSource.closeOutput();    
+                                    
+                }
+            }
+
+            Acq_status_label.Text = "IDLE";
+            Acq_status_label.ForeColor = Color.Black;
+        }
+
+        private void volDelay_sweep_threadFunc(CancellationToken taskToken)
+        {
+            //TODO: decide not to finished
+        }
+
         // change textbox1.Text from sub-thread
         private void sendMessage(string text)
         {

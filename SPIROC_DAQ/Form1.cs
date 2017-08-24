@@ -35,6 +35,7 @@ namespace SPIROC_DAQ
         private CancellationTokenSource dataAcqTks = new CancellationTokenSource();
         private CancellationTokenSource voltageSweepTks = new CancellationTokenSource();
         private CancellationTokenSource scSweepTks = new CancellationTokenSource();
+        private CancellationTokenSource specialTaskTks = new CancellationTokenSource();
         private StringBuilder exceptionReport = new StringBuilder();
 
         private string rx_Command = @"\b[0-9a-fA-F]{4}\b";//match 16 bit Hex
@@ -135,7 +136,7 @@ namespace SPIROC_DAQ
             {
                 cmdBytes[0] = bit_block[i];
                 CommandSend(cmdBytes, 2);
-                Thread.Sleep(100);
+                //Thread.Sleep(100);
             }
 
             // show relative message
@@ -172,7 +173,7 @@ namespace SPIROC_DAQ
                 Directory.CreateDirectory(fileDic);
             }
 
-            BinaryWriter bw = new BinaryWriter(File.Open(fileDic + "\\\\" + fileName, FileMode.Append));
+            BinaryWriter bw = new BinaryWriter(File.Open(fileDic + "\\\\" + fileName, FileMode.Append,FileAccess.Write,FileShare.Read));
             resultRecord = new FileStream(fileDic + '\\' + recordPath, FileMode.Append);
 
             // Start data acquision thread
@@ -1048,27 +1049,34 @@ namespace SPIROC_DAQ
 
             voltageSweepTks.Dispose();       //clean up old token source
             voltageSweepTks = new CancellationTokenSource(); // generate a new token
-            if(!SignalSource.isConnected())
+            if(check_USB() == false)
             {
-                MessageBox.Show("Instrument is not connected", "Error");
+                MessageBox.Show("USB or Instrument is not connected", "Error");
                 return;
             }
-            try
+            if(usbStatus == true)
             {
-                Task voltageSweepTask = Task.Factory.StartNew(() => this.voltageSweep_threadFunc(voltageSweepTks.Token), voltageSweepTks.Token);
-                startTime = DateTime.Now;
-                timer1.Start();
-            }
-            catch (AggregateException excption)
-            {
-
-                foreach (var v in excption.InnerExceptions)
+                try
+                {
+                    Task voltageSweepTask = Task.Factory.StartNew(() => this.voltageSweep_threadFunc(voltageSweepTks.Token), voltageSweepTks.Token);
+                    startTime = DateTime.Now;
+                    timer1.Start();
+                }
+                catch (AggregateException excption)
                 {
 
-                    exceptionReport.AppendLine(excption.Message + " " + v.Message);
-                }
+                    foreach (var v in excption.InnerExceptions)
+                    {
 
+                        exceptionReport.AppendLine(excption.Message + " " + v.Message);
+                    }
+
+                }
             }
+
+
+            Acq_status_label.Text = "Voltage Sweep";
+            Acq_status_label.ForeColor = Color.Green;
 
         }
 
@@ -1076,33 +1084,181 @@ namespace SPIROC_DAQ
         {
             voltageSweepTks.Cancel();
             textBox1.AppendText("Sweep stop\n");
+            Acq_status_label.Text = "IDLE";
+            Acq_status_label.ForeColor = Color.Black;
         }
 
         private void scSweep_btn_Click(object sender, EventArgs e)
         {
             scSweepTks.Dispose();       //clean up old token source
             scSweepTks = new CancellationTokenSource(); // generate a new token
-            if (usbStatus == false)
+            if (check_USB() == false)
             {
-                MessageBox.Show("USB is not connected");
+                MessageBox.Show("USB or Instrument is not connected");
                 return;
             }
 
-            try
+            string selectPara = scSweepPara_select.SelectedItem.ToString();
+            switch(selectPara)
             {
-                Task scSweepTask = Task.Factory.StartNew(() => this.scSweep_threadFunc(scSweepTks.Token),scSweepTks.Token);
+                case "preamp":
+                    try
+                    {
+                        Task scSweepTask = Task.Factory.StartNew(() => this.preampSweep_threadFunc(scSweepTks.Token), scSweepTks.Token);
+
+                    }
+                    catch (AggregateException excption)
+                    {
+
+                        foreach (var v in excption.InnerExceptions)
+                        {
+
+                            exceptionReport.AppendLine(excption.Message + " " + v.Message);
+                        }
+
+                    }
+                    break;
+
+                default:
+                    try
+                    {
+                        Task scSweepTask = Task.Factory.StartNew(() => this.scSweep_threadFunc(scSweepTks.Token, selectPara), scSweepTks.Token);
+
+                    }
+                    catch (AggregateException excption)
+                    {
+
+                        foreach (var v in excption.InnerExceptions)
+                        {
+
+                            exceptionReport.AppendLine(excption.Message + " " + v.Message);
+                        }
+
+                    }
+                    break;
 
             }
-            catch (AggregateException excption)
-            {
+                
+           
+            Acq_status_label.Text = "SC sweep";
+            Acq_status_label.ForeColor = Color.Green;
+        }
 
-                foreach (var v in excption.InnerExceptions)
+        private void scSweepStop_btn_Click(object sender, EventArgs e)
+        {
+            scSweepTks.Cancel();
+            textBox1.AppendText("Sweep stop\n");
+            Acq_status_label.Text = "IDLE";
+            Acq_status_label.ForeColor = Color.Black;
+        }
+
+        private void delayMatrix_task_Click(object sender, EventArgs e)
+        {
+            specialTaskTks.Dispose();       //clean up old token source
+            specialTaskTks = new CancellationTokenSource(); // generate a new token
+            if (check_USB() == false)
+            {
+                MessageBox.Show("USB or Instrument is not connected", "Error");
+                return;
+            }
+
+            Form2 paraWindows = new Form2();
+            paraWindows.label1.Text = "delay of asic";
+            paraWindows.label2.Text = "delay of AFG3252";
+            paraWindows.ShowDialog(this);
+
+
+            if (paraWindows.confirm == false)
+            {
+                return;
+            }
+            if (usbStatus == true)
+
+
+                try
+                {
+                    Task voltageSweepTask = Task.Factory.StartNew(() => this.delayMatrix_threadFunc(specialTaskTks.Token,paraWindows), specialTaskTks.Token);
+
+                }
+                catch (AggregateException excption)
                 {
 
-                    exceptionReport.AppendLine(excption.Message + " " + v.Message);
-                }
+                    foreach (var v in excption.InnerExceptions)
+                    {
 
+                        exceptionReport.AppendLine(excption.Message + " " + v.Message);
+                    }
+
+                }
+            Acq_status_label.Text = "Delay Matrix Sweep";
+            Acq_status_label.ForeColor = Color.Green;
+        }
+
+        private void preampWaveform_task_Click(object sender, EventArgs e)
+        {
+            specialTaskTks.Dispose();       //clean up old token source
+            specialTaskTks = new CancellationTokenSource(); // generate a new token
+            if (check_USB() == false)
+            {
+                MessageBox.Show("USB or Instrument is not connected", "Error");
+                return;
             }
+            if (usbStatus == true)
+            {
+                Form2 paraWindows = new Form2();
+                paraWindows.label1.Text = "preamp gain";
+                paraWindows.label2.Text = "delay of trigger internal ";
+                paraWindows.ShowDialog(this);
+
+                try
+                {
+                    Task voltageSweepTask = Task.Factory.StartNew(() => this.preampDelay_sweep_threadFunc(specialTaskTks.Token, paraWindows), specialTaskTks.Token);
+
+                }
+                catch (AggregateException excption)
+                {
+
+                    foreach (var v in excption.InnerExceptions)
+                    {
+
+                        exceptionReport.AppendLine(excption.Message + " " + v.Message);
+                    }
+
+                }
+            }
+            Acq_status_label.Text = "Preamp & Delay Sweep";
+            Acq_status_label.ForeColor = Color.Green;
+        }
+
+        private void volDelay_sweep_Click(object sender, EventArgs e)
+        {
+            specialTaskTks.Dispose();       //clean up old token source
+            specialTaskTks = new CancellationTokenSource(); // generate a new token
+            if (check_USB() == false)
+            {
+                MessageBox.Show("USB or Instrument is not connected", "Error");
+                return;
+            }
+            if (usbStatus == true)
+
+
+                try
+                {
+                    Task voltageSweepTask = Task.Factory.StartNew(() => this.volDelay_sweep_threadFunc(specialTaskTks.Token), specialTaskTks.Token);
+
+                }
+                catch (AggregateException excption)
+                {
+
+                    foreach (var v in excption.InnerExceptions)
+                    {
+
+                        exceptionReport.AppendLine(excption.Message + " " + v.Message);
+                    }
+
+                }
+            Acq_status_label.Text = "Sweep";
+            Acq_status_label.ForeColor = Color.Green;
         }
     }
 }
