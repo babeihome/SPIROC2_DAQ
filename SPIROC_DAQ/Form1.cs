@@ -56,6 +56,7 @@ namespace SPIROC_DAQ
         public Main_Form()
         {
             InitializeComponent();
+            CheckForIllegalCrossThreadCalls = false;
             bindEventHandle(inputDAC_group, new EventHandler(inputDAC_Changed));
             bindEventHandle(discri_groupbox, new EventHandler(discri_Changed));
             bindEventHandle(preamp_group, new EventHandler(preamp_Changed));
@@ -167,7 +168,7 @@ namespace SPIROC_DAQ
             }
 
             // create file writer
-            fileName = string.Format("{0:yyyyMMdd_HHmmss}", DateTime.Now) + ".dat";
+            fileName = string.Format("{0:yyyyMMdd_HHHHmmss}", DateTime.Now) + ".dat";
             if (!Directory.Exists(fileDic))
             {
                 Directory.CreateDirectory(fileDic);
@@ -1239,12 +1240,18 @@ namespace SPIROC_DAQ
                 MessageBox.Show("USB or Instrument is not connected", "Error");
                 return;
             }
+
+            Form2 paraWindows = new Form2();
+            paraWindows.label1.Text = "input voltage";
+            paraWindows.label2.Text = "delay of asic";
+            paraWindows.ShowDialog(this);
+
             if (usbStatus == true)
 
 
                 try
                 {
-                    Task voltageSweepTask = Task.Factory.StartNew(() => this.volDelay_sweep_threadFunc(specialTaskTks.Token), specialTaskTks.Token);
+                    Task voltageSweepTask = Task.Factory.StartNew(() => this.volDelay_sweep_threadFunc(specialTaskTks.Token, paraWindows), specialTaskTks.Token);
 
                 }
                 catch (AggregateException excption)
@@ -1259,6 +1266,52 @@ namespace SPIROC_DAQ
                 }
             Acq_status_label.Text = "Sweep";
             Acq_status_label.ForeColor = Color.Green;
+        }
+
+        private void folderBrowserDialog1_HelpRequest(object sender, EventArgs e)
+        {
+
+        }
+
+        private void LED_calib_btn_Click(object sender, EventArgs e)
+        {
+            voltageSweepTks.Dispose();       //clean up old token source
+            voltageSweepTks = new CancellationTokenSource(); // generate a new token
+            if (check_USB() == false)
+            {
+                MessageBox.Show("USB or Instrument is not connected", "Error");
+                return;
+            }
+
+            Form2 paraWindows = new Form2();
+            paraWindows.label1.Text = "input voltage";
+            paraWindows.label2.Text = "don't touch this line";
+            paraWindows.ShowDialog(this);
+
+            if (usbStatus == true)
+            {
+                try
+                {
+                    Task voltageSweepTask = Task.Factory.StartNew(() => this.ledCalib_threadFunc(voltageSweepTks.Token, paraWindows), voltageSweepTks.Token);
+                    startTime = DateTime.Now;
+                    timer1.Start();
+                }
+                catch (AggregateException excption)
+                {
+
+                    foreach (var v in excption.InnerExceptions)
+                    {
+
+                        exceptionReport.AppendLine(excption.Message + " " + v.Message);
+                    }
+
+                }
+            }
+
+
+            Acq_status_label.Text = "Voltage Sweep";
+            Acq_status_label.ForeColor = Color.Green;
+
         }
     }
 }
