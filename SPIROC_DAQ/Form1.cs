@@ -50,6 +50,7 @@ namespace SPIROC_DAQ
         private string recordPath = "record.txt";
         private FileStream resultRecord;
 
+        private int pwr_vector = 0x0f;
         // for changing textbox1.Text from different thread (not from main thread)
         delegate void SetTextCallback(string text);
 
@@ -1312,6 +1313,142 @@ namespace SPIROC_DAQ
             Acq_status_label.Text = "Voltage Sweep";
             Acq_status_label.ForeColor = Color.Green;
 
+        }
+
+        private void pwr_on_a_checkbox_CheckedChanged(object sender, EventArgs e)
+        {
+            byte[] commandByte = new byte[2];
+
+            commandByte[1] = 0x0d;
+            if(pwr_on_a_checkbox.Checked)
+            {
+                commandByte[0] = (byte)(0x08 | pwr_vector);
+            }
+            else
+            {
+                commandByte[0] = (byte)(0x07 & pwr_vector);
+            }
+            pwr_vector = commandByte[0];
+            var isUSBConnected = check_USB();
+            if (isUSBConnected)
+            {
+                CommandSend(commandByte, 2);
+            }
+            else
+            {
+                MessageBox.Show("Please connect USB first", "Error");
+                return;
+            }
+
+
+            textBox1.AppendText("Power on A has been changed\n");
+        }
+
+        private void pwr_on_D_checkbox_CheckedChanged(object sender, EventArgs e)
+        {
+            byte[] commandByte = new byte[2];
+
+            commandByte[1] = 0x0d;
+            if (pwr_on_D_checkbox.Checked)
+            {
+                commandByte[0] = (byte)(0x04 | pwr_vector);
+            }
+            else
+            {
+                commandByte[0] = (byte)(0x0B & pwr_vector);
+            }
+            pwr_vector = commandByte[0];
+            var isUSBConnected = check_USB();
+            if (isUSBConnected)
+            {
+                CommandSend(commandByte, 2);
+            }
+            else
+            {
+                MessageBox.Show("Please connect USB first", "Error");
+                return;
+            }
+
+
+            textBox1.AppendText("Power on D has been changed\n");
+        }
+
+        private void pwr_on_ADC_checkbox_CheckedChanged(object sender, EventArgs e)
+        {
+            byte[] commandByte = new byte[2];
+
+            commandByte[1] = 0x0d;
+            if (pwr_on_ADC_checkbox.Checked)
+            {
+                commandByte[0] = (byte)(0x02 | pwr_vector);
+            }
+            else
+            {
+                commandByte[0] = (byte)(0x0D & pwr_vector);
+            }
+            pwr_vector = commandByte[0];
+            var isUSBConnected = check_USB();
+            if (isUSBConnected)
+            {
+                CommandSend(commandByte, 2);
+            }
+            else
+            {
+                MessageBox.Show("Please connect USB first", "Error");
+                return;
+            }
+
+
+            textBox1.AppendText("Power on ADC has been changed\n");
+        }
+
+        private void pwr_on_DAC_checkbox_CheckedChanged(object sender, EventArgs e)
+        {
+            byte[] commandByte = new byte[2];
+
+            commandByte[1] = 0x0d;
+            if (pwr_on_DAC_checkbox.Checked)
+            {
+                commandByte[0] = (byte)(0x01 | pwr_vector);
+            }
+            else
+            {
+                commandByte[0] = (byte)(0x0E & pwr_vector);
+            }
+            pwr_vector = commandByte[0];
+            var isUSBConnected = check_USB();
+            if (isUSBConnected)
+            {
+                CommandSend(commandByte, 2);
+            }
+            else
+            {
+                MessageBox.Show("Please connect USB first", "Error");
+                return;
+            }
+
+
+            textBox1.AppendText("Power on DAC has been changed\n");
+        }
+
+        private void eventNumPackage_ValueChanged(object sender, EventArgs e)
+        {
+            byte[] commandByte = new byte[2];
+
+            commandByte[1] = 0x0e;
+            commandByte[0] = byte.Parse(eventNumPackage.Value.ToString());
+            var isUSBConnected = check_USB();
+            if (isUSBConnected)
+            {
+                CommandSend(commandByte, 2);
+            }
+            else
+            {
+                MessageBox.Show("Please connect USB first", "Error");
+                return;
+            }
+
+            textBox1.AppendText("The maxium number of trigger in one package has been set to " + eventNumPackage.Value.ToString() + ".\n");
         }
     }
 }

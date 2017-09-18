@@ -52,8 +52,8 @@ namespace SPIROC_DAQ
             this.set_property(settings.NC, 0);
             this.set_property(settings.EN_OR36, 1);
             this.set_property(settings.ADC_RAMP_SLOPE, 0);
-            this.set_property(settings.ADC_RAMP_CURRENT_SOURCE, 1);
-            this.set_property(settings.ADC_RAMP_INTEGRATOR, 1);
+            this.set_property(settings.ADC_RAMP_CURRENT_SOURCE, 0); // PP 
+            this.set_property(settings.ADC_RAMP_INTEGRATOR, 0);     // PP
             for (int i = 0; i < 36; i++)
             {
                 this.set_property(settings.INDAC[i], 0x1ff);
@@ -63,35 +63,35 @@ namespace SPIROC_DAQ
             this.set_property(settings.FS, 1);
             this.set_property(settings.NC3, 0);
             this.set_property(settings.CAP_LG_PA_COMPENSATION, 0x0e);
-            this.set_property(settings.ENABLE_PREAMP_PP, 1);
+            this.set_property(settings.ENABLE_PREAMP_PP, 0);
             for (int i = 0; i < 36; i++)
             {
                 this.set_property(settings.PREAMP_GAIN[i], 0xd8);
             }
             //disable channel 0
             //this.set_property(settings.PREAMP_GAIN[0], 0xec);
-            this.set_property(settings.ENABLE_LG_SS_FOLLOWER_PP, 1);
+            this.set_property(settings.ENABLE_LG_SS_FOLLOWER_PP, 0);
             this.set_property(settings.LG_SS_TIME_CONSTANT, 0x04);
-            this.set_property(settings.ENABLE_LG_SS_PP, 1);
-            this.set_property(settings.ENABLE_HG_SS_FOLLOWER_PP, 1);
+            this.set_property(settings.ENABLE_LG_SS_PP, 0);
+            this.set_property(settings.ENABLE_HG_SS_FOLLOWER_PP, 0);
             this.set_property(settings.HG_SS_TIME_CONSTANT, 0x04);
-            this.set_property(settings.ENABLE_HG_SS_PP, 1);
-            this.set_property(settings.FS_FOLLOWER_PP, 1);
-            this.set_property(settings.FS_PP, 1);
+            this.set_property(settings.ENABLE_HG_SS_PP, 0);
+            this.set_property(settings.FS_FOLLOWER_PP, 0);
+            this.set_property(settings.FS_PP, 0);
             this.set_property(settings.BACKUP_SCA, 0);
-            this.set_property(settings.SCA_PP, 1);
+            this.set_property(settings.SCA_PP, 0);
             this.set_property(settings.EN_BANDGAP, 1);
             this.set_property(settings.BANDGAP_PP, 1);
             this.set_property(settings.EN_DAC, 1);
             this.set_property(settings.DAC_PP, 1);
             this.set_property(settings.TRIG_DAC, 0x0fa);
             this.set_property(settings.GAIN_DAC, 0x1f4);
-            this.set_property(settings.DELAY_START_RAMP_TDC_PP, 1);
+            this.set_property(settings.DELAY_START_RAMP_TDC_PP, 0);
             this.set_property(settings.DELAY_START_RAMP_TDC, 1);
             this.set_property(settings.TDC_RAMP_SLOPE_GC, 0);
-            this.set_property(settings.TDC_RAMP_PP, 1);
-            this.set_property(settings.ADC_DISCRI_PP, 1);
-            this.set_property(settings.GAIN_SELECT_DISCRI_PP, 1);
+            this.set_property(settings.TDC_RAMP_PP, 0);
+            this.set_property(settings.ADC_DISCRI_PP, 0);
+            this.set_property(settings.GAIN_SELECT_DISCRI_PP, 0);
             this.set_property(settings.AUTO_GAIN, 0);
             this.set_property(settings.GAIN_SELECT, 0);
             this.set_property(settings.ADC_EXT_INPUT, 0);
@@ -108,13 +108,13 @@ namespace SPIROC_DAQ
             }
 
             this.set_property(settings.ADJUST_4BIT_DAC, 0);
-            this.set_property(settings.DAC_4BIT_PP, 1);
-            this.set_property(settings.TRIG_DISCRI_PP, 1);
-            this.set_property(settings.DELAY_VALIDHOLD_PP, 1);
+            this.set_property(settings.DAC_4BIT_PP, 0);
+            this.set_property(settings.TRIG_DISCRI_PP, 0);
+            this.set_property(settings.DELAY_VALIDHOLD_PP, 0);
             this.set_property(settings.DELAY_VALIDHOLD, 0x14);
-            this.set_property(settings.DELAY_RSTCOL_PP, 1);
+            this.set_property(settings.DELAY_RSTCOL_PP, 0);
             this.set_property(settings.DELAY_RSTCOL, 0x14);
-            this.set_property(settings.CLOCK_LVDS_RECEIVE, 1);
+            this.set_property(settings.CLOCK_LVDS_RECEIVE, 0);
             this.set_property(settings.POD, 0);
             this.set_property(settings.END_READOUT, 1);
             this.set_property(settings.START_READOUT, 1);

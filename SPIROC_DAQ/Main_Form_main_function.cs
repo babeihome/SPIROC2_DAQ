@@ -84,11 +84,7 @@ namespace SPIROC_DAQ
             {
                 afg3252_label.Text = "USB not connected";
                 afg3252_label.ForeColor = Color.Red;
-
                 //AFG3252_command_point = null;
-
-
-                result = false;
 
             }
             return result;
@@ -994,7 +990,7 @@ namespace SPIROC_DAQ
             BinaryWriter bw;
 
             DateTime dayStamp = DateTime.Now;
-            string subDic = string.Format("{0:yyyyMMdd}_{0:HHmm}_VoltageSweep", dayStamp);
+            string subDic = string.Format("{0:yyyyMMdd}_{0:HHmm}_ledCalib", dayStamp);
             string fullPath = folderBrowserDialog1.SelectedPath + '\\' + subDic;
             if (!Directory.Exists(fullPath))
                 Directory.CreateDirectory(fullPath);
@@ -1011,6 +1007,9 @@ namespace SPIROC_DAQ
             cmdBytes[0] = 0x00;
 
             CommandSend(cmdBytes, 2);
+
+            dataAcqTks.Dispose();       //clean up old token source
+            dataAcqTks = new CancellationTokenSource(); // generate a new token
             // check USB status
             if (usbStatus == false)
             {
@@ -1047,12 +1046,11 @@ namespace SPIROC_DAQ
                     // tune voltage of channel 1
                     SignalSource.setVoltage(1, v);
                     //SignalSource.openOutput();
-                    Thread.Sleep(5000); //wait 5 seconds
+                    Thread.Sleep(1000); //wait 5 seconds
 
                 }
             }
-            dataAcqTks.Dispose();       //clean up old token source
-            dataAcqTks = new CancellationTokenSource(); // generate a new token
+
 
 
             // time up!
