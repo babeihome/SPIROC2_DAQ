@@ -21,7 +21,7 @@ namespace SPIROC_DAQ
         }
         public const int bit_length = 929;
         public String bit_string;
-
+        // hello
         private const string cache_loc = ".\\cache\\";
 
         // const variable describe length of each config properties.
