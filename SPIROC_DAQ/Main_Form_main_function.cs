@@ -15,80 +15,7 @@ namespace SPIROC_DAQ
     {
         
         // private function
-        private bool check_USB()
-        {
-            bool result = true;
-            myDevice = usbDevices[VID, PID] as CyUSBDevice;
-            //AFG3252 = usbDevices[0x0699, 0x0354] as CyUSBDevice;
-            if (myDevice != null)
-            {
-                Usb_status_label.Text = "USB device connected";
-                Usb_status_label.ForeColor = Color.Green;
-                usbStatus = true;
-
-                normal_config_button.Enabled = true;
-
-                bulkOutEndPt = myDevice.EndPointOf(0x08) as CyBulkEndPoint; // EP8
-                bulkInEndPt = myDevice.EndPointOf(0x82) as CyBulkEndPoint; //EP2
-
-                bulkInEndPt.XferSize = bulkInEndPt.MaxPktSize * 8;  // transfer size means the max limits of data in USB driver
-                bulkInEndPt.TimeOut = 100;
-
-            }
-            else
-            {
-                Usb_status_label.Text = "USB not connected";
-                Usb_status_label.ForeColor = Color.Red;
-                usbStatus = false;
-                normal_config_button.Enabled = false;
-                normal_acq_button.Enabled = false;
-                normal_stop_button.Enabled = false;
-
-                bulkOutEndPt = null;
-                bulkInEndPt = null;
-
-                result = false;
-
-            }
-
-            try
-            {
-                SignalSource.initial(settings.AFG_DESCR);
-                //AFG_Session = (MessageBasedSession)ResourceManager.GetLocalManager().Open("USB0::0x0699::0x0345::C022722::INSTR");         
-            }
-            catch (InvalidCastException)
-            {
-                MessageBox.Show("Resource selected must be a message-based session");
-            }
-            catch (Exception exp)
-            {
-                MessageBox.Show(exp.Message);
-            }
-            finally
-            {
-                Cursor.Current = Cursors.Default;
-            }
-            if (SignalSource.isConnected())
-            {
-                afg3252_label.Text = "Connected";
-                afg3252_label.ForeColor = Color.Green;
-                //usbStatus = true;
-
-                //normal_config_button.Enabled = true;
-
-                //AFG3252_command_point = AFG3252.BulkOutEndPt; // EP0               
-
-
-            }
-            else
-            {
-                afg3252_label.Text = "USB not connected";
-                afg3252_label.ForeColor = Color.Red;
-                //AFG3252_command_point = null;
-
-            }
-            return result;
-        }
+        
 
     
         private void bindEventHandle(GroupBox gbox, EventHandler handle)
@@ -272,6 +199,80 @@ namespace SPIROC_DAQ
 
         //usb parameters
         // USB command send
+        private bool check_USB()
+        {
+            bool result = true;
+            myDevice = usbDevices[VID, PID] as CyUSBDevice;
+            //AFG3252 = usbDevices[0x0699, 0x0354] as CyUSBDevice;
+            if (myDevice != null)
+            {
+                Usb_status_label.Text = "USB device connected";
+                Usb_status_label.ForeColor = Color.Green;
+                usbStatus = true;
+
+                normal_config_button.Enabled = true;
+
+                bulkOutEndPt = myDevice.EndPointOf(0x08) as CyBulkEndPoint; // EP8
+                bulkInEndPt = myDevice.EndPointOf(0x82) as CyBulkEndPoint; //EP2
+
+                bulkInEndPt.XferSize = bulkInEndPt.MaxPktSize * 8;  // transfer size means the max limits of data in USB driver
+                bulkInEndPt.TimeOut = 100;
+
+            }
+            else
+            {
+                Usb_status_label.Text = "USB not connected";
+                Usb_status_label.ForeColor = Color.Red;
+                usbStatus = false;
+                normal_config_button.Enabled = false;
+                normal_acq_button.Enabled = false;
+                normal_stop_button.Enabled = false;
+
+                bulkOutEndPt = null;
+                bulkInEndPt = null;
+
+                result = false;
+
+            }
+
+            try
+            {
+                SignalSource.initial(settings.AFG_DESCR);
+                //AFG_Session = (MessageBasedSession)ResourceManager.GetLocalManager().Open("USB0::0x0699::0x0345::C022722::INSTR");         
+            }
+            catch (InvalidCastException)
+            {
+                MessageBox.Show("Resource selected must be a message-based session");
+            }
+            catch (Exception exp)
+            {
+                MessageBox.Show(exp.Message);
+            }
+            finally
+            {
+                Cursor.Current = Cursors.Default;
+            }
+            if (SignalSource.isConnected())
+            {
+                afg3252_label.Text = "Connected";
+                afg3252_label.ForeColor = Color.Green;
+                //usbStatus = true;
+
+                //normal_config_button.Enabled = true;
+
+                //AFG3252_command_point = AFG3252.BulkOutEndPt; // EP0               
+
+
+            }
+            else
+            {
+                afg3252_label.Text = "USB not connected";
+                afg3252_label.ForeColor = Color.Red;
+                //AFG3252_command_point = null;
+
+            }
+            return result;
+        }
         private bool CommandSend(byte[] OutData, int xferLen)
         {
             bool bResult = false;
@@ -579,7 +580,7 @@ namespace SPIROC_DAQ
                     for(int chn = 0; chn<36; chn++)
                     {
                         uint old_value = slowConfig.get_property(settings.PREAMP_GAIN[chn]);
-                        uint new_value = (v << 2) + (old_value & 0x03);
+                        uint new_value = (reverse_bit(v,6) << 2) + (old_value & 0x03);
                         slowConfig.set_property(settings.PREAMP_GAIN[chn], new_value);
                     }
                     
@@ -796,7 +797,7 @@ namespace SPIROC_DAQ
                 for(int chn = 0; chn<36;chn ++)
                 {
                     uint old_value = slowConfig.get_property(settings.PREAMP_GAIN[chn]);
-                    uint new_value = (preamp << 2) + (old_value & 0x03);
+                    uint new_value = (reverse_bit(preamp,6) << 2) + (old_value & 0x03);
                     slowConfig.set_property(settings.PREAMP_GAIN[chn], new_value);
 
                 }
@@ -1204,6 +1205,16 @@ namespace SPIROC_DAQ
                 */
             return (1);
 
+        }
+        uint reverse_bit(uint c, uint width)
+        {
+            // reverse a 6bit width value in bit-wise
+            if(width == 6)
+            {
+                c = (c & 0x24) >> 2 | (c & 0x09) << 2 | (c & 0x12);
+                c = (c & 0x38) >> 3 | (c & 0x07) << 3;
+            }
+            return c;
         }
         #endregion
     }
