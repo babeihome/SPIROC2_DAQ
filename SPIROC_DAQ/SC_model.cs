@@ -27,7 +27,11 @@ namespace SPIROC_DAQ
         // const variable describe length of each config properties.
         // notice that Discriminator Mask config (36 bits) is divided to two group whose length is 18 bits 
         // It can be check or get from "Spiroc2abcd_chip.xls" file.
-        private static readonly ushort[] property_length = new ushort[175] {};
+        private static readonly ushort[] property_length = new ushort[175] {1,1,1,1,12,8,1,1,1,1,1,2,1,1,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,
+            9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,4,6,1,1,4,1,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,
+            8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,1,3,1,1,3,1,1,1,1,1,1,1,1,1,10,10,1,6,1,1,1,1,1,1,1,
+            1,18,18,1,1,6,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,1,1,1,
+            1,6,1,6,1,1,1,1,1,1,1,1,1};
 
 
         // Initial method
@@ -261,4 +265,133 @@ namespace SPIROC_DAQ
             return result;
         }
     }
+
+    class SC_model_2E : SC_model
+    {
+        private static readonly ushort[] property_length = new ushort[215] {1,1,1,1,1,1,12,8,1,1,1,1,1,2,1,1,1,1,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,
+            9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,1,1,1,1,1,1,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,
+            9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,
+            9,9,9,9,9,9,9,9,9,1,1,3,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,10,10,1,1,1,1,1,1,1,1,1,18,18,1,1,8,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,1,1,1,4,1,6,1,6,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
+        private static int properties_num = 215;
+        new public const int bit_length = 1186;
+        private uint[] config_data;
+        private const string cache_loc = ".\\cache\\";
+
+        // const variable describe length of each config properties.
+        // notice that Discriminator Mask config (36 bits) is divided to two group whose length is 18 bits 
+        // It can be check or get from "Spiroc2abcd_chip.xls" file.
+
+        public SC_model_2E()
+        {
+            // default settings_2E
+            config_data = new uint[215];
+            settingName = "default";
+            this.set_property(settings_2E.Sel_Temp_sensor_to_ADC_GC, 0);
+            this.set_property(settings_2E.TRIG_EXT, 0);
+            this.set_property(settings_2E.FLAG_TDC_EXT, 0);
+            this.set_property(settings_2E.START_RAMP_ADC_EXT, 0);
+            this.set_property(settings_2E.START_RAMP_TDC_EXT, 0);
+            this.set_property(settings_2E.ADC_GRAY, 1);
+            this.set_property(settings_2E.CHIPID, 0x80);
+            this.set_property(settings_2E.PROBE_OTA, 0);
+            this.set_property(settings_2E.ENABLE_ANALOGUE_OUTPUT, 1);
+            this.set_property(settings_2E.DISABLE_ANALOGUE_OUTPUT_PP, 1);
+            this.set_property(settings_2E.NC, 0);
+            this.set_property(settings_2E.EN_OR36, 1);
+            this.set_property(settings_2E.ADC_RAMP_SLOPE, 0);
+            this.set_property(settings_2E.ADC_RAMP_CURRENT_SOURCE, 0); // PP 
+            this.set_property(settings_2E.ADC_RAMP_INTEGRATOR, 0);     // PP
+            this.set_property(settings_2E.EN_input_dac, 1);//?
+            this.set_property(settings_2E.GC_8_bit_DAC_reference, 0);//?
+            for (int i = 0; i < 36; i++)
+            {
+                this.set_property(settings_2E.INDAC[i], 0x1ff);
+            }
+            this.set_property(settings_2E.LG_PA_bias, 0);//?
+            this.set_property(settings_2E.High_Gain_PreAmplifier, 0);//?
+            this.set_property(settings_2E.Low_Gain_PreAmplifier, 0);//?
+            this.set_property(settings_2E.EN_High_Gain_PA, 0);//?
+            this.set_property(settings_2E.EN_Low_Gain_PA, 0);//?
+            this.set_property(settings_2E.Fast_Shaper_on_LG, 0);//?
+            this.set_property(settings_2E.NC2, 0);
+            this.set_property(settings_2E.NC3, 0);
+
+            for (int i = 0; i < 60; i++)
+            {
+                this.set_property(settings_2E.Channel_0_to_35_PA[i], 0xd8);
+            }
+            //disable channel 0
+            //this.set_property(settings_2E.PREAMP_GAIN[0], 0xec);
+            this.set_property(settings_2E.EN_Low_Gain_Slow_Shaper, 0);//?
+            this.set_property(settings_2E.ENABLE_HG_SS, 0);//?
+            this.set_property(settings_2E.EN_FS, 0);//?
+            this.set_property(settings_2E.GC_Temp_sensor_high_current, 0);//?
+            this.set_property(settings_2E.PP_Temp, 0);//?
+            this.set_property(settings_2E.EN_Temp, 0);//?
+            this.set_property(settings_2E.EN_DAC1, 0);//?
+            this.set_property(settings_2E.DAC1_PP, 0);//?
+            this.set_property(settings_2E.EN_DAC2, 0);//?
+            this.set_property(settings_2E.PP_DAC2, 0);//?
+            this.set_property(settings_2E.TDC_RAMP_EN, 0);//?
+            this.set_property(settings_2E.Discri_Delay_Vref_I_source_EN, 0);//?
+            this.set_property(settings_2E.Discri_Delay_Vref_I_source_PP, 0);//?
+            this.set_property(settings_2E.EN_LVDS_receiver_NoTrig, 0);//?
+            this.set_property(settings_2E.PP_LVDS_receiver_NoTrig, 0);//?
+            this.set_property(settings_2E.EN_LVDS_receiver_TrigExt, 0);//?
+            this.set_property(settings_2E.PP_LVDS_receiver_TrigExt, 0);//?
+            this.set_property(settings_2E.EN_LVDS_receiver_ValEvt, 0);//?
+            this.set_property(settings_2E.PP_LVDS_receiver_ValEvt, 0); //?
+            this.set_property(settings_2E.LG_SS_TIME_CONSTANT, 0x04);
+            this.set_property(settings_2E.ENABLE_LG_SS_PP, 0);
+
+            this.set_property(settings_2E.HG_SS_TIME_CONSTANT, 0x04);
+            this.set_property(settings_2E.ENABLE_HG_SS_PP, 0);
+            this.set_property(settings_2E.FS_FOLLOWER_PP, 0);
+            this.set_property(settings_2E.FS_PP, 0);
+            this.set_property(settings_2E.BACKUP_SCA, 0);
+            this.set_property(settings_2E.SCA_PP, 0);
+            this.set_property(settings_2E.EN_BANDGAP, 1);
+            this.set_property(settings_2E.BANDGAP_PP, 1);
+            this.set_property(settings_2E.TRIG_DAC, 0x0fa);
+            this.set_property(settings_2E.GAIN_DAC, 0x1f4);
+
+            this.set_property(settings_2E.TDC_RAMP_SLOPE_GC, 0);
+            this.set_property(settings_2E.TDC_RAMP_PP, 0);
+            this.set_property(settings_2E.ADC_DISCRI_PP, 0);
+            this.set_property(settings_2E.GAIN_SELECT_DISCRI_PP, 0);
+            this.set_property(settings_2E.AUTO_GAIN, 0);
+            this.set_property(settings_2E.GAIN_SELECT, 0);
+            this.set_property(settings_2E.ADC_EXT_INPUT, 0);
+            this.set_property(settings_2E.SWITCH_TDC_ON, 1);
+            this.set_property(settings_2E.DISCRIMINATOR_MASK1, 0);
+            this.set_property(settings_2E.DISCRIMINATOR_MASK2, 0);
+            this.set_property(settings_2E.NC3, 0);
+            this.set_property(settings_2E.DISCRI_DELAY_PP, 1);
+            this.set_property(settings_2E.DELAY_TRIGGER, 0x02);
+
+            for (int i = 0; i < 36; i++)
+            {
+                this.set_property(settings_2E.DISCRI_4BIT_ADJUST[i], 0);
+            }
+
+            this.set_property(settings_2E.DAC_4BIT_PP, 0);
+            this.set_property(settings_2E.TRIG_DISCRI_PP, 0);
+            this.set_property(settings_2E.DELAY_VALIDHOLD_PP, 0);
+            this.set_property(settings_2E.DELAY_VALIDHOLD, 0x14);
+            this.set_property(settings_2E.DELAY_RSTCOL_PP, 0);
+            this.set_property(settings_2E.DELAY_RSTCOL, 0x14);
+            this.set_property(settings_2E.CLOCK_LVDS_RECEIVE, 0);
+            this.set_property(settings_2E.POD, 0);
+            this.set_property(settings_2E.END_READOUT, 1);
+            this.set_property(settings_2E.START_READOUT, 1);
+            this.set_property(settings_2E.CHIPSAT, 1);
+            this.set_property(settings_2E.TRANSMITON2, 1);
+            this.set_property(settings_2E.TRANSMITON1, 1);
+            this.set_property(settings_2E.DOUT2, 1);
+            this.set_property(settings_2E.DOUT1, 1);
+
+        }
+    }
 }
+
+

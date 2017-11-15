@@ -88,7 +88,7 @@ namespace SPIROC_DAQ
         public readonly static int DURATION_SWEEP = 10 * 1000; // 10s for a voltage, unit is ms
     }
 
-     class settings_2E : settings
+     class settings_2E: settings
     {
         public readonly static int Sel_Temp_sensor_to_ADC_GC = 0;
         new public readonly static int NC = 1;
