@@ -457,7 +457,15 @@ namespace SPIROC_DAQ
 
             // use default settings
             //SignalSource.Write("*RCL 4");
-            SignalSource.closeOutput();
+            if (SignalSource.isConnected())
+            {
+                SignalSource.closeOutput();
+            }
+            else
+            {
+                sendMessage("Be careful that Signal Generator is not connected");
+            }
+
             for (uint v = startValue; v <= stopValue; v += stepValue)
             {
                 sendMessage("Start acq at " + v.ToString() + selectedPara + "\n");
@@ -468,14 +476,18 @@ namespace SPIROC_DAQ
                 else
                 {
                     //file name include voltage value;                  
-                    string fileName = string.Format("{1}_{0:#0}.dat", v,selectedPara.Replace(' ','_'));
+                    string fileName = string.Format("{1}_{0:#0}.dat", v, selectedPara.Replace(' ', '_'));
 
                     //create file writer
-                    bw = new BinaryWriter(File.Open(fullPath + '\\' + fileName, FileMode.Create,FileAccess.Write,FileShare.Read));
+                    bw = new BinaryWriter(File.Open(fullPath + '\\' + fileName, FileMode.Create, FileAccess.Write, FileShare.Read));
 
                     // tune voltage of channel 1
                     //SignalSource.setVoltage(1, v);
-                    SignalSource.openOutput();
+                    if (SignalSource.isConnected())
+                    {
+                        SignalSource.openOutput();
+                    }
+                    
                     Thread.Sleep(100); //wait 1 seconds
 
 
@@ -527,7 +539,10 @@ namespace SPIROC_DAQ
                     dataAcqTks.Cancel();
 
                     // stop signal
-                    SignalSource.closeOutput();
+                    if(SignalSource.isConnected())
+                    {
+                        SignalSource.closeOutput();
+                    }
 
 
                 }
@@ -554,7 +569,10 @@ namespace SPIROC_DAQ
 
             // use default settings
             //SignalSource.Write("*RCL 4");
-            SignalSource.closeOutput();
+            if (SignalSource.isConnected())
+            {
+                SignalSource.closeOutput();
+            }
             for (uint v = startValue; v <= stopValue; v += stepValue)
             {
                 sendMessage("Start acq at " + v.ToString() + " preamp\n");
@@ -586,8 +604,10 @@ namespace SPIROC_DAQ
                     
                     normal_config_button_Click(null, null);
                     Thread.Sleep(100);
-
-                    SignalSource.openOutput();
+                    if (SignalSource.isConnected())
+                    {
+                        SignalSource.openOutput();
+                    }
                     Thread.Sleep(100); //wait 1 seconds
 
                     byte[] cmdBytes = new byte[2];
@@ -631,7 +651,11 @@ namespace SPIROC_DAQ
                     dataAcqTks.Cancel();
 
                     // stop signal
-                    SignalSource.closeOutput();
+                    if (SignalSource.isConnected())
+                    {
+                        SignalSource.closeOutput();
+                    }
+                    
 
 
                 }
