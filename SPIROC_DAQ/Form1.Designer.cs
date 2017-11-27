@@ -568,14 +568,14 @@
             this.Status_panel.Controls.Add(this.Acq_status_group, 0, 2);
             this.Status_panel.Controls.Add(this.AFG_group, 0, 3);
             this.Status_panel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Status_panel.Location = new System.Drawing.Point(875, 47);
+            this.Status_panel.Location = new System.Drawing.Point(909, 47);
             this.Status_panel.Name = "Status_panel";
             this.Status_panel.RowCount = 4;
             this.Status_panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.Status_panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.Status_panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.Status_panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.Status_panel.Size = new System.Drawing.Size(213, 566);
+            this.Status_panel.Size = new System.Drawing.Size(179, 566);
             this.Status_panel.TabIndex = 6;
             // 
             // USB_status_group
@@ -678,7 +678,7 @@
             // 
             this.Status_label.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.Status_label.AutoSize = true;
-            this.Status_label.Location = new System.Drawing.Point(961, 21);
+            this.Status_label.Location = new System.Drawing.Point(978, 21);
             this.Status_label.Name = "Status_label";
             this.Status_label.Size = new System.Drawing.Size(41, 12);
             this.Status_label.TabIndex = 5;
@@ -688,9 +688,9 @@
             // 
             this.Main_group.Controls.Add(this.Main_tab);
             this.Main_group.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Main_group.Location = new System.Drawing.Point(225, 47);
+            this.Main_group.Location = new System.Drawing.Point(233, 47);
             this.Main_group.Name = "Main_group";
-            this.Main_group.Size = new System.Drawing.Size(644, 566);
+            this.Main_group.Size = new System.Drawing.Size(670, 566);
             this.Main_group.TabIndex = 4;
             this.Main_group.TabStop = false;
             this.Main_group.Text = "SPIROC_CONTROL";
@@ -709,7 +709,7 @@
             this.Main_tab.Location = new System.Drawing.Point(3, 17);
             this.Main_tab.Name = "Main_tab";
             this.Main_tab.SelectedIndex = 0;
-            this.Main_tab.Size = new System.Drawing.Size(638, 546);
+            this.Main_tab.Size = new System.Drawing.Size(664, 546);
             this.Main_tab.TabIndex = 0;
             // 
             // Flow_tab
@@ -718,7 +718,7 @@
             this.Flow_tab.Location = new System.Drawing.Point(4, 22);
             this.Flow_tab.Name = "Flow_tab";
             this.Flow_tab.Padding = new System.Windows.Forms.Padding(3);
-            this.Flow_tab.Size = new System.Drawing.Size(630, 520);
+            this.Flow_tab.Size = new System.Drawing.Size(656, 520);
             this.Flow_tab.TabIndex = 0;
             this.Flow_tab.Text = "Task";
             this.Flow_tab.UseVisualStyleBackColor = true;
@@ -749,7 +749,7 @@
             this.task_panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 71F));
             this.task_panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 71F));
             this.task_panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.task_panel.Size = new System.Drawing.Size(624, 514);
+            this.task_panel.Size = new System.Drawing.Size(650, 514);
             this.task_panel.TabIndex = 0;
             // 
             // label118
@@ -759,7 +759,7 @@
             this.label118.Font = new System.Drawing.Font("SimSun", 15F, System.Drawing.FontStyle.Bold);
             this.label118.Location = new System.Drawing.Point(4, 289);
             this.label118.Name = "label118";
-            this.label118.Size = new System.Drawing.Size(96, 71);
+            this.label118.Size = new System.Drawing.Size(100, 71);
             this.label118.TabIndex = 11;
             this.label118.Text = "Special Task";
             this.label118.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -771,7 +771,7 @@
             this.label117.Font = new System.Drawing.Font("SimSun", 15F, System.Drawing.FontStyle.Bold);
             this.label117.Location = new System.Drawing.Point(4, 217);
             this.label117.Name = "label117";
-            this.label117.Size = new System.Drawing.Size(96, 71);
+            this.label117.Size = new System.Drawing.Size(100, 71);
             this.label117.TabIndex = 8;
             this.label117.Text = "Double Sweep";
             this.label117.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -783,7 +783,7 @@
             this.label111.Font = new System.Drawing.Font("SimSun", 15F, System.Drawing.FontStyle.Bold);
             this.label111.Location = new System.Drawing.Point(4, 145);
             this.label111.Name = "label111";
-            this.label111.Size = new System.Drawing.Size(96, 71);
+            this.label111.Size = new System.Drawing.Size(100, 71);
             this.label111.TabIndex = 6;
             this.label111.Text = "P SWEEP";
             this.label111.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -795,7 +795,7 @@
             this.label106.Font = new System.Drawing.Font("SimSun", 15F, System.Drawing.FontStyle.Bold);
             this.label106.Location = new System.Drawing.Point(4, 73);
             this.label106.Name = "label106";
-            this.label106.Size = new System.Drawing.Size(96, 71);
+            this.label106.Size = new System.Drawing.Size(100, 71);
             this.label106.TabIndex = 2;
             this.label106.Text = "V SWEEP";
             this.label106.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -807,7 +807,7 @@
             this.normal_label.Font = new System.Drawing.Font("SimSun", 15F, System.Drawing.FontStyle.Bold);
             this.normal_label.Location = new System.Drawing.Point(4, 1);
             this.normal_label.Name = "normal_label";
-            this.normal_label.Size = new System.Drawing.Size(96, 71);
+            this.normal_label.Size = new System.Drawing.Size(100, 71);
             this.normal_label.TabIndex = 0;
             this.normal_label.Text = "NORMAL";
             this.normal_label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -819,10 +819,10 @@
             this.normal_task_panel.Controls.Add(this.normal_acq_button);
             this.normal_task_panel.Controls.Add(this.normal_stop_button);
             this.normal_task_panel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.normal_task_panel.Location = new System.Drawing.Point(107, 4);
+            this.normal_task_panel.Location = new System.Drawing.Point(111, 4);
             this.normal_task_panel.Name = "normal_task_panel";
             this.normal_task_panel.Padding = new System.Windows.Forms.Padding(3);
-            this.normal_task_panel.Size = new System.Drawing.Size(513, 65);
+            this.normal_task_panel.Size = new System.Drawing.Size(535, 65);
             this.normal_task_panel.TabIndex = 1;
             // 
             // normal_usbcon_button
@@ -887,9 +887,9 @@
             this.panel3.Controls.Add(this.volSweepStop_btn);
             this.panel3.Controls.Add(this.tableLayoutPanel9);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel3.Location = new System.Drawing.Point(107, 76);
+            this.panel3.Location = new System.Drawing.Point(111, 76);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(513, 65);
+            this.panel3.Size = new System.Drawing.Size(535, 65);
             this.panel3.TabIndex = 5;
             // 
             // voltageSweep_btn
@@ -898,7 +898,7 @@
             this.voltageSweep_btn.Dock = System.Windows.Forms.DockStyle.Right;
             this.voltageSweep_btn.Font = new System.Drawing.Font("SimSun", 9F);
             this.voltageSweep_btn.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.voltageSweep_btn.Location = new System.Drawing.Point(365, 0);
+            this.voltageSweep_btn.Location = new System.Drawing.Point(387, 0);
             this.voltageSweep_btn.Margin = new System.Windows.Forms.Padding(30, 3, 15, 3);
             this.voltageSweep_btn.Name = "voltageSweep_btn";
             this.voltageSweep_btn.Size = new System.Drawing.Size(74, 65);
@@ -913,7 +913,7 @@
             this.volSweepStop_btn.Dock = System.Windows.Forms.DockStyle.Right;
             this.volSweepStop_btn.Font = new System.Drawing.Font("SimSun", 9F);
             this.volSweepStop_btn.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.volSweepStop_btn.Location = new System.Drawing.Point(439, 0);
+            this.volSweepStop_btn.Location = new System.Drawing.Point(461, 0);
             this.volSweepStop_btn.Margin = new System.Windows.Forms.Padding(30, 3, 15, 3);
             this.volSweepStop_btn.Name = "volSweepStop_btn";
             this.volSweepStop_btn.Size = new System.Drawing.Size(74, 65);
@@ -1045,9 +1045,9 @@
             this.panel4.Controls.Add(this.scSweepStop_btn);
             this.panel4.Controls.Add(this.tableLayoutPanel10);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel4.Location = new System.Drawing.Point(107, 148);
+            this.panel4.Location = new System.Drawing.Point(111, 148);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(513, 65);
+            this.panel4.Size = new System.Drawing.Size(535, 65);
             this.panel4.TabIndex = 7;
             // 
             // scSweep_btn
@@ -1056,7 +1056,7 @@
             this.scSweep_btn.Dock = System.Windows.Forms.DockStyle.Right;
             this.scSweep_btn.Font = new System.Drawing.Font("SimSun", 9F);
             this.scSweep_btn.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.scSweep_btn.Location = new System.Drawing.Point(365, 0);
+            this.scSweep_btn.Location = new System.Drawing.Point(387, 0);
             this.scSweep_btn.Margin = new System.Windows.Forms.Padding(30, 3, 15, 3);
             this.scSweep_btn.Name = "scSweep_btn";
             this.scSweep_btn.Size = new System.Drawing.Size(74, 65);
@@ -1071,7 +1071,7 @@
             this.scSweepStop_btn.Dock = System.Windows.Forms.DockStyle.Right;
             this.scSweepStop_btn.Font = new System.Drawing.Font("SimSun", 9F);
             this.scSweepStop_btn.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.scSweepStop_btn.Location = new System.Drawing.Point(439, 0);
+            this.scSweepStop_btn.Location = new System.Drawing.Point(461, 0);
             this.scSweepStop_btn.Margin = new System.Windows.Forms.Padding(30, 3, 15, 3);
             this.scSweepStop_btn.Name = "scSweepStop_btn";
             this.scSweepStop_btn.Size = new System.Drawing.Size(74, 65);
@@ -1208,9 +1208,9 @@
             this.panel5.Controls.Add(this.preampWaveform_task);
             this.panel5.Controls.Add(this.delayMatrix_task);
             this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel5.Location = new System.Drawing.Point(107, 220);
+            this.panel5.Location = new System.Drawing.Point(111, 220);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(513, 65);
+            this.panel5.Size = new System.Drawing.Size(535, 65);
             this.panel5.TabIndex = 9;
             // 
             // volDelay_sweep_btn
@@ -1262,9 +1262,9 @@
             // 
             this.panel6.Controls.Add(this.LED_calib_btn);
             this.panel6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel6.Location = new System.Drawing.Point(107, 292);
+            this.panel6.Location = new System.Drawing.Point(111, 292);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(513, 65);
+            this.panel6.Size = new System.Drawing.Size(535, 65);
             this.panel6.TabIndex = 12;
             // 
             // LED_calib_btn
@@ -5941,7 +5941,7 @@
             // clear_button
             // 
             this.clear_button.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.clear_button.Location = new System.Drawing.Point(85, 619);
+            this.clear_button.Location = new System.Drawing.Point(89, 619);
             this.clear_button.Name = "clear_button";
             this.clear_button.Size = new System.Drawing.Size(62, 24);
             this.clear_button.TabIndex = 3;
@@ -5952,9 +5952,9 @@
             // 
             this.File_group.Controls.Add(this.flowLayoutPanel1);
             this.File_group.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.File_group.Location = new System.Drawing.Point(225, 619);
+            this.File_group.Location = new System.Drawing.Point(233, 619);
             this.File_group.Name = "File_group";
-            this.File_group.Size = new System.Drawing.Size(644, 58);
+            this.File_group.Size = new System.Drawing.Size(670, 58);
             this.File_group.TabIndex = 2;
             this.File_group.TabStop = false;
             this.File_group.Text = "File Path";
@@ -5967,7 +5967,7 @@
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 17);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(638, 38);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(664, 38);
             this.flowLayoutPanel1.TabIndex = 0;
             // 
             // file_path_label
@@ -6010,7 +6010,7 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
             this.textBox1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.textBox1.Size = new System.Drawing.Size(206, 566);
+            this.textBox1.Size = new System.Drawing.Size(214, 566);
             this.textBox1.TabIndex = 1;
             // 
             // Msg_label
@@ -6019,7 +6019,7 @@
             this.Msg_label.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Msg_label.Location = new System.Drawing.Point(13, 10);
             this.Msg_label.Name = "Msg_label";
-            this.Msg_label.Size = new System.Drawing.Size(206, 34);
+            this.Msg_label.Size = new System.Drawing.Size(214, 34);
             this.Msg_label.TabIndex = 0;
             this.Msg_label.Text = "Message";
             this.Msg_label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -6030,7 +6030,7 @@
             this.tableLayoutPanel1.ColumnCount = 3;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 24.60497F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 75.39503F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 218F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 184F));
             this.tableLayoutPanel1.Controls.Add(this.Msg_label, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.textBox1, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.File_group, 1, 2);
@@ -6058,7 +6058,7 @@
             this.time_textbox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.time_textbox.Font = new System.Drawing.Font("SimSun", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.time_textbox.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.time_textbox.Location = new System.Drawing.Point(225, 13);
+            this.time_textbox.Location = new System.Drawing.Point(233, 13);
             this.time_textbox.Name = "time_textbox";
             this.time_textbox.ReadOnly = true;
             this.time_textbox.Size = new System.Drawing.Size(199, 22);
