@@ -347,7 +347,7 @@ namespace SPIROC_DAQ
                 {
                     value = uint.Parse((sender as TextBox).Text);
                     uint old_value = slowConfig.get_property(settings.PREAMP_GAIN[chnNum]);
-                    uint new_value = (value << 2) + (old_value & 0x03);
+                    uint new_value = (reverse_bit(value,6) << 2) + (old_value & 0x03);
                     slowConfig.set_property(settings.PREAMP_GAIN[chnNum], new_value);
                 }
                 else

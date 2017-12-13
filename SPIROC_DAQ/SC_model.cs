@@ -62,7 +62,7 @@ namespace SPIROC_DAQ
             this.set_property(settings.ENABLE_PREAMP_PP, 0);
             for (int i = 0; i < 36; i++)
             {
-                this.set_property(settings.PREAMP_GAIN[i], 0xd8);
+                this.set_property(settings.PREAMP_GAIN[i], (0x36 << 2) + 0x00);  // !! ATTENTION !!  preamp is LSB on high location
             }
             //disable channel 0
             //this.set_property(settings.PREAMP_GAIN[0], 0xec);
