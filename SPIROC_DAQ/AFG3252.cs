@@ -11,15 +11,15 @@ namespace SPIROC_DAQ
     class AFG3252
     {
         private MessageBasedSession session;
-        public bool initial(string Descr)
+        public bool initial()
         {
             try
             {
-                var rsrc = ResourceManager.GetLocalManager().FindResources(settings.AFG_DESCR);
+                var rsrc = ResourceManager.GetLocalManager().FindResources(settings.AFG_DESCR3252);
                 if(rsrc != null)
                 {
                     session = (MessageBasedSession)ResourceManager.GetLocalManager().Open(rsrc[0]);
-                }
+                }              
                 
             }
             catch (InvalidCastException)
@@ -30,7 +30,7 @@ namespace SPIROC_DAQ
             {
                 //MessageBox.Show(exp.Message);
             }
-
+            
             return (session != null);
         }
 

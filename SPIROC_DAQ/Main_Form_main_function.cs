@@ -237,7 +237,7 @@ namespace SPIROC_DAQ
 
             try
             {
-                SignalSource.initial(settings.AFG_DESCR);
+                SignalSource.initial();
                 //AFG_Session = (MessageBasedSession)ResourceManager.GetLocalManager().Open("USB0::0x0699::0x0345::C022722::INSTR");         
             }
             catch (InvalidCastException)
