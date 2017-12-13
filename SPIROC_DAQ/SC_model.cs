@@ -27,11 +27,7 @@ namespace SPIROC_DAQ
         // const variable describe length of each config properties.
         // notice that Discriminator Mask config (36 bits) is divided to two group whose length is 18 bits 
         // It can be check or get from "Spiroc2abcd_chip.xls" file.
-        private static readonly ushort[] property_length = new ushort[175] {1,1,1,1,12,8,1,1,1,1,1,2,1,1,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,
-            9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,4,6,1,1,4,1,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,
-            8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,1,3,1,1,3,1,1,1,1,1,1,1,1,1,10,10,1,6,1,1,1,1,1,1,1,
-            1,18,18,1,1,6,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,1,1,1,
-            1,6,1,6,1,1,1,1,1,1,1,1,1};
+        private static readonly ushort[] property_length = new ushort[175] {};
 
 
         // Initial method
