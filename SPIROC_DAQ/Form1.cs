@@ -1491,11 +1491,6 @@ namespace SPIROC_DAQ
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             if ( comboBox1.Text == "SPIROC2B")
@@ -1518,6 +1513,11 @@ namespace SPIROC_DAQ
                 slowConfig = slowConfig_2E;
                 slowConfig.save_settings(0);
             }
+        }
+
+        private void splitContainer1_Panel2_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }
