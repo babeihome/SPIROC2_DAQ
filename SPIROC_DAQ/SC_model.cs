@@ -6,10 +6,25 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
+
 namespace SPIROC_DAQ
 {
+    
+    interface Iversion
+    {
+        void test();
+        void set_property(int id, uint value);
+        uint get_property(int id);
+        int bit_transform(ref byte[] bit_block);
+        void save_settings(int settings_id);
+        void recall_settings(int settings_id);
+        string getTag();
+        string settingName { get; set; }
+
+    }
+
     [Serializable]
-    class SC_model
+    class SC_model: Iversion 
     {
         // member variables
         private uint[] config_data;
@@ -128,7 +143,7 @@ namespace SPIROC_DAQ
 
 
         // test method redundant for any test function
-        public void test()
+        public   void test()
         {
             int sum = 0;
             foreach (ushort len in property_length)
@@ -140,7 +155,7 @@ namespace SPIROC_DAQ
         }
 
         // need cooperate with PROPERTIES-ID table in settings.cs
-        public void set_property(int id, uint value)
+        public  void set_property(int id, uint value)
         {
             uint max = uint.MaxValue;
             max = max >> (32 - property_length[id]);
@@ -151,13 +166,13 @@ namespace SPIROC_DAQ
             config_data[id] = value;   
         }
 
-        public uint get_property(int id)
+        public   uint get_property(int id)
         {
             return config_data[id];
 
         }
 
-        public int bit_transform(ref byte[] bit_block)
+        public  int bit_transform(ref byte[] bit_block)
         {
             // to record how many bit has been transformed
             int bit_count = 0;
@@ -209,7 +224,7 @@ namespace SPIROC_DAQ
 
         }
 
-        public void save_settings(int settings_id)
+        public  void save_settings(int settings_id)
         {   
             // save SlowContorl
             // Serialize
@@ -225,7 +240,7 @@ namespace SPIROC_DAQ
 
         }
             
-        public void recall_settings(int settings_id)
+        public  void recall_settings(int settings_id)
         {
             // load SlowControl saving config
             // Deserialize
@@ -249,7 +264,7 @@ namespace SPIROC_DAQ
 
         }
 
-        public string getTag()
+        public  string getTag()
         {
             string result;
             StringBuilder builder = new StringBuilder();
@@ -266,13 +281,11 @@ namespace SPIROC_DAQ
         }
     }
 
-    class SC_model_2E : SC_model
+    class SC_model_2E : SC_model, Iversion 
     {
-        private static readonly ushort[] property_length = new ushort[215] {1,1,1,1,1,1,12,8,1,1,1,1,1,2,1,1,1,1,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,
-            9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,1,1,1,1,1,1,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,
-            9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,
-            9,9,9,9,9,9,9,9,9,1,1,3,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,10,10,1,1,1,1,1,1,1,1,1,18,18,1,1,8,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,1,1,1,4,1,6,1,6,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
-        private static int properties_num = 215;
+        private static readonly ushort[] property_length = new ushort[191] {1,1,1,1,1,1,12,8,1,1,1,1,1,2,1,1,1,1,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,
+            9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,1,1,1,1,1,1,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,1,1,3,1,1,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,10,10,1,1,1,1,1,1,1,1,1,18,18,1,1,8,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,1,1,1,4,1,6,1,6,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
+        private static int properties_num = 191;
         new public const int bit_length = 1186;
         private uint[] config_data;
         private const string cache_loc = ".\\cache\\";
@@ -284,7 +297,7 @@ namespace SPIROC_DAQ
         public SC_model_2E()
         {
             // default settings_2E
-            config_data = new uint[215];
+            config_data = new uint[191];
             settingName = "default";
             this.set_property(settings_2E.Sel_Temp_sensor_to_ADC_GC, 0);
             this.set_property(settings_2E.TRIG_EXT, 0);
@@ -316,7 +329,7 @@ namespace SPIROC_DAQ
             this.set_property(settings_2E.NC2, 0);
             this.set_property(settings_2E.NC3, 0);
 
-            for (int i = 0; i < 60; i++)
+            for (int i = 0; i < 36; i++)
             {
                 this.set_property(settings_2E.Channel_0_to_35_PA[i], 0xd8);
             }

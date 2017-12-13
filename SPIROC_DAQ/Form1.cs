@@ -18,6 +18,7 @@ namespace SPIROC_DAQ
 {
     public partial class Main_Form : Form
     {
+
         private USBDeviceList usbDevices;
         private CyUSBDevice myDevice;
         private CyBulkEndPoint bulkInEndPt;
@@ -26,7 +27,7 @@ namespace SPIROC_DAQ
         //private MessageBasedSession AFG_Session; //for test, should never use
         private AFG3252 SignalSource = new AFG3252();
 
-        private SC_model slowConfig;
+        
         private bool usbStatus = false;
         private string fileDic;    // store path of data file
         private string fileName;
@@ -44,7 +45,10 @@ namespace SPIROC_DAQ
         private string rx_Integer = @"^\d+$";   //匹配非负 整数
 
         private int settingChoosen = 0;
+        Iversion slowConfig;
 
+        SC_model slowConfig_2B = new SC_model();
+        SC_model_2E slowConfig_2E = new SC_model_2E();
         private DateTime startTime;
         // recording information such as slow control config of every data;
         private string recordPath = "record.txt";
@@ -53,7 +57,7 @@ namespace SPIROC_DAQ
         private int pwr_vector = 0x0f;
         // for changing textbox1.Text from different thread (not from main thread)
         delegate void SetTextCallback(string text);
-
+        public int version_num;
         public Main_Form()
         {
             InitializeComponent();
@@ -66,8 +70,19 @@ namespace SPIROC_DAQ
             // Dynamic list of USB devices bound to CyUSB.sys
             usbDevices = new USBDeviceList(CyConst.DEVICES_CYUSB);
             loadsettings();
-            slowConfig = new SC_model();
-            slowConfig.save_settings(0);
+            
+            if (version_num == 1)
+            {
+                slowConfig = slowConfig_2B;
+
+
+                slowConfig.save_settings(0);
+            }
+            if (version_num == 2)
+            {
+                slowConfig = slowConfig_2E;
+                slowConfig.save_settings(0);
+            }
             refreshParamPanel();
             //slowConfig.recall_settings(0);
             // Adding event handles for action of attachment and removal of device
@@ -1449,6 +1464,60 @@ namespace SPIROC_DAQ
             }
 
             textBox1.AppendText("The maxium number of trigger in one package has been set to " + eventNumPackage.Value.ToString() + ".\n");
+        }
+
+        private void Main_group_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox12_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void trig_dac_value_TextChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void normal_usbcon_button_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void normal_config_button_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if ( comboBox1.Text == "SPIROC2B")
+            {
+                version_num = 1;
+            }
+            if (comboBox1 .Text == "SPIROC2E")
+            {
+                version_num = 2;
+            }
+            if (version_num == 1)
+            {
+                slowConfig = slowConfig_2B;
+
+
+                slowConfig.save_settings(0);
+            }
+            if (version_num == 2)
+            {
+                slowConfig = slowConfig_2E;
+                slowConfig.save_settings(0);
+            }
         }
     }
 }
