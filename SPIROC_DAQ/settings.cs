@@ -178,7 +178,9 @@ namespace SPIROC_DAQ
         new public readonly static int TRANSMITON1 = 188;
         new public readonly static int DOUT2 = 189;
         new public readonly static int DOUT1 = 190;
-
+        new public readonly static string DEFAULT_DIC = @"D:\Experiment_Data\SPIROC2b_new\";
+        new public readonly static string AFG_DESCR = "USB[0-9]::0x0699::0x0345::C[0-9]+::INSTR";
+        new public readonly static int DURATION_SWEEP = 10 * 1000; // 10s for a voltage, unit is ms
 
     }
 }

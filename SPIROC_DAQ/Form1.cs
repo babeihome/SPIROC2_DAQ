@@ -275,7 +275,7 @@ namespace SPIROC_DAQ
                 value = uint.Parse(trig_dac_value.Text);
                 if (0 <= value && value <= 1023)
                 {
-                    slowConfig.set_property(settings.TRIG_DAC, value);
+                    slowConfig.set_property(slowConfig.settings["TRIG_DAC"], value);
                     return;
                 }
             }
@@ -295,7 +295,7 @@ namespace SPIROC_DAQ
                 value = uint.Parse(gain_sel_value.Text);
                 if (0 <= value && value <= 1023)
                 {
-                    slowConfig.set_property(settings.GAIN_DAC, value);
+                    slowConfig.set_property(slowConfig.settings["GAIN_DAC"], value);
                     return;
                 }
             }
@@ -321,9 +321,10 @@ namespace SPIROC_DAQ
                 if(rx_int.IsMatch((sender as TextBox).Text))
                 {
                     value = uint.Parse((sender as TextBox).Text);
-                    uint old_value = slowConfig.get_property(settings.INDAC[chnNum]);
+                    string Key = "INDAC" + chnNum.ToString();
+                    uint old_value = slowConfig.get_property(slowConfig.settings[Key.ToString ()]);
                     uint new_value = (value << 1) + (old_value & 1);
-                    slowConfig.set_property(settings.INDAC[chnNum], new_value);
+                    slowConfig.set_property(slowConfig.settings[Key.ToString()], new_value);
                 }
                 else
                 {
@@ -335,9 +336,10 @@ namespace SPIROC_DAQ
                 //is checkbox whose name is inputdacx_enable;
                 bool isEnable = (sender as CheckBox).Checked;
                 uint value = isEnable ? 1U : 0U;
-                uint old_value = slowConfig.get_property(settings.INDAC[chnNum]);
+                string Key = "INDAC" + chnNum.ToString();
+                uint old_value = slowConfig.get_property(slowConfig.settings[Key.ToString()]);
                 uint new_value = (old_value & 0x1fe) + value;
-                slowConfig.set_property(settings.INDAC[chnNum], new_value);
+                slowConfig.set_property(slowConfig.settings[Key.ToString()], new_value);
                 (sender as CheckBox).Text = isEnable ? "Enable" : "Disable";
             }
 
@@ -361,9 +363,10 @@ namespace SPIROC_DAQ
                 if (rx_int.IsMatch((sender as TextBox).Text))
                 {
                     value = uint.Parse((sender as TextBox).Text);
-                    uint old_value = slowConfig.get_property(settings.PREAMP_GAIN[chnNum]);
+                    string Key = "PREAMP_GAIN" + chnNum.ToString();
+                    uint old_value = slowConfig.get_property(slowConfig.settings[Key.ToString()]);
                     uint new_value = (value << 2) + (old_value & 0x03);
-                    slowConfig.set_property(settings.PREAMP_GAIN[chnNum], new_value);
+                    slowConfig.set_property(slowConfig.settings[Key.ToString()], new_value);
                 }
                 else
                 {
@@ -375,9 +378,10 @@ namespace SPIROC_DAQ
                 //is checkbox whose name is preampCheck_x;
                 bool isEnable = (sender as CheckBox).Checked;
                 uint value = isEnable ? 0U : 1U;
-                uint old_value = slowConfig.get_property(settings.PREAMP_GAIN[chnNum]);
+                string Key = "PREAMP_GAIN" + chnNum.ToString();
+                uint old_value = slowConfig.get_property(slowConfig.settings[Key.ToString()]);
                 uint new_value = (old_value & 0xfd) + value<<1;  // old_value & 111111 0 1 + 000000 ? 0
-                slowConfig.set_property(settings.PREAMP_GAIN[chnNum], new_value);
+                slowConfig.set_property(slowConfig.settings[Key.ToString()], new_value);
                 (sender as CheckBox).Text = isEnable ? "Enable" : "Disable";
             }
 
@@ -398,16 +402,17 @@ namespace SPIROC_DAQ
 
             if(chnNum>=18)
             {
-                uint old_value = slowConfig.get_property(settings.DISCRIMINATOR_MASK1);
+                
+                uint old_value = slowConfig.get_property(slowConfig.settings["DISCRIMINATOR_MASK1"]);
                 uint new_value = (old_value & ~(1U << (chnNum - 18))) | (value << (chnNum - 18));
-                slowConfig.set_property(settings.DISCRIMINATOR_MASK1, new_value);
+                slowConfig.set_property(slowConfig.settings["DISCRIMINATOR_MASK1"], new_value);
 
             }
             else
             {
-                uint old_value = slowConfig.get_property(settings.DISCRIMINATOR_MASK2);
+                uint old_value = slowConfig.get_property(slowConfig.settings["DISCRIMINATOR_MASK2"]);
                 uint new_value = (old_value & ~(1U << chnNum)) | (value << chnNum);
-                slowConfig.set_property(settings.DISCRIMINATOR_MASK2, new_value);
+                slowConfig.set_property(slowConfig.settings["DISCRIMINATOR_MASK2"], new_value);
             }          
 
 
@@ -469,7 +474,7 @@ namespace SPIROC_DAQ
                 value = uint.Parse(hgShapeValue.Text);
                 if (0 <= value && value <= 7)
                 {
-                    slowConfig.set_property(settings.HG_SS_TIME_CONSTANT, value);
+                    slowConfig.set_property(slowConfig.settings["HG_SS_TIME_CONSTANT"], value);
                     return;
                 }
             }
@@ -489,7 +494,7 @@ namespace SPIROC_DAQ
                 value = uint.Parse(lgShapeValue.Text);
                 if (0 <= value && value <= 7)
                 {
-                    slowConfig.set_property(settings.LG_SS_TIME_CONSTANT, value);
+                    slowConfig.set_property(slowConfig.settings["LG_SS_TIME_CONSTANT"], value);
                     return;
                 }
             }
@@ -509,7 +514,7 @@ namespace SPIROC_DAQ
                 value = uint.Parse(hgAmpComp.Text);
                 if (0 <= value && value <= 15)
                 {
-                    slowConfig.set_property(settings.CAP_HG_PA_COMPENSATION, value);
+                    slowConfig.set_property(slowConfig.settings["CAP_HG_PA_COMPENSATION"], value);
                     return;
                 }
             }
@@ -529,7 +534,7 @@ namespace SPIROC_DAQ
                 value = uint.Parse(lgAmpComp.Text);
                 if (0 <= value && value <= 15)
                 {
-                    slowConfig.set_property(settings.CAP_LG_PA_COMPENSATION, value);
+                    slowConfig.set_property(slowConfig.settings["CAP_LG_PA_COMPENSATION"], value);
                     return;
                 }
             }
@@ -549,7 +554,7 @@ namespace SPIROC_DAQ
                 value = uint.Parse(startrampDelay.Text);
                 if (0 <= value && value <= 63)
                 {
-                    slowConfig.set_property(settings.DELAY_START_RAMP_TDC, value);
+                    slowConfig.set_property(slowConfig.settings["DELAY_START_RAMP_TDC"], value);
                     return;
                 }
             }
@@ -569,7 +574,7 @@ namespace SPIROC_DAQ
                 value = uint.Parse(triggerDelay.Text);
                 if (0 <= value && value <= 63)
                 {
-                    slowConfig.set_property(settings.DELAY_TRIGGER, value);
+                    slowConfig.set_property(slowConfig.settings["DELAY_TRIGGER"], value);
                     return;
                 }
             }
@@ -589,7 +594,7 @@ namespace SPIROC_DAQ
                 value = uint.Parse(validholdDelay.Text);
                 if (0 <= value && value <= 63)
                 {
-                    slowConfig.set_property(settings.DELAY_VALIDHOLD, value);
+                    slowConfig.set_property(slowConfig.settings["DELAY_VALIDHOLD"], value);
                     return;
                 }
             }
@@ -609,7 +614,7 @@ namespace SPIROC_DAQ
                 value = uint.Parse(rstcolDelay.Text);
                 if (0 <= value && value <= 63)
                 {
-                    slowConfig.set_property(settings.DELAY_RSTCOL, value);
+                    slowConfig.set_property(slowConfig.settings["DELAY_RSTCOL"], value);
                     return;
                 }
             }
@@ -629,7 +634,7 @@ namespace SPIROC_DAQ
                 value = uint.Parse(adcResolution.Text);
                 if (0 <= value && value <= 4095)
                 {
-                    slowConfig.set_property(settings.ADC_GRAY, value);
+                    slowConfig.set_property(slowConfig.settings["ADC_GRAY"], value);
                     return;
                 }
             }
@@ -648,7 +653,7 @@ namespace SPIROC_DAQ
                 value = uint.Parse(chipID.Text);
                 if (0 <= value && value <= 255)
                 {
-                    slowConfig.set_property(settings.CHIPID, value);
+                    slowConfig.set_property(slowConfig.settings["CHIPID"], value);
                     return;
                 }
             }
@@ -676,7 +681,7 @@ namespace SPIROC_DAQ
             }
             if (value != 1)
             {
-                slowConfig.set_property(settings.ADC_RAMP_SLOPE, value);
+                slowConfig.set_property(slowConfig.settings["ADC_RAMP_SLOPE"], value);
                 return;
             }
             MessageBox.Show("Item selected is invalid", "Value Invalid");
@@ -699,7 +704,7 @@ namespace SPIROC_DAQ
             }
             if (value != 2)
             {
-                slowConfig.set_property(settings.TDC_RAMP_SLOPE_GC, value);
+                slowConfig.set_property(slowConfig.settings["TDC_RAMP_SLOPE_GC"], value);
                 return;
             }
             MessageBox.Show("Item selected is invalid", "Value Invalid");
@@ -722,7 +727,7 @@ namespace SPIROC_DAQ
             }
             if (value != 2)
             {
-                slowConfig.set_property(settings.FS, value);
+                slowConfig.set_property(slowConfig.settings["FS"], value);
                 return;
             }
             MessageBox.Show("Item selected is invalid", "Value Invalid");
@@ -745,7 +750,7 @@ namespace SPIROC_DAQ
             }
             if (value != 2)
             {
-                slowConfig.set_property(settings.ADJUST_4BIT_DAC, value);
+                slowConfig.set_property(slowConfig.settings["ADJUST_4BIT_DAC"], value);
                 return;
             }
             MessageBox.Show("Item selected is invalid", "Value Invalid");
@@ -764,7 +769,7 @@ namespace SPIROC_DAQ
                 triggerExt_enable.Text = "\tDisable";
                 value = 0;
             }
-            slowConfig.set_property(settings.TRIG_EXT, value);
+            slowConfig.set_property(slowConfig.settings["TRIG_EXT"], value);
         }
 
         private void flagTdcExt_enable_CheckedChanged(object sender, EventArgs e)
@@ -780,7 +785,7 @@ namespace SPIROC_DAQ
                 flagTdcExt_enable.Text = "\tDisable";
                 value = 0;
             }
-            slowConfig.set_property(settings.FLAG_TDC_EXT, value);
+            slowConfig.set_property(slowConfig.settings["FLAG_TDC_EXT"], value);
         }
 
         private void startRampAdcExt_enable_CheckedChanged(object sender, EventArgs e)
@@ -796,7 +801,7 @@ namespace SPIROC_DAQ
                 startRampAdcExt_enable.Text = "\tDisable";
                 value = 0;
             }
-            slowConfig.set_property(settings.START_RAMP_ADC_EXT, value);
+            slowConfig.set_property(slowConfig.settings["START_RAMP_ADC_EXT"], value);
         }
 
         private void startRampTdcExt_enable_CheckedChanged(object sender, EventArgs e)
@@ -812,7 +817,7 @@ namespace SPIROC_DAQ
                 startRampTdcExt_enable.Text = "\tDisable";
                 value = 0;
             }
-            slowConfig.set_property(settings.START_RAMP_TDC_EXT, value);
+            slowConfig.set_property(slowConfig.settings["START_RAMP_TDC_EXT"], value);
         }
 
         private void probe_enable_CheckedChanged(object sender, EventArgs e)
@@ -828,7 +833,7 @@ namespace SPIROC_DAQ
                 probe_enable.Text = "\tDisable";
                 value = 0;
             }
-            slowConfig.set_property(settings.PROBE_OTA, value);
+            slowConfig.set_property(slowConfig.settings["PROBE_OTA"], value);
         }
 
         private void analogOutput_enable_CheckedChanged(object sender, EventArgs e)
@@ -844,7 +849,7 @@ namespace SPIROC_DAQ
                 analogOutput_enable.Text = "\tDisable";
                 value = 0;
             }
-            slowConfig.set_property(settings.ENABLE_ANALOGUE_OUTPUT, value);
+            slowConfig.set_property(slowConfig.settings["ENABLE_ANALOGUE_OUTPUT"], value);
         }
 
         private void or36_enable_CheckedChanged(object sender, EventArgs e)
@@ -860,7 +865,7 @@ namespace SPIROC_DAQ
                 or36_enable.Text = "\tDisable";
                 value = 1;
             }
-            slowConfig.set_property(settings.EN_OR36, value);
+            slowConfig.set_property(slowConfig.settings["EN_OR36"], value);
         }
 
         private void backSCA_enable_CheckedChanged(object sender, EventArgs e)
@@ -876,7 +881,7 @@ namespace SPIROC_DAQ
                 backSCA_enable.Text = "\tDisable";
                 value = 0;
             }
-            slowConfig.set_property(settings.BACKUP_SCA, value);
+            slowConfig.set_property(slowConfig.settings["BACKUP_SCA"], value);
         }
 
         private void recallSetting_btn_Click(object sender, EventArgs e)
@@ -968,7 +973,7 @@ namespace SPIROC_DAQ
         {
             uint value = autoGain_Check.Checked ? 1U : 0U;
             autoGain_Check.Text = autoGain_Check.Checked ? "High" : "Low";
-            slowConfig.set_property(settings.AUTO_GAIN, value);
+            slowConfig.set_property(slowConfig.settings["AUTO_GAIN"], value);
 
         }
 
@@ -976,35 +981,35 @@ namespace SPIROC_DAQ
         {
             uint value = gainSelect_Check.Checked ? 1U : 0U;
             gainSelect_Check.Text = gainSelect_Check.Checked ? "High" : "Low";
-            slowConfig.set_property(settings.GAIN_SELECT, value);
+            slowConfig.set_property(slowConfig.settings["GAIN_SELECT"], value);
         }
 
         private void adcExtInput_Check_CheckedChanged(object sender, EventArgs e)
         {
             uint value = adcExtInput_Check.Checked ? 1U : 0U;
             adcExtInput_Check.Text = adcExtInput_Check.Checked ? "Enable" : "Disable";
-            slowConfig.set_property(settings.ADC_EXT_INPUT, value);
+            slowConfig.set_property(slowConfig.settings["ADC_EXT_INPUT"], value);
         }
 
         private void switchTDCon_Check_CheckedChanged(object sender, EventArgs e)
         {
             uint value = switchTDCon_Check.Checked ? 1U : 0U;
             switchTDCon_Check.Text = switchTDCon_Check.Checked ? "High" : "Low";
-            slowConfig.set_property(settings.SWITCH_TDC_ON, value);
+            slowConfig.set_property(slowConfig.settings["SWITCH_TDC_ON"], value);
         }
 
         private void bandGap_Check_CheckedChanged(object sender, EventArgs e)
         {
             uint value = bandGap_Check.Checked ? 1U : 0U;
             bandGap_Check.Text = bandGap_Check.Checked ? "Enable" : "Disable";
-            slowConfig.set_property(settings.EN_BANDGAP, value);
+            slowConfig.set_property(slowConfig.settings["EN_BANDGAP"], value);
         }
 
         private void dacEnable_Check_CheckedChanged(object sender, EventArgs e)
         {
             uint value = dacEnable_Check.Checked ? 1U : 0U;
             dacEnable_Check.Text = dacEnable_Check.Checked ? "Enable" : "Disable";
-            slowConfig.set_property(settings.EN_DAC, value);
+            slowConfig.set_property(slowConfig.settings["EN_DAC"], value);
         }
         
 
