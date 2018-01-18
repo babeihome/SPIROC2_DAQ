@@ -244,7 +244,7 @@ namespace SPIROC_DAQ
                         {
                             var result = rx_preamp_value.Match(c.Name);
                             chnNum = uint.Parse(result.Groups[1].Value);
-                            c.Text = (slowConfig.get_property(settings.PREAMP_GAIN[chnNum]) >> 2).ToString();
+                            c.Text = reverse_bit(slowConfig.get_property(settings.PREAMP_GAIN[chnNum]) >> 2, 6).ToString();
                         }
                         else if (c is CheckBox)
                         {
