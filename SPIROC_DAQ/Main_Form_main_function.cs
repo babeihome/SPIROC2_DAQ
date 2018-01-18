@@ -266,6 +266,16 @@ namespace SPIROC_DAQ
             bandGap_Check.Checked = slowConfig.get_property(settings.EN_BANDGAP) == 1;
             dacEnable_Check.Checked = slowConfig.get_property(settings.EN_DAC) == 1;
 
+            uint reverse_bit(uint c, uint width)
+            {
+                // reverse a 6bit width value in bit-wise
+                if (width == 6)
+                {
+                    c = (c & 0x24) >> 2 | (c & 0x09) << 2 | (c & 0x12);
+                    c = (c & 0x38) >> 3 | (c & 0x07) << 3;
+                }
+                return c;
+            }
         }
         #region USB interface operation
         // @@@   basic interface operation  -------------------
