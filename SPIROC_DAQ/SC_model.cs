@@ -370,7 +370,7 @@ namespace SPIROC_DAQ
             return result;
         }
     }
-
+    [Serializable]
     class SC_model_2E : Iversion
     {
         private uint[] config_data;

@@ -502,21 +502,21 @@
             this.afg3252_cmd = new System.Windows.Forms.TextBox();
             this.SPIROC2e = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel13 = new System.Windows.Forms.TableLayoutPanel();
-            this.checkBox26 = new System.Windows.Forms.CheckBox();
-            this.checkBox41 = new System.Windows.Forms.CheckBox();
-            this.checkBox40 = new System.Windows.Forms.CheckBox();
-            this.checkBox39 = new System.Windows.Forms.CheckBox();
-            this.checkBox38 = new System.Windows.Forms.CheckBox();
-            this.checkBox37 = new System.Windows.Forms.CheckBox();
-            this.checkBox36 = new System.Windows.Forms.CheckBox();
-            this.checkBox35 = new System.Windows.Forms.CheckBox();
-            this.checkBox34 = new System.Windows.Forms.CheckBox();
-            this.checkBox33 = new System.Windows.Forms.CheckBox();
-            this.checkBox32 = new System.Windows.Forms.CheckBox();
-            this.checkBox31 = new System.Windows.Forms.CheckBox();
-            this.checkBox30 = new System.Windows.Forms.CheckBox();
-            this.checkBox29 = new System.Windows.Forms.CheckBox();
-            this.checkBox28 = new System.Windows.Forms.CheckBox();
+            this.GC_TempSensor = new System.Windows.Forms.CheckBox();
+            this.EN_FS = new System.Windows.Forms.CheckBox();
+            this.ENLvdsTrigExt = new System.Windows.Forms.CheckBox();
+            this.ENHGSS = new System.Windows.Forms.CheckBox();
+            this.ENLvdsValEvt = new System.Windows.Forms.CheckBox();
+            this.EN_LowGainSS = new System.Windows.Forms.CheckBox();
+            this.ENLvdsNotrig = new System.Windows.Forms.CheckBox();
+            this.FastShaperLG = new System.Windows.Forms.CheckBox();
+            this.DIsctriDelayVref = new System.Windows.Forms.CheckBox();
+            this.ENLowGain = new System.Windows.Forms.CheckBox();
+            this.TDCRampEN = new System.Windows.Forms.CheckBox();
+            this.ENDac2 = new System.Windows.Forms.CheckBox();
+            this.ENDac1 = new System.Windows.Forms.CheckBox();
+            this.ENTemp = new System.Windows.Forms.CheckBox();
+            this.EN_input_dac = new System.Windows.Forms.CheckBox();
             this.Sel_Temp = new System.Windows.Forms.CheckBox();
             this.label181 = new System.Windows.Forms.Label();
             this.label179 = new System.Windows.Forms.Label();
@@ -534,12 +534,12 @@
             this.label155 = new System.Windows.Forms.Label();
             this.label153 = new System.Windows.Forms.Label();
             this.label151 = new System.Windows.Forms.Label();
-            this.label149 = new System.Windows.Forms.Label();
+            this.label265 = new System.Windows.Forms.Label();
             this.label147 = new System.Windows.Forms.Label();
             this.label145 = new System.Windows.Forms.Label();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
-            this.checkBox27 = new System.Windows.Forms.CheckBox();
+            this.GC8bitDAC = new System.Windows.Forms.ComboBox();
+            this.LG_PAbias = new System.Windows.Forms.ComboBox();
+            this.ENHighGain = new System.Windows.Forms.CheckBox();
             this.clear_button = new System.Windows.Forms.Button();
             this.File_group = new System.Windows.Forms.GroupBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
@@ -614,7 +614,7 @@
             this.Status_panel.Controls.Add(this.Acq_status_group, 0, 2);
             this.Status_panel.Controls.Add(this.AFG_group, 0, 3);
             this.Status_panel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Status_panel.Location = new System.Drawing.Point(1341, 71);
+            this.Status_panel.Location = new System.Drawing.Point(1340, 71);
             this.Status_panel.Margin = new System.Windows.Forms.Padding(4);
             this.Status_panel.Name = "Status_panel";
             this.Status_panel.RowCount = 4;
@@ -622,7 +622,7 @@
             this.Status_panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.Status_panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.Status_panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.Status_panel.Size = new System.Drawing.Size(292, 850);
+            this.Status_panel.Size = new System.Drawing.Size(293, 850);
             this.Status_panel.TabIndex = 6;
             // 
             // USB_status_group
@@ -738,7 +738,7 @@
             // 
             this.Status_label.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.Status_label.AutoSize = true;
-            this.Status_label.Location = new System.Drawing.Point(1456, 32);
+            this.Status_label.Location = new System.Drawing.Point(1455, 32);
             this.Status_label.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.Status_label.Name = "Status_label";
             this.Status_label.Size = new System.Drawing.Size(62, 18);
@@ -753,7 +753,7 @@
             this.Main_group.Margin = new System.Windows.Forms.Padding(4);
             this.Main_group.Name = "Main_group";
             this.Main_group.Padding = new System.Windows.Forms.Padding(4);
-            this.Main_group.Size = new System.Drawing.Size(989, 850);
+            this.Main_group.Size = new System.Drawing.Size(988, 850);
             this.Main_group.TabIndex = 4;
             this.Main_group.TabStop = false;
             this.Main_group.Text = "SPIROC_CONTROL";
@@ -774,7 +774,7 @@
             this.Main_tab.Margin = new System.Windows.Forms.Padding(4);
             this.Main_tab.Name = "Main_tab";
             this.Main_tab.SelectedIndex = 0;
-            this.Main_tab.Size = new System.Drawing.Size(981, 821);
+            this.Main_tab.Size = new System.Drawing.Size(980, 821);
             this.Main_tab.TabIndex = 0;
             // 
             // Flow_tab
@@ -784,7 +784,7 @@
             this.Flow_tab.Margin = new System.Windows.Forms.Padding(4);
             this.Flow_tab.Name = "Flow_tab";
             this.Flow_tab.Padding = new System.Windows.Forms.Padding(4);
-            this.Flow_tab.Size = new System.Drawing.Size(973, 789);
+            this.Flow_tab.Size = new System.Drawing.Size(972, 789);
             this.Flow_tab.TabIndex = 0;
             this.Flow_tab.Text = "Task";
             this.Flow_tab.UseVisualStyleBackColor = true;
@@ -816,7 +816,7 @@
             this.task_panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 106F));
             this.task_panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 106F));
             this.task_panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.task_panel.Size = new System.Drawing.Size(965, 781);
+            this.task_panel.Size = new System.Drawing.Size(964, 781);
             this.task_panel.TabIndex = 0;
             // 
             // label118
@@ -827,7 +827,7 @@
             this.label118.Location = new System.Drawing.Point(5, 429);
             this.label118.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label118.Name = "label118";
-            this.label118.Size = new System.Drawing.Size(150, 106);
+            this.label118.Size = new System.Drawing.Size(149, 106);
             this.label118.TabIndex = 11;
             this.label118.Text = "Special Task";
             this.label118.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -840,7 +840,7 @@
             this.label117.Location = new System.Drawing.Point(5, 322);
             this.label117.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label117.Name = "label117";
-            this.label117.Size = new System.Drawing.Size(150, 106);
+            this.label117.Size = new System.Drawing.Size(149, 106);
             this.label117.TabIndex = 8;
             this.label117.Text = "Double Sweep";
             this.label117.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -853,7 +853,7 @@
             this.label111.Location = new System.Drawing.Point(5, 215);
             this.label111.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label111.Name = "label111";
-            this.label111.Size = new System.Drawing.Size(150, 106);
+            this.label111.Size = new System.Drawing.Size(149, 106);
             this.label111.TabIndex = 6;
             this.label111.Text = "P SWEEP";
             this.label111.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -866,7 +866,7 @@
             this.label106.Location = new System.Drawing.Point(5, 108);
             this.label106.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label106.Name = "label106";
-            this.label106.Size = new System.Drawing.Size(150, 106);
+            this.label106.Size = new System.Drawing.Size(149, 106);
             this.label106.TabIndex = 2;
             this.label106.Text = "V SWEEP";
             this.label106.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -879,7 +879,7 @@
             this.normal_label.Location = new System.Drawing.Point(5, 1);
             this.normal_label.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.normal_label.Name = "normal_label";
-            this.normal_label.Size = new System.Drawing.Size(150, 106);
+            this.normal_label.Size = new System.Drawing.Size(149, 106);
             this.normal_label.TabIndex = 0;
             this.normal_label.Text = "NORMAL";
             this.normal_label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -891,7 +891,7 @@
             this.normal_task_panel.Controls.Add(this.normal_acq_button);
             this.normal_task_panel.Controls.Add(this.normal_stop_button);
             this.normal_task_panel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.normal_task_panel.Location = new System.Drawing.Point(164, 5);
+            this.normal_task_panel.Location = new System.Drawing.Point(163, 5);
             this.normal_task_panel.Margin = new System.Windows.Forms.Padding(4);
             this.normal_task_panel.Name = "normal_task_panel";
             this.normal_task_panel.Padding = new System.Windows.Forms.Padding(4);
@@ -960,7 +960,7 @@
             this.panel3.Controls.Add(this.volSweepStop_btn);
             this.panel3.Controls.Add(this.tableLayoutPanel9);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel3.Location = new System.Drawing.Point(164, 112);
+            this.panel3.Location = new System.Drawing.Point(163, 112);
             this.panel3.Margin = new System.Windows.Forms.Padding(4);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(796, 98);
@@ -1130,7 +1130,7 @@
             this.panel4.Controls.Add(this.scSweepStop_btn);
             this.panel4.Controls.Add(this.tableLayoutPanel10);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel4.Location = new System.Drawing.Point(164, 219);
+            this.panel4.Location = new System.Drawing.Point(163, 219);
             this.panel4.Margin = new System.Windows.Forms.Padding(4);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(796, 98);
@@ -1305,7 +1305,7 @@
             this.panel5.Controls.Add(this.preampWaveform_task);
             this.panel5.Controls.Add(this.delayMatrix_task);
             this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel5.Location = new System.Drawing.Point(164, 326);
+            this.panel5.Location = new System.Drawing.Point(163, 326);
             this.panel5.Margin = new System.Windows.Forms.Padding(4);
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(796, 98);
@@ -1360,7 +1360,7 @@
             // 
             this.panel6.Controls.Add(this.LED_calib_btn);
             this.panel6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel6.Location = new System.Drawing.Point(164, 433);
+            this.panel6.Location = new System.Drawing.Point(163, 433);
             this.panel6.Margin = new System.Windows.Forms.Padding(4);
             this.panel6.Name = "panel6";
             this.panel6.Size = new System.Drawing.Size(796, 98);
@@ -1389,7 +1389,7 @@
             this.SC_tab.Margin = new System.Windows.Forms.Padding(4);
             this.SC_tab.Name = "SC_tab";
             this.SC_tab.Padding = new System.Windows.Forms.Padding(4);
-            this.SC_tab.Size = new System.Drawing.Size(974, 789);
+            this.SC_tab.Size = new System.Drawing.Size(972, 789);
             this.SC_tab.TabIndex = 1;
             this.SC_tab.Text = "Slow Control";
             this.SC_tab.UseVisualStyleBackColor = true;
@@ -1402,7 +1402,7 @@
             this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox2.Size = new System.Drawing.Size(966, 676);
+            this.groupBox2.Size = new System.Drawing.Size(964, 676);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Delay and Shape";
@@ -1480,13 +1480,13 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.333333F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.333333F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.333333F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(958, 647);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(956, 647);
             this.tableLayoutPanel2.TabIndex = 0;
             // 
             // backSCA_enable
             // 
             this.backSCA_enable.AutoSize = true;
-            this.backSCA_enable.Location = new System.Drawing.Point(748, 590);
+            this.backSCA_enable.Location = new System.Drawing.Point(747, 590);
             this.backSCA_enable.Margin = new System.Windows.Forms.Padding(4);
             this.backSCA_enable.Name = "backSCA_enable";
             this.backSCA_enable.Size = new System.Drawing.Size(97, 22);
@@ -1499,7 +1499,7 @@
             // or36_enable
             // 
             this.or36_enable.AutoSize = true;
-            this.or36_enable.Location = new System.Drawing.Point(748, 537);
+            this.or36_enable.Location = new System.Drawing.Point(747, 537);
             this.or36_enable.Margin = new System.Windows.Forms.Padding(4);
             this.or36_enable.Name = "or36_enable";
             this.or36_enable.Size = new System.Drawing.Size(97, 22);
@@ -1512,7 +1512,7 @@
             // analogOutput_enable
             // 
             this.analogOutput_enable.AutoSize = true;
-            this.analogOutput_enable.Location = new System.Drawing.Point(748, 484);
+            this.analogOutput_enable.Location = new System.Drawing.Point(747, 484);
             this.analogOutput_enable.Margin = new System.Windows.Forms.Padding(4);
             this.analogOutput_enable.Name = "analogOutput_enable";
             this.analogOutput_enable.Size = new System.Drawing.Size(97, 22);
@@ -1525,7 +1525,7 @@
             // probe_enable
             // 
             this.probe_enable.AutoSize = true;
-            this.probe_enable.Location = new System.Drawing.Point(748, 431);
+            this.probe_enable.Location = new System.Drawing.Point(747, 431);
             this.probe_enable.Margin = new System.Windows.Forms.Padding(4);
             this.probe_enable.Name = "probe_enable";
             this.probe_enable.Size = new System.Drawing.Size(97, 22);
@@ -1538,7 +1538,7 @@
             // startRampTdcExt_enable
             // 
             this.startRampTdcExt_enable.AutoSize = true;
-            this.startRampTdcExt_enable.Location = new System.Drawing.Point(748, 378);
+            this.startRampTdcExt_enable.Location = new System.Drawing.Point(747, 378);
             this.startRampTdcExt_enable.Margin = new System.Windows.Forms.Padding(4);
             this.startRampTdcExt_enable.Name = "startRampTdcExt_enable";
             this.startRampTdcExt_enable.Size = new System.Drawing.Size(97, 22);
@@ -1551,7 +1551,7 @@
             // startRampAdcExt_enable
             // 
             this.startRampAdcExt_enable.AutoSize = true;
-            this.startRampAdcExt_enable.Location = new System.Drawing.Point(748, 325);
+            this.startRampAdcExt_enable.Location = new System.Drawing.Point(747, 325);
             this.startRampAdcExt_enable.Margin = new System.Windows.Forms.Padding(4);
             this.startRampAdcExt_enable.Name = "startRampAdcExt_enable";
             this.startRampAdcExt_enable.Size = new System.Drawing.Size(97, 22);
@@ -1564,7 +1564,7 @@
             // flagTdcExt_enable
             // 
             this.flagTdcExt_enable.AutoSize = true;
-            this.flagTdcExt_enable.Location = new System.Drawing.Point(748, 272);
+            this.flagTdcExt_enable.Location = new System.Drawing.Point(747, 272);
             this.flagTdcExt_enable.Margin = new System.Windows.Forms.Padding(4);
             this.flagTdcExt_enable.Name = "flagTdcExt_enable";
             this.flagTdcExt_enable.Size = new System.Drawing.Size(97, 22);
@@ -1578,7 +1578,7 @@
             // 
             this.label27.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(587, 606);
+            this.label27.Location = new System.Drawing.Point(586, 606);
             this.label27.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label27.Name = "label27";
             this.label27.Size = new System.Drawing.Size(98, 18);
@@ -1589,7 +1589,7 @@
             // 
             this.label25.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(574, 496);
+            this.label25.Location = new System.Drawing.Point(573, 496);
             this.label25.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(125, 18);
@@ -1600,7 +1600,7 @@
             // 
             this.label14.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(569, 19);
+            this.label14.Location = new System.Drawing.Point(568, 19);
             this.label14.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(134, 18);
@@ -1610,7 +1610,7 @@
             // hgShapeValue
             // 
             this.hgShapeValue.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.hgShapeValue.Location = new System.Drawing.Point(355, 120);
+            this.hgShapeValue.Location = new System.Drawing.Point(354, 120);
             this.hgShapeValue.Margin = new System.Windows.Forms.Padding(4);
             this.hgShapeValue.Name = "hgShapeValue";
             this.hgShapeValue.Size = new System.Drawing.Size(139, 28);
@@ -1642,7 +1642,7 @@
             // trig_dac_value
             // 
             this.trig_dac_value.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.trig_dac_value.Location = new System.Drawing.Point(355, 14);
+            this.trig_dac_value.Location = new System.Drawing.Point(354, 14);
             this.trig_dac_value.Margin = new System.Windows.Forms.Padding(4);
             this.trig_dac_value.Name = "trig_dac_value";
             this.trig_dac_value.Size = new System.Drawing.Size(139, 28);
@@ -1652,7 +1652,7 @@
             // gain_sel_value
             // 
             this.gain_sel_value.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.gain_sel_value.Location = new System.Drawing.Point(355, 67);
+            this.gain_sel_value.Location = new System.Drawing.Point(354, 67);
             this.gain_sel_value.Margin = new System.Windows.Forms.Padding(4);
             this.gain_sel_value.Name = "gain_sel_value";
             this.gain_sel_value.Size = new System.Drawing.Size(139, 28);
@@ -1684,7 +1684,7 @@
             // lgAmpComp
             // 
             this.lgAmpComp.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.lgAmpComp.Location = new System.Drawing.Point(355, 279);
+            this.lgAmpComp.Location = new System.Drawing.Point(354, 279);
             this.lgAmpComp.Margin = new System.Windows.Forms.Padding(4);
             this.lgAmpComp.Name = "lgAmpComp";
             this.lgAmpComp.Size = new System.Drawing.Size(139, 28);
@@ -1716,7 +1716,7 @@
             // hgAmpComp
             // 
             this.hgAmpComp.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.hgAmpComp.Location = new System.Drawing.Point(355, 226);
+            this.hgAmpComp.Location = new System.Drawing.Point(354, 226);
             this.hgAmpComp.Margin = new System.Windows.Forms.Padding(4);
             this.hgAmpComp.Name = "hgAmpComp";
             this.hgAmpComp.Size = new System.Drawing.Size(139, 28);
@@ -1726,7 +1726,7 @@
             // lgShapeValue
             // 
             this.lgShapeValue.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.lgShapeValue.Location = new System.Drawing.Point(355, 173);
+            this.lgShapeValue.Location = new System.Drawing.Point(354, 173);
             this.lgShapeValue.Margin = new System.Windows.Forms.Padding(4);
             this.lgShapeValue.Name = "lgShapeValue";
             this.lgShapeValue.Size = new System.Drawing.Size(139, 28);
@@ -1737,7 +1737,7 @@
             // 
             this.label10.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(84, 337);
+            this.label10.Location = new System.Drawing.Point(83, 337);
             this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(152, 18);
@@ -1747,7 +1747,7 @@
             // startrampDelay
             // 
             this.startrampDelay.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.startrampDelay.Location = new System.Drawing.Point(355, 332);
+            this.startrampDelay.Location = new System.Drawing.Point(354, 332);
             this.startrampDelay.Margin = new System.Windows.Forms.Padding(4);
             this.startrampDelay.Name = "startrampDelay";
             this.startrampDelay.Size = new System.Drawing.Size(139, 28);
@@ -1769,7 +1769,7 @@
             // 
             this.label9.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(84, 443);
+            this.label9.Location = new System.Drawing.Point(83, 443);
             this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(152, 18);
@@ -1780,7 +1780,7 @@
             // 
             this.label11.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(84, 496);
+            this.label11.Location = new System.Drawing.Point(83, 496);
             this.label11.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(152, 18);
@@ -1790,7 +1790,7 @@
             // triggerDelay
             // 
             this.triggerDelay.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.triggerDelay.Location = new System.Drawing.Point(355, 385);
+            this.triggerDelay.Location = new System.Drawing.Point(354, 385);
             this.triggerDelay.Margin = new System.Windows.Forms.Padding(4);
             this.triggerDelay.Name = "triggerDelay";
             this.triggerDelay.Size = new System.Drawing.Size(139, 28);
@@ -1800,7 +1800,7 @@
             // validholdDelay
             // 
             this.validholdDelay.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.validholdDelay.Location = new System.Drawing.Point(355, 438);
+            this.validholdDelay.Location = new System.Drawing.Point(354, 438);
             this.validholdDelay.Margin = new System.Windows.Forms.Padding(4);
             this.validholdDelay.Name = "validholdDelay";
             this.validholdDelay.Size = new System.Drawing.Size(139, 28);
@@ -1810,7 +1810,7 @@
             // rstcolDelay
             // 
             this.rstcolDelay.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.rstcolDelay.Location = new System.Drawing.Point(355, 491);
+            this.rstcolDelay.Location = new System.Drawing.Point(354, 491);
             this.rstcolDelay.Margin = new System.Windows.Forms.Padding(4);
             this.rstcolDelay.Name = "rstcolDelay";
             this.rstcolDelay.Size = new System.Drawing.Size(139, 28);
@@ -1825,7 +1825,7 @@
             "12bit",
             "10bit",
             "8bit"});
-            this.adcRampSlope_combo.Location = new System.Drawing.Point(748, 7);
+            this.adcRampSlope_combo.Location = new System.Drawing.Point(747, 7);
             this.adcRampSlope_combo.Margin = new System.Windows.Forms.Padding(4);
             this.adcRampSlope_combo.Name = "adcRampSlope_combo";
             this.adcRampSlope_combo.Size = new System.Drawing.Size(144, 26);
@@ -1836,7 +1836,7 @@
             // 
             this.label17.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(93, 549);
+            this.label17.Location = new System.Drawing.Point(92, 549);
             this.label17.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(134, 18);
@@ -1846,7 +1846,7 @@
             // adcResolution
             // 
             this.adcResolution.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.adcResolution.Location = new System.Drawing.Point(355, 544);
+            this.adcResolution.Location = new System.Drawing.Point(354, 544);
             this.adcResolution.Margin = new System.Windows.Forms.Padding(4);
             this.adcResolution.Name = "adcResolution";
             this.adcResolution.Size = new System.Drawing.Size(139, 28);
@@ -1857,7 +1857,7 @@
             // 
             this.label18.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(129, 606);
+            this.label18.Location = new System.Drawing.Point(128, 606);
             this.label18.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(62, 18);
@@ -1867,7 +1867,7 @@
             // chipID
             // 
             this.chipID.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.chipID.Location = new System.Drawing.Point(355, 601);
+            this.chipID.Location = new System.Drawing.Point(354, 601);
             this.chipID.Margin = new System.Windows.Forms.Padding(4);
             this.chipID.Name = "chipID";
             this.chipID.Size = new System.Drawing.Size(139, 28);
@@ -1878,7 +1878,7 @@
             // 
             this.label16.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(569, 72);
+            this.label16.Location = new System.Drawing.Point(568, 72);
             this.label16.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(134, 18);
@@ -1889,7 +1889,7 @@
             // 
             this.label15.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(551, 125);
+            this.label15.Location = new System.Drawing.Point(550, 125);
             this.label15.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(170, 18);
@@ -1903,7 +1903,7 @@
             this.fastShaperFrom_combo.Items.AddRange(new object[] {
             "High Gain",
             "Low Gain"});
-            this.fastShaperFrom_combo.Location = new System.Drawing.Point(748, 113);
+            this.fastShaperFrom_combo.Location = new System.Drawing.Point(747, 113);
             this.fastShaperFrom_combo.Margin = new System.Windows.Forms.Padding(4);
             this.fastShaperFrom_combo.Name = "fastShaperFrom_combo";
             this.fastShaperFrom_combo.Size = new System.Drawing.Size(144, 26);
@@ -1917,7 +1917,7 @@
             this.tdcRampSlope_combo.Items.AddRange(new object[] {
             "fast",
             "slow"});
-            this.tdcRampSlope_combo.Location = new System.Drawing.Point(748, 60);
+            this.tdcRampSlope_combo.Location = new System.Drawing.Point(747, 60);
             this.tdcRampSlope_combo.Margin = new System.Windows.Forms.Padding(4);
             this.tdcRampSlope_combo.Name = "tdcRampSlope_combo";
             this.tdcRampSlope_combo.Size = new System.Drawing.Size(144, 26);
@@ -1928,7 +1928,7 @@
             // 
             this.label19.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(565, 178);
+            this.label19.Location = new System.Drawing.Point(564, 178);
             this.label19.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(143, 18);
@@ -1942,7 +1942,7 @@
             this.adjust4BitDAC_combo.Items.AddRange(new object[] {
             "Fine",
             "Coarse"});
-            this.adjust4BitDAC_combo.Location = new System.Drawing.Point(748, 166);
+            this.adjust4BitDAC_combo.Location = new System.Drawing.Point(747, 166);
             this.adjust4BitDAC_combo.Margin = new System.Windows.Forms.Padding(4);
             this.adjust4BitDAC_combo.Name = "adjust4BitDAC_combo";
             this.adjust4BitDAC_combo.Size = new System.Drawing.Size(144, 26);
@@ -1953,7 +1953,7 @@
             // 
             this.label20.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(583, 231);
+            this.label20.Location = new System.Drawing.Point(582, 231);
             this.label20.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(107, 18);
@@ -1964,7 +1964,7 @@
             // 
             this.label21.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(578, 284);
+            this.label21.Location = new System.Drawing.Point(577, 284);
             this.label21.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(116, 18);
@@ -1975,7 +1975,7 @@
             // 
             this.label22.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(551, 337);
+            this.label22.Location = new System.Drawing.Point(550, 337);
             this.label22.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(170, 18);
@@ -1986,7 +1986,7 @@
             // 
             this.label23.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(551, 390);
+            this.label23.Location = new System.Drawing.Point(550, 390);
             this.label23.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(170, 18);
@@ -1997,7 +1997,7 @@
             // 
             this.label24.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(578, 443);
+            this.label24.Location = new System.Drawing.Point(577, 443);
             this.label24.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(116, 18);
@@ -2008,7 +2008,7 @@
             // 
             this.label26.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(614, 549);
+            this.label26.Location = new System.Drawing.Point(613, 549);
             this.label26.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label26.Name = "label26";
             this.label26.Size = new System.Drawing.Size(44, 18);
@@ -2018,7 +2018,7 @@
             // triggerExt_enable
             // 
             this.triggerExt_enable.AutoSize = true;
-            this.triggerExt_enable.Location = new System.Drawing.Point(748, 219);
+            this.triggerExt_enable.Location = new System.Drawing.Point(747, 219);
             this.triggerExt_enable.Margin = new System.Windows.Forms.Padding(4);
             this.triggerExt_enable.Name = "triggerExt_enable";
             this.triggerExt_enable.Size = new System.Drawing.Size(97, 22);
@@ -2036,7 +2036,7 @@
             this.config_sel_group.Margin = new System.Windows.Forms.Padding(4);
             this.config_sel_group.Name = "config_sel_group";
             this.config_sel_group.Padding = new System.Windows.Forms.Padding(4);
-            this.config_sel_group.Size = new System.Drawing.Size(966, 105);
+            this.config_sel_group.Size = new System.Drawing.Size(964, 105);
             this.config_sel_group.TabIndex = 0;
             this.config_sel_group.TabStop = false;
             this.config_sel_group.Text = "Settings";
@@ -2065,7 +2065,7 @@
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(958, 76);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(956, 76);
             this.tableLayoutPanel3.TabIndex = 4;
             // 
             // config_set1
@@ -2163,7 +2163,7 @@
             this.tableLayoutPanel12.Name = "tableLayoutPanel12";
             this.tableLayoutPanel12.RowCount = 1;
             this.tableLayoutPanel12.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel12.Size = new System.Drawing.Size(235, 40);
+            this.tableLayoutPanel12.Size = new System.Drawing.Size(233, 40);
             this.tableLayoutPanel12.TabIndex = 7;
             // 
             // label144
@@ -2183,7 +2183,7 @@
             this.comboBox1.Items.AddRange(new object[] {
             "SPIROC2B",
             "SPIROC2E"});
-            this.comboBox1.Location = new System.Drawing.Point(120, 7);
+            this.comboBox1.Location = new System.Drawing.Point(119, 7);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(111, 26);
             this.comboBox1.TabIndex = 1;
@@ -2195,7 +2195,7 @@
             this.SC_tab2.Margin = new System.Windows.Forms.Padding(4);
             this.SC_tab2.Name = "SC_tab2";
             this.SC_tab2.Padding = new System.Windows.Forms.Padding(4);
-            this.SC_tab2.Size = new System.Drawing.Size(974, 789);
+            this.SC_tab2.Size = new System.Drawing.Size(972, 789);
             this.SC_tab2.TabIndex = 3;
             this.SC_tab2.Text = "Slow Control2";
             this.SC_tab2.UseVisualStyleBackColor = true;
@@ -2209,7 +2209,7 @@
             this.groupBox3.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox3.Size = new System.Drawing.Size(966, 781);
+            this.groupBox3.Size = new System.Drawing.Size(964, 781);
             this.groupBox3.TabIndex = 1;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Channel Control";
@@ -2222,7 +2222,7 @@
             this.discri_groupbox.Margin = new System.Windows.Forms.Padding(4);
             this.discri_groupbox.Name = "discri_groupbox";
             this.discri_groupbox.Padding = new System.Windows.Forms.Padding(4);
-            this.discri_groupbox.Size = new System.Drawing.Size(958, 276);
+            this.discri_groupbox.Size = new System.Drawing.Size(956, 276);
             this.discri_groupbox.TabIndex = 1;
             this.discri_groupbox.TabStop = false;
             this.discri_groupbox.Text = "Discriminator Mask";
@@ -2284,7 +2284,7 @@
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel5.Size = new System.Drawing.Size(950, 247);
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(948, 247);
             this.tableLayoutPanel5.TabIndex = 0;
             // 
             // discri_checkbox35
@@ -2691,7 +2691,7 @@
             this.inputDAC_group.Margin = new System.Windows.Forms.Padding(4);
             this.inputDAC_group.Name = "inputDAC_group";
             this.inputDAC_group.Padding = new System.Windows.Forms.Padding(4);
-            this.inputDAC_group.Size = new System.Drawing.Size(958, 460);
+            this.inputDAC_group.Size = new System.Drawing.Size(956, 460);
             this.inputDAC_group.TabIndex = 0;
             this.inputDAC_group.TabStop = false;
             this.inputDAC_group.Text = "INPUT DAC";
@@ -2834,7 +2834,7 @@
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.333333F));
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.333333F));
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.333333F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(950, 424);
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(948, 424);
             this.tableLayoutPanel4.TabIndex = 0;
             // 
             // label60
@@ -4033,7 +4033,7 @@
             this.SC_tab3.Location = new System.Drawing.Point(4, 28);
             this.SC_tab3.Margin = new System.Windows.Forms.Padding(4);
             this.SC_tab3.Name = "SC_tab3";
-            this.SC_tab3.Size = new System.Drawing.Size(974, 789);
+            this.SC_tab3.Size = new System.Drawing.Size(972, 789);
             this.SC_tab3.TabIndex = 4;
             this.SC_tab3.Text = "Slow Control3";
             this.SC_tab3.UseVisualStyleBackColor = true;
@@ -4046,7 +4046,7 @@
             this.selectGroup.Margin = new System.Windows.Forms.Padding(4);
             this.selectGroup.Name = "selectGroup";
             this.selectGroup.Padding = new System.Windows.Forms.Padding(4);
-            this.selectGroup.Size = new System.Drawing.Size(974, 315);
+            this.selectGroup.Size = new System.Drawing.Size(972, 315);
             this.selectGroup.TabIndex = 2;
             this.selectGroup.TabStop = false;
             this.selectGroup.Text = "General Control";
@@ -4082,7 +4082,7 @@
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 45F));
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 45F));
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 45F));
-            this.tableLayoutPanel7.Size = new System.Drawing.Size(966, 222);
+            this.tableLayoutPanel7.Size = new System.Drawing.Size(964, 222);
             this.tableLayoutPanel7.TabIndex = 0;
             // 
             // dacEnable_Check
@@ -4261,7 +4261,7 @@
             this.preamp_group.Margin = new System.Windows.Forms.Padding(4);
             this.preamp_group.Name = "preamp_group";
             this.preamp_group.Padding = new System.Windows.Forms.Padding(4);
-            this.preamp_group.Size = new System.Drawing.Size(974, 460);
+            this.preamp_group.Size = new System.Drawing.Size(972, 460);
             this.preamp_group.TabIndex = 1;
             this.preamp_group.TabStop = false;
             this.preamp_group.Text = "Preamplifier control";
@@ -4404,7 +4404,7 @@
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.333333F));
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.333333F));
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.333333F));
-            this.tableLayoutPanel6.Size = new System.Drawing.Size(966, 424);
+            this.tableLayoutPanel6.Size = new System.Drawing.Size(964, 424);
             this.tableLayoutPanel6.TabIndex = 0;
             // 
             // label62
@@ -4413,7 +4413,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label62.AutoSize = true;
-            this.label62.Location = new System.Drawing.Point(646, 385);
+            this.label62.Location = new System.Drawing.Point(644, 385);
             this.label62.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label62.Name = "label62";
             this.label62.Size = new System.Drawing.Size(56, 39);
@@ -4423,7 +4423,7 @@
             // 
             // preampValue_35
             // 
-            this.preampValue_35.Location = new System.Drawing.Point(710, 389);
+            this.preampValue_35.Location = new System.Drawing.Point(708, 389);
             this.preampValue_35.Margin = new System.Windows.Forms.Padding(4);
             this.preampValue_35.Name = "preampValue_35";
             this.preampValue_35.Size = new System.Drawing.Size(82, 28);
@@ -4432,7 +4432,7 @@
             // preampCheck_35
             // 
             this.preampCheck_35.AutoSize = true;
-            this.preampCheck_35.Location = new System.Drawing.Point(806, 389);
+            this.preampCheck_35.Location = new System.Drawing.Point(804, 389);
             this.preampCheck_35.Margin = new System.Windows.Forms.Padding(4);
             this.preampCheck_35.Name = "preampCheck_35";
             this.preampCheck_35.Size = new System.Drawing.Size(97, 22);
@@ -4446,7 +4446,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label63.AutoSize = true;
-            this.label63.Location = new System.Drawing.Point(325, 385);
+            this.label63.Location = new System.Drawing.Point(324, 385);
             this.label63.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label63.Name = "label63";
             this.label63.Size = new System.Drawing.Size(56, 39);
@@ -4456,7 +4456,7 @@
             // 
             // preampValue_34
             // 
-            this.preampValue_34.Location = new System.Drawing.Point(389, 389);
+            this.preampValue_34.Location = new System.Drawing.Point(388, 389);
             this.preampValue_34.Margin = new System.Windows.Forms.Padding(4);
             this.preampValue_34.Name = "preampValue_34";
             this.preampValue_34.Size = new System.Drawing.Size(82, 28);
@@ -4465,7 +4465,7 @@
             // preampCheck_34
             // 
             this.preampCheck_34.AutoSize = true;
-            this.preampCheck_34.Location = new System.Drawing.Point(485, 389);
+            this.preampCheck_34.Location = new System.Drawing.Point(484, 389);
             this.preampCheck_34.Margin = new System.Windows.Forms.Padding(4);
             this.preampCheck_34.Name = "preampCheck_34";
             this.preampCheck_34.Size = new System.Drawing.Size(97, 22);
@@ -4512,7 +4512,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label65.AutoSize = true;
-            this.label65.Location = new System.Drawing.Point(646, 350);
+            this.label65.Location = new System.Drawing.Point(644, 350);
             this.label65.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label65.Name = "label65";
             this.label65.Size = new System.Drawing.Size(56, 35);
@@ -4522,7 +4522,7 @@
             // 
             // preampValue_32
             // 
-            this.preampValue_32.Location = new System.Drawing.Point(710, 354);
+            this.preampValue_32.Location = new System.Drawing.Point(708, 354);
             this.preampValue_32.Margin = new System.Windows.Forms.Padding(4);
             this.preampValue_32.Name = "preampValue_32";
             this.preampValue_32.Size = new System.Drawing.Size(82, 28);
@@ -4531,7 +4531,7 @@
             // preampCheck_32
             // 
             this.preampCheck_32.AutoSize = true;
-            this.preampCheck_32.Location = new System.Drawing.Point(806, 354);
+            this.preampCheck_32.Location = new System.Drawing.Point(804, 354);
             this.preampCheck_32.Margin = new System.Windows.Forms.Padding(4);
             this.preampCheck_32.Name = "preampCheck_32";
             this.preampCheck_32.Size = new System.Drawing.Size(97, 22);
@@ -4545,7 +4545,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label66.AutoSize = true;
-            this.label66.Location = new System.Drawing.Point(325, 350);
+            this.label66.Location = new System.Drawing.Point(324, 350);
             this.label66.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label66.Name = "label66";
             this.label66.Size = new System.Drawing.Size(56, 35);
@@ -4555,7 +4555,7 @@
             // 
             // preampValue_31
             // 
-            this.preampValue_31.Location = new System.Drawing.Point(389, 354);
+            this.preampValue_31.Location = new System.Drawing.Point(388, 354);
             this.preampValue_31.Margin = new System.Windows.Forms.Padding(4);
             this.preampValue_31.Name = "preampValue_31";
             this.preampValue_31.Size = new System.Drawing.Size(82, 28);
@@ -4564,7 +4564,7 @@
             // preampCheck_31
             // 
             this.preampCheck_31.AutoSize = true;
-            this.preampCheck_31.Location = new System.Drawing.Point(485, 354);
+            this.preampCheck_31.Location = new System.Drawing.Point(484, 354);
             this.preampCheck_31.Margin = new System.Windows.Forms.Padding(4);
             this.preampCheck_31.Name = "preampCheck_31";
             this.preampCheck_31.Size = new System.Drawing.Size(97, 22);
@@ -4611,7 +4611,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label68.AutoSize = true;
-            this.label68.Location = new System.Drawing.Point(646, 315);
+            this.label68.Location = new System.Drawing.Point(644, 315);
             this.label68.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label68.Name = "label68";
             this.label68.Size = new System.Drawing.Size(56, 35);
@@ -4621,7 +4621,7 @@
             // 
             // preampValue_29
             // 
-            this.preampValue_29.Location = new System.Drawing.Point(710, 319);
+            this.preampValue_29.Location = new System.Drawing.Point(708, 319);
             this.preampValue_29.Margin = new System.Windows.Forms.Padding(4);
             this.preampValue_29.Name = "preampValue_29";
             this.preampValue_29.Size = new System.Drawing.Size(82, 28);
@@ -4630,7 +4630,7 @@
             // preampCheck_29
             // 
             this.preampCheck_29.AutoSize = true;
-            this.preampCheck_29.Location = new System.Drawing.Point(806, 319);
+            this.preampCheck_29.Location = new System.Drawing.Point(804, 319);
             this.preampCheck_29.Margin = new System.Windows.Forms.Padding(4);
             this.preampCheck_29.Name = "preampCheck_29";
             this.preampCheck_29.Size = new System.Drawing.Size(97, 22);
@@ -4644,7 +4644,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label69.AutoSize = true;
-            this.label69.Location = new System.Drawing.Point(325, 315);
+            this.label69.Location = new System.Drawing.Point(324, 315);
             this.label69.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label69.Name = "label69";
             this.label69.Size = new System.Drawing.Size(56, 35);
@@ -4654,7 +4654,7 @@
             // 
             // preampValue_28
             // 
-            this.preampValue_28.Location = new System.Drawing.Point(389, 319);
+            this.preampValue_28.Location = new System.Drawing.Point(388, 319);
             this.preampValue_28.Margin = new System.Windows.Forms.Padding(4);
             this.preampValue_28.Name = "preampValue_28";
             this.preampValue_28.Size = new System.Drawing.Size(82, 28);
@@ -4663,7 +4663,7 @@
             // preampCheck_28
             // 
             this.preampCheck_28.AutoSize = true;
-            this.preampCheck_28.Location = new System.Drawing.Point(485, 319);
+            this.preampCheck_28.Location = new System.Drawing.Point(484, 319);
             this.preampCheck_28.Margin = new System.Windows.Forms.Padding(4);
             this.preampCheck_28.Name = "preampCheck_28";
             this.preampCheck_28.Size = new System.Drawing.Size(97, 22);
@@ -4710,7 +4710,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label71.AutoSize = true;
-            this.label71.Location = new System.Drawing.Point(646, 280);
+            this.label71.Location = new System.Drawing.Point(644, 280);
             this.label71.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label71.Name = "label71";
             this.label71.Size = new System.Drawing.Size(56, 35);
@@ -4720,7 +4720,7 @@
             // 
             // preampValue_26
             // 
-            this.preampValue_26.Location = new System.Drawing.Point(710, 284);
+            this.preampValue_26.Location = new System.Drawing.Point(708, 284);
             this.preampValue_26.Margin = new System.Windows.Forms.Padding(4);
             this.preampValue_26.Name = "preampValue_26";
             this.preampValue_26.Size = new System.Drawing.Size(82, 28);
@@ -4729,7 +4729,7 @@
             // preampCheck_26
             // 
             this.preampCheck_26.AutoSize = true;
-            this.preampCheck_26.Location = new System.Drawing.Point(806, 284);
+            this.preampCheck_26.Location = new System.Drawing.Point(804, 284);
             this.preampCheck_26.Margin = new System.Windows.Forms.Padding(4);
             this.preampCheck_26.Name = "preampCheck_26";
             this.preampCheck_26.Size = new System.Drawing.Size(97, 22);
@@ -4743,7 +4743,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label72.AutoSize = true;
-            this.label72.Location = new System.Drawing.Point(325, 280);
+            this.label72.Location = new System.Drawing.Point(324, 280);
             this.label72.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label72.Name = "label72";
             this.label72.Size = new System.Drawing.Size(56, 35);
@@ -4753,7 +4753,7 @@
             // 
             // preampValue_25
             // 
-            this.preampValue_25.Location = new System.Drawing.Point(389, 284);
+            this.preampValue_25.Location = new System.Drawing.Point(388, 284);
             this.preampValue_25.Margin = new System.Windows.Forms.Padding(4);
             this.preampValue_25.Name = "preampValue_25";
             this.preampValue_25.Size = new System.Drawing.Size(82, 28);
@@ -4762,7 +4762,7 @@
             // preampCheck_25
             // 
             this.preampCheck_25.AutoSize = true;
-            this.preampCheck_25.Location = new System.Drawing.Point(485, 284);
+            this.preampCheck_25.Location = new System.Drawing.Point(484, 284);
             this.preampCheck_25.Margin = new System.Windows.Forms.Padding(4);
             this.preampCheck_25.Name = "preampCheck_25";
             this.preampCheck_25.Size = new System.Drawing.Size(97, 22);
@@ -4809,7 +4809,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label74.AutoSize = true;
-            this.label74.Location = new System.Drawing.Point(646, 245);
+            this.label74.Location = new System.Drawing.Point(644, 245);
             this.label74.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label74.Name = "label74";
             this.label74.Size = new System.Drawing.Size(56, 35);
@@ -4819,7 +4819,7 @@
             // 
             // preampValue_23
             // 
-            this.preampValue_23.Location = new System.Drawing.Point(710, 249);
+            this.preampValue_23.Location = new System.Drawing.Point(708, 249);
             this.preampValue_23.Margin = new System.Windows.Forms.Padding(4);
             this.preampValue_23.Name = "preampValue_23";
             this.preampValue_23.Size = new System.Drawing.Size(82, 28);
@@ -4828,7 +4828,7 @@
             // preampCheck_23
             // 
             this.preampCheck_23.AutoSize = true;
-            this.preampCheck_23.Location = new System.Drawing.Point(806, 249);
+            this.preampCheck_23.Location = new System.Drawing.Point(804, 249);
             this.preampCheck_23.Margin = new System.Windows.Forms.Padding(4);
             this.preampCheck_23.Name = "preampCheck_23";
             this.preampCheck_23.Size = new System.Drawing.Size(97, 22);
@@ -4842,7 +4842,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label75.AutoSize = true;
-            this.label75.Location = new System.Drawing.Point(325, 245);
+            this.label75.Location = new System.Drawing.Point(324, 245);
             this.label75.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label75.Name = "label75";
             this.label75.Size = new System.Drawing.Size(56, 35);
@@ -4852,7 +4852,7 @@
             // 
             // preampValue_22
             // 
-            this.preampValue_22.Location = new System.Drawing.Point(389, 249);
+            this.preampValue_22.Location = new System.Drawing.Point(388, 249);
             this.preampValue_22.Margin = new System.Windows.Forms.Padding(4);
             this.preampValue_22.Name = "preampValue_22";
             this.preampValue_22.Size = new System.Drawing.Size(82, 28);
@@ -4861,7 +4861,7 @@
             // preampCheck_22
             // 
             this.preampCheck_22.AutoSize = true;
-            this.preampCheck_22.Location = new System.Drawing.Point(485, 249);
+            this.preampCheck_22.Location = new System.Drawing.Point(484, 249);
             this.preampCheck_22.Margin = new System.Windows.Forms.Padding(4);
             this.preampCheck_22.Name = "preampCheck_22";
             this.preampCheck_22.Size = new System.Drawing.Size(97, 22);
@@ -4908,7 +4908,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label77.AutoSize = true;
-            this.label77.Location = new System.Drawing.Point(646, 210);
+            this.label77.Location = new System.Drawing.Point(644, 210);
             this.label77.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label77.Name = "label77";
             this.label77.Size = new System.Drawing.Size(56, 35);
@@ -4918,7 +4918,7 @@
             // 
             // preampValue_20
             // 
-            this.preampValue_20.Location = new System.Drawing.Point(710, 214);
+            this.preampValue_20.Location = new System.Drawing.Point(708, 214);
             this.preampValue_20.Margin = new System.Windows.Forms.Padding(4);
             this.preampValue_20.Name = "preampValue_20";
             this.preampValue_20.Size = new System.Drawing.Size(82, 28);
@@ -4927,7 +4927,7 @@
             // preampCheck_20
             // 
             this.preampCheck_20.AutoSize = true;
-            this.preampCheck_20.Location = new System.Drawing.Point(806, 214);
+            this.preampCheck_20.Location = new System.Drawing.Point(804, 214);
             this.preampCheck_20.Margin = new System.Windows.Forms.Padding(4);
             this.preampCheck_20.Name = "preampCheck_20";
             this.preampCheck_20.Size = new System.Drawing.Size(97, 22);
@@ -4941,7 +4941,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label78.AutoSize = true;
-            this.label78.Location = new System.Drawing.Point(325, 210);
+            this.label78.Location = new System.Drawing.Point(324, 210);
             this.label78.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label78.Name = "label78";
             this.label78.Size = new System.Drawing.Size(56, 35);
@@ -4951,7 +4951,7 @@
             // 
             // preampValue_19
             // 
-            this.preampValue_19.Location = new System.Drawing.Point(389, 214);
+            this.preampValue_19.Location = new System.Drawing.Point(388, 214);
             this.preampValue_19.Margin = new System.Windows.Forms.Padding(4);
             this.preampValue_19.Name = "preampValue_19";
             this.preampValue_19.Size = new System.Drawing.Size(82, 28);
@@ -4960,7 +4960,7 @@
             // preampCheck_19
             // 
             this.preampCheck_19.AutoSize = true;
-            this.preampCheck_19.Location = new System.Drawing.Point(485, 214);
+            this.preampCheck_19.Location = new System.Drawing.Point(484, 214);
             this.preampCheck_19.Margin = new System.Windows.Forms.Padding(4);
             this.preampCheck_19.Name = "preampCheck_19";
             this.preampCheck_19.Size = new System.Drawing.Size(97, 22);
@@ -5007,7 +5007,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label80.AutoSize = true;
-            this.label80.Location = new System.Drawing.Point(646, 175);
+            this.label80.Location = new System.Drawing.Point(644, 175);
             this.label80.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label80.Name = "label80";
             this.label80.Size = new System.Drawing.Size(56, 35);
@@ -5017,7 +5017,7 @@
             // 
             // preampValue_17
             // 
-            this.preampValue_17.Location = new System.Drawing.Point(710, 179);
+            this.preampValue_17.Location = new System.Drawing.Point(708, 179);
             this.preampValue_17.Margin = new System.Windows.Forms.Padding(4);
             this.preampValue_17.Name = "preampValue_17";
             this.preampValue_17.Size = new System.Drawing.Size(82, 28);
@@ -5026,7 +5026,7 @@
             // preampCheck_17
             // 
             this.preampCheck_17.AutoSize = true;
-            this.preampCheck_17.Location = new System.Drawing.Point(806, 179);
+            this.preampCheck_17.Location = new System.Drawing.Point(804, 179);
             this.preampCheck_17.Margin = new System.Windows.Forms.Padding(4);
             this.preampCheck_17.Name = "preampCheck_17";
             this.preampCheck_17.Size = new System.Drawing.Size(97, 22);
@@ -5040,7 +5040,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label81.AutoSize = true;
-            this.label81.Location = new System.Drawing.Point(325, 175);
+            this.label81.Location = new System.Drawing.Point(324, 175);
             this.label81.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label81.Name = "label81";
             this.label81.Size = new System.Drawing.Size(56, 35);
@@ -5050,7 +5050,7 @@
             // 
             // preampValue_16
             // 
-            this.preampValue_16.Location = new System.Drawing.Point(389, 179);
+            this.preampValue_16.Location = new System.Drawing.Point(388, 179);
             this.preampValue_16.Margin = new System.Windows.Forms.Padding(4);
             this.preampValue_16.Name = "preampValue_16";
             this.preampValue_16.Size = new System.Drawing.Size(82, 28);
@@ -5059,7 +5059,7 @@
             // preampCheck_16
             // 
             this.preampCheck_16.AutoSize = true;
-            this.preampCheck_16.Location = new System.Drawing.Point(485, 179);
+            this.preampCheck_16.Location = new System.Drawing.Point(484, 179);
             this.preampCheck_16.Margin = new System.Windows.Forms.Padding(4);
             this.preampCheck_16.Name = "preampCheck_16";
             this.preampCheck_16.Size = new System.Drawing.Size(97, 22);
@@ -5106,7 +5106,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label83.AutoSize = true;
-            this.label83.Location = new System.Drawing.Point(646, 140);
+            this.label83.Location = new System.Drawing.Point(644, 140);
             this.label83.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label83.Name = "label83";
             this.label83.Size = new System.Drawing.Size(56, 35);
@@ -5116,7 +5116,7 @@
             // 
             // preampValue_14
             // 
-            this.preampValue_14.Location = new System.Drawing.Point(710, 144);
+            this.preampValue_14.Location = new System.Drawing.Point(708, 144);
             this.preampValue_14.Margin = new System.Windows.Forms.Padding(4);
             this.preampValue_14.Name = "preampValue_14";
             this.preampValue_14.Size = new System.Drawing.Size(82, 28);
@@ -5125,7 +5125,7 @@
             // preampCheck_14
             // 
             this.preampCheck_14.AutoSize = true;
-            this.preampCheck_14.Location = new System.Drawing.Point(806, 144);
+            this.preampCheck_14.Location = new System.Drawing.Point(804, 144);
             this.preampCheck_14.Margin = new System.Windows.Forms.Padding(4);
             this.preampCheck_14.Name = "preampCheck_14";
             this.preampCheck_14.Size = new System.Drawing.Size(97, 22);
@@ -5139,7 +5139,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label84.AutoSize = true;
-            this.label84.Location = new System.Drawing.Point(325, 140);
+            this.label84.Location = new System.Drawing.Point(324, 140);
             this.label84.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label84.Name = "label84";
             this.label84.Size = new System.Drawing.Size(56, 35);
@@ -5149,7 +5149,7 @@
             // 
             // preampValue_13
             // 
-            this.preampValue_13.Location = new System.Drawing.Point(389, 144);
+            this.preampValue_13.Location = new System.Drawing.Point(388, 144);
             this.preampValue_13.Margin = new System.Windows.Forms.Padding(4);
             this.preampValue_13.Name = "preampValue_13";
             this.preampValue_13.Size = new System.Drawing.Size(82, 28);
@@ -5158,7 +5158,7 @@
             // preampCheck_13
             // 
             this.preampCheck_13.AutoSize = true;
-            this.preampCheck_13.Location = new System.Drawing.Point(485, 144);
+            this.preampCheck_13.Location = new System.Drawing.Point(484, 144);
             this.preampCheck_13.Margin = new System.Windows.Forms.Padding(4);
             this.preampCheck_13.Name = "preampCheck_13";
             this.preampCheck_13.Size = new System.Drawing.Size(97, 22);
@@ -5205,7 +5205,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label86.AutoSize = true;
-            this.label86.Location = new System.Drawing.Point(646, 105);
+            this.label86.Location = new System.Drawing.Point(644, 105);
             this.label86.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label86.Name = "label86";
             this.label86.Size = new System.Drawing.Size(56, 35);
@@ -5215,7 +5215,7 @@
             // 
             // preampValue_11
             // 
-            this.preampValue_11.Location = new System.Drawing.Point(710, 109);
+            this.preampValue_11.Location = new System.Drawing.Point(708, 109);
             this.preampValue_11.Margin = new System.Windows.Forms.Padding(4);
             this.preampValue_11.Name = "preampValue_11";
             this.preampValue_11.Size = new System.Drawing.Size(82, 28);
@@ -5224,7 +5224,7 @@
             // preampCheck_11
             // 
             this.preampCheck_11.AutoSize = true;
-            this.preampCheck_11.Location = new System.Drawing.Point(806, 109);
+            this.preampCheck_11.Location = new System.Drawing.Point(804, 109);
             this.preampCheck_11.Margin = new System.Windows.Forms.Padding(4);
             this.preampCheck_11.Name = "preampCheck_11";
             this.preampCheck_11.Size = new System.Drawing.Size(97, 22);
@@ -5238,7 +5238,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label87.AutoSize = true;
-            this.label87.Location = new System.Drawing.Point(325, 105);
+            this.label87.Location = new System.Drawing.Point(324, 105);
             this.label87.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label87.Name = "label87";
             this.label87.Size = new System.Drawing.Size(56, 35);
@@ -5248,7 +5248,7 @@
             // 
             // preampValue_10
             // 
-            this.preampValue_10.Location = new System.Drawing.Point(389, 109);
+            this.preampValue_10.Location = new System.Drawing.Point(388, 109);
             this.preampValue_10.Margin = new System.Windows.Forms.Padding(4);
             this.preampValue_10.Name = "preampValue_10";
             this.preampValue_10.Size = new System.Drawing.Size(82, 28);
@@ -5257,7 +5257,7 @@
             // preampCheck_10
             // 
             this.preampCheck_10.AutoSize = true;
-            this.preampCheck_10.Location = new System.Drawing.Point(485, 109);
+            this.preampCheck_10.Location = new System.Drawing.Point(484, 109);
             this.preampCheck_10.Margin = new System.Windows.Forms.Padding(4);
             this.preampCheck_10.Name = "preampCheck_10";
             this.preampCheck_10.Size = new System.Drawing.Size(97, 22);
@@ -5304,7 +5304,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label89.AutoSize = true;
-            this.label89.Location = new System.Drawing.Point(646, 70);
+            this.label89.Location = new System.Drawing.Point(644, 70);
             this.label89.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label89.Name = "label89";
             this.label89.Size = new System.Drawing.Size(56, 35);
@@ -5314,7 +5314,7 @@
             // 
             // preampValue_8
             // 
-            this.preampValue_8.Location = new System.Drawing.Point(710, 74);
+            this.preampValue_8.Location = new System.Drawing.Point(708, 74);
             this.preampValue_8.Margin = new System.Windows.Forms.Padding(4);
             this.preampValue_8.Name = "preampValue_8";
             this.preampValue_8.Size = new System.Drawing.Size(82, 28);
@@ -5323,7 +5323,7 @@
             // preampCheck_8
             // 
             this.preampCheck_8.AutoSize = true;
-            this.preampCheck_8.Location = new System.Drawing.Point(806, 74);
+            this.preampCheck_8.Location = new System.Drawing.Point(804, 74);
             this.preampCheck_8.Margin = new System.Windows.Forms.Padding(4);
             this.preampCheck_8.Name = "preampCheck_8";
             this.preampCheck_8.Size = new System.Drawing.Size(97, 22);
@@ -5337,7 +5337,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label90.AutoSize = true;
-            this.label90.Location = new System.Drawing.Point(325, 70);
+            this.label90.Location = new System.Drawing.Point(324, 70);
             this.label90.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label90.Name = "label90";
             this.label90.Size = new System.Drawing.Size(56, 35);
@@ -5347,7 +5347,7 @@
             // 
             // preampValue_7
             // 
-            this.preampValue_7.Location = new System.Drawing.Point(389, 74);
+            this.preampValue_7.Location = new System.Drawing.Point(388, 74);
             this.preampValue_7.Margin = new System.Windows.Forms.Padding(4);
             this.preampValue_7.Name = "preampValue_7";
             this.preampValue_7.Size = new System.Drawing.Size(82, 28);
@@ -5356,7 +5356,7 @@
             // preampCheck_7
             // 
             this.preampCheck_7.AutoSize = true;
-            this.preampCheck_7.Location = new System.Drawing.Point(485, 74);
+            this.preampCheck_7.Location = new System.Drawing.Point(484, 74);
             this.preampCheck_7.Margin = new System.Windows.Forms.Padding(4);
             this.preampCheck_7.Name = "preampCheck_7";
             this.preampCheck_7.Size = new System.Drawing.Size(97, 22);
@@ -5403,7 +5403,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label92.AutoSize = true;
-            this.label92.Location = new System.Drawing.Point(646, 35);
+            this.label92.Location = new System.Drawing.Point(644, 35);
             this.label92.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label92.Name = "label92";
             this.label92.Size = new System.Drawing.Size(56, 35);
@@ -5413,7 +5413,7 @@
             // 
             // preampValue_5
             // 
-            this.preampValue_5.Location = new System.Drawing.Point(710, 39);
+            this.preampValue_5.Location = new System.Drawing.Point(708, 39);
             this.preampValue_5.Margin = new System.Windows.Forms.Padding(4);
             this.preampValue_5.Name = "preampValue_5";
             this.preampValue_5.Size = new System.Drawing.Size(82, 28);
@@ -5422,7 +5422,7 @@
             // preampCheck_5
             // 
             this.preampCheck_5.AutoSize = true;
-            this.preampCheck_5.Location = new System.Drawing.Point(806, 39);
+            this.preampCheck_5.Location = new System.Drawing.Point(804, 39);
             this.preampCheck_5.Margin = new System.Windows.Forms.Padding(4);
             this.preampCheck_5.Name = "preampCheck_5";
             this.preampCheck_5.Size = new System.Drawing.Size(97, 22);
@@ -5436,7 +5436,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label93.AutoSize = true;
-            this.label93.Location = new System.Drawing.Point(325, 35);
+            this.label93.Location = new System.Drawing.Point(324, 35);
             this.label93.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label93.Name = "label93";
             this.label93.Size = new System.Drawing.Size(56, 35);
@@ -5446,7 +5446,7 @@
             // 
             // preampValue_4
             // 
-            this.preampValue_4.Location = new System.Drawing.Point(389, 39);
+            this.preampValue_4.Location = new System.Drawing.Point(388, 39);
             this.preampValue_4.Margin = new System.Windows.Forms.Padding(4);
             this.preampValue_4.Name = "preampValue_4";
             this.preampValue_4.Size = new System.Drawing.Size(82, 28);
@@ -5455,7 +5455,7 @@
             // preampCheck_4
             // 
             this.preampCheck_4.AutoSize = true;
-            this.preampCheck_4.Location = new System.Drawing.Point(485, 39);
+            this.preampCheck_4.Location = new System.Drawing.Point(484, 39);
             this.preampCheck_4.Margin = new System.Windows.Forms.Padding(4);
             this.preampCheck_4.Name = "preampCheck_4";
             this.preampCheck_4.Size = new System.Drawing.Size(97, 22);
@@ -5502,7 +5502,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label95.AutoSize = true;
-            this.label95.Location = new System.Drawing.Point(646, 0);
+            this.label95.Location = new System.Drawing.Point(644, 0);
             this.label95.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label95.Name = "label95";
             this.label95.Size = new System.Drawing.Size(56, 35);
@@ -5512,7 +5512,7 @@
             // 
             // preampValue_2
             // 
-            this.preampValue_2.Location = new System.Drawing.Point(710, 4);
+            this.preampValue_2.Location = new System.Drawing.Point(708, 4);
             this.preampValue_2.Margin = new System.Windows.Forms.Padding(4);
             this.preampValue_2.Name = "preampValue_2";
             this.preampValue_2.Size = new System.Drawing.Size(82, 28);
@@ -5521,7 +5521,7 @@
             // preampCheck_2
             // 
             this.preampCheck_2.AutoSize = true;
-            this.preampCheck_2.Location = new System.Drawing.Point(806, 4);
+            this.preampCheck_2.Location = new System.Drawing.Point(804, 4);
             this.preampCheck_2.Margin = new System.Windows.Forms.Padding(4);
             this.preampCheck_2.Name = "preampCheck_2";
             this.preampCheck_2.Size = new System.Drawing.Size(97, 22);
@@ -5535,7 +5535,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label96.AutoSize = true;
-            this.label96.Location = new System.Drawing.Point(325, 0);
+            this.label96.Location = new System.Drawing.Point(324, 0);
             this.label96.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label96.Name = "label96";
             this.label96.Size = new System.Drawing.Size(56, 35);
@@ -5545,7 +5545,7 @@
             // 
             // preampValue_1
             // 
-            this.preampValue_1.Location = new System.Drawing.Point(389, 4);
+            this.preampValue_1.Location = new System.Drawing.Point(388, 4);
             this.preampValue_1.Margin = new System.Windows.Forms.Padding(4);
             this.preampValue_1.Name = "preampValue_1";
             this.preampValue_1.Size = new System.Drawing.Size(82, 28);
@@ -5554,7 +5554,7 @@
             // preampCheck_1
             // 
             this.preampCheck_1.AutoSize = true;
-            this.preampCheck_1.Location = new System.Drawing.Point(485, 4);
+            this.preampCheck_1.Location = new System.Drawing.Point(484, 4);
             this.preampCheck_1.Margin = new System.Windows.Forms.Padding(4);
             this.preampCheck_1.Name = "preampCheck_1";
             this.preampCheck_1.Size = new System.Drawing.Size(97, 22);
@@ -5603,7 +5603,7 @@
             this.SC_tab4.Margin = new System.Windows.Forms.Padding(4);
             this.SC_tab4.Name = "SC_tab4";
             this.SC_tab4.Padding = new System.Windows.Forms.Padding(4);
-            this.SC_tab4.Size = new System.Drawing.Size(974, 789);
+            this.SC_tab4.Size = new System.Drawing.Size(972, 789);
             this.SC_tab4.TabIndex = 7;
             this.SC_tab4.Text = "Slow Control4";
             this.SC_tab4.UseVisualStyleBackColor = true;
@@ -5680,7 +5680,7 @@
             this.tableLayoutPanel11.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
             this.tableLayoutPanel11.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
             this.tableLayoutPanel11.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel11.Size = new System.Drawing.Size(966, 781);
+            this.tableLayoutPanel11.Size = new System.Drawing.Size(964, 781);
             this.tableLayoutPanel11.TabIndex = 0;
             // 
             // checkBox1
@@ -6194,7 +6194,7 @@
             this.hv_tab.Margin = new System.Windows.Forms.Padding(4);
             this.hv_tab.Name = "hv_tab";
             this.hv_tab.Padding = new System.Windows.Forms.Padding(4);
-            this.hv_tab.Size = new System.Drawing.Size(974, 789);
+            this.hv_tab.Size = new System.Drawing.Size(972, 789);
             this.hv_tab.TabIndex = 5;
             this.hv_tab.Text = "HV Control";
             this.hv_tab.UseVisualStyleBackColor = true;
@@ -6204,7 +6204,7 @@
             this.tableLayoutPanel8.ColumnCount = 3;
             this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 19.66825F));
             this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 80.33176F));
-            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 385F));
+            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 386F));
             this.tableLayoutPanel8.Controls.Add(this.label104, 0, 0);
             this.tableLayoutPanel8.Controls.Add(this.HV_value, 1, 0);
             this.tableLayoutPanel8.Controls.Add(this.label105, 0, 1);
@@ -6216,7 +6216,7 @@
             this.tableLayoutPanel8.RowCount = 2;
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 39F));
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 61F));
-            this.tableLayoutPanel8.Size = new System.Drawing.Size(966, 150);
+            this.tableLayoutPanel8.Size = new System.Drawing.Size(964, 150);
             this.tableLayoutPanel8.TabIndex = 0;
             // 
             // label104
@@ -6228,7 +6228,7 @@
             this.label104.Location = new System.Drawing.Point(4, 0);
             this.label104.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label104.Name = "label104";
-            this.label104.Size = new System.Drawing.Size(106, 58);
+            this.label104.Size = new System.Drawing.Size(105, 58);
             this.label104.TabIndex = 0;
             this.label104.Text = "Voltage";
             this.label104.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -6236,7 +6236,7 @@
             // HV_value
             // 
             this.HV_value.Dock = System.Windows.Forms.DockStyle.Left;
-            this.HV_value.Location = new System.Drawing.Point(118, 4);
+            this.HV_value.Location = new System.Drawing.Point(117, 4);
             this.HV_value.Margin = new System.Windows.Forms.Padding(4);
             this.HV_value.Name = "HV_value";
             this.HV_value.Size = new System.Drawing.Size(180, 28);
@@ -6252,7 +6252,7 @@
             this.label105.Location = new System.Drawing.Point(4, 58);
             this.label105.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label105.Name = "label105";
-            this.label105.Size = new System.Drawing.Size(106, 92);
+            this.label105.Size = new System.Drawing.Size(105, 92);
             this.label105.TabIndex = 2;
             this.label105.Text = "Switch";
             this.label105.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -6261,7 +6261,7 @@
             // 
             this.HVswitch_btn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.HVswitch_btn.Location = new System.Drawing.Point(118, 62);
+            this.HVswitch_btn.Location = new System.Drawing.Point(117, 62);
             this.HVswitch_btn.Margin = new System.Windows.Forms.Padding(4);
             this.HVswitch_btn.Name = "HVswitch_btn";
             this.HVswitch_btn.Size = new System.Drawing.Size(112, 84);
@@ -6278,7 +6278,7 @@
             this.Debug_tab.Margin = new System.Windows.Forms.Padding(4);
             this.Debug_tab.Name = "Debug_tab";
             this.Debug_tab.Padding = new System.Windows.Forms.Padding(4);
-            this.Debug_tab.Size = new System.Drawing.Size(974, 789);
+            this.Debug_tab.Size = new System.Drawing.Size(972, 789);
             this.Debug_tab.TabIndex = 2;
             this.Debug_tab.Text = "Debug";
             this.Debug_tab.UseVisualStyleBackColor = true;
@@ -6291,7 +6291,7 @@
             this.panel8.Location = new System.Drawing.Point(4, 138);
             this.panel8.Margin = new System.Windows.Forms.Padding(4);
             this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(966, 76);
+            this.panel8.Size = new System.Drawing.Size(964, 76);
             this.panel8.TabIndex = 2;
             // 
             // eventNumPackage
@@ -6338,7 +6338,7 @@
             this.panel7.Location = new System.Drawing.Point(4, 60);
             this.panel7.Margin = new System.Windows.Forms.Padding(4);
             this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(966, 78);
+            this.panel7.Size = new System.Drawing.Size(964, 78);
             this.panel7.TabIndex = 1;
             // 
             // pwr_on_DAC_checkbox
@@ -6407,7 +6407,7 @@
             this.panel2.Location = new System.Drawing.Point(4, 4);
             this.panel2.Margin = new System.Windows.Forms.Padding(4);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(966, 56);
+            this.panel2.Size = new System.Drawing.Size(964, 56);
             this.panel2.TabIndex = 0;
             // 
             // Ext_trigger_fpga_enable
@@ -6466,7 +6466,7 @@
             this.tabPage1.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage1.Size = new System.Drawing.Size(974, 789);
+            this.tabPage1.Size = new System.Drawing.Size(972, 789);
             this.tabPage1.TabIndex = 6;
             this.tabPage1.Text = "AFG3252";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -6496,7 +6496,7 @@
             this.SPIROC2e.Location = new System.Drawing.Point(4, 28);
             this.SPIROC2e.Name = "SPIROC2e";
             this.SPIROC2e.Padding = new System.Windows.Forms.Padding(3);
-            this.SPIROC2e.Size = new System.Drawing.Size(974, 789);
+            this.SPIROC2e.Size = new System.Drawing.Size(972, 789);
             this.SPIROC2e.TabIndex = 8;
             this.SPIROC2e.Text = "SPIROC2e";
             this.SPIROC2e.UseVisualStyleBackColor = true;
@@ -6508,21 +6508,21 @@
             this.tableLayoutPanel13.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel13.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 251F));
             this.tableLayoutPanel13.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 243F));
-            this.tableLayoutPanel13.Controls.Add(this.checkBox26, 3, 0);
-            this.tableLayoutPanel13.Controls.Add(this.checkBox41, 1, 9);
-            this.tableLayoutPanel13.Controls.Add(this.checkBox40, 3, 8);
-            this.tableLayoutPanel13.Controls.Add(this.checkBox39, 1, 8);
-            this.tableLayoutPanel13.Controls.Add(this.checkBox38, 3, 7);
-            this.tableLayoutPanel13.Controls.Add(this.checkBox37, 1, 7);
-            this.tableLayoutPanel13.Controls.Add(this.checkBox36, 3, 6);
-            this.tableLayoutPanel13.Controls.Add(this.checkBox35, 1, 6);
-            this.tableLayoutPanel13.Controls.Add(this.checkBox34, 3, 5);
-            this.tableLayoutPanel13.Controls.Add(this.checkBox33, 1, 5);
-            this.tableLayoutPanel13.Controls.Add(this.checkBox32, 3, 4);
-            this.tableLayoutPanel13.Controls.Add(this.checkBox31, 3, 3);
-            this.tableLayoutPanel13.Controls.Add(this.checkBox30, 3, 2);
-            this.tableLayoutPanel13.Controls.Add(this.checkBox29, 3, 1);
-            this.tableLayoutPanel13.Controls.Add(this.checkBox28, 1, 1);
+            this.tableLayoutPanel13.Controls.Add(this.GC_TempSensor, 3, 0);
+            this.tableLayoutPanel13.Controls.Add(this.EN_FS, 1, 9);
+            this.tableLayoutPanel13.Controls.Add(this.ENLvdsTrigExt, 3, 8);
+            this.tableLayoutPanel13.Controls.Add(this.ENHGSS, 1, 8);
+            this.tableLayoutPanel13.Controls.Add(this.ENLvdsValEvt, 3, 7);
+            this.tableLayoutPanel13.Controls.Add(this.EN_LowGainSS, 1, 7);
+            this.tableLayoutPanel13.Controls.Add(this.ENLvdsNotrig, 3, 6);
+            this.tableLayoutPanel13.Controls.Add(this.FastShaperLG, 1, 6);
+            this.tableLayoutPanel13.Controls.Add(this.DIsctriDelayVref, 3, 5);
+            this.tableLayoutPanel13.Controls.Add(this.ENLowGain, 1, 5);
+            this.tableLayoutPanel13.Controls.Add(this.TDCRampEN, 3, 4);
+            this.tableLayoutPanel13.Controls.Add(this.ENDac2, 3, 3);
+            this.tableLayoutPanel13.Controls.Add(this.ENDac1, 3, 2);
+            this.tableLayoutPanel13.Controls.Add(this.ENTemp, 3, 1);
+            this.tableLayoutPanel13.Controls.Add(this.EN_input_dac, 1, 1);
             this.tableLayoutPanel13.Controls.Add(this.Sel_Temp, 1, 0);
             this.tableLayoutPanel13.Controls.Add(this.label181, 0, 9);
             this.tableLayoutPanel13.Controls.Add(this.label179, 2, 8);
@@ -6540,12 +6540,12 @@
             this.tableLayoutPanel13.Controls.Add(this.label155, 2, 2);
             this.tableLayoutPanel13.Controls.Add(this.label153, 0, 2);
             this.tableLayoutPanel13.Controls.Add(this.label151, 2, 1);
-            this.tableLayoutPanel13.Controls.Add(this.label149, 0, 1);
+            this.tableLayoutPanel13.Controls.Add(this.label265, 0, 1);
             this.tableLayoutPanel13.Controls.Add(this.label147, 2, 0);
             this.tableLayoutPanel13.Controls.Add(this.label145, 0, 0);
-            this.tableLayoutPanel13.Controls.Add(this.comboBox2, 1, 2);
-            this.tableLayoutPanel13.Controls.Add(this.comboBox3, 1, 3);
-            this.tableLayoutPanel13.Controls.Add(this.checkBox27, 1, 4);
+            this.tableLayoutPanel13.Controls.Add(this.GC8bitDAC, 1, 2);
+            this.tableLayoutPanel13.Controls.Add(this.LG_PAbias, 1, 3);
+            this.tableLayoutPanel13.Controls.Add(this.ENHighGain, 1, 4);
             this.tableLayoutPanel13.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel13.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel13.Name = "tableLayoutPanel13";
@@ -6560,190 +6560,222 @@
             this.tableLayoutPanel13.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
             this.tableLayoutPanel13.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
             this.tableLayoutPanel13.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel13.Size = new System.Drawing.Size(968, 783);
+            this.tableLayoutPanel13.Size = new System.Drawing.Size(966, 783);
             this.tableLayoutPanel13.TabIndex = 0;
             // 
-            // checkBox26
+            // GC_TempSensor
             // 
-            this.checkBox26.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.checkBox26.AutoSize = true;
-            this.checkBox26.Location = new System.Drawing.Point(798, 28);
-            this.checkBox26.Name = "checkBox26";
-            this.checkBox26.Size = new System.Drawing.Size(97, 22);
-            this.checkBox26.TabIndex = 59;
-            this.checkBox26.Text = "Disable";
-            this.checkBox26.UseVisualStyleBackColor = true;
+            this.GC_TempSensor.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.GC_TempSensor.AutoSize = true;
+            this.GC_TempSensor.Location = new System.Drawing.Point(796, 28);
+            this.GC_TempSensor.Name = "GC_TempSensor";
+            this.GC_TempSensor.Size = new System.Drawing.Size(97, 22);
+            this.GC_TempSensor.TabIndex = 59;
+            this.GC_TempSensor.Text = "Disable";
+            this.GC_TempSensor.UseVisualStyleBackColor = true;
+            this.GC_TempSensor.CheckedChanged += new System.EventHandler(this.GC_TempSensor_CheckedChanged);
+            this.GC_TempSensor.CheckStateChanged += new System.EventHandler(this.GC_TempSensor_CheckedChanged);
             // 
-            // checkBox41
+            // EN_FS
             // 
-            this.checkBox41.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.checkBox41.AutoSize = true;
-            this.checkBox41.Location = new System.Drawing.Point(307, 731);
-            this.checkBox41.Name = "checkBox41";
-            this.checkBox41.Size = new System.Drawing.Size(97, 22);
-            this.checkBox41.TabIndex = 58;
-            this.checkBox41.Text = "Disable";
-            this.checkBox41.UseVisualStyleBackColor = true;
+            this.EN_FS.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.EN_FS.AutoSize = true;
+            this.EN_FS.Location = new System.Drawing.Point(305, 731);
+            this.EN_FS.Name = "EN_FS";
+            this.EN_FS.Size = new System.Drawing.Size(97, 22);
+            this.EN_FS.TabIndex = 58;
+            this.EN_FS.Text = "Disable";
+            this.EN_FS.UseVisualStyleBackColor = true;
+            this.EN_FS.CheckedChanged += new System.EventHandler(this.EN_FS_CheckedChanged);
+            this.EN_FS.CheckStateChanged += new System.EventHandler(this.EN_FS_CheckedChanged);
             // 
-            // checkBox40
+            // ENLvdsTrigExt
             // 
-            this.checkBox40.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.checkBox40.AutoSize = true;
-            this.checkBox40.Location = new System.Drawing.Point(798, 652);
-            this.checkBox40.Name = "checkBox40";
-            this.checkBox40.Size = new System.Drawing.Size(97, 22);
-            this.checkBox40.TabIndex = 57;
-            this.checkBox40.Text = "Disable";
-            this.checkBox40.UseVisualStyleBackColor = true;
+            this.ENLvdsTrigExt.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.ENLvdsTrigExt.AutoSize = true;
+            this.ENLvdsTrigExt.Location = new System.Drawing.Point(796, 652);
+            this.ENLvdsTrigExt.Name = "ENLvdsTrigExt";
+            this.ENLvdsTrigExt.Size = new System.Drawing.Size(97, 22);
+            this.ENLvdsTrigExt.TabIndex = 57;
+            this.ENLvdsTrigExt.Text = "Disable";
+            this.ENLvdsTrigExt.UseVisualStyleBackColor = true;
+            this.ENLvdsTrigExt.CheckedChanged += new System.EventHandler(this.ENLvdsTrigExt_CheckedChanged);
+            this.ENLvdsTrigExt.CheckStateChanged += new System.EventHandler(this.ENLvdsTrigExt_CheckedChanged);
             // 
-            // checkBox39
+            // ENHGSS
             // 
-            this.checkBox39.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.checkBox39.AutoSize = true;
-            this.checkBox39.Location = new System.Drawing.Point(307, 652);
-            this.checkBox39.Name = "checkBox39";
-            this.checkBox39.Size = new System.Drawing.Size(97, 22);
-            this.checkBox39.TabIndex = 56;
-            this.checkBox39.Text = "Disable";
-            this.checkBox39.UseVisualStyleBackColor = true;
+            this.ENHGSS.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.ENHGSS.AutoSize = true;
+            this.ENHGSS.Location = new System.Drawing.Point(305, 652);
+            this.ENHGSS.Name = "ENHGSS";
+            this.ENHGSS.Size = new System.Drawing.Size(97, 22);
+            this.ENHGSS.TabIndex = 56;
+            this.ENHGSS.Text = "Disable";
+            this.ENHGSS.UseVisualStyleBackColor = true;
+            this.ENHGSS.CheckedChanged += new System.EventHandler(this.ENHGSS_CheckedChanged);
+            this.ENHGSS.CheckStateChanged += new System.EventHandler(this.ENHGSS_CheckedChanged);
             // 
-            // checkBox38
+            // ENLvdsValEvt
             // 
-            this.checkBox38.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.checkBox38.AutoSize = true;
-            this.checkBox38.Location = new System.Drawing.Point(798, 574);
-            this.checkBox38.Name = "checkBox38";
-            this.checkBox38.Size = new System.Drawing.Size(97, 22);
-            this.checkBox38.TabIndex = 55;
-            this.checkBox38.Text = "Disable";
-            this.checkBox38.UseVisualStyleBackColor = true;
+            this.ENLvdsValEvt.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.ENLvdsValEvt.AutoSize = true;
+            this.ENLvdsValEvt.Location = new System.Drawing.Point(796, 574);
+            this.ENLvdsValEvt.Name = "ENLvdsValEvt";
+            this.ENLvdsValEvt.Size = new System.Drawing.Size(97, 22);
+            this.ENLvdsValEvt.TabIndex = 55;
+            this.ENLvdsValEvt.Text = "Disable";
+            this.ENLvdsValEvt.UseVisualStyleBackColor = true;
+            this.ENLvdsValEvt.CheckedChanged += new System.EventHandler(this.ENLvdsValEvt_CheckedChanged);
+            this.ENLvdsValEvt.CheckStateChanged += new System.EventHandler(this.ENLvdsValEvt_CheckedChanged);
             // 
-            // checkBox37
+            // EN_LowGainSS
             // 
-            this.checkBox37.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.checkBox37.AutoSize = true;
-            this.checkBox37.Location = new System.Drawing.Point(307, 574);
-            this.checkBox37.Name = "checkBox37";
-            this.checkBox37.Size = new System.Drawing.Size(97, 22);
-            this.checkBox37.TabIndex = 54;
-            this.checkBox37.Text = "Disable";
-            this.checkBox37.UseVisualStyleBackColor = true;
+            this.EN_LowGainSS.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.EN_LowGainSS.AutoSize = true;
+            this.EN_LowGainSS.Location = new System.Drawing.Point(305, 574);
+            this.EN_LowGainSS.Name = "EN_LowGainSS";
+            this.EN_LowGainSS.Size = new System.Drawing.Size(97, 22);
+            this.EN_LowGainSS.TabIndex = 54;
+            this.EN_LowGainSS.Text = "Disable";
+            this.EN_LowGainSS.UseVisualStyleBackColor = true;
+            this.EN_LowGainSS.CheckedChanged += new System.EventHandler(this.EN_LowGainSS_CheckedChanged);
+            this.EN_LowGainSS.CheckStateChanged += new System.EventHandler(this.EN_LowGainSS_CheckedChanged);
             // 
-            // checkBox36
+            // ENLvdsNotrig
             // 
-            this.checkBox36.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.checkBox36.AutoSize = true;
-            this.checkBox36.Location = new System.Drawing.Point(798, 496);
-            this.checkBox36.Name = "checkBox36";
-            this.checkBox36.Size = new System.Drawing.Size(97, 22);
-            this.checkBox36.TabIndex = 53;
-            this.checkBox36.Text = "Disable";
-            this.checkBox36.UseVisualStyleBackColor = true;
+            this.ENLvdsNotrig.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.ENLvdsNotrig.AutoSize = true;
+            this.ENLvdsNotrig.Location = new System.Drawing.Point(796, 496);
+            this.ENLvdsNotrig.Name = "ENLvdsNotrig";
+            this.ENLvdsNotrig.Size = new System.Drawing.Size(97, 22);
+            this.ENLvdsNotrig.TabIndex = 53;
+            this.ENLvdsNotrig.Text = "Disable";
+            this.ENLvdsNotrig.UseVisualStyleBackColor = true;
+            this.ENLvdsNotrig.CheckedChanged += new System.EventHandler(this.ENLvdsNotrig_CheckedChanged);
+            this.ENLvdsNotrig.CheckStateChanged += new System.EventHandler(this.ENLvdsNotrig_CheckedChanged);
             // 
-            // checkBox35
+            // FastShaperLG
             // 
-            this.checkBox35.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.checkBox35.AutoSize = true;
-            this.checkBox35.Location = new System.Drawing.Point(307, 496);
-            this.checkBox35.Name = "checkBox35";
-            this.checkBox35.Size = new System.Drawing.Size(97, 22);
-            this.checkBox35.TabIndex = 52;
-            this.checkBox35.Text = "Disable";
-            this.checkBox35.UseVisualStyleBackColor = true;
+            this.FastShaperLG.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.FastShaperLG.AutoSize = true;
+            this.FastShaperLG.Location = new System.Drawing.Point(305, 496);
+            this.FastShaperLG.Name = "FastShaperLG";
+            this.FastShaperLG.Size = new System.Drawing.Size(97, 22);
+            this.FastShaperLG.TabIndex = 52;
+            this.FastShaperLG.Text = "Disable";
+            this.FastShaperLG.UseVisualStyleBackColor = true;
+            this.FastShaperLG.CheckedChanged += new System.EventHandler(this.FastShaperLG_CheckedChanged);
+            this.FastShaperLG.CheckStateChanged += new System.EventHandler(this.FastShaperLG_CheckedChanged);
             // 
-            // checkBox34
+            // DIsctriDelayVref
             // 
-            this.checkBox34.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.checkBox34.AutoSize = true;
-            this.checkBox34.Location = new System.Drawing.Point(798, 418);
-            this.checkBox34.Name = "checkBox34";
-            this.checkBox34.Size = new System.Drawing.Size(97, 22);
-            this.checkBox34.TabIndex = 51;
-            this.checkBox34.Text = "Disable";
-            this.checkBox34.UseVisualStyleBackColor = true;
+            this.DIsctriDelayVref.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.DIsctriDelayVref.AutoSize = true;
+            this.DIsctriDelayVref.Location = new System.Drawing.Point(796, 418);
+            this.DIsctriDelayVref.Name = "DIsctriDelayVref";
+            this.DIsctriDelayVref.Size = new System.Drawing.Size(97, 22);
+            this.DIsctriDelayVref.TabIndex = 51;
+            this.DIsctriDelayVref.Text = "Disable";
+            this.DIsctriDelayVref.UseVisualStyleBackColor = true;
+            this.DIsctriDelayVref.CheckedChanged += new System.EventHandler(this.DIsctriDelayVref_CheckedChanged);
+            this.DIsctriDelayVref.CheckStateChanged += new System.EventHandler(this.DIsctriDelayVref_CheckedChanged);
             // 
-            // checkBox33
+            // ENLowGain
             // 
-            this.checkBox33.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.checkBox33.AutoSize = true;
-            this.checkBox33.Location = new System.Drawing.Point(307, 418);
-            this.checkBox33.Name = "checkBox33";
-            this.checkBox33.Size = new System.Drawing.Size(97, 22);
-            this.checkBox33.TabIndex = 50;
-            this.checkBox33.Text = "Disable";
-            this.checkBox33.UseVisualStyleBackColor = true;
+            this.ENLowGain.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.ENLowGain.AutoSize = true;
+            this.ENLowGain.Location = new System.Drawing.Point(305, 418);
+            this.ENLowGain.Name = "ENLowGain";
+            this.ENLowGain.Size = new System.Drawing.Size(97, 22);
+            this.ENLowGain.TabIndex = 50;
+            this.ENLowGain.Text = "Disable";
+            this.ENLowGain.UseVisualStyleBackColor = true;
+            this.ENLowGain.CheckedChanged += new System.EventHandler(this.ENLowGain_CheckedChanged);
+            this.ENLowGain.CheckStateChanged += new System.EventHandler(this.ENLowGain_CheckedChanged);
             // 
-            // checkBox32
+            // TDCRampEN
             // 
-            this.checkBox32.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.checkBox32.AutoSize = true;
-            this.checkBox32.Location = new System.Drawing.Point(798, 340);
-            this.checkBox32.Name = "checkBox32";
-            this.checkBox32.Size = new System.Drawing.Size(97, 22);
-            this.checkBox32.TabIndex = 49;
-            this.checkBox32.Text = "Disable";
-            this.checkBox32.UseVisualStyleBackColor = true;
+            this.TDCRampEN.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.TDCRampEN.AutoSize = true;
+            this.TDCRampEN.Location = new System.Drawing.Point(796, 340);
+            this.TDCRampEN.Name = "TDCRampEN";
+            this.TDCRampEN.Size = new System.Drawing.Size(97, 22);
+            this.TDCRampEN.TabIndex = 49;
+            this.TDCRampEN.Text = "Disable";
+            this.TDCRampEN.UseVisualStyleBackColor = true;
+            this.TDCRampEN.CheckedChanged += new System.EventHandler(this.TDCRampEN_CheckedChanged);
+            this.TDCRampEN.CheckStateChanged += new System.EventHandler(this.TDCRampEN_CheckedChanged);
             // 
-            // checkBox31
+            // ENDac2
             // 
-            this.checkBox31.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.checkBox31.AutoSize = true;
-            this.checkBox31.Location = new System.Drawing.Point(798, 262);
-            this.checkBox31.Name = "checkBox31";
-            this.checkBox31.Size = new System.Drawing.Size(97, 22);
-            this.checkBox31.TabIndex = 48;
-            this.checkBox31.Text = "Disable";
-            this.checkBox31.UseVisualStyleBackColor = true;
+            this.ENDac2.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.ENDac2.AutoSize = true;
+            this.ENDac2.Location = new System.Drawing.Point(796, 262);
+            this.ENDac2.Name = "ENDac2";
+            this.ENDac2.Size = new System.Drawing.Size(97, 22);
+            this.ENDac2.TabIndex = 48;
+            this.ENDac2.Text = "Disable";
+            this.ENDac2.UseVisualStyleBackColor = true;
+            this.ENDac2.CheckedChanged += new System.EventHandler(this.ENDac2_CheckedChanged);
+            this.ENDac2.CheckStateChanged += new System.EventHandler(this.ENDac2_CheckedChanged);
             // 
-            // checkBox30
+            // ENDac1
             // 
-            this.checkBox30.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.checkBox30.AutoSize = true;
-            this.checkBox30.Location = new System.Drawing.Point(798, 184);
-            this.checkBox30.Name = "checkBox30";
-            this.checkBox30.Size = new System.Drawing.Size(97, 22);
-            this.checkBox30.TabIndex = 47;
-            this.checkBox30.Text = "Disable";
-            this.checkBox30.UseVisualStyleBackColor = true;
+            this.ENDac1.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.ENDac1.AutoSize = true;
+            this.ENDac1.Location = new System.Drawing.Point(796, 184);
+            this.ENDac1.Name = "ENDac1";
+            this.ENDac1.Size = new System.Drawing.Size(97, 22);
+            this.ENDac1.TabIndex = 47;
+            this.ENDac1.Text = "Disable";
+            this.ENDac1.UseVisualStyleBackColor = true;
+            this.ENDac1.CheckedChanged += new System.EventHandler(this.ENDac1_CheckedChanged);
+            this.ENDac1.CheckStateChanged += new System.EventHandler(this.ENDac1_CheckedChanged);
             // 
-            // checkBox29
+            // ENTemp
             // 
-            this.checkBox29.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.checkBox29.AutoSize = true;
-            this.checkBox29.Location = new System.Drawing.Point(798, 106);
-            this.checkBox29.Name = "checkBox29";
-            this.checkBox29.Size = new System.Drawing.Size(97, 22);
-            this.checkBox29.TabIndex = 46;
-            this.checkBox29.Text = "Disable";
-            this.checkBox29.UseVisualStyleBackColor = true;
+            this.ENTemp.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.ENTemp.AutoSize = true;
+            this.ENTemp.Location = new System.Drawing.Point(796, 106);
+            this.ENTemp.Name = "ENTemp";
+            this.ENTemp.Size = new System.Drawing.Size(97, 22);
+            this.ENTemp.TabIndex = 46;
+            this.ENTemp.Text = "Disable";
+            this.ENTemp.UseVisualStyleBackColor = true;
+            this.ENTemp.CheckedChanged += new System.EventHandler(this.ENTemp_CheckedChanged);
+            this.ENTemp.CheckStateChanged += new System.EventHandler(this.ENTemp_CheckedChanged);
             // 
-            // checkBox28
+            // EN_input_dac
             // 
-            this.checkBox28.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.checkBox28.AutoSize = true;
-            this.checkBox28.Location = new System.Drawing.Point(307, 106);
-            this.checkBox28.Name = "checkBox28";
-            this.checkBox28.Size = new System.Drawing.Size(97, 22);
-            this.checkBox28.TabIndex = 44;
-            this.checkBox28.Text = "Disable";
-            this.checkBox28.UseVisualStyleBackColor = true;
+            this.EN_input_dac.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.EN_input_dac.AutoSize = true;
+            this.EN_input_dac.Location = new System.Drawing.Point(305, 106);
+            this.EN_input_dac.Name = "EN_input_dac";
+            this.EN_input_dac.Size = new System.Drawing.Size(97, 22);
+            this.EN_input_dac.TabIndex = 44;
+            this.EN_input_dac.Text = "Disable";
+            this.EN_input_dac.UseVisualStyleBackColor = true;
+            this.EN_input_dac.CheckedChanged += new System.EventHandler(this.EN_input_dac_CheckedChanged);
+            this.EN_input_dac.CheckStateChanged += new System.EventHandler(this.EN_input_dac_CheckedChanged);
             // 
             // Sel_Temp
             // 
             this.Sel_Temp.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.Sel_Temp.AutoSize = true;
-            this.Sel_Temp.Location = new System.Drawing.Point(307, 28);
+            this.Sel_Temp.Location = new System.Drawing.Point(305, 28);
             this.Sel_Temp.Name = "Sel_Temp";
             this.Sel_Temp.Size = new System.Drawing.Size(97, 22);
             this.Sel_Temp.TabIndex = 42;
             this.Sel_Temp.Text = "Disable";
             this.Sel_Temp.UseVisualStyleBackColor = true;
+            this.Sel_Temp.CheckedChanged += new System.EventHandler(this.Sel_Temp_CheckedChanged);
+            this.Sel_Temp.CheckStateChanged += new System.EventHandler(this.Sel_Temp_CheckedChanged);
             // 
             // label181
             // 
             this.label181.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label181.AutoSize = true;
-            this.label181.Location = new System.Drawing.Point(92, 733);
+            this.label181.Location = new System.Drawing.Point(91, 733);
             this.label181.Name = "label181";
             this.label181.Size = new System.Drawing.Size(53, 18);
             this.label181.TabIndex = 36;
@@ -6753,7 +6785,7 @@
             // 
             this.label179.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label179.AutoSize = true;
-            this.label179.Location = new System.Drawing.Point(487, 654);
+            this.label179.Location = new System.Drawing.Point(485, 654);
             this.label179.Name = "label179";
             this.label179.Size = new System.Drawing.Size(224, 18);
             this.label179.TabIndex = 34;
@@ -6773,7 +6805,7 @@
             // 
             this.label175.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label175.AutoSize = true;
-            this.label175.Location = new System.Drawing.Point(492, 576);
+            this.label175.Location = new System.Drawing.Point(490, 576);
             this.label175.Name = "label175";
             this.label175.Size = new System.Drawing.Size(215, 18);
             this.label175.TabIndex = 30;
@@ -6783,7 +6815,7 @@
             // 
             this.label173.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label173.AutoSize = true;
-            this.label173.Location = new System.Drawing.Point(11, 576);
+            this.label173.Location = new System.Drawing.Point(10, 576);
             this.label173.Name = "label173";
             this.label173.Size = new System.Drawing.Size(215, 18);
             this.label173.TabIndex = 28;
@@ -6793,7 +6825,7 @@
             // 
             this.label171.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label171.AutoSize = true;
-            this.label171.Location = new System.Drawing.Point(492, 498);
+            this.label171.Location = new System.Drawing.Point(490, 498);
             this.label171.Name = "label171";
             this.label171.Size = new System.Drawing.Size(215, 18);
             this.label171.TabIndex = 26;
@@ -6803,7 +6835,7 @@
             // 
             this.label169.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label169.AutoSize = true;
-            this.label169.Location = new System.Drawing.Point(38, 498);
+            this.label169.Location = new System.Drawing.Point(37, 498);
             this.label169.Name = "label169";
             this.label169.Size = new System.Drawing.Size(161, 18);
             this.label169.TabIndex = 24;
@@ -6813,7 +6845,7 @@
             // 
             this.label167.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label167.AutoSize = true;
-            this.label167.Location = new System.Drawing.Point(478, 411);
+            this.label167.Location = new System.Drawing.Point(476, 411);
             this.label167.Name = "label167";
             this.label167.Size = new System.Drawing.Size(242, 36);
             this.label167.TabIndex = 22;
@@ -6833,7 +6865,7 @@
             // 
             this.label163.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label163.AutoSize = true;
-            this.label163.Location = new System.Drawing.Point(546, 342);
+            this.label163.Location = new System.Drawing.Point(544, 342);
             this.label163.Name = "label163";
             this.label163.Size = new System.Drawing.Size(107, 18);
             this.label163.TabIndex = 18;
@@ -6843,7 +6875,7 @@
             // 
             this.label161.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label161.AutoSize = true;
-            this.label161.Location = new System.Drawing.Point(47, 342);
+            this.label161.Location = new System.Drawing.Point(46, 342);
             this.label161.Name = "label161";
             this.label161.Size = new System.Drawing.Size(143, 18);
             this.label161.TabIndex = 16;
@@ -6853,7 +6885,7 @@
             // 
             this.label159.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label159.AutoSize = true;
-            this.label159.Location = new System.Drawing.Point(564, 264);
+            this.label159.Location = new System.Drawing.Point(562, 264);
             this.label159.Name = "label159";
             this.label159.Size = new System.Drawing.Size(71, 18);
             this.label159.TabIndex = 14;
@@ -6873,7 +6905,7 @@
             // 
             this.label155.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label155.AutoSize = true;
-            this.label155.Location = new System.Drawing.Point(564, 186);
+            this.label155.Location = new System.Drawing.Point(562, 186);
             this.label155.Name = "label155";
             this.label155.Size = new System.Drawing.Size(71, 18);
             this.label155.TabIndex = 10;
@@ -6893,27 +6925,27 @@
             // 
             this.label151.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label151.AutoSize = true;
-            this.label151.Location = new System.Drawing.Point(564, 108);
+            this.label151.Location = new System.Drawing.Point(562, 108);
             this.label151.Name = "label151";
             this.label151.Size = new System.Drawing.Size(71, 18);
             this.label151.TabIndex = 6;
             this.label151.Text = "EN_Temp";
             // 
-            // label149
+            // label265
             // 
-            this.label149.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.label149.AutoSize = true;
-            this.label149.Location = new System.Drawing.Point(60, 108);
-            this.label149.Name = "label149";
-            this.label149.Size = new System.Drawing.Size(116, 18);
-            this.label149.TabIndex = 4;
-            this.label149.Text = "EN_input_dac";
+            this.label265.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label265.AutoSize = true;
+            this.label265.Location = new System.Drawing.Point(60, 108);
+            this.label265.Name = "label265";
+            this.label265.Size = new System.Drawing.Size(116, 18);
+            this.label265.TabIndex = 4;
+            this.label265.Text = "EN_input_dac";
             // 
             // label147
             // 
             this.label147.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label147.AutoSize = true;
-            this.label147.Location = new System.Drawing.Point(478, 21);
+            this.label147.Location = new System.Drawing.Point(476, 21);
             this.label147.Name = "label147";
             this.label147.Size = new System.Drawing.Size(242, 36);
             this.label147.TabIndex = 2;
@@ -6929,40 +6961,44 @@
             this.label145.TabIndex = 0;
             this.label145.Text = "Sel_Temp_sensor_to_ADC_GC";
             // 
-            // comboBox2
+            // GC8bitDAC
             // 
-            this.comboBox2.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Items.AddRange(new object[] {
-            "2.5V",
-            "4.5V"});
-            this.comboBox2.Location = new System.Drawing.Point(295, 182);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(121, 26);
-            this.comboBox2.TabIndex = 39;
+            this.GC8bitDAC.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.GC8bitDAC.FormattingEnabled = true;
+            this.GC8bitDAC.Items.AddRange(new object[] {
+            "4.5V",
+            "2.5V"});
+            this.GC8bitDAC.Location = new System.Drawing.Point(293, 182);
+            this.GC8bitDAC.Name = "GC8bitDAC";
+            this.GC8bitDAC.Size = new System.Drawing.Size(121, 26);
+            this.GC8bitDAC.TabIndex = 39;
+            this.GC8bitDAC.SelectedIndexChanged += new System.EventHandler(this.GC8bitDAC_SelectedIndexChanged);
             // 
-            // comboBox3
+            // LG_PAbias
             // 
-            this.comboBox3.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Items.AddRange(new object[] {
+            this.LG_PAbias.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.LG_PAbias.FormattingEnabled = true;
+            this.LG_PAbias.Items.AddRange(new object[] {
             "week bias",
             "normal bias"});
-            this.comboBox3.Location = new System.Drawing.Point(295, 260);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(121, 26);
-            this.comboBox3.TabIndex = 40;
+            this.LG_PAbias.Location = new System.Drawing.Point(293, 260);
+            this.LG_PAbias.Name = "LG_PAbias";
+            this.LG_PAbias.Size = new System.Drawing.Size(121, 26);
+            this.LG_PAbias.TabIndex = 40;
+            this.LG_PAbias.SelectedIndexChanged += new System.EventHandler(this.LG_PAbias_SelectedIndexChanged);
             // 
-            // checkBox27
+            // ENHighGain
             // 
-            this.checkBox27.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.checkBox27.AutoSize = true;
-            this.checkBox27.Location = new System.Drawing.Point(307, 340);
-            this.checkBox27.Name = "checkBox27";
-            this.checkBox27.Size = new System.Drawing.Size(97, 22);
-            this.checkBox27.TabIndex = 41;
-            this.checkBox27.Text = "Disable";
-            this.checkBox27.UseVisualStyleBackColor = true;
+            this.ENHighGain.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.ENHighGain.AutoSize = true;
+            this.ENHighGain.Location = new System.Drawing.Point(305, 340);
+            this.ENHighGain.Name = "ENHighGain";
+            this.ENHighGain.Size = new System.Drawing.Size(97, 22);
+            this.ENHighGain.TabIndex = 41;
+            this.ENHighGain.Text = "Disable";
+            this.ENHighGain.UseVisualStyleBackColor = true;
+            this.ENHighGain.CheckedChanged += new System.EventHandler(this.ENHighGain_CheckedChanged);
+            this.ENHighGain.CheckStateChanged += new System.EventHandler(this.ENHighGain_CheckedChanged);
             // 
             // clear_button
             // 
@@ -6983,7 +7019,7 @@
             this.File_group.Margin = new System.Windows.Forms.Padding(4);
             this.File_group.Name = "File_group";
             this.File_group.Padding = new System.Windows.Forms.Padding(4);
-            this.File_group.Size = new System.Drawing.Size(989, 87);
+            this.File_group.Size = new System.Drawing.Size(988, 87);
             this.File_group.TabIndex = 2;
             this.File_group.TabStop = false;
             this.File_group.Text = "File Path";
@@ -6997,7 +7033,7 @@
             this.flowLayoutPanel1.Location = new System.Drawing.Point(4, 25);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(4);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(981, 58);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(980, 58);
             this.flowLayoutPanel1.TabIndex = 0;
             // 
             // file_path_label
@@ -7065,7 +7101,7 @@
             this.tableLayoutPanel1.ColumnCount = 3;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 24.60497F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 75.39503F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 299F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 300F));
             this.tableLayoutPanel1.Controls.Add(this.Msg_label, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.textBox1, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.File_group, 1, 2);
@@ -7696,27 +7732,27 @@
         private System.Windows.Forms.Label label155;
         private System.Windows.Forms.Label label153;
         private System.Windows.Forms.Label label151;
-        private System.Windows.Forms.Label label149;
+        private System.Windows.Forms.Label label265;
         private System.Windows.Forms.Label label147;
-        private System.Windows.Forms.CheckBox checkBox26;
-        private System.Windows.Forms.CheckBox checkBox41;
-        private System.Windows.Forms.CheckBox checkBox40;
-        private System.Windows.Forms.CheckBox checkBox39;
-        private System.Windows.Forms.CheckBox checkBox38;
-        private System.Windows.Forms.CheckBox checkBox37;
-        private System.Windows.Forms.CheckBox checkBox36;
-        private System.Windows.Forms.CheckBox checkBox35;
-        private System.Windows.Forms.CheckBox checkBox34;
-        private System.Windows.Forms.CheckBox checkBox33;
-        private System.Windows.Forms.CheckBox checkBox32;
-        private System.Windows.Forms.CheckBox checkBox31;
-        private System.Windows.Forms.CheckBox checkBox30;
-        private System.Windows.Forms.CheckBox checkBox29;
-        private System.Windows.Forms.CheckBox checkBox28;
+        private System.Windows.Forms.CheckBox GC_TempSensor;
+        private System.Windows.Forms.CheckBox EN_FS;
+        private System.Windows.Forms.CheckBox ENLvdsTrigExt;
+        private System.Windows.Forms.CheckBox ENHGSS;
+        private System.Windows.Forms.CheckBox ENLvdsValEvt;
+        private System.Windows.Forms.CheckBox EN_LowGainSS;
+        private System.Windows.Forms.CheckBox ENLvdsNotrig;
+        private System.Windows.Forms.CheckBox FastShaperLG;
+        private System.Windows.Forms.CheckBox DIsctriDelayVref;
+        private System.Windows.Forms.CheckBox ENLowGain;
+        private System.Windows.Forms.CheckBox TDCRampEN;
+        private System.Windows.Forms.CheckBox ENDac2;
+        private System.Windows.Forms.CheckBox ENDac1;
+        private System.Windows.Forms.CheckBox ENTemp;
+        private System.Windows.Forms.CheckBox EN_input_dac;
         private System.Windows.Forms.CheckBox Sel_Temp;
-        private System.Windows.Forms.ComboBox comboBox2;
-        private System.Windows.Forms.ComboBox comboBox3;
-        private System.Windows.Forms.CheckBox checkBox27;
+        private System.Windows.Forms.ComboBox GC8bitDAC;
+        private System.Windows.Forms.ComboBox LG_PAbias;
+        private System.Windows.Forms.CheckBox ENHighGain;
     }
 }
 

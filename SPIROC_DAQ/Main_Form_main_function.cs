@@ -126,21 +126,21 @@ namespace SPIROC_DAQ
             const string cache_loc = ".\\cache\\";
 
         }
-        private void refreshParamPanel()
+        private void refreshParamPanel_2B()
         {
             // text box
-            trig_dac_value.Text = slowConfig.get_property(settings.TRIG_DAC).ToString();
-            gain_sel_value.Text = slowConfig.get_property(settings.GAIN_DAC).ToString();
-            hgShapeValue.Text = slowConfig.get_property(settings.HG_SS_TIME_CONSTANT).ToString();
-            lgShapeValue.Text = slowConfig.get_property(settings.LG_SS_TIME_CONSTANT).ToString();
-            hgAmpComp.Text = slowConfig.get_property(settings.CAP_HG_PA_COMPENSATION).ToString();
-            lgAmpComp.Text = slowConfig.get_property(settings.CAP_LG_PA_COMPENSATION).ToString();
-            startrampDelay.Text = slowConfig.get_property(settings.DELAY_START_RAMP_TDC).ToString();
-            triggerDelay.Text = slowConfig.get_property(settings.DELAY_TRIGGER).ToString();
-            validholdDelay.Text = slowConfig.get_property(settings.DELAY_VALIDHOLD).ToString();
-            rstcolDelay.Text = slowConfig.get_property(settings.DELAY_RSTCOL).ToString();
-            adcResolution.Text = slowConfig.get_property(settings.ADC_GRAY).ToString();
-            chipID.Text = slowConfig.get_property(settings.CHIPID).ToString();
+            trig_dac_value.Text = slowConfig.get_property(slowConfig.settings["TRIG_DAC"]).ToString();
+            gain_sel_value.Text = slowConfig.get_property(slowConfig.settings["GAIN_DAC"]).ToString();
+            hgShapeValue.Text = slowConfig.get_property(slowConfig.settings["HG_SS_TIME_CONSTANT"]).ToString();
+            lgShapeValue.Text = slowConfig.get_property(slowConfig.settings["LG_SS_TIME_CONSTANT"]).ToString();
+            hgAmpComp.Text = slowConfig.get_property(slowConfig.settings["CAP_HG_PA_COMPENSATION"]).ToString();
+            lgAmpComp.Text = slowConfig.get_property(slowConfig.settings["CAP_LG_PA_COMPENSATION"]).ToString();
+            startrampDelay.Text = slowConfig.get_property(slowConfig.settings["DELAY_START_RAMP_TDC"]).ToString();
+            triggerDelay.Text = slowConfig.get_property(slowConfig.settings["DELAY_TRIGGER"]).ToString();
+            validholdDelay.Text = slowConfig.get_property(slowConfig.settings["DELAY_VALIDHOLD"]).ToString();
+            rstcolDelay.Text = slowConfig.get_property(slowConfig.settings["DELAY_RSTCOL"]).ToString();
+            adcResolution.Text = slowConfig.get_property(slowConfig.settings["ADC_GRAY"]).ToString();
+            chipID.Text = slowConfig.get_property(slowConfig.settings["CHIPID"]).ToString();
 
 
             // combo box
@@ -148,32 +148,32 @@ namespace SPIROC_DAQ
             adcramp_dic.Add(0, "12bit");
             adcramp_dic.Add(2, "10bit");
             adcramp_dic.Add(3, "8bit");
-            adcRampSlope_combo.Text = adcramp_dic[slowConfig.get_property(settings.ADC_RAMP_SLOPE)];
+            adcRampSlope_combo.Text = adcramp_dic[slowConfig.get_property(slowConfig.settings["ADC_RAMP_SLOPE"])];
 
             Dictionary<uint, string> tdcramp_dic = new Dictionary<uint, string>();
             tdcramp_dic.Add(0, "fast");
             tdcramp_dic.Add(1, "slow");
-            tdcRampSlope_combo.Text = tdcramp_dic[slowConfig.get_property(settings.TDC_RAMP_SLOPE_GC)];
+            tdcRampSlope_combo.Text = tdcramp_dic[slowConfig.get_property(slowConfig.settings["TDC_RAMP_SLOPE_GC"])];
 
             Dictionary<uint, string> fastshape_dic = new Dictionary<uint, string>();
             fastshape_dic.Add(0, "Low Gain");
             fastshape_dic.Add(1, "High Gain");
-            fastShaperFrom_combo.Text = fastshape_dic[slowConfig.get_property(settings.FS)];
+            fastShaperFrom_combo.Text = fastshape_dic[slowConfig.get_property(slowConfig.settings["FS"])];
 
             Dictionary<uint, string> adjust4bit_dic = new Dictionary<uint, string>();
             adjust4bit_dic.Add(0, "fine");
             adjust4bit_dic.Add(1, "coaese");
-            adjust4BitDAC_combo.Text = adjust4bit_dic[slowConfig.get_property(settings.ADJUST_4BIT_DAC)];
+            adjust4BitDAC_combo.Text = adjust4bit_dic[slowConfig.get_property(slowConfig.settings["ADJUST_4BIT_DAC"])];
 
 
-            triggerExt_enable.Checked = (slowConfig.get_property(settings.TRIG_EXT) == 1);  
-            flagTdcExt_enable.Checked = (slowConfig.get_property(settings.FLAG_TDC_EXT) == 1);
-            startRampAdcExt_enable.Checked = (slowConfig.get_property(settings.START_RAMP_ADC_EXT) == 1);
-            startRampTdcExt_enable.Checked = (slowConfig.get_property(settings.START_RAMP_TDC_EXT) == 1);
-            probe_enable.Checked = (slowConfig.get_property(settings.PROBE_OTA) == 1);
-            analogOutput_enable.Checked = (slowConfig.get_property(settings.ENABLE_ANALOGUE_OUTPUT) == 1);
-            or36_enable.Checked = (slowConfig.get_property(settings.EN_OR36) == 0);
-            backSCA_enable.Checked = (slowConfig.get_property(settings.BACKUP_SCA) == 1);
+            triggerExt_enable.Checked = (slowConfig.get_property(slowConfig.settings["TRIG_EXT"]) == 1);  
+            flagTdcExt_enable.Checked = (slowConfig.get_property(slowConfig.settings["FLAG_TDC_EXT"]) == 1);
+            startRampAdcExt_enable.Checked = (slowConfig.get_property(slowConfig.settings["START_RAMP_ADC_EXT"]) == 1);
+            startRampTdcExt_enable.Checked = (slowConfig.get_property(slowConfig.settings["START_RAMP_TDC_EXT"]) == 1);
+            probe_enable.Checked = (slowConfig.get_property(slowConfig.settings["PROBE_OTA"]) == 1);
+            analogOutput_enable.Checked = (slowConfig.get_property(slowConfig.settings["ENABLE_ANALOGUE_OUTPUT"]) == 1);
+            or36_enable.Checked = (slowConfig.get_property(slowConfig.settings["EN_OR36"]) == 0);
+            backSCA_enable.Checked = (slowConfig.get_property(slowConfig.settings["BACKUP_SCA"]) == 1);
 
 
             // refresh input DAC table
@@ -189,15 +189,18 @@ namespace SPIROC_DAQ
                     {
                         if (c is TextBox)
                         {
+                            
                             var result = rx_inputdac_value.Match(c.Name);
                             chnNum = uint.Parse(result.Groups[1].Value);
-                            c.Text = (slowConfig.get_property(settings.INDAC[chnNum]) >> 1).ToString();
+                            string Key = "INDAC" + chnNum.ToString();
+                            c.Text = (slowConfig.get_property(slowConfig.settings[Key.ToString ()]) >> 1).ToString();
                         }
                         else if (c is CheckBox)
                         {
                             var result = rx_inputdac_check.Match(c.Name);
                             chnNum = uint.Parse(result.Groups[1].Value);
-                            (c as CheckBox).Checked = (slowConfig.get_property(settings.INDAC[chnNum]) & 0x01) == 1;
+                            string Key = "INDAC" + chnNum.ToString();
+                            (c as CheckBox).Checked = (slowConfig.get_property(slowConfig.settings[Key.ToString()]) & 0x01) == 1;
                         }
                         else
                             continue;
@@ -216,11 +219,11 @@ namespace SPIROC_DAQ
                             chnNum = int.Parse(checkBox.Text);
                             if (chnNum > 17)
                             {
-                                (checkBox as CheckBox).Checked = ((slowConfig.get_property(settings.DISCRIMINATOR_MASK1) & (1 << (chnNum - 18))) == 1);
+                                (checkBox as CheckBox).Checked = ((slowConfig.get_property(slowConfig.settings["DISCRIMINATOR_MASK1"]) & (1 << (chnNum - 18))) == 1);
                             }
                             else
                             {
-                                (checkBox as CheckBox).Checked = ((slowConfig.get_property(settings.DISCRIMINATOR_MASK2) & (1 << chnNum)) == 1);
+                                (checkBox as CheckBox).Checked = ((slowConfig.get_property(slowConfig.settings["DISCRIMINATOR_MASK2"]) & (1 << chnNum)) == 1);
                             }
 
                         }
@@ -244,13 +247,15 @@ namespace SPIROC_DAQ
                         {
                             var result = rx_preamp_value.Match(c.Name);
                             chnNum = uint.Parse(result.Groups[1].Value);
-                            c.Text = reverse_bit(slowConfig.get_property(settings.PREAMP_GAIN[chnNum]) >> 2, 6).ToString();
+                            string Key = "PREAMP_GAIN" + chnNum.ToString();
+                            c.Text = reverse_bit(slowConfig.get_property(slowConfig.settings[Key.ToString ()]) >> 2, 6).ToString();
                         }
                         else if (c is CheckBox)
                         {
                             var result = rx_preamp_check.Match(c.Name);
                             chnNum = uint.Parse(result.Groups[1].Value);
-                            (c as CheckBox).Checked = !((slowConfig.get_property(settings.PREAMP_GAIN[chnNum]) & 0x02) == 0x02);
+                            string Key = "PREAMP_GAIN" + chnNum.ToString();
+                            (c as CheckBox).Checked = !((slowConfig.get_property(slowConfig.settings[Key.ToString()]) & 0x02) == 0x02);
                         }
                         else
                             continue;
@@ -259,14 +264,156 @@ namespace SPIROC_DAQ
                 }
             }
 
-            autoGain_Check.Checked = slowConfig.get_property(settings.AUTO_GAIN) == 1;
-            gainSelect_Check.Checked = slowConfig.get_property(settings.GAIN_SELECT) == 1;
-            adcExtInput_Check.Checked = slowConfig.get_property(settings.AUTO_GAIN) == 1;
-            switchTDCon_Check.Checked = slowConfig.get_property(settings.SWITCH_TDC_ON) == 1;
-            bandGap_Check.Checked = slowConfig.get_property(settings.EN_BANDGAP) == 1;
-            dacEnable_Check.Checked = slowConfig.get_property(settings.EN_DAC) == 1;
+            autoGain_Check.Checked = slowConfig.get_property(slowConfig.settings["AUTO_GAIN"]) == 1;
+            gainSelect_Check.Checked = slowConfig.get_property(slowConfig.settings["GAIN_SELECT"]) == 1;
+            adcExtInput_Check.Checked = slowConfig.get_property(slowConfig.settings["AUTO_GAIN"]) == 1;
+            switchTDCon_Check.Checked = slowConfig.get_property(slowConfig.settings["SWITCH_TDC_ON"]) == 1;
+            bandGap_Check.Checked = slowConfig.get_property(slowConfig.settings["EN_BANDGAP"]) == 1;
+            dacEnable_Check.Checked = slowConfig.get_property(slowConfig.settings["EN_DAC"]) == 1;
 
             
+        }
+        private void refreshParamPanel_2E()
+        {
+            // text box
+            trig_dac_value.Text = slowConfig.get_property(slowConfig.settings["TRIG_DAC"]).ToString();
+            gain_sel_value.Text = slowConfig.get_property(slowConfig.settings["GAIN_DAC"]).ToString();
+            hgShapeValue.Text = slowConfig.get_property(slowConfig.settings["HG_SS_TIME_CONSTANT"]).ToString();
+            lgShapeValue.Text = slowConfig.get_property(slowConfig.settings["LG_SS_TIME_CONSTANT"]).ToString();
+            
+            
+            
+            triggerDelay.Text = slowConfig.get_property(slowConfig.settings["DELAY_TRIGGER"]).ToString();
+            validholdDelay.Text = slowConfig.get_property(slowConfig.settings["DELAY_VALIDHOLD"]).ToString();
+            rstcolDelay.Text = slowConfig.get_property(slowConfig.settings["DELAY_RSTCOL"]).ToString();
+            adcResolution.Text = slowConfig.get_property(slowConfig.settings["ADC_GRAY"]).ToString();
+            chipID.Text = slowConfig.get_property(slowConfig.settings["CHIPID"]).ToString();
+
+
+            // combo box
+            Dictionary<uint, string> adcramp_dic = new Dictionary<uint, string>();
+            adcramp_dic.Add(0, "12bit");
+            adcramp_dic.Add(2, "10bit");
+            adcramp_dic.Add(3, "8bit");
+            adcRampSlope_combo.Text = adcramp_dic[slowConfig.get_property(slowConfig.settings["ADC_RAMP_SLOPE"])];
+
+            Dictionary<uint, string> tdcramp_dic = new Dictionary<uint, string>();
+            tdcramp_dic.Add(0, "fast");
+            tdcramp_dic.Add(1, "slow");
+            tdcRampSlope_combo.Text = tdcramp_dic[slowConfig.get_property(slowConfig.settings["TDC_RAMP_SLOPE_GC"])];
+
+            
+
+            
+
+
+            triggerExt_enable.Checked = (slowConfig.get_property(slowConfig.settings["TRIG_EXT"]) == 1);
+            flagTdcExt_enable.Checked = (slowConfig.get_property(slowConfig.settings["FLAG_TDC_EXT"]) == 1);
+            startRampAdcExt_enable.Checked = (slowConfig.get_property(slowConfig.settings["START_RAMP_ADC_EXT"]) == 1);
+            startRampTdcExt_enable.Checked = (slowConfig.get_property(slowConfig.settings["START_RAMP_TDC_EXT"]) == 1);
+            probe_enable.Checked = (slowConfig.get_property(slowConfig.settings["PROBE_OTA"]) == 1);
+            analogOutput_enable.Checked = (slowConfig.get_property(slowConfig.settings["ENABLE_ANALOGUE_OUTPUT"]) == 1);
+            or36_enable.Checked = (slowConfig.get_property(slowConfig.settings["EN_OR36"]) == 0);
+            backSCA_enable.Checked = (slowConfig.get_property(slowConfig.settings["BACKUP_SCA"]) == 1);
+
+
+            // refresh input DAC table
+            foreach (Control table in inputDAC_group.Controls)
+            {
+                uint value;
+                uint chnNum;
+                Regex rx_inputdac_value = new Regex(@"inputdac(\d+)_value");
+                Regex rx_inputdac_check = new Regex(@"inputdac(\d+)_enable");
+                if (table is TableLayoutPanel)
+                {
+                    foreach (Control c in table.Controls)
+                    {
+                        if (c is TextBox)
+                        {
+
+                            var result = rx_inputdac_value.Match(c.Name);
+                            chnNum = uint.Parse(result.Groups[1].Value);
+                            string Key = "INDAC" + chnNum.ToString();
+                            c.Text = (slowConfig.get_property(slowConfig.settings[Key.ToString()]) >> 1).ToString();
+                        }
+                        else if (c is CheckBox)
+                        {
+                            var result = rx_inputdac_check.Match(c.Name);
+                            chnNum = uint.Parse(result.Groups[1].Value);
+                            string Key = "INDAC" + chnNum.ToString();
+                            (c as CheckBox).Checked = (slowConfig.get_property(slowConfig.settings[Key.ToString()]) & 0x01) == 1;
+                        }
+                        else
+                            continue;
+                    }
+                }
+            }
+            foreach (Control table in discri_groupbox.Controls)
+            {
+                int chnNum;
+                if (table is TableLayoutPanel)
+                {
+                    foreach (Control checkBox in table.Controls)
+                    {
+                        if (checkBox is CheckBox)
+                        {
+                            chnNum = int.Parse(checkBox.Text);
+                            if (chnNum > 17)
+                            {
+                                (checkBox as CheckBox).Checked = ((slowConfig.get_property(slowConfig.settings["DISCRIMINATOR_MASK1"]) & (1 << (chnNum - 18))) == 1);
+                            }
+                            else
+                            {
+                                (checkBox as CheckBox).Checked = ((slowConfig.get_property(slowConfig.settings["DISCRIMINATOR_MASK2"]) & (1 << chnNum)) == 1);
+                            }
+
+                        }
+                        else
+                            continue;
+
+                    }
+                }
+            }
+            foreach (Control table in preamp_group.Controls)
+            {
+                uint value;
+                uint chnNum;
+                Regex rx_preamp_value = new Regex(@"preampValue_(\d+)");
+                Regex rx_preamp_check = new Regex(@"preampCheck_(\d+)");
+                if (table is TableLayoutPanel)
+                {
+                    foreach (Control c in table.Controls)
+                    {
+                        if (c is TextBox)
+                        {
+                            var result = rx_preamp_value.Match(c.Name);
+                            chnNum = uint.Parse(result.Groups[1].Value);
+                            string Key = "PREAMP_GAIN" + chnNum.ToString();
+                            c.Text = reverse_bit(slowConfig.get_property(slowConfig.settings[Key.ToString()]) >> 2, 6).ToString();
+                        }
+                        else if (c is CheckBox)
+                        {
+                            var result = rx_preamp_check.Match(c.Name);
+                            chnNum = uint.Parse(result.Groups[1].Value);
+                            string Key = "PREAMP_GAIN" + chnNum.ToString();
+                            (c as CheckBox).Checked = !((slowConfig.get_property(slowConfig.settings[Key.ToString()]) & 0x02) == 0x02);
+                        }
+                        else
+                            continue;
+                    }
+
+                }
+            }
+
+            autoGain_Check.Checked = slowConfig.get_property(slowConfig.settings["AUTO_GAIN"]) == 1;
+            gainSelect_Check.Checked = slowConfig.get_property(slowConfig.settings["GAIN_SELECT"]) == 1;
+            adcExtInput_Check.Checked = slowConfig.get_property(slowConfig.settings["AUTO_GAIN"]) == 1;
+            switchTDCon_Check.Checked = slowConfig.get_property(slowConfig.settings["SWITCH_TDC_ON"]) == 1;
+            bandGap_Check.Checked = slowConfig.get_property(slowConfig.settings["EN_BANDGAP"]) == 1;
+            ENDac1.Checked = slowConfig.get_property(slowConfig.settings["EN_DAC1"]) == 1;
+            ENDac2.Checked = slowConfig.get_property(slowConfig.settings["EN_DAC2"]) == 1;
+
+
         }
         #region USB interface operation
         // @@@   basic interface operation  -------------------
@@ -444,8 +591,8 @@ namespace SPIROC_DAQ
             Dictionary<string, int> propertyTable = new Dictionary<string, int>();
 
             // property Table information
-            propertyTable.Add("trig delay", settings.DELAY_TRIGGER);
-            propertyTable.Add("trig dac", settings.TRIG_DAC);
+            propertyTable.Add("trig delay", slowConfig.settings["DELAY_TRIGGER"]);
+            propertyTable.Add("trig dac", slowConfig.settings["TRIG_DAC"]);
 
             BinaryWriter bw;
 
@@ -579,9 +726,10 @@ namespace SPIROC_DAQ
 
                     for(int chn = 0; chn<36; chn++)
                     {
-                        uint old_value = slowConfig.get_property(settings.PREAMP_GAIN[chn]);
+                        string Key = "PREAMP_GAIN" + chn.ToString();
+                        uint old_value = slowConfig.get_property(slowConfig.settings[Key.ToString()]);
                         uint new_value = (v << 2) + (old_value & 0x03);
-                        slowConfig.set_property(settings.PREAMP_GAIN[chn], new_value);
+                        slowConfig.set_property(slowConfig.settings[Key.ToString()], new_value);
                     }
                     
                     normal_config_button_Click(null, null);
@@ -676,7 +824,7 @@ namespace SPIROC_DAQ
                 {
                     break;
                 }
-                slowConfig.set_property(settings.DELAY_TRIGGER, delay_asic);
+                slowConfig.set_property(slowConfig.settings["DELAY_TRIGGER"], delay_asic);
                 normal_config_button_Click(null, null);
                 Thread.Sleep(100);
 
@@ -796,15 +944,16 @@ namespace SPIROC_DAQ
                 }
                 for(int chn = 0; chn<36;chn ++)
                 {
-                    uint old_value = slowConfig.get_property(settings.PREAMP_GAIN[chn]);
+                    string Key = "PREAMP_GAIN" + chn.ToString();
+                    uint old_value = slowConfig.get_property(slowConfig.settings[Key.ToString()]);
                     uint new_value = (preamp << 2) + (old_value & 0x03);
-                    slowConfig.set_property(settings.PREAMP_GAIN[chn], new_value);
+                    slowConfig.set_property(slowConfig.settings[Key.ToString()], new_value);
 
                 }
                 // inside loop is for trig_delay
                 for (uint delay = delay_start; delay <= delay_stop; delay += delay_step)
                 {
-                    slowConfig.set_property(settings.DELAY_TRIGGER, delay);
+                    slowConfig.set_property(slowConfig.settings["DELAY_TRIGGER"], delay);
                     sendMessage("Sweep point: \n\t delay of asic:\t" + delay.ToString() + "\n\t preamp:\t" + preamp.ToString() + "\n");
 
                     if (taskToken.IsCancellationRequested == true)
@@ -913,7 +1062,7 @@ namespace SPIROC_DAQ
                 // inside loop is for trig_delay
                 for (uint delay = delay_start; delay <= delay_stop; delay += delay_step)
                 {
-                    slowConfig.set_property(settings.DELAY_TRIGGER, delay);
+                    slowConfig.set_property(slowConfig.settings["DELAY_TRIGGER"], delay);
                     sendMessage("Sweep point: \n\t delay of asic:\t" + delay.ToString() + "\n\t voltage:\t" + voltage.ToString() + "\n");
 
                     if (taskToken.IsCancellationRequested == true)

@@ -57,7 +57,7 @@ namespace SPIROC_DAQ
         private int pwr_vector = 0x0f;
         // for changing textbox1.Text from different thread (not from main thread)
         delegate void SetTextCallback(string text);
-        public int version_num=1;
+        public int version_num=2;
         public Main_Form()
         {
             InitializeComponent();
@@ -77,13 +77,15 @@ namespace SPIROC_DAQ
 
 
                 slowConfig.save_settings(0);
+                refreshParamPanel_2B();
             }
             if (version_num == 2)
             {
                 slowConfig = slowConfig_2E;
                 slowConfig.save_settings(0);
+                refreshParamPanel_2E();
             }
-            refreshParamPanel();
+           
             //slowConfig.recall_settings(0);
             // Adding event handles for action of attachment and removal of device
             usbDevices.DeviceAttached += new EventHandler(deviceAttached);
@@ -906,7 +908,14 @@ namespace SPIROC_DAQ
                     MessageBox.Show("Please choose which setting plot you want to use", "Error");
                     break;
             }
-            refreshParamPanel();
+            if (version_num ==1)
+            {
+                refreshParamPanel_2B();
+            }
+            else
+            {
+                refreshParamPanel_2E();
+            }
         }
 
         private void analog_output_select_ValueChanged(object sender, EventArgs e)
@@ -1524,7 +1533,293 @@ namespace SPIROC_DAQ
         {
 
         }
+        private void Sel_Temp_CheckedChanged(object sender, EventArgs e)
+        {
+            uint value = 0;
+            if (Sel_Temp.Checked == true)
+            {
+                Sel_Temp.Text = "\tEnable";
+                value = 1;
+            }
+            else
+            {
+                Sel_Temp.Text = "\tDisable";
+                value = 0;
+            }
+            slowConfig.set_property(slowConfig.settings["Sel_Temp_sensor_to_ADC_GC"], value);
+        }
+        private void EN_input_dac_CheckedChanged(object sender, EventArgs e)
+        {
+            uint value = 0;
+            if (EN_input_dac.Checked == true)
+            {
+                EN_input_dac.Text = "\tEnable";
+                value = 1;
+            }
+            else
+            {
+                EN_input_dac.Text = "\tDisable";
+                value = 0;
+            }
+            slowConfig.set_property(slowConfig.settings["EN_input_dac"], value);
+        }
+        private void GC8bitDAC_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            uint value = 0;
+            switch (GC8bitDAC.SelectedIndex)
+            {
+                case 0:
+                    value = 1;
+                    break;
+                case 1:
+                    value = 0;
+                    break;
+                default:
+                    value = 2;  // error
+                    break;
+            }
+            if (value != 2)
+            {
+                slowConfig.set_property(slowConfig.settings["GC_8_bit_DAC_reference"], value);
+                return;
+            }
+            MessageBox.Show("Item selected is invalid", "Value Invalid");
+        }
+        private void LG_PAbias_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            uint value = 0;
+            switch (LG_PAbias.SelectedIndex)
+            {
+                case 0:
+                    value = 1;
+                    break;
+                case 1:
+                    value = 0;
+                    break;
+                default:
+                    value = 2;  // error
+                    break;
+            }
+            if (value != 2)
+            {
+                slowConfig.set_property(slowConfig.settings["LG_PA_bias"], value);
+                return;
+            }
+            MessageBox.Show("Item selected is invalid", "Value Invalid");
+        }
+        private void ENHighGain_CheckedChanged(object sender, EventArgs e)
+        {
+            uint value = 0;
+            if (ENHighGain.Checked == true)
+            {
+                ENHighGain.Text = "\tEnable";
+                value = 1;
+            }
+            else
+            {
+                ENHighGain.Text = "\tDisable";
+                value = 0;
+            }
+            slowConfig.set_property(slowConfig.settings["EN_High_Gain_PA"], value);
+        }
+        private void ENLowGain_CheckedChanged(object sender, EventArgs e)
+        {
+            uint value = 0;
+            if (ENLowGain.Checked == true)
+            {
+                ENLowGain.Text = "\tEnable";
+                value = 1;
+            }
+            else
+            {
+                ENLowGain.Text = "\tDisable";
+                value = 0;
+            }
+            slowConfig.set_property(slowConfig.settings["EN_Low_Gain_PA"], value);
+        }
+        private void FastShaperLG_CheckedChanged(object sender, EventArgs e)
+        {
+            uint value = 0;
+            if (FastShaperLG.Checked == true)
+            {
+                FastShaperLG.Text = "\tEnable";
+                value = 1;
+            }
+            else
+            {
+                FastShaperLG.Text = "\tDisable";
+                value = 0;
+            }
+            slowConfig.set_property(slowConfig.settings["Fast_Shaper_on_LG"], value);
+        }
+        private void EN_LowGainSS_CheckedChanged(object sender, EventArgs e)
+        {
+            uint value = 0;
+            if (EN_LowGainSS.Checked == true)
+            {
+                EN_LowGainSS.Text = "\tEnable";
+                value = 1;
+            }
+            else
+            {
+                EN_LowGainSS.Text = "\tDisable";
+                value = 0;
+            }
+            slowConfig.set_property(slowConfig.settings["EN_Low_Gain_Slow_Shaper"], value);
+        }
+        private void ENHGSS_CheckedChanged(object sender, EventArgs e)
+        {
+            uint value = 0;
+            if (ENHGSS.Checked == true)
+            {
+                ENHGSS.Text = "\tEnable";
+                value = 1;
+            }
+            else
+            {
+                ENHGSS.Text = "\tDisable";
+                value = 0;
+            }
+            slowConfig.set_property(slowConfig.settings["ENABLE_HG_SS"], value);
+        }
+        private void EN_FS_CheckedChanged(object sender, EventArgs e)
+        {
+            uint value = 0;
+            if (EN_FS.Checked == true)
+            {
+                EN_FS.Text = "\tEnable";
+                value = 1;
+            }
+            else
+            {
+                EN_FS.Text = "\tDisable";
+                value = 0;
+            }
+            slowConfig.set_property(slowConfig.settings["EN_FS"], value);
+        }
+        private void GC_TempSensor_CheckedChanged(object sender, EventArgs e)
+        {
+            uint value = 0;
+            if (GC_TempSensor.Checked == true)
+            {
+                GC_TempSensor.Text = "\tEnable";
+                value = 1;
+            }
+            else
+            {
+                GC_TempSensor.Text = "\tDisable";
+                value = 0;
+            }
+            slowConfig.set_property(slowConfig.settings["GC_Temp_sensor_high_current"], value);
+        }
+        private void ENTemp_CheckedChanged(object sender, EventArgs e)
+        {
+            uint value = 0;
+            if (ENTemp.Checked == true)
+            {
+                ENTemp.Text = "\tEnable";
+                value = 1;
+            }
+            else
+            {
+                ENTemp.Text = "\tDisable";
+                value = 0;
+            }
+            slowConfig.set_property(slowConfig.settings["EN_Temp"], value);
+        }
+        private void ENDac1_CheckedChanged(object sender, EventArgs e)
+        {
+            uint value = 0;
+            if (ENDac1.Checked == true)
+            {
+                ENDac1.Text = "\tEnable";
+                value = 1;
+            }
+            else
+            {
+                ENDac1.Text = "\tDisable";
+                value = 0;
+            }
+            slowConfig.set_property(slowConfig.settings["EN_DAC1"], value);
+        }
+        private void ENDac2_CheckedChanged(object sender, EventArgs e)
+        {
 
-        
+        }
+        private void TDCRampEN_CheckedChanged(object sender, EventArgs e)
+        {
+            uint value = 0;
+            if (TDCRampEN.Checked == true)
+            {
+                TDCRampEN.Text = "\tEnable";
+                value = 1;
+            }
+            else
+            {
+                TDCRampEN.Text = "\tDisable";
+                value = 0;
+            }
+            slowConfig.set_property(slowConfig.settings["TDC_RAMP_EN"], value);
+        }
+        private void DIsctriDelayVref_CheckedChanged(object sender, EventArgs e)
+        {
+            uint value = 0;
+            if (DIsctriDelayVref.Checked == true)
+            {
+                DIsctriDelayVref.Text = "\tEnable";
+                value = 1;
+            }
+            else
+            {
+                DIsctriDelayVref.Text = "\tDisable";
+                value = 0;
+            }
+            slowConfig.set_property(slowConfig.settings["Discri_Delay_Vref_I_source_EN"], value);
+        }
+        private void ENLvdsNotrig_CheckedChanged(object sender, EventArgs e)
+        {
+            uint value = 0;
+            if (ENLvdsNotrig.Checked == true)
+            {
+                ENLvdsNotrig.Text = "\tEnable";
+                value = 1;
+            }
+            else
+            {
+                ENLvdsNotrig.Text = "\tDisable";
+                value = 0;
+            }
+            slowConfig.set_property(slowConfig.settings["EN_LVDS_receiver_NoTrig"], value);
+        }
+        private void ENLvdsValEvt_CheckedChanged(object sender, EventArgs e)
+        {
+            uint value = 0;
+            if (ENLvdsValEvt.Checked == true)
+            {
+                ENLvdsValEvt.Text = "\tEnable";
+                value = 1;
+            }
+            else
+            {
+                ENLvdsValEvt.Text = "\tDisable";
+                value = 0;
+            }
+            slowConfig.set_property(slowConfig.settings["EN_LVDS_receiver_ValEvt"], value);
+        }
+        private void ENLvdsTrigExt_CheckedChanged(object sender, EventArgs e)
+        {
+            uint value = 0;
+            if (ENLvdsTrigExt.Checked == true)
+            {
+                ENLvdsTrigExt.Text = "\tEnable";
+                value = 1;
+            }
+            else
+            {
+                ENLvdsTrigExt.Text = "\tDisable";
+                value = 0;
+            }
+            slowConfig.set_property(slowConfig.settings["EN_LVDS_receiver_TrigExt"], value);
+        }
     }
 }
