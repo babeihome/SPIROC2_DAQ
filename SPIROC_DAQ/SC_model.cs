@@ -21,7 +21,7 @@ namespace SPIROC_DAQ
         string getTag();
         Dictionary <string ,int > settings { get; set; }
         string settingName { get; set; }
-
+        void testoutput();
     }
 
     [Serializable]
@@ -233,6 +233,31 @@ namespace SPIROC_DAQ
 
 
         // test method redundant for any test function
+        public void WriteMessage(string path, string msg)
+        {
+            using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write))
+            {
+                using (StreamWriter sw = new StreamWriter(fs))
+                {
+                    sw.BaseStream.Seek(0, SeekOrigin.End);
+                    sw.WriteLine("{0}\n", msg, DateTime.Now);
+                    sw.Flush();
+                }
+            }
+        }
+
+        public  void testoutput()
+        {
+            foreach (KeyValuePair<string, int> kvp in settings)
+            {
+
+                string msg = kvp.Key + "     " + kvp.Value + "     " + get_property(kvp.Value) + "    " + property_length [kvp.Value];
+                var path = @"c:\test.txt";
+                WriteMessage(path, msg);
+            }
+
+        }
+
         public   void test()
         {
             int sum = 0;
@@ -243,6 +268,7 @@ namespace SPIROC_DAQ
             }
             //Console.WriteLine(sum);
         }
+
 
         // need cooperate with PROPERTIES-ID table in settings.cs
         public  void set_property(int id, uint value)
@@ -605,6 +631,29 @@ namespace SPIROC_DAQ
             this.set_property(settings["DOUT2"], 1);
             this.set_property(settings["DOUT1"], 1);
 
+
+        }
+        public void WriteMessage(string path, string msg)
+        {
+            using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write))
+            {
+                using (StreamWriter sw = new StreamWriter(fs))
+                {
+                    sw.BaseStream.Seek(0, SeekOrigin.End);
+                    sw.WriteLine("{0}\n", msg, DateTime.Now);
+                    sw.Flush();
+                }
+            }
+        }
+        public void testoutput()
+        {
+            foreach (KeyValuePair<string, int> kvp in settings)
+            {
+
+                string msg = kvp.Key + "     " + kvp.Value + "     " + get_property(kvp.Value) + "    " + property_length[kvp.Value];
+                var path = @"c:\test.txt";
+                WriteMessage(path, msg);
+            }
 
         }
 

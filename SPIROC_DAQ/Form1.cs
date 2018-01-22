@@ -119,10 +119,12 @@ namespace SPIROC_DAQ
 
         private void normal_usbcon_button_Click(object sender, EventArgs e)
         {
+            slowConfig.testoutput();
             if (check_USB() != true)
             {
                 MessageBox.Show("USB can't be connected", "Error");
             }
+
         }
 
         private void normal_config_button_Click(object sender, EventArgs e)
@@ -163,7 +165,7 @@ namespace SPIROC_DAQ
             normal_acq_button.Enabled = true;
             Config_status_label.Text = "Configured";
             Config_status_label.ForeColor = Color.Green;
-
+            
         }
 
         private void normal_acq_button_Click(object sender, EventArgs e)
@@ -1518,14 +1520,24 @@ namespace SPIROC_DAQ
             if (version_num == 1)
             {
                 slowConfig = slowConfig_2B;
-
-
                 slowConfig.save_settings(0);
+                hgAmpComp.Enabled = true ;
+                lgAmpComp.Enabled = true;
+                startrampDelay.Enabled = true;
+                fastShaperFrom_combo.Enabled = true;
+                adjust4BitDAC_combo.Enabled = true;
+                dacEnable_Check.Enabled = true;
             }
             if (version_num == 2)
             {
                 slowConfig = slowConfig_2E;
                 slowConfig.save_settings(0);
+                hgAmpComp.Enabled = false;
+                lgAmpComp.Enabled = false;
+                startrampDelay.Enabled = false;
+                fastShaperFrom_combo.Enabled = false;
+                adjust4BitDAC_combo.Enabled = false;
+                dacEnable_Check.Enabled = false;
             }
         }
 
