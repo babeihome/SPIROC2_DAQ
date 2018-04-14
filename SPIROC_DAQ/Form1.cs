@@ -1450,5 +1450,79 @@ namespace SPIROC_DAQ
 
             textBox1.AppendText("The maxium number of trigger in one package has been set to " + eventNumPackage.Value.ToString() + ".\n");
         }
+
+        private void debug_cmd_send_bt_Click(object sender, EventArgs e)
+        {
+            byte[] commandByte = new byte[2];
+
+            Int16 cmd_int = Convert.ToInt16(debug_cmd_text.Text, 16);
+            commandByte[1] = (byte)(cmd_int >> 8);
+            commandByte[0] = (byte)cmd_int;
+
+            var isUSBConnected = check_USB();
+            if (isUSBConnected)
+            {
+                CommandSend(commandByte, 2);
+            }
+            else
+            {
+                MessageBox.Show("Please connect USB first", "Error");
+                return;
+            }
+
+            textBox1.AppendText("Test Cmd:" + debug_cmd_text.Text +"\nhas been sent.");
+
+        }
+
+        private void debug_rxdata_Click(object sender, EventArgs e)
+        {
+            if (debug_rxdata.Tag.ToString() == "0")
+            {
+
+                dataAcqTks.Dispose();       //clean up old token source
+                dataAcqTks = new CancellationTokenSource(); // generate a new token         
+
+                // create file writer
+                fileName = string.Format("{0:yyyyMMdd_HHHHmmss}", DateTime.Now) + ".dat";
+                if (!Directory.Exists(fileDic))
+                {
+                    Directory.CreateDirectory(fileDic);
+                }
+
+                BinaryWriter bw = new BinaryWriter(File.Open(fileDic + "\\\\" + fileName, FileMode.Append, FileAccess.Write, FileShare.Read));
+                resultRecord = new FileStream(fileDic + '\\' + recordPath, FileMode.Append);
+
+                // Start data acquision thread
+                try
+                {
+                    Task dataAcqTsk = Task.Factory.StartNew(() => this.dataAcq_threadFunc(dataAcqTks.Token, bw), dataAcqTks.Token);
+                    startTime = DateTime.Now;
+                    timer1.Start();
+                }
+                catch (AggregateException excption)
+                {
+
+                    foreach (var v in excption.InnerExceptions)
+                    {
+
+                        exceptionReport.AppendLine(excption.Message + " " + v.Message);
+                    }
+
+                }
+                debug_rxdata.Text = "Stop";
+                debug_rxdata.BackColor = Color.PeachPuff;
+                debug_rxdata.ForeColor = Color.White;
+                debug_rxdata.Tag = 1;
+            }
+            else
+            {
+                dataAcqTks.Cancel();
+                debug_rxdata.Text = "Receive Data";
+                debug_rxdata.BackColor = Color.White;
+                debug_rxdata.ForeColor = Color.Black;
+                debug_rxdata.Tag = 0;
+            }
+            
+        }
     }
 }
