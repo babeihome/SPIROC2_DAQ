@@ -1470,7 +1470,7 @@ namespace SPIROC_DAQ
                 return;
             }
 
-            textBox1.AppendText("Test Cmd:" + debug_cmd_text.Text +"\nhas been sent.");
+            textBox1.AppendText("Test Cmd:" + debug_cmd_text.Text +"\nhas been sent.\n");
 
         }
 
