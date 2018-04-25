@@ -244,3 +244,4 @@ ModelManifest.xml
 # FAKE - F# Make
 .fake/
 /SPIROC_DAQ/Class1.cs
+/SPIROC_DAQ.csproj

@@ -127,9 +127,9 @@ namespace SPIROC_DAQ
             cmdBytes[0] = 0x01;
             CommandSend(cmdBytes, 2);
 
-            // start sc mode
-            cmdBytes[1] = 0x08;
-            cmdBytes[0] = 0x00;
+            // choose data transfer to sc buffer
+            cmdBytes[1] = 0x05;
+            cmdBytes[0] = 0x01;
             CommandSend(cmdBytes, 2);
             Thread.Sleep(100);
             // send config data
@@ -140,6 +140,17 @@ namespace SPIROC_DAQ
                 CommandSend(cmdBytes, 2);
                 //Thread.Sleep(100);
             }
+
+            // close channel of data to sc buffer
+            cmdBytes[1] = 0x05;
+            cmdBytes[0] = 0x00;
+
+            CommandSend(cmdBytes, 2);
+
+            // start slow config from fpga to asic
+            cmdBytes[1] = 0x08;
+            cmdBytes[0] = 0x00;
+            CommandSend(cmdBytes, 2);
 
             // show relative message
             textBox1.AppendText("Slow control config successed\n");

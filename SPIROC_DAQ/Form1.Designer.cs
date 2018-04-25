@@ -481,6 +481,11 @@
             this.label105 = new System.Windows.Forms.Label();
             this.HVswitch_btn = new System.Windows.Forms.Button();
             this.Debug_tab = new System.Windows.Forms.TabPage();
+            this.panel9 = new System.Windows.Forms.Panel();
+            this.debug_rxdata = new System.Windows.Forms.Button();
+            this.debug_cmd_send_bt = new System.Windows.Forms.Button();
+            this.debug_cmd_text = new System.Windows.Forms.TextBox();
+            this.label144 = new System.Windows.Forms.Label();
             this.panel8 = new System.Windows.Forms.Panel();
             this.eventNumPackage = new System.Windows.Forms.NumericUpDown();
             this.label143 = new System.Windows.Forms.Label();
@@ -509,11 +514,6 @@
             this.time_textbox = new System.Windows.Forms.TextBox();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.panel9 = new System.Windows.Forms.Panel();
-            this.label144 = new System.Windows.Forms.Label();
-            this.debug_cmd_text = new System.Windows.Forms.TextBox();
-            this.debug_cmd_send_bt = new System.Windows.Forms.Button();
-            this.debug_rxdata = new System.Windows.Forms.Button();
             this.Status_panel.SuspendLayout();
             this.USB_status_group.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -553,6 +553,7 @@
             this.tableLayoutPanel8.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.HV_value)).BeginInit();
             this.Debug_tab.SuspendLayout();
+            this.panel9.SuspendLayout();
             this.panel8.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.eventNumPackage)).BeginInit();
             this.panel7.SuspendLayout();
@@ -562,7 +563,6 @@
             this.File_group.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
-            this.panel9.SuspendLayout();
             this.SuspendLayout();
             // 
             // Status_panel
@@ -574,14 +574,14 @@
             this.Status_panel.Controls.Add(this.Acq_status_group, 0, 2);
             this.Status_panel.Controls.Add(this.AFG_group, 0, 3);
             this.Status_panel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Status_panel.Location = new System.Drawing.Point(905, 47);
+            this.Status_panel.Location = new System.Drawing.Point(904, 47);
             this.Status_panel.Name = "Status_panel";
             this.Status_panel.RowCount = 4;
             this.Status_panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.Status_panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.Status_panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.Status_panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.Status_panel.Size = new System.Drawing.Size(183, 566);
+            this.Status_panel.Size = new System.Drawing.Size(184, 566);
             this.Status_panel.TabIndex = 6;
             // 
             // USB_status_group
@@ -684,7 +684,7 @@
             // 
             this.Status_label.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.Status_label.AutoSize = true;
-            this.Status_label.Location = new System.Drawing.Point(976, 21);
+            this.Status_label.Location = new System.Drawing.Point(975, 21);
             this.Status_label.Name = "Status_label";
             this.Status_label.Size = new System.Drawing.Size(41, 12);
             this.Status_label.TabIndex = 5;
@@ -696,7 +696,7 @@
             this.Main_group.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Main_group.Location = new System.Drawing.Point(232, 47);
             this.Main_group.Name = "Main_group";
-            this.Main_group.Size = new System.Drawing.Size(667, 566);
+            this.Main_group.Size = new System.Drawing.Size(666, 566);
             this.Main_group.TabIndex = 4;
             this.Main_group.TabStop = false;
             this.Main_group.Text = "SPIROC_CONTROL";
@@ -715,7 +715,7 @@
             this.Main_tab.Location = new System.Drawing.Point(3, 17);
             this.Main_tab.Name = "Main_tab";
             this.Main_tab.SelectedIndex = 0;
-            this.Main_tab.Size = new System.Drawing.Size(661, 546);
+            this.Main_tab.Size = new System.Drawing.Size(660, 546);
             this.Main_tab.TabIndex = 0;
             // 
             // Flow_tab
@@ -724,7 +724,7 @@
             this.Flow_tab.Location = new System.Drawing.Point(4, 22);
             this.Flow_tab.Name = "Flow_tab";
             this.Flow_tab.Padding = new System.Windows.Forms.Padding(3);
-            this.Flow_tab.Size = new System.Drawing.Size(653, 520);
+            this.Flow_tab.Size = new System.Drawing.Size(652, 520);
             this.Flow_tab.TabIndex = 0;
             this.Flow_tab.Text = "Task";
             this.Flow_tab.UseVisualStyleBackColor = true;
@@ -755,7 +755,7 @@
             this.task_panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 71F));
             this.task_panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 71F));
             this.task_panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.task_panel.Size = new System.Drawing.Size(647, 514);
+            this.task_panel.Size = new System.Drawing.Size(646, 514);
             this.task_panel.TabIndex = 0;
             // 
             // label118
@@ -828,7 +828,7 @@
             this.normal_task_panel.Location = new System.Drawing.Point(110, 4);
             this.normal_task_panel.Name = "normal_task_panel";
             this.normal_task_panel.Padding = new System.Windows.Forms.Padding(3);
-            this.normal_task_panel.Size = new System.Drawing.Size(533, 65);
+            this.normal_task_panel.Size = new System.Drawing.Size(532, 65);
             this.normal_task_panel.TabIndex = 1;
             // 
             // normal_usbcon_button
@@ -895,7 +895,7 @@
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel3.Location = new System.Drawing.Point(110, 76);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(533, 65);
+            this.panel3.Size = new System.Drawing.Size(532, 65);
             this.panel3.TabIndex = 5;
             // 
             // voltageSweep_btn
@@ -904,7 +904,7 @@
             this.voltageSweep_btn.Dock = System.Windows.Forms.DockStyle.Right;
             this.voltageSweep_btn.Font = new System.Drawing.Font("SimSun", 9F);
             this.voltageSweep_btn.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.voltageSweep_btn.Location = new System.Drawing.Point(385, 0);
+            this.voltageSweep_btn.Location = new System.Drawing.Point(384, 0);
             this.voltageSweep_btn.Margin = new System.Windows.Forms.Padding(30, 3, 15, 3);
             this.voltageSweep_btn.Name = "voltageSweep_btn";
             this.voltageSweep_btn.Size = new System.Drawing.Size(74, 65);
@@ -919,7 +919,7 @@
             this.volSweepStop_btn.Dock = System.Windows.Forms.DockStyle.Right;
             this.volSweepStop_btn.Font = new System.Drawing.Font("SimSun", 9F);
             this.volSweepStop_btn.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.volSweepStop_btn.Location = new System.Drawing.Point(459, 0);
+            this.volSweepStop_btn.Location = new System.Drawing.Point(458, 0);
             this.volSweepStop_btn.Margin = new System.Windows.Forms.Padding(30, 3, 15, 3);
             this.volSweepStop_btn.Name = "volSweepStop_btn";
             this.volSweepStop_btn.Size = new System.Drawing.Size(74, 65);
@@ -1053,7 +1053,7 @@
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel4.Location = new System.Drawing.Point(110, 148);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(533, 65);
+            this.panel4.Size = new System.Drawing.Size(532, 65);
             this.panel4.TabIndex = 7;
             // 
             // scSweep_btn
@@ -1062,7 +1062,7 @@
             this.scSweep_btn.Dock = System.Windows.Forms.DockStyle.Right;
             this.scSweep_btn.Font = new System.Drawing.Font("SimSun", 9F);
             this.scSweep_btn.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.scSweep_btn.Location = new System.Drawing.Point(385, 0);
+            this.scSweep_btn.Location = new System.Drawing.Point(384, 0);
             this.scSweep_btn.Margin = new System.Windows.Forms.Padding(30, 3, 15, 3);
             this.scSweep_btn.Name = "scSweep_btn";
             this.scSweep_btn.Size = new System.Drawing.Size(74, 65);
@@ -1077,7 +1077,7 @@
             this.scSweepStop_btn.Dock = System.Windows.Forms.DockStyle.Right;
             this.scSweepStop_btn.Font = new System.Drawing.Font("SimSun", 9F);
             this.scSweepStop_btn.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.scSweepStop_btn.Location = new System.Drawing.Point(459, 0);
+            this.scSweepStop_btn.Location = new System.Drawing.Point(458, 0);
             this.scSweepStop_btn.Margin = new System.Windows.Forms.Padding(30, 3, 15, 3);
             this.scSweepStop_btn.Name = "scSweepStop_btn";
             this.scSweepStop_btn.Size = new System.Drawing.Size(74, 65);
@@ -1216,7 +1216,7 @@
             this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel5.Location = new System.Drawing.Point(110, 220);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(533, 65);
+            this.panel5.Size = new System.Drawing.Size(532, 65);
             this.panel5.TabIndex = 9;
             // 
             // volDelay_sweep_btn
@@ -1270,7 +1270,7 @@
             this.panel6.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel6.Location = new System.Drawing.Point(110, 292);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(533, 65);
+            this.panel6.Size = new System.Drawing.Size(532, 65);
             this.panel6.TabIndex = 12;
             // 
             // LED_calib_btn
@@ -5680,7 +5680,7 @@
             this.tableLayoutPanel8.ColumnCount = 3;
             this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 19.66825F));
             this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 80.33176F));
-            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 245F));
+            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 246F));
             this.tableLayoutPanel8.Controls.Add(this.label104, 0, 0);
             this.tableLayoutPanel8.Controls.Add(this.HV_value, 1, 0);
             this.tableLayoutPanel8.Controls.Add(this.label105, 0, 1);
@@ -5702,7 +5702,7 @@
             this.label104.AutoSize = true;
             this.label104.Location = new System.Drawing.Point(3, 0);
             this.label104.Name = "label104";
-            this.label104.Size = new System.Drawing.Size(73, 39);
+            this.label104.Size = new System.Drawing.Size(72, 39);
             this.label104.TabIndex = 0;
             this.label104.Text = "Voltage";
             this.label104.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -5710,7 +5710,7 @@
             // HV_value
             // 
             this.HV_value.Dock = System.Windows.Forms.DockStyle.Left;
-            this.HV_value.Location = new System.Drawing.Point(82, 3);
+            this.HV_value.Location = new System.Drawing.Point(81, 3);
             this.HV_value.Name = "HV_value";
             this.HV_value.Size = new System.Drawing.Size(120, 21);
             this.HV_value.TabIndex = 1;
@@ -5724,7 +5724,7 @@
             this.label105.AutoSize = true;
             this.label105.Location = new System.Drawing.Point(3, 39);
             this.label105.Name = "label105";
-            this.label105.Size = new System.Drawing.Size(73, 61);
+            this.label105.Size = new System.Drawing.Size(72, 61);
             this.label105.TabIndex = 2;
             this.label105.Text = "Switch";
             this.label105.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -5733,7 +5733,7 @@
             // 
             this.HVswitch_btn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.HVswitch_btn.Location = new System.Drawing.Point(82, 42);
+            this.HVswitch_btn.Location = new System.Drawing.Point(81, 42);
             this.HVswitch_btn.Name = "HVswitch_btn";
             this.HVswitch_btn.Size = new System.Drawing.Size(75, 55);
             this.HVswitch_btn.TabIndex = 3;
@@ -5753,6 +5753,56 @@
             this.Debug_tab.TabIndex = 2;
             this.Debug_tab.Text = "Debug";
             this.Debug_tab.UseVisualStyleBackColor = true;
+            // 
+            // panel9
+            // 
+            this.panel9.Controls.Add(this.debug_rxdata);
+            this.panel9.Controls.Add(this.debug_cmd_send_bt);
+            this.panel9.Controls.Add(this.debug_cmd_text);
+            this.panel9.Controls.Add(this.label144);
+            this.panel9.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel9.Location = new System.Drawing.Point(3, 143);
+            this.panel9.Name = "panel9";
+            this.panel9.Size = new System.Drawing.Size(647, 59);
+            this.panel9.TabIndex = 3;
+            // 
+            // debug_rxdata
+            // 
+            this.debug_rxdata.Location = new System.Drawing.Point(317, 20);
+            this.debug_rxdata.Name = "debug_rxdata";
+            this.debug_rxdata.Size = new System.Drawing.Size(102, 23);
+            this.debug_rxdata.TabIndex = 3;
+            this.debug_rxdata.Tag = "0";
+            this.debug_rxdata.Text = "Receive Data";
+            this.debug_rxdata.UseVisualStyleBackColor = true;
+            this.debug_rxdata.Click += new System.EventHandler(this.debug_rxdata_Click);
+            // 
+            // debug_cmd_send_bt
+            // 
+            this.debug_cmd_send_bt.Location = new System.Drawing.Point(225, 20);
+            this.debug_cmd_send_bt.Name = "debug_cmd_send_bt";
+            this.debug_cmd_send_bt.Size = new System.Drawing.Size(75, 23);
+            this.debug_cmd_send_bt.TabIndex = 2;
+            this.debug_cmd_send_bt.Text = "Send";
+            this.debug_cmd_send_bt.UseVisualStyleBackColor = true;
+            this.debug_cmd_send_bt.Click += new System.EventHandler(this.debug_cmd_send_bt_Click);
+            // 
+            // debug_cmd_text
+            // 
+            this.debug_cmd_text.Location = new System.Drawing.Point(78, 20);
+            this.debug_cmd_text.MaxLength = 4;
+            this.debug_cmd_text.Name = "debug_cmd_text";
+            this.debug_cmd_text.Size = new System.Drawing.Size(119, 21);
+            this.debug_cmd_text.TabIndex = 1;
+            // 
+            // label144
+            // 
+            this.label144.AutoSize = true;
+            this.label144.Location = new System.Drawing.Point(13, 23);
+            this.label144.Name = "label144";
+            this.label144.Size = new System.Drawing.Size(47, 12);
+            this.label144.TabIndex = 0;
+            this.label144.Text = "Command";
             // 
             // panel8
             // 
@@ -5961,7 +6011,7 @@
             this.File_group.Dock = System.Windows.Forms.DockStyle.Fill;
             this.File_group.Location = new System.Drawing.Point(232, 619);
             this.File_group.Name = "File_group";
-            this.File_group.Size = new System.Drawing.Size(667, 58);
+            this.File_group.Size = new System.Drawing.Size(666, 58);
             this.File_group.TabIndex = 2;
             this.File_group.TabStop = false;
             this.File_group.Text = "File Path";
@@ -5974,7 +6024,7 @@
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 17);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(661, 38);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(660, 38);
             this.flowLayoutPanel1.TabIndex = 0;
             // 
             // file_path_label
@@ -6037,7 +6087,7 @@
             this.tableLayoutPanel1.ColumnCount = 3;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 24.60497F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 75.39503F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 188F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 189F));
             this.tableLayoutPanel1.Controls.Add(this.Msg_label, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.textBox1, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.File_group, 1, 2);
@@ -6079,56 +6129,6 @@
             // timer1
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
-            // panel9
-            // 
-            this.panel9.Controls.Add(this.debug_rxdata);
-            this.panel9.Controls.Add(this.debug_cmd_send_bt);
-            this.panel9.Controls.Add(this.debug_cmd_text);
-            this.panel9.Controls.Add(this.label144);
-            this.panel9.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel9.Location = new System.Drawing.Point(3, 143);
-            this.panel9.Name = "panel9";
-            this.panel9.Size = new System.Drawing.Size(647, 59);
-            this.panel9.TabIndex = 3;
-            // 
-            // label144
-            // 
-            this.label144.AutoSize = true;
-            this.label144.Location = new System.Drawing.Point(13, 23);
-            this.label144.Name = "label144";
-            this.label144.Size = new System.Drawing.Size(47, 12);
-            this.label144.TabIndex = 0;
-            this.label144.Text = "Command";
-            // 
-            // debug_cmd_text
-            // 
-            this.debug_cmd_text.Location = new System.Drawing.Point(78, 20);
-            this.debug_cmd_text.MaxLength = 4;
-            this.debug_cmd_text.Name = "debug_cmd_text";
-            this.debug_cmd_text.Size = new System.Drawing.Size(119, 21);
-            this.debug_cmd_text.TabIndex = 1;
-            // 
-            // debug_cmd_send_bt
-            // 
-            this.debug_cmd_send_bt.Location = new System.Drawing.Point(225, 20);
-            this.debug_cmd_send_bt.Name = "debug_cmd_send_bt";
-            this.debug_cmd_send_bt.Size = new System.Drawing.Size(75, 23);
-            this.debug_cmd_send_bt.TabIndex = 2;
-            this.debug_cmd_send_bt.Text = "Send";
-            this.debug_cmd_send_bt.UseVisualStyleBackColor = true;
-            this.debug_cmd_send_bt.Click += new System.EventHandler(this.debug_cmd_send_bt_Click);
-            // 
-            // debug_rxdata
-            // 
-            this.debug_rxdata.Location = new System.Drawing.Point(317, 20);
-            this.debug_rxdata.Name = "debug_rxdata";
-            this.debug_rxdata.Size = new System.Drawing.Size(102, 23);
-            this.debug_rxdata.TabIndex = 3;
-            this.debug_rxdata.Tag = "0";
-            this.debug_rxdata.Text = "Receive Data";
-            this.debug_rxdata.UseVisualStyleBackColor = true;
-            this.debug_rxdata.Click += new System.EventHandler(this.debug_rxdata_Click);
             // 
             // Main_Form
             // 
@@ -6189,6 +6189,8 @@
             this.tableLayoutPanel8.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.HV_value)).EndInit();
             this.Debug_tab.ResumeLayout(false);
+            this.panel9.ResumeLayout(false);
+            this.panel9.PerformLayout();
             this.panel8.ResumeLayout(false);
             this.panel8.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.eventNumPackage)).EndInit();
@@ -6204,8 +6206,6 @@
             this.flowLayoutPanel1.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
-            this.panel9.ResumeLayout(false);
-            this.panel9.PerformLayout();
             this.ResumeLayout(false);
 
         }
