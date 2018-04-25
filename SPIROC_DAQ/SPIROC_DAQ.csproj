@@ -58,7 +58,7 @@
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>smile.ico</ApplicationIcon>
@@ -154,6 +154,8 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="CyUSB.dll" />
+    <Content Include="NationalInstruments.VisaNS.dll" />
     <Content Include="smile.ico" />
     <Content Include="SPIROC.ico" />
   </ItemGroup>

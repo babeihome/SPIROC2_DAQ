@@ -149,6 +149,9 @@
             this.saveSetting_btn = new System.Windows.Forms.Button();
             this.recallSetting_btn = new System.Windows.Forms.Button();
             this.setting_name = new System.Windows.Forms.TextBox();
+            this.tableLayoutPanel12 = new System.Windows.Forms.TableLayoutPanel();
+            this.label144 = new System.Windows.Forms.Label();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.SC_tab2 = new System.Windows.Forms.TabPage();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.discri_groupbox = new System.Windows.Forms.GroupBox();
@@ -502,6 +505,46 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.afg3252_btn = new System.Windows.Forms.Button();
             this.afg3252_cmd = new System.Windows.Forms.TextBox();
+            this.SPIROC2e = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanel13 = new System.Windows.Forms.TableLayoutPanel();
+            this.GC_TempSensor = new System.Windows.Forms.CheckBox();
+            this.EN_FS = new System.Windows.Forms.CheckBox();
+            this.ENLvdsTrigExt = new System.Windows.Forms.CheckBox();
+            this.ENHGSS = new System.Windows.Forms.CheckBox();
+            this.ENLvdsValEvt = new System.Windows.Forms.CheckBox();
+            this.EN_LowGainSS = new System.Windows.Forms.CheckBox();
+            this.ENLvdsNotrig = new System.Windows.Forms.CheckBox();
+            this.FastShaperLG = new System.Windows.Forms.CheckBox();
+            this.DIsctriDelayVref = new System.Windows.Forms.CheckBox();
+            this.ENLowGain = new System.Windows.Forms.CheckBox();
+            this.TDCRampEN = new System.Windows.Forms.CheckBox();
+            this.ENDac2 = new System.Windows.Forms.CheckBox();
+            this.ENDac1 = new System.Windows.Forms.CheckBox();
+            this.ENTemp = new System.Windows.Forms.CheckBox();
+            this.EN_input_dac = new System.Windows.Forms.CheckBox();
+            this.Sel_Temp = new System.Windows.Forms.CheckBox();
+            this.label181 = new System.Windows.Forms.Label();
+            this.label179 = new System.Windows.Forms.Label();
+            this.label177 = new System.Windows.Forms.Label();
+            this.label175 = new System.Windows.Forms.Label();
+            this.label173 = new System.Windows.Forms.Label();
+            this.label171 = new System.Windows.Forms.Label();
+            this.label169 = new System.Windows.Forms.Label();
+            this.label167 = new System.Windows.Forms.Label();
+            this.label165 = new System.Windows.Forms.Label();
+            this.label163 = new System.Windows.Forms.Label();
+            this.label161 = new System.Windows.Forms.Label();
+            this.label159 = new System.Windows.Forms.Label();
+            this.label157 = new System.Windows.Forms.Label();
+            this.label155 = new System.Windows.Forms.Label();
+            this.label153 = new System.Windows.Forms.Label();
+            this.label151 = new System.Windows.Forms.Label();
+            this.label265 = new System.Windows.Forms.Label();
+            this.label147 = new System.Windows.Forms.Label();
+            this.label145 = new System.Windows.Forms.Label();
+            this.GC8bitDAC = new System.Windows.Forms.ComboBox();
+            this.LG_PAbias = new System.Windows.Forms.ComboBox();
+            this.ENHighGain = new System.Windows.Forms.CheckBox();
             this.clear_button = new System.Windows.Forms.Button();
             this.File_group = new System.Windows.Forms.GroupBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
@@ -536,6 +579,7 @@
             this.tableLayoutPanel2.SuspendLayout();
             this.config_sel_group.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
+            this.tableLayoutPanel12.SuspendLayout();
             this.SC_tab2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.discri_groupbox.SuspendLayout();
@@ -560,6 +604,8 @@
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.analog_output_select)).BeginInit();
             this.tabPage1.SuspendLayout();
+            this.SPIROC2e.SuspendLayout();
+            this.tableLayoutPanel13.SuspendLayout();
             this.File_group.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -711,6 +757,7 @@
             this.Main_tab.Controls.Add(this.hv_tab);
             this.Main_tab.Controls.Add(this.Debug_tab);
             this.Main_tab.Controls.Add(this.tabPage1);
+            this.Main_tab.Controls.Add(this.SPIROC2e);
             this.Main_tab.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Main_tab.Location = new System.Drawing.Point(3, 17);
             this.Main_tab.Name = "Main_tab";
@@ -1908,6 +1955,7 @@
             this.tableLayoutPanel3.Controls.Add(this.saveSetting_btn, 0, 3);
             this.tableLayoutPanel3.Controls.Add(this.recallSetting_btn, 2, 3);
             this.tableLayoutPanel3.Controls.Add(this.setting_name, 1, 3);
+            this.tableLayoutPanel3.Controls.Add(this.tableLayoutPanel12, 3, 3);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 17);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
@@ -1994,6 +2042,47 @@
             this.setting_name.Name = "setting_name";
             this.setting_name.Size = new System.Drawing.Size(118, 21);
             this.setting_name.TabIndex = 6;
+            // 
+            // tableLayoutPanel12
+            // 
+            this.tableLayoutPanel12.ColumnCount = 2;
+            this.tableLayoutPanel12.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel12.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel12.Controls.Add(this.label144, 0, 0);
+            this.tableLayoutPanel12.Controls.Add(this.comboBox1, 1, 0);
+            this.tableLayoutPanel12.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel12.Location = new System.Drawing.Point(473, 24);
+            this.tableLayoutPanel12.Margin = new System.Windows.Forms.Padding(2);
+            this.tableLayoutPanel12.Name = "tableLayoutPanel12";
+            this.tableLayoutPanel12.RowCount = 1;
+            this.tableLayoutPanel12.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel12.Size = new System.Drawing.Size(156, 35);
+            this.tableLayoutPanel12.TabIndex = 7;
+            // 
+            // label144
+            // 
+            this.label144.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.label144.AutoSize = true;
+            this.label144.Location = new System.Drawing.Point(2, 11);
+            this.label144.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label144.Name = "label144";
+            this.label144.Size = new System.Drawing.Size(47, 12);
+            this.label144.TabIndex = 0;
+            this.label144.Text = "Version";
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "SPIROC2B",
+            "SPIROC2E"});
+            this.comboBox1.Location = new System.Drawing.Point(80, 7);
+            this.comboBox1.Margin = new System.Windows.Forms.Padding(2);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(74, 20);
+            this.comboBox1.TabIndex = 1;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // SC_tab2
             // 
@@ -5995,6 +6084,556 @@
             this.afg3252_cmd.Size = new System.Drawing.Size(500, 21);
             this.afg3252_cmd.TabIndex = 0;
             // 
+            // SPIROC2e
+            // 
+            this.SPIROC2e.Controls.Add(this.tableLayoutPanel13);
+            this.SPIROC2e.Location = new System.Drawing.Point(4, 22);
+            this.SPIROC2e.Margin = new System.Windows.Forms.Padding(2);
+            this.SPIROC2e.Name = "SPIROC2e";
+            this.SPIROC2e.Padding = new System.Windows.Forms.Padding(2);
+            this.SPIROC2e.Size = new System.Drawing.Size(643, 513);
+            this.SPIROC2e.TabIndex = 8;
+            this.SPIROC2e.Text = "SPIROC2e";
+            this.SPIROC2e.UseVisualStyleBackColor = true;
+            // 
+            // tableLayoutPanel13
+            // 
+            this.tableLayoutPanel13.ColumnCount = 4;
+            this.tableLayoutPanel13.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel13.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel13.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 167F));
+            this.tableLayoutPanel13.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 164F));
+            this.tableLayoutPanel13.Controls.Add(this.GC_TempSensor, 3, 0);
+            this.tableLayoutPanel13.Controls.Add(this.EN_FS, 1, 9);
+            this.tableLayoutPanel13.Controls.Add(this.ENLvdsTrigExt, 3, 8);
+            this.tableLayoutPanel13.Controls.Add(this.ENHGSS, 1, 8);
+            this.tableLayoutPanel13.Controls.Add(this.ENLvdsValEvt, 3, 7);
+            this.tableLayoutPanel13.Controls.Add(this.EN_LowGainSS, 1, 7);
+            this.tableLayoutPanel13.Controls.Add(this.ENLvdsNotrig, 3, 6);
+            this.tableLayoutPanel13.Controls.Add(this.FastShaperLG, 1, 6);
+            this.tableLayoutPanel13.Controls.Add(this.DIsctriDelayVref, 3, 5);
+            this.tableLayoutPanel13.Controls.Add(this.ENLowGain, 1, 5);
+            this.tableLayoutPanel13.Controls.Add(this.TDCRampEN, 3, 4);
+            this.tableLayoutPanel13.Controls.Add(this.ENDac2, 3, 3);
+            this.tableLayoutPanel13.Controls.Add(this.ENDac1, 3, 2);
+            this.tableLayoutPanel13.Controls.Add(this.ENTemp, 3, 1);
+            this.tableLayoutPanel13.Controls.Add(this.EN_input_dac, 1, 1);
+            this.tableLayoutPanel13.Controls.Add(this.Sel_Temp, 1, 0);
+            this.tableLayoutPanel13.Controls.Add(this.label181, 0, 9);
+            this.tableLayoutPanel13.Controls.Add(this.label179, 2, 8);
+            this.tableLayoutPanel13.Controls.Add(this.label177, 0, 8);
+            this.tableLayoutPanel13.Controls.Add(this.label175, 2, 7);
+            this.tableLayoutPanel13.Controls.Add(this.label173, 0, 7);
+            this.tableLayoutPanel13.Controls.Add(this.label171, 2, 6);
+            this.tableLayoutPanel13.Controls.Add(this.label169, 0, 6);
+            this.tableLayoutPanel13.Controls.Add(this.label167, 2, 5);
+            this.tableLayoutPanel13.Controls.Add(this.label165, 0, 5);
+            this.tableLayoutPanel13.Controls.Add(this.label163, 2, 4);
+            this.tableLayoutPanel13.Controls.Add(this.label161, 0, 4);
+            this.tableLayoutPanel13.Controls.Add(this.label159, 2, 3);
+            this.tableLayoutPanel13.Controls.Add(this.label157, 0, 3);
+            this.tableLayoutPanel13.Controls.Add(this.label155, 2, 2);
+            this.tableLayoutPanel13.Controls.Add(this.label153, 0, 2);
+            this.tableLayoutPanel13.Controls.Add(this.label151, 2, 1);
+            this.tableLayoutPanel13.Controls.Add(this.label265, 0, 1);
+            this.tableLayoutPanel13.Controls.Add(this.label147, 2, 0);
+            this.tableLayoutPanel13.Controls.Add(this.label145, 0, 0);
+            this.tableLayoutPanel13.Controls.Add(this.GC8bitDAC, 1, 2);
+            this.tableLayoutPanel13.Controls.Add(this.LG_PAbias, 1, 3);
+            this.tableLayoutPanel13.Controls.Add(this.ENHighGain, 1, 4);
+            this.tableLayoutPanel13.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel13.Location = new System.Drawing.Point(2, 2);
+            this.tableLayoutPanel13.Margin = new System.Windows.Forms.Padding(2);
+            this.tableLayoutPanel13.Name = "tableLayoutPanel13";
+            this.tableLayoutPanel13.RowCount = 10;
+            this.tableLayoutPanel13.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel13.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel13.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel13.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel13.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel13.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel13.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel13.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel13.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel13.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel13.Size = new System.Drawing.Size(639, 509);
+            this.tableLayoutPanel13.TabIndex = 0;
+            // 
+            // GC_TempSensor
+            // 
+            this.GC_TempSensor.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.GC_TempSensor.AutoSize = true;
+            this.GC_TempSensor.Location = new System.Drawing.Point(524, 17);
+            this.GC_TempSensor.Margin = new System.Windows.Forms.Padding(2);
+            this.GC_TempSensor.Name = "GC_TempSensor";
+            this.GC_TempSensor.Size = new System.Drawing.Size(66, 16);
+            this.GC_TempSensor.TabIndex = 59;
+            this.GC_TempSensor.Text = "Disable";
+            this.GC_TempSensor.UseVisualStyleBackColor = true;
+            this.GC_TempSensor.CheckedChanged += new System.EventHandler(this.GC_TempSensor_CheckedChanged);
+            this.GC_TempSensor.CheckStateChanged += new System.EventHandler(this.GC_TempSensor_CheckedChanged);
+            // 
+            // EN_FS
+            // 
+            this.EN_FS.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.EN_FS.AutoSize = true;
+            this.EN_FS.Location = new System.Drawing.Point(198, 471);
+            this.EN_FS.Margin = new System.Windows.Forms.Padding(2);
+            this.EN_FS.Name = "EN_FS";
+            this.EN_FS.Size = new System.Drawing.Size(66, 16);
+            this.EN_FS.TabIndex = 58;
+            this.EN_FS.Text = "Disable";
+            this.EN_FS.UseVisualStyleBackColor = true;
+            this.EN_FS.CheckedChanged += new System.EventHandler(this.EN_FS_CheckedChanged);
+            this.EN_FS.CheckStateChanged += new System.EventHandler(this.EN_FS_CheckedChanged);
+            // 
+            // ENLvdsTrigExt
+            // 
+            this.ENLvdsTrigExt.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.ENLvdsTrigExt.AutoSize = true;
+            this.ENLvdsTrigExt.Location = new System.Drawing.Point(524, 417);
+            this.ENLvdsTrigExt.Margin = new System.Windows.Forms.Padding(2);
+            this.ENLvdsTrigExt.Name = "ENLvdsTrigExt";
+            this.ENLvdsTrigExt.Size = new System.Drawing.Size(66, 16);
+            this.ENLvdsTrigExt.TabIndex = 57;
+            this.ENLvdsTrigExt.Text = "Disable";
+            this.ENLvdsTrigExt.UseVisualStyleBackColor = true;
+            this.ENLvdsTrigExt.CheckedChanged += new System.EventHandler(this.ENLvdsTrigExt_CheckedChanged);
+            this.ENLvdsTrigExt.CheckStateChanged += new System.EventHandler(this.ENLvdsTrigExt_CheckedChanged);
+            // 
+            // ENHGSS
+            // 
+            this.ENHGSS.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.ENHGSS.AutoSize = true;
+            this.ENHGSS.Location = new System.Drawing.Point(198, 417);
+            this.ENHGSS.Margin = new System.Windows.Forms.Padding(2);
+            this.ENHGSS.Name = "ENHGSS";
+            this.ENHGSS.Size = new System.Drawing.Size(66, 16);
+            this.ENHGSS.TabIndex = 56;
+            this.ENHGSS.Text = "Disable";
+            this.ENHGSS.UseVisualStyleBackColor = true;
+            this.ENHGSS.CheckedChanged += new System.EventHandler(this.ENHGSS_CheckedChanged);
+            this.ENHGSS.CheckStateChanged += new System.EventHandler(this.ENHGSS_CheckedChanged);
+            // 
+            // ENLvdsValEvt
+            // 
+            this.ENLvdsValEvt.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.ENLvdsValEvt.AutoSize = true;
+            this.ENLvdsValEvt.Location = new System.Drawing.Point(524, 367);
+            this.ENLvdsValEvt.Margin = new System.Windows.Forms.Padding(2);
+            this.ENLvdsValEvt.Name = "ENLvdsValEvt";
+            this.ENLvdsValEvt.Size = new System.Drawing.Size(66, 16);
+            this.ENLvdsValEvt.TabIndex = 55;
+            this.ENLvdsValEvt.Text = "Disable";
+            this.ENLvdsValEvt.UseVisualStyleBackColor = true;
+            this.ENLvdsValEvt.CheckedChanged += new System.EventHandler(this.ENLvdsValEvt_CheckedChanged);
+            this.ENLvdsValEvt.CheckStateChanged += new System.EventHandler(this.ENLvdsValEvt_CheckedChanged);
+            // 
+            // EN_LowGainSS
+            // 
+            this.EN_LowGainSS.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.EN_LowGainSS.AutoSize = true;
+            this.EN_LowGainSS.Location = new System.Drawing.Point(198, 367);
+            this.EN_LowGainSS.Margin = new System.Windows.Forms.Padding(2);
+            this.EN_LowGainSS.Name = "EN_LowGainSS";
+            this.EN_LowGainSS.Size = new System.Drawing.Size(66, 16);
+            this.EN_LowGainSS.TabIndex = 54;
+            this.EN_LowGainSS.Text = "Disable";
+            this.EN_LowGainSS.UseVisualStyleBackColor = true;
+            this.EN_LowGainSS.CheckedChanged += new System.EventHandler(this.EN_LowGainSS_CheckedChanged);
+            this.EN_LowGainSS.CheckStateChanged += new System.EventHandler(this.EN_LowGainSS_CheckedChanged);
+            // 
+            // ENLvdsNotrig
+            // 
+            this.ENLvdsNotrig.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.ENLvdsNotrig.AutoSize = true;
+            this.ENLvdsNotrig.Location = new System.Drawing.Point(524, 317);
+            this.ENLvdsNotrig.Margin = new System.Windows.Forms.Padding(2);
+            this.ENLvdsNotrig.Name = "ENLvdsNotrig";
+            this.ENLvdsNotrig.Size = new System.Drawing.Size(66, 16);
+            this.ENLvdsNotrig.TabIndex = 53;
+            this.ENLvdsNotrig.Text = "Disable";
+            this.ENLvdsNotrig.UseVisualStyleBackColor = true;
+            this.ENLvdsNotrig.CheckedChanged += new System.EventHandler(this.ENLvdsNotrig_CheckedChanged);
+            this.ENLvdsNotrig.CheckStateChanged += new System.EventHandler(this.ENLvdsNotrig_CheckedChanged);
+            // 
+            // FastShaperLG
+            // 
+            this.FastShaperLG.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.FastShaperLG.AutoSize = true;
+            this.FastShaperLG.Location = new System.Drawing.Point(198, 317);
+            this.FastShaperLG.Margin = new System.Windows.Forms.Padding(2);
+            this.FastShaperLG.Name = "FastShaperLG";
+            this.FastShaperLG.Size = new System.Drawing.Size(66, 16);
+            this.FastShaperLG.TabIndex = 52;
+            this.FastShaperLG.Text = "Disable";
+            this.FastShaperLG.UseVisualStyleBackColor = true;
+            this.FastShaperLG.CheckedChanged += new System.EventHandler(this.FastShaperLG_CheckedChanged);
+            this.FastShaperLG.CheckStateChanged += new System.EventHandler(this.FastShaperLG_CheckedChanged);
+            // 
+            // DIsctriDelayVref
+            // 
+            this.DIsctriDelayVref.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.DIsctriDelayVref.AutoSize = true;
+            this.DIsctriDelayVref.Location = new System.Drawing.Point(524, 267);
+            this.DIsctriDelayVref.Margin = new System.Windows.Forms.Padding(2);
+            this.DIsctriDelayVref.Name = "DIsctriDelayVref";
+            this.DIsctriDelayVref.Size = new System.Drawing.Size(66, 16);
+            this.DIsctriDelayVref.TabIndex = 51;
+            this.DIsctriDelayVref.Text = "Disable";
+            this.DIsctriDelayVref.UseVisualStyleBackColor = true;
+            this.DIsctriDelayVref.CheckedChanged += new System.EventHandler(this.DIsctriDelayVref_CheckedChanged);
+            this.DIsctriDelayVref.CheckStateChanged += new System.EventHandler(this.DIsctriDelayVref_CheckedChanged);
+            // 
+            // ENLowGain
+            // 
+            this.ENLowGain.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.ENLowGain.AutoSize = true;
+            this.ENLowGain.Location = new System.Drawing.Point(198, 267);
+            this.ENLowGain.Margin = new System.Windows.Forms.Padding(2);
+            this.ENLowGain.Name = "ENLowGain";
+            this.ENLowGain.Size = new System.Drawing.Size(66, 16);
+            this.ENLowGain.TabIndex = 50;
+            this.ENLowGain.Text = "Disable";
+            this.ENLowGain.UseVisualStyleBackColor = true;
+            this.ENLowGain.CheckedChanged += new System.EventHandler(this.ENLowGain_CheckedChanged);
+            this.ENLowGain.CheckStateChanged += new System.EventHandler(this.ENLowGain_CheckedChanged);
+            // 
+            // TDCRampEN
+            // 
+            this.TDCRampEN.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.TDCRampEN.AutoSize = true;
+            this.TDCRampEN.Location = new System.Drawing.Point(524, 217);
+            this.TDCRampEN.Margin = new System.Windows.Forms.Padding(2);
+            this.TDCRampEN.Name = "TDCRampEN";
+            this.TDCRampEN.Size = new System.Drawing.Size(66, 16);
+            this.TDCRampEN.TabIndex = 49;
+            this.TDCRampEN.Text = "Disable";
+            this.TDCRampEN.UseVisualStyleBackColor = true;
+            this.TDCRampEN.CheckedChanged += new System.EventHandler(this.TDCRampEN_CheckedChanged);
+            this.TDCRampEN.CheckStateChanged += new System.EventHandler(this.TDCRampEN_CheckedChanged);
+            // 
+            // ENDac2
+            // 
+            this.ENDac2.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.ENDac2.AutoSize = true;
+            this.ENDac2.Location = new System.Drawing.Point(524, 167);
+            this.ENDac2.Margin = new System.Windows.Forms.Padding(2);
+            this.ENDac2.Name = "ENDac2";
+            this.ENDac2.Size = new System.Drawing.Size(66, 16);
+            this.ENDac2.TabIndex = 48;
+            this.ENDac2.Text = "Disable";
+            this.ENDac2.UseVisualStyleBackColor = true;
+            this.ENDac2.CheckedChanged += new System.EventHandler(this.ENDac2_CheckedChanged);
+            this.ENDac2.CheckStateChanged += new System.EventHandler(this.ENDac2_CheckedChanged);
+            // 
+            // ENDac1
+            // 
+            this.ENDac1.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.ENDac1.AutoSize = true;
+            this.ENDac1.Location = new System.Drawing.Point(524, 117);
+            this.ENDac1.Margin = new System.Windows.Forms.Padding(2);
+            this.ENDac1.Name = "ENDac1";
+            this.ENDac1.Size = new System.Drawing.Size(66, 16);
+            this.ENDac1.TabIndex = 47;
+            this.ENDac1.Text = "Disable";
+            this.ENDac1.UseVisualStyleBackColor = true;
+            this.ENDac1.CheckedChanged += new System.EventHandler(this.ENDac1_CheckedChanged);
+            this.ENDac1.CheckStateChanged += new System.EventHandler(this.ENDac1_CheckedChanged);
+            // 
+            // ENTemp
+            // 
+            this.ENTemp.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.ENTemp.AutoSize = true;
+            this.ENTemp.Location = new System.Drawing.Point(524, 67);
+            this.ENTemp.Margin = new System.Windows.Forms.Padding(2);
+            this.ENTemp.Name = "ENTemp";
+            this.ENTemp.Size = new System.Drawing.Size(66, 16);
+            this.ENTemp.TabIndex = 46;
+            this.ENTemp.Text = "Disable";
+            this.ENTemp.UseVisualStyleBackColor = true;
+            this.ENTemp.CheckedChanged += new System.EventHandler(this.ENTemp_CheckedChanged);
+            this.ENTemp.CheckStateChanged += new System.EventHandler(this.ENTemp_CheckedChanged);
+            // 
+            // EN_input_dac
+            // 
+            this.EN_input_dac.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.EN_input_dac.AutoSize = true;
+            this.EN_input_dac.Location = new System.Drawing.Point(198, 67);
+            this.EN_input_dac.Margin = new System.Windows.Forms.Padding(2);
+            this.EN_input_dac.Name = "EN_input_dac";
+            this.EN_input_dac.Size = new System.Drawing.Size(66, 16);
+            this.EN_input_dac.TabIndex = 44;
+            this.EN_input_dac.Text = "Disable";
+            this.EN_input_dac.UseVisualStyleBackColor = true;
+            this.EN_input_dac.CheckedChanged += new System.EventHandler(this.EN_input_dac_CheckedChanged);
+            this.EN_input_dac.CheckStateChanged += new System.EventHandler(this.EN_input_dac_CheckedChanged);
+            // 
+            // Sel_Temp
+            // 
+            this.Sel_Temp.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.Sel_Temp.AutoSize = true;
+            this.Sel_Temp.Location = new System.Drawing.Point(198, 17);
+            this.Sel_Temp.Margin = new System.Windows.Forms.Padding(2);
+            this.Sel_Temp.Name = "Sel_Temp";
+            this.Sel_Temp.Size = new System.Drawing.Size(66, 16);
+            this.Sel_Temp.TabIndex = 42;
+            this.Sel_Temp.Text = "Disable";
+            this.Sel_Temp.UseVisualStyleBackColor = true;
+            this.Sel_Temp.CheckedChanged += new System.EventHandler(this.Sel_Temp_CheckedChanged);
+            this.Sel_Temp.CheckStateChanged += new System.EventHandler(this.Sel_Temp_CheckedChanged);
+            // 
+            // label181
+            // 
+            this.label181.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label181.AutoSize = true;
+            this.label181.Location = new System.Drawing.Point(59, 473);
+            this.label181.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label181.Name = "label181";
+            this.label181.Size = new System.Drawing.Size(35, 12);
+            this.label181.TabIndex = 36;
+            this.label181.Text = "EN_FS";
+            // 
+            // label179
+            // 
+            this.label179.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label179.AutoSize = true;
+            this.label179.Location = new System.Drawing.Point(317, 419);
+            this.label179.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label179.Name = "label179";
+            this.label179.Size = new System.Drawing.Size(149, 12);
+            this.label179.TabIndex = 34;
+            this.label179.Text = "EN_LVDS_receiver_TrigExt";
+            // 
+            // label177
+            // 
+            this.label177.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label177.AutoSize = true;
+            this.label177.Location = new System.Drawing.Point(38, 419);
+            this.label177.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label177.Name = "label177";
+            this.label177.Size = new System.Drawing.Size(77, 12);
+            this.label177.TabIndex = 32;
+            this.label177.Text = "ENABLE_HG_SS";
+            // 
+            // label175
+            // 
+            this.label175.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label175.AutoSize = true;
+            this.label175.Location = new System.Drawing.Point(320, 369);
+            this.label175.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label175.Name = "label175";
+            this.label175.Size = new System.Drawing.Size(143, 12);
+            this.label175.TabIndex = 30;
+            this.label175.Text = "EN_LVDS_receiver_ValEvt";
+            // 
+            // label173
+            // 
+            this.label173.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label173.AutoSize = true;
+            this.label173.Location = new System.Drawing.Point(5, 369);
+            this.label173.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label173.Name = "label173";
+            this.label173.Size = new System.Drawing.Size(143, 12);
+            this.label173.TabIndex = 28;
+            this.label173.Text = "EN_Low_Gain_Slow_Shaper";
+            // 
+            // label171
+            // 
+            this.label171.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label171.AutoSize = true;
+            this.label171.Location = new System.Drawing.Point(320, 319);
+            this.label171.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label171.Name = "label171";
+            this.label171.Size = new System.Drawing.Size(143, 12);
+            this.label171.TabIndex = 26;
+            this.label171.Text = "EN_LVDS_receiver_NoTrig";
+            // 
+            // label169
+            // 
+            this.label169.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label169.AutoSize = true;
+            this.label169.Location = new System.Drawing.Point(23, 319);
+            this.label169.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label169.Name = "label169";
+            this.label169.Size = new System.Drawing.Size(107, 12);
+            this.label169.TabIndex = 24;
+            this.label169.Text = "Fast_Shaper_on_LG";
+            // 
+            // label167
+            // 
+            this.label167.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label167.AutoSize = true;
+            this.label167.Location = new System.Drawing.Point(311, 263);
+            this.label167.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label167.Name = "label167";
+            this.label167.Size = new System.Drawing.Size(161, 24);
+            this.label167.TabIndex = 22;
+            this.label167.Text = "Discri_Delay_Vref_I_source_EN";
+            // 
+            // label165
+            // 
+            this.label165.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label165.AutoSize = true;
+            this.label165.Location = new System.Drawing.Point(32, 269);
+            this.label165.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label165.Name = "label165";
+            this.label165.Size = new System.Drawing.Size(89, 12);
+            this.label165.TabIndex = 20;
+            this.label165.Text = "EN_Low_Gain_PA";
+            // 
+            // label163
+            // 
+            this.label163.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label163.AutoSize = true;
+            this.label163.Location = new System.Drawing.Point(356, 219);
+            this.label163.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label163.Name = "label163";
+            this.label163.Size = new System.Drawing.Size(71, 12);
+            this.label163.TabIndex = 18;
+            this.label163.Text = "TDC_RAMP_EN";
+            // 
+            // label161
+            // 
+            this.label161.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label161.AutoSize = true;
+            this.label161.Location = new System.Drawing.Point(29, 219);
+            this.label161.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label161.Name = "label161";
+            this.label161.Size = new System.Drawing.Size(95, 12);
+            this.label161.TabIndex = 16;
+            this.label161.Text = "EN_High_Gain_PA";
+            // 
+            // label159
+            // 
+            this.label159.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label159.AutoSize = true;
+            this.label159.Location = new System.Drawing.Point(368, 169);
+            this.label159.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label159.Name = "label159";
+            this.label159.Size = new System.Drawing.Size(47, 12);
+            this.label159.TabIndex = 14;
+            this.label159.Text = "EN_DAC2";
+            // 
+            // label157
+            // 
+            this.label157.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label157.AutoSize = true;
+            this.label157.Location = new System.Drawing.Point(44, 169);
+            this.label157.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label157.Name = "label157";
+            this.label157.Size = new System.Drawing.Size(65, 12);
+            this.label157.TabIndex = 12;
+            this.label157.Text = "LG_PA_bias";
+            // 
+            // label155
+            // 
+            this.label155.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label155.AutoSize = true;
+            this.label155.Location = new System.Drawing.Point(368, 119);
+            this.label155.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label155.Name = "label155";
+            this.label155.Size = new System.Drawing.Size(47, 12);
+            this.label155.TabIndex = 10;
+            this.label155.Text = "EN_DAC1";
+            // 
+            // label153
+            // 
+            this.label153.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label153.AutoSize = true;
+            this.label153.Location = new System.Drawing.Point(8, 119);
+            this.label153.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label153.Name = "label153";
+            this.label153.Size = new System.Drawing.Size(137, 12);
+            this.label153.TabIndex = 8;
+            this.label153.Text = "GC_8_bit_DAC_reference";
+            // 
+            // label151
+            // 
+            this.label151.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label151.AutoSize = true;
+            this.label151.Location = new System.Drawing.Point(368, 69);
+            this.label151.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label151.Name = "label151";
+            this.label151.Size = new System.Drawing.Size(47, 12);
+            this.label151.TabIndex = 6;
+            this.label151.Text = "EN_Temp";
+            // 
+            // label265
+            // 
+            this.label265.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label265.AutoSize = true;
+            this.label265.Location = new System.Drawing.Point(38, 69);
+            this.label265.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label265.Name = "label265";
+            this.label265.Size = new System.Drawing.Size(77, 12);
+            this.label265.TabIndex = 4;
+            this.label265.Text = "EN_input_dac";
+            // 
+            // label147
+            // 
+            this.label147.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label147.AutoSize = true;
+            this.label147.Location = new System.Drawing.Point(311, 13);
+            this.label147.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label147.Name = "label147";
+            this.label147.Size = new System.Drawing.Size(161, 24);
+            this.label147.TabIndex = 2;
+            this.label147.Text = "GC_Temp_sensor_high_current";
+            // 
+            // label145
+            // 
+            this.label145.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label145.AutoSize = true;
+            this.label145.Location = new System.Drawing.Point(2, 13);
+            this.label145.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label145.Name = "label145";
+            this.label145.Size = new System.Drawing.Size(149, 24);
+            this.label145.TabIndex = 0;
+            this.label145.Text = "Sel_Temp_sensor_to_ADC_GC";
+            // 
+            // GC8bitDAC
+            // 
+            this.GC8bitDAC.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.GC8bitDAC.FormattingEnabled = true;
+            this.GC8bitDAC.Items.AddRange(new object[] {
+            "4.5V",
+            "2.5V"});
+            this.GC8bitDAC.Location = new System.Drawing.Point(190, 115);
+            this.GC8bitDAC.Margin = new System.Windows.Forms.Padding(2);
+            this.GC8bitDAC.Name = "GC8bitDAC";
+            this.GC8bitDAC.Size = new System.Drawing.Size(82, 20);
+            this.GC8bitDAC.TabIndex = 39;
+            this.GC8bitDAC.SelectedIndexChanged += new System.EventHandler(this.GC8bitDAC_SelectedIndexChanged);
+            // 
+            // LG_PAbias
+            // 
+            this.LG_PAbias.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.LG_PAbias.FormattingEnabled = true;
+            this.LG_PAbias.Items.AddRange(new object[] {
+            "week bias",
+            "normal bias"});
+            this.LG_PAbias.Location = new System.Drawing.Point(190, 165);
+            this.LG_PAbias.Margin = new System.Windows.Forms.Padding(2);
+            this.LG_PAbias.Name = "LG_PAbias";
+            this.LG_PAbias.Size = new System.Drawing.Size(82, 20);
+            this.LG_PAbias.TabIndex = 40;
+            this.LG_PAbias.SelectedIndexChanged += new System.EventHandler(this.LG_PAbias_SelectedIndexChanged);
+            // 
+            // ENHighGain
+            // 
+            this.ENHighGain.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.ENHighGain.AutoSize = true;
+            this.ENHighGain.Location = new System.Drawing.Point(198, 217);
+            this.ENHighGain.Margin = new System.Windows.Forms.Padding(2);
+            this.ENHighGain.Name = "ENHighGain";
+            this.ENHighGain.Size = new System.Drawing.Size(66, 16);
+            this.ENHighGain.TabIndex = 41;
+            this.ENHighGain.Text = "Disable";
+            this.ENHighGain.UseVisualStyleBackColor = true;
+            this.ENHighGain.CheckedChanged += new System.EventHandler(this.ENHighGain_CheckedChanged);
+            this.ENHighGain.CheckStateChanged += new System.EventHandler(this.ENHighGain_CheckedChanged);
+            // 
             // clear_button
             // 
             this.clear_button.Anchor = System.Windows.Forms.AnchorStyles.Top;
@@ -6166,6 +6805,8 @@
             this.config_sel_group.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel3.PerformLayout();
+            this.tableLayoutPanel12.ResumeLayout(false);
+            this.tableLayoutPanel12.PerformLayout();
             this.SC_tab2.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.discri_groupbox.ResumeLayout(false);
@@ -6201,6 +6842,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.analog_output_select)).EndInit();
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            this.SPIROC2e.ResumeLayout(false);
+            this.tableLayoutPanel13.ResumeLayout(false);
+            this.tableLayoutPanel13.PerformLayout();
             this.File_group.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
@@ -6691,6 +7335,49 @@
         private System.Windows.Forms.Panel panel8;
         private System.Windows.Forms.Label label143;
         private System.Windows.Forms.NumericUpDown eventNumPackage;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel12;
+        private System.Windows.Forms.Label label144;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.TabPage SPIROC2e;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel13;
+        private System.Windows.Forms.Label label145;
+        private System.Windows.Forms.Label label181;
+        private System.Windows.Forms.Label label179;
+        private System.Windows.Forms.Label label177;
+        private System.Windows.Forms.Label label175;
+        private System.Windows.Forms.Label label173;
+        private System.Windows.Forms.Label label171;
+        private System.Windows.Forms.Label label169;
+        private System.Windows.Forms.Label label167;
+        private System.Windows.Forms.Label label165;
+        private System.Windows.Forms.Label label163;
+        private System.Windows.Forms.Label label161;
+        private System.Windows.Forms.Label label159;
+        private System.Windows.Forms.Label label157;
+        private System.Windows.Forms.Label label155;
+        private System.Windows.Forms.Label label153;
+        private System.Windows.Forms.Label label151;
+        private System.Windows.Forms.Label label265;
+        private System.Windows.Forms.Label label147;
+        private System.Windows.Forms.CheckBox GC_TempSensor;
+        private System.Windows.Forms.CheckBox EN_FS;
+        private System.Windows.Forms.CheckBox ENLvdsTrigExt;
+        private System.Windows.Forms.CheckBox ENHGSS;
+        private System.Windows.Forms.CheckBox ENLvdsValEvt;
+        private System.Windows.Forms.CheckBox EN_LowGainSS;
+        private System.Windows.Forms.CheckBox ENLvdsNotrig;
+        private System.Windows.Forms.CheckBox FastShaperLG;
+        private System.Windows.Forms.CheckBox DIsctriDelayVref;
+        private System.Windows.Forms.CheckBox ENLowGain;
+        private System.Windows.Forms.CheckBox TDCRampEN;
+        private System.Windows.Forms.CheckBox ENDac2;
+        private System.Windows.Forms.CheckBox ENDac1;
+        private System.Windows.Forms.CheckBox ENTemp;
+        private System.Windows.Forms.CheckBox EN_input_dac;
+        private System.Windows.Forms.CheckBox Sel_Temp;
+        private System.Windows.Forms.ComboBox GC8bitDAC;
+        private System.Windows.Forms.ComboBox LG_PAbias;
+        private System.Windows.Forms.CheckBox ENHighGain;
         private System.Windows.Forms.Panel panel9;
         private System.Windows.Forms.Button debug_cmd_send_bt;
         private System.Windows.Forms.TextBox debug_cmd_text;
