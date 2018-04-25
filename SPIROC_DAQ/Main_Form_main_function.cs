@@ -1257,16 +1257,7 @@ namespace SPIROC_DAQ
             }
         }
 
-        uint reverse_bit(uint c, uint width)
-        {
-            // reverse a 6bit width value in bit-wise
-            if (width == 6)
-            {
-                c = (c & 0x24) >> 2 | (c & 0x09) << 2 | (c & 0x12);
-                c = (c & 0x38) >> 3 | (c & 0x07) << 3;
-            }
-            return c;
-        }
+
 
         #endregion
 
