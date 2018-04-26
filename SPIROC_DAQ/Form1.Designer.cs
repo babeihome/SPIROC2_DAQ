@@ -488,7 +488,7 @@
             this.debug_rxdata = new System.Windows.Forms.Button();
             this.debug_cmd_send_bt = new System.Windows.Forms.Button();
             this.debug_cmd_text = new System.Windows.Forms.TextBox();
-            this.label144 = new System.Windows.Forms.Label();
+            this.label146 = new System.Windows.Forms.Label();
             this.panel8 = new System.Windows.Forms.Panel();
             this.eventNumPackage = new System.Windows.Forms.NumericUpDown();
             this.label143 = new System.Windows.Forms.Label();
@@ -5848,7 +5848,7 @@
             this.panel9.Controls.Add(this.debug_rxdata);
             this.panel9.Controls.Add(this.debug_cmd_send_bt);
             this.panel9.Controls.Add(this.debug_cmd_text);
-            this.panel9.Controls.Add(this.label144);
+            this.panel9.Controls.Add(this.label146);
             this.panel9.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel9.Location = new System.Drawing.Point(3, 143);
             this.panel9.Name = "panel9";
@@ -5884,14 +5884,14 @@
             this.debug_cmd_text.Size = new System.Drawing.Size(119, 21);
             this.debug_cmd_text.TabIndex = 1;
             // 
-            // label144
+            // label146
             // 
-            this.label144.AutoSize = true;
-            this.label144.Location = new System.Drawing.Point(13, 23);
-            this.label144.Name = "label144";
-            this.label144.Size = new System.Drawing.Size(47, 12);
-            this.label144.TabIndex = 0;
-            this.label144.Text = "Command";
+            this.label146.AutoSize = true;
+            this.label146.Location = new System.Drawing.Point(13, 23);
+            this.label146.Name = "label144";
+            this.label146.Size = new System.Drawing.Size(47, 12);
+            this.label146.TabIndex = 0;
+            this.label146.Text = "Command";
             // 
             // panel8
             // 
@@ -7381,7 +7381,7 @@
         private System.Windows.Forms.Panel panel9;
         private System.Windows.Forms.Button debug_cmd_send_bt;
         private System.Windows.Forms.TextBox debug_cmd_text;
-        private System.Windows.Forms.Label label144;
+        private System.Windows.Forms.Label label146;
         private System.Windows.Forms.Button debug_rxdata;
     }
 }
