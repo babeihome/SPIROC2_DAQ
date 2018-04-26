@@ -1391,5 +1391,62 @@ namespace SPIROC_DAQ
             return c;
         }
         #endregion
+
+        #region Calib function
+        private bool calib_trunOn()
+        {
+            byte[] cmdbytes = new byte[2];
+
+            try
+            {
+                cmdbytes[1] = 0x0f;
+                cmdbytes[0] = 0x01;
+                CommandSend(cmdbytes, 2);
+            }
+            catch (Exception e)
+            {
+            }
+            return true;
+        }
+        private bool calib_turnOff()
+        {
+            byte[] cmdbytes = new byte[2];
+            try
+            {
+                cmdbytes[1] = 0x0f;
+                cmdbytes[0] = 0x00;
+                CommandSend(cmdbytes, 2);
+            }
+            catch (Exception e)
+            {
+
+            }
+            return true;
+        }
+
+        private bool calib_chooseGroup(int groupId)
+        {
+            byte[] cmdbytes = new byte[2];
+            if(groupId > 8 || groupId < 1)
+            {
+                MessageBox.Show("Group ID is between 1-8");
+                return false;
+            }
+            cmdbytes[1] = 0x0b;
+            cmdbytes[0] = (byte)groupId;
+            CommandSend(cmdbytes, 2);
+            return true;
+        }
+
+        private bool calib_S_pulse()
+        {
+            byte[] cmdbytes = new byte[2];
+            cmdbytes[1] = 0x10;
+            cmdbytes[0] = 0x01;
+            CommandSend(cmdbytes, 2);
+            return true;
+        }
+
+        #endregion
     }
 }

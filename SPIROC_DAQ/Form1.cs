@@ -1917,5 +1917,13 @@ namespace SPIROC_DAQ
             }
             
         }
+
+        private void calib_status_Click(object sender, EventArgs e)
+        {
+            if(calib_status.Tag.ToString() == "0")
+            {
+                calib_turnOn();
+            }
+        }
     }
 }
