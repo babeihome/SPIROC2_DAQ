@@ -1393,7 +1393,7 @@ namespace SPIROC_DAQ
         #endregion
 
         #region Calib function
-        private bool calib_trunOn()
+        private bool calib_turnOn()
         {
             byte[] cmdbytes = new byte[2];
 
@@ -1401,12 +1401,15 @@ namespace SPIROC_DAQ
             {
                 cmdbytes[1] = 0x0f;
                 cmdbytes[0] = 0x01;
-                CommandSend(cmdbytes, 2);
+                if(CommandSend(cmdbytes, 2))
+                {
+                    return true;
+                }
             }
             catch (Exception e)
             {
             }
-            return true;
+            return false;
         }
         private bool calib_turnOff()
         {
@@ -1415,13 +1418,16 @@ namespace SPIROC_DAQ
             {
                 cmdbytes[1] = 0x0f;
                 cmdbytes[0] = 0x00;
-                CommandSend(cmdbytes, 2);
+                if(CommandSend(cmdbytes, 2))
+                {
+                    return true;
+                }
             }
             catch (Exception e)
             {
 
             }
-            return true;
+            return false;
         }
 
         private bool calib_chooseGroup(int groupId)
@@ -1434,8 +1440,11 @@ namespace SPIROC_DAQ
             }
             cmdbytes[1] = 0x0b;
             cmdbytes[0] = (byte)groupId;
-            CommandSend(cmdbytes, 2);
-            return true;
+            if(CommandSend(cmdbytes, 2))
+            {
+                return true;
+            }
+            return false;
         }
 
         private bool calib_S_pulse()
@@ -1443,8 +1452,11 @@ namespace SPIROC_DAQ
             byte[] cmdbytes = new byte[2];
             cmdbytes[1] = 0x10;
             cmdbytes[0] = 0x01;
-            CommandSend(cmdbytes, 2);
-            return true;
+            if(CommandSend(cmdbytes, 2))
+            {
+                return true;
+            }
+            return false;
         }
 
         #endregion

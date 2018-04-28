@@ -545,6 +545,12 @@
             this.GC8bitDAC = new System.Windows.Forms.ComboBox();
             this.LG_PAbias = new System.Windows.Forms.ComboBox();
             this.ENHighGain = new System.Windows.Forms.CheckBox();
+            this.calib_tab = new System.Windows.Forms.TabPage();
+            this.Calib_panel = new System.Windows.Forms.TableLayoutPanel();
+            this.calib_status = new System.Windows.Forms.Button();
+            this.calib_trig = new System.Windows.Forms.Button();
+            this.label148 = new System.Windows.Forms.Label();
+            this.Calib_groupSel = new System.Windows.Forms.NumericUpDown();
             this.clear_button = new System.Windows.Forms.Button();
             this.File_group = new System.Windows.Forms.GroupBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
@@ -557,12 +563,10 @@
             this.time_textbox = new System.Windows.Forms.TextBox();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.calib_tab = new System.Windows.Forms.TabPage();
-            this.Calib_panel = new System.Windows.Forms.TableLayoutPanel();
-            this.calib_status = new System.Windows.Forms.Button();
-            this.calib_trig = new System.Windows.Forms.Button();
-            this.label148 = new System.Windows.Forms.Label();
-            this.Calib_groupSel = new System.Windows.Forms.NumericUpDown();
+            this.label149 = new System.Windows.Forms.Label();
+            this.calib_dac_text = new System.Windows.Forms.TextBox();
+            this.auto_calib_btn = new System.Windows.Forms.Button();
+            this.auto_calib_status = new System.Windows.Forms.Label();
             this.Status_panel.SuspendLayout();
             this.USB_status_group.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -612,12 +616,12 @@
             this.tabPage1.SuspendLayout();
             this.SPIROC2e.SuspendLayout();
             this.tableLayoutPanel13.SuspendLayout();
-            this.File_group.SuspendLayout();
-            this.flowLayoutPanel1.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
             this.calib_tab.SuspendLayout();
             this.Calib_panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Calib_groupSel)).BeginInit();
+            this.File_group.SuspendLayout();
+            this.flowLayoutPanel1.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // Status_panel
@@ -629,14 +633,14 @@
             this.Status_panel.Controls.Add(this.Acq_status_group, 0, 2);
             this.Status_panel.Controls.Add(this.AFG_group, 0, 3);
             this.Status_panel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Status_panel.Location = new System.Drawing.Point(903, 47);
+            this.Status_panel.Location = new System.Drawing.Point(902, 47);
             this.Status_panel.Name = "Status_panel";
             this.Status_panel.RowCount = 4;
             this.Status_panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.Status_panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.Status_panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.Status_panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.Status_panel.Size = new System.Drawing.Size(185, 566);
+            this.Status_panel.Size = new System.Drawing.Size(186, 566);
             this.Status_panel.TabIndex = 6;
             // 
             // USB_status_group
@@ -739,7 +743,7 @@
             // 
             this.Status_label.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.Status_label.AutoSize = true;
-            this.Status_label.Location = new System.Drawing.Point(975, 21);
+            this.Status_label.Location = new System.Drawing.Point(974, 21);
             this.Status_label.Name = "Status_label";
             this.Status_label.Size = new System.Drawing.Size(41, 12);
             this.Status_label.TabIndex = 5;
@@ -749,7 +753,7 @@
             // 
             this.Main_group.Controls.Add(this.Main_tab);
             this.Main_group.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Main_group.Location = new System.Drawing.Point(232, 47);
+            this.Main_group.Location = new System.Drawing.Point(231, 47);
             this.Main_group.Name = "Main_group";
             this.Main_group.Size = new System.Drawing.Size(665, 566);
             this.Main_group.TabIndex = 4;
@@ -5780,7 +5784,7 @@
             this.tableLayoutPanel8.ColumnCount = 3;
             this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 19.66825F));
             this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 80.33176F));
-            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 247F));
+            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 248F));
             this.tableLayoutPanel8.Controls.Add(this.label104, 0, 0);
             this.tableLayoutPanel8.Controls.Add(this.HV_value, 1, 0);
             this.tableLayoutPanel8.Controls.Add(this.label105, 0, 1);
@@ -6645,6 +6649,103 @@
             this.ENHighGain.CheckedChanged += new System.EventHandler(this.ENHighGain_CheckedChanged);
             this.ENHighGain.CheckStateChanged += new System.EventHandler(this.ENHighGain_CheckedChanged);
             // 
+            // calib_tab
+            // 
+            this.calib_tab.Controls.Add(this.Calib_panel);
+            this.calib_tab.Location = new System.Drawing.Point(4, 22);
+            this.calib_tab.Name = "calib_tab";
+            this.calib_tab.Padding = new System.Windows.Forms.Padding(3);
+            this.calib_tab.Size = new System.Drawing.Size(651, 520);
+            this.calib_tab.TabIndex = 9;
+            this.calib_tab.Text = "Calibration";
+            this.calib_tab.UseVisualStyleBackColor = true;
+            // 
+            // Calib_panel
+            // 
+            this.Calib_panel.ColumnCount = 4;
+            this.Calib_panel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 38.54749F));
+            this.Calib_panel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 313F));
+            this.Calib_panel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 113F));
+            this.Calib_panel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 138F));
+            this.Calib_panel.Controls.Add(this.Calib_groupSel, 1, 0);
+            this.Calib_panel.Controls.Add(this.label149, 0, 1);
+            this.Calib_panel.Controls.Add(this.calib_dac_text, 1, 1);
+            this.Calib_panel.Controls.Add(this.label148, 0, 0);
+            this.Calib_panel.Controls.Add(this.calib_status, 2, 0);
+            this.Calib_panel.Controls.Add(this.calib_trig, 2, 1);
+            this.Calib_panel.Controls.Add(this.auto_calib_btn, 3, 1);
+            this.Calib_panel.Controls.Add(this.auto_calib_status, 3, 0);
+            this.Calib_panel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.Calib_panel.Location = new System.Drawing.Point(3, 3);
+            this.Calib_panel.Name = "Calib_panel";
+            this.Calib_panel.RowCount = 2;
+            this.Calib_panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.Calib_panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.Calib_panel.Size = new System.Drawing.Size(645, 100);
+            this.Calib_panel.TabIndex = 0;
+            // 
+            // calib_status
+            // 
+            this.calib_status.BackColor = System.Drawing.Color.DarkRed;
+            this.calib_status.ForeColor = System.Drawing.Color.White;
+            this.calib_status.Location = new System.Drawing.Point(397, 3);
+            this.calib_status.Name = "calib_status";
+            this.calib_status.Size = new System.Drawing.Size(104, 44);
+            this.calib_status.TabIndex = 0;
+            this.calib_status.Tag = "0";
+            this.calib_status.Text = "OFF";
+            this.calib_status.UseVisualStyleBackColor = false;
+            this.calib_status.Click += new System.EventHandler(this.calib_status_Click);
+            // 
+            // calib_trig
+            // 
+            this.calib_trig.Enabled = false;
+            this.calib_trig.Location = new System.Drawing.Point(397, 53);
+            this.calib_trig.Name = "calib_trig";
+            this.calib_trig.Size = new System.Drawing.Size(104, 44);
+            this.calib_trig.TabIndex = 1;
+            this.calib_trig.Text = "Trigger Once";
+            this.calib_trig.UseVisualStyleBackColor = true;
+            this.calib_trig.Click += new System.EventHandler(this.calib_trig_Click);
+            // 
+            // label148
+            // 
+            this.label148.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label148.AutoSize = true;
+            this.label148.Location = new System.Drawing.Point(3, 0);
+            this.label148.Name = "label148";
+            this.label148.Size = new System.Drawing.Size(75, 50);
+            this.label148.TabIndex = 3;
+            this.label148.Text = "Group Select";
+            this.label148.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // Calib_groupSel
+            // 
+            this.Calib_groupSel.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.Calib_groupSel.Location = new System.Drawing.Point(84, 14);
+            this.Calib_groupSel.Maximum = new decimal(new int[] {
+            8,
+            0,
+            0,
+            0});
+            this.Calib_groupSel.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.Calib_groupSel.Name = "Calib_groupSel";
+            this.Calib_groupSel.Size = new System.Drawing.Size(120, 21);
+            this.Calib_groupSel.TabIndex = 4;
+            this.Calib_groupSel.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.Calib_groupSel.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.Calib_groupSel.ValueChanged += new System.EventHandler(this.Calib_groupSel_ValueChanged);
+            // 
             // clear_button
             // 
             this.clear_button.Anchor = System.Windows.Forms.AnchorStyles.Top;
@@ -6659,7 +6760,7 @@
             // 
             this.File_group.Controls.Add(this.flowLayoutPanel1);
             this.File_group.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.File_group.Location = new System.Drawing.Point(232, 619);
+            this.File_group.Location = new System.Drawing.Point(231, 619);
             this.File_group.Name = "File_group";
             this.File_group.Size = new System.Drawing.Size(665, 58);
             this.File_group.TabIndex = 2;
@@ -6717,7 +6818,7 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
             this.textBox1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.textBox1.Size = new System.Drawing.Size(213, 566);
+            this.textBox1.Size = new System.Drawing.Size(212, 566);
             this.textBox1.TabIndex = 1;
             // 
             // Msg_label
@@ -6726,7 +6827,7 @@
             this.Msg_label.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Msg_label.Location = new System.Drawing.Point(13, 10);
             this.Msg_label.Name = "Msg_label";
-            this.Msg_label.Size = new System.Drawing.Size(213, 34);
+            this.Msg_label.Size = new System.Drawing.Size(212, 34);
             this.Msg_label.TabIndex = 0;
             this.Msg_label.Text = "Message";
             this.Msg_label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -6737,7 +6838,7 @@
             this.tableLayoutPanel1.ColumnCount = 3;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 24.60497F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 75.39503F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 190F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 191F));
             this.tableLayoutPanel1.Controls.Add(this.Msg_label, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.textBox1, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.File_group, 1, 2);
@@ -6765,7 +6866,7 @@
             this.time_textbox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.time_textbox.Font = new System.Drawing.Font("SimSun", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.time_textbox.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.time_textbox.Location = new System.Drawing.Point(232, 13);
+            this.time_textbox.Location = new System.Drawing.Point(231, 13);
             this.time_textbox.Name = "time_textbox";
             this.time_textbox.ReadOnly = true;
             this.time_textbox.Size = new System.Drawing.Size(199, 22);
@@ -6780,93 +6881,52 @@
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // calib_tab
+            // label149
             // 
-            this.calib_tab.Controls.Add(this.Calib_panel);
-            this.calib_tab.Location = new System.Drawing.Point(4, 22);
-            this.calib_tab.Name = "calib_tab";
-            this.calib_tab.Padding = new System.Windows.Forms.Padding(3);
-            this.calib_tab.Size = new System.Drawing.Size(651, 520);
-            this.calib_tab.TabIndex = 9;
-            this.calib_tab.Text = "Calibration";
-            this.calib_tab.UseVisualStyleBackColor = true;
+            this.label149.AutoSize = true;
+            this.label149.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label149.Location = new System.Drawing.Point(3, 50);
+            this.label149.Name = "label149";
+            this.label149.Size = new System.Drawing.Size(75, 50);
+            this.label149.TabIndex = 5;
+            this.label149.Text = "DAC value";
+            this.label149.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // Calib_panel
+            // calib_dac_text
             // 
-            this.Calib_panel.ColumnCount = 3;
-            this.Calib_panel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 61.45251F));
-            this.Calib_panel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 38.54749F));
-            this.Calib_panel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 465F));
-            this.Calib_panel.Controls.Add(this.calib_status, 0, 0);
-            this.Calib_panel.Controls.Add(this.calib_trig, 0, 1);
-            this.Calib_panel.Controls.Add(this.label148, 1, 0);
-            this.Calib_panel.Controls.Add(this.Calib_groupSel, 2, 0);
-            this.Calib_panel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.Calib_panel.Location = new System.Drawing.Point(3, 3);
-            this.Calib_panel.Name = "Calib_panel";
-            this.Calib_panel.RowCount = 2;
-            this.Calib_panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.Calib_panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.Calib_panel.Size = new System.Drawing.Size(645, 100);
-            this.Calib_panel.TabIndex = 0;
+            this.calib_dac_text.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.calib_dac_text.Location = new System.Drawing.Point(84, 64);
+            this.calib_dac_text.Name = "calib_dac_text";
+            this.calib_dac_text.Size = new System.Drawing.Size(100, 21);
+            this.calib_dac_text.TabIndex = 6;
+            this.calib_dac_text.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.calib_dac_text.TextChanged += new System.EventHandler(this.calib_dac_text_TextChanged);
             // 
-            // calib_status
+            // auto_calib_btn
             // 
-            this.calib_status.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.calib_status.Location = new System.Drawing.Point(3, 3);
-            this.calib_status.Name = "calib_status";
-            this.calib_status.Size = new System.Drawing.Size(104, 44);
-            this.calib_status.TabIndex = 0;
-            this.calib_status.Text = "OFF";
-            this.calib_status.UseVisualStyleBackColor = true;
-            this.calib_status.Click += new System.EventHandler(this.calib_status_Click);
+            this.auto_calib_btn.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.auto_calib_btn.Location = new System.Drawing.Point(510, 53);
+            this.auto_calib_btn.Name = "auto_calib_btn";
+            this.auto_calib_btn.Size = new System.Drawing.Size(132, 44);
+            this.auto_calib_btn.TabIndex = 7;
+            this.auto_calib_btn.Text = "Switch auto mode";
+            this.auto_calib_btn.UseVisualStyleBackColor = true;
+            this.auto_calib_btn.Click += new System.EventHandler(this.auto_calib_btn_Click);
             // 
-            // calib_trig
+            // auto_calib_status
             // 
-            this.calib_trig.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.calib_trig.Enabled = false;
-            this.calib_trig.Location = new System.Drawing.Point(3, 53);
-            this.calib_trig.Name = "calib_trig";
-            this.calib_trig.Size = new System.Drawing.Size(104, 44);
-            this.calib_trig.TabIndex = 1;
-            this.calib_trig.Text = "Trigger Once";
-            this.calib_trig.UseVisualStyleBackColor = true;
-            // 
-            // label148
-            // 
-            this.label148.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label148.AutoSize = true;
-            this.label148.Location = new System.Drawing.Point(113, 0);
-            this.label148.Name = "label148";
-            this.label148.Size = new System.Drawing.Size(63, 50);
-            this.label148.TabIndex = 3;
-            this.label148.Text = "Group Select";
-            this.label148.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // Calib_groupSel
-            // 
-            this.Calib_groupSel.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.Calib_groupSel.Location = new System.Drawing.Point(182, 14);
-            this.Calib_groupSel.Maximum = new decimal(new int[] {
-            8,
-            0,
-            0,
-            0});
-            this.Calib_groupSel.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.Calib_groupSel.Name = "Calib_groupSel";
-            this.Calib_groupSel.Size = new System.Drawing.Size(120, 21);
-            this.Calib_groupSel.TabIndex = 4;
-            this.Calib_groupSel.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
+            this.auto_calib_status.AutoSize = true;
+            this.auto_calib_status.BackColor = System.Drawing.Color.LightGray;
+            this.auto_calib_status.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.auto_calib_status.ForeColor = System.Drawing.Color.Black;
+            this.auto_calib_status.Location = new System.Drawing.Point(517, 10);
+            this.auto_calib_status.Margin = new System.Windows.Forms.Padding(10);
+            this.auto_calib_status.Name = "auto_calib_status";
+            this.auto_calib_status.Size = new System.Drawing.Size(118, 30);
+            this.auto_calib_status.TabIndex = 8;
+            this.auto_calib_status.Tag = "0";
+            this.auto_calib_status.Text = "MANUAL";
+            this.auto_calib_status.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Main_Form
             // 
@@ -6944,15 +7004,15 @@
             this.SPIROC2e.ResumeLayout(false);
             this.tableLayoutPanel13.ResumeLayout(false);
             this.tableLayoutPanel13.PerformLayout();
+            this.calib_tab.ResumeLayout(false);
+            this.Calib_panel.ResumeLayout(false);
+            this.Calib_panel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Calib_groupSel)).EndInit();
             this.File_group.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
-            this.calib_tab.ResumeLayout(false);
-            this.Calib_panel.ResumeLayout(false);
-            this.Calib_panel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Calib_groupSel)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -7492,6 +7552,10 @@
         private System.Windows.Forms.Button calib_trig;
         private System.Windows.Forms.Label label148;
         private System.Windows.Forms.NumericUpDown Calib_groupSel;
+        private System.Windows.Forms.Label label149;
+        private System.Windows.Forms.TextBox calib_dac_text;
+        private System.Windows.Forms.Button auto_calib_btn;
+        private System.Windows.Forms.Label auto_calib_status;
     }
 }
 

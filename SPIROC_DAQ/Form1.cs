@@ -1922,8 +1922,102 @@ namespace SPIROC_DAQ
         {
             if(calib_status.Tag.ToString() == "0")
             {
-                calib_turnOn();
+                if (calib_turnOn())
+                {
+                    calib_status.Tag = 1;
+                    calib_status.Text = "READY";
+                    calib_status.BackColor = Color.MediumSeaGreen;
+                }
+                else
+                {
+                    MessageBox.Show("Can't send command");
+                }
             }
+            else if(calib_status.Tag.ToString() == "1")
+            {
+                if (calib_turnOff())
+                {
+                    calib_status.Tag = 0;
+                    calib_status.Text = "OFF";
+                    calib_status.BackColor = Color.DarkRed;
+                }
+                else
+                {
+                    MessageBox.Show("Can't send command");
+                }
+            }
+        }
+
+        private void calib_trig_Click(object sender, EventArgs e)
+        {
+            calib_S_pulse();
+        }
+
+        private void auto_calib_btn_Click(object sender, EventArgs e)
+        {
+            bool isAutoNow = (auto_calib_status.Tag.ToString() == "1");
+            byte[] cmdbytes = new byte[2];
+            if (isAutoNow)
+            {
+                cmdbytes[1] = 0x12;
+                cmdbytes[0] = 0x00;
+                if (CommandSend(cmdbytes, 2))
+                {
+                    auto_calib_status.Tag = 0;
+                    auto_calib_status.BackColor = Color.LightGray;
+                    auto_calib_status.Text = "MANUAL";
+                }
+                else
+                {
+                    MessageBox.Show("Can't send command");
+                }             
+    
+            }
+            else
+            {
+                cmdbytes[1] = 0x12;
+                cmdbytes[0] = 0x01;
+                if(CommandSend(cmdbytes, 2))
+                {
+                    auto_calib_status.Tag = 1;
+                    auto_calib_status.BackColor = Color.Gold;
+                    auto_calib_status.Text = "AUTO";
+                }
+                else
+                {
+                    MessageBox.Show("Can't send command");
+                }
+
+
+            }
+        }
+
+        private void Calib_groupSel_ValueChanged(object sender, EventArgs e)
+        {
+            byte[] cmdbytes = new byte[2];
+
+            cmdbytes[1] = 0x0b;
+            cmdbytes[0] = byte.Parse(Calib_groupSel.Value.ToString());
+            CommandSend(cmdbytes, 2);
+        }
+
+        private void calib_dac_text_TextChanged(object sender, EventArgs e)
+        {
+            byte[] cmdbytes = new byte[2];
+            cmdbytes[1] = 0x07;
+            byte value_h = 0x00;
+            byte value_l = 0x00;
+
+            uint value = 0;
+            value = uint.Parse(calib_dac_text.Text);
+            value_h = (byte)(value >> 8);
+            value_l = (byte)value;
+
+            cmdbytes[0] = value_h;
+            CommandSend(cmdbytes, 2);
+            cmdbytes[0] = value_l;
+            CommandSend(cmdbytes, 2);
+
         }
     }
 }
