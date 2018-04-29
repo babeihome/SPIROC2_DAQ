@@ -57,7 +57,7 @@ namespace SPIROC_DAQ
         private int pwr_vector = 0x0f;
         // for changing textbox1.Text from different thread (not from main thread)
         delegate void SetTextCallback(string text);
-        public int version_num=2;
+        public int version_num=1;
         public Main_Form()
         {
             InitializeComponent();
@@ -1927,6 +1927,7 @@ namespace SPIROC_DAQ
                     calib_status.Tag = 1;
                     calib_status.Text = "READY";
                     calib_status.BackColor = Color.MediumSeaGreen;
+                    calib_trig.Enabled = true;
                 }
                 else
                 {
@@ -1940,6 +1941,7 @@ namespace SPIROC_DAQ
                     calib_status.Tag = 0;
                     calib_status.Text = "OFF";
                     calib_status.BackColor = Color.DarkRed;
+                    calib_trig.Enabled = false;
                 }
                 else
                 {
@@ -1997,7 +1999,7 @@ namespace SPIROC_DAQ
             byte[] cmdbytes = new byte[2];
 
             cmdbytes[1] = 0x0b;
-            cmdbytes[0] = byte.Parse(Calib_groupSel.Value.ToString());
+            cmdbytes[0] = byte.Parse((Calib_groupSel.Value-1).ToString());
             CommandSend(cmdbytes, 2);
         }
 
@@ -2012,6 +2014,14 @@ namespace SPIROC_DAQ
             value = uint.Parse(calib_dac_text.Text);
             value_h = (byte)(value >> 8);
             value_l = (byte)value;
+
+            cmdbytes[0] = value_h;
+            CommandSend(cmdbytes, 2);
+            cmdbytes[0] = value_l;
+            CommandSend(cmdbytes, 2);
+
+            byte chn1_mask = 0x80;
+            value_h = (byte)(chn1_mask|value_h);
 
             cmdbytes[0] = value_h;
             CommandSend(cmdbytes, 2);

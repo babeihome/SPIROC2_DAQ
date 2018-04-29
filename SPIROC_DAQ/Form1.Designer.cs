@@ -547,10 +547,14 @@
             this.ENHighGain = new System.Windows.Forms.CheckBox();
             this.calib_tab = new System.Windows.Forms.TabPage();
             this.Calib_panel = new System.Windows.Forms.TableLayoutPanel();
+            this.Calib_groupSel = new System.Windows.Forms.NumericUpDown();
+            this.label149 = new System.Windows.Forms.Label();
+            this.calib_dac_text = new System.Windows.Forms.TextBox();
+            this.label148 = new System.Windows.Forms.Label();
             this.calib_status = new System.Windows.Forms.Button();
             this.calib_trig = new System.Windows.Forms.Button();
-            this.label148 = new System.Windows.Forms.Label();
-            this.Calib_groupSel = new System.Windows.Forms.NumericUpDown();
+            this.auto_calib_btn = new System.Windows.Forms.Button();
+            this.auto_calib_status = new System.Windows.Forms.Label();
             this.clear_button = new System.Windows.Forms.Button();
             this.File_group = new System.Windows.Forms.GroupBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
@@ -563,10 +567,6 @@
             this.time_textbox = new System.Windows.Forms.TextBox();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.label149 = new System.Windows.Forms.Label();
-            this.calib_dac_text = new System.Windows.Forms.TextBox();
-            this.auto_calib_btn = new System.Windows.Forms.Button();
-            this.auto_calib_status = new System.Windows.Forms.Label();
             this.Status_panel.SuspendLayout();
             this.USB_status_group.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -633,14 +633,14 @@
             this.Status_panel.Controls.Add(this.Acq_status_group, 0, 2);
             this.Status_panel.Controls.Add(this.AFG_group, 0, 3);
             this.Status_panel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Status_panel.Location = new System.Drawing.Point(902, 47);
+            this.Status_panel.Location = new System.Drawing.Point(901, 47);
             this.Status_panel.Name = "Status_panel";
             this.Status_panel.RowCount = 4;
             this.Status_panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.Status_panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.Status_panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.Status_panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.Status_panel.Size = new System.Drawing.Size(186, 566);
+            this.Status_panel.Size = new System.Drawing.Size(187, 566);
             this.Status_panel.TabIndex = 6;
             // 
             // USB_status_group
@@ -755,7 +755,7 @@
             this.Main_group.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Main_group.Location = new System.Drawing.Point(231, 47);
             this.Main_group.Name = "Main_group";
-            this.Main_group.Size = new System.Drawing.Size(665, 566);
+            this.Main_group.Size = new System.Drawing.Size(664, 566);
             this.Main_group.TabIndex = 4;
             this.Main_group.TabStop = false;
             this.Main_group.Text = "SPIROC_CONTROL";
@@ -776,7 +776,7 @@
             this.Main_tab.Location = new System.Drawing.Point(3, 17);
             this.Main_tab.Name = "Main_tab";
             this.Main_tab.SelectedIndex = 0;
-            this.Main_tab.Size = new System.Drawing.Size(659, 546);
+            this.Main_tab.Size = new System.Drawing.Size(658, 546);
             this.Main_tab.TabIndex = 0;
             this.Main_tab.Tag = "0";
             // 
@@ -786,7 +786,7 @@
             this.Flow_tab.Location = new System.Drawing.Point(4, 22);
             this.Flow_tab.Name = "Flow_tab";
             this.Flow_tab.Padding = new System.Windows.Forms.Padding(3);
-            this.Flow_tab.Size = new System.Drawing.Size(651, 520);
+            this.Flow_tab.Size = new System.Drawing.Size(650, 520);
             this.Flow_tab.TabIndex = 0;
             this.Flow_tab.Text = "Task";
             this.Flow_tab.UseVisualStyleBackColor = true;
@@ -817,7 +817,7 @@
             this.task_panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 71F));
             this.task_panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 71F));
             this.task_panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.task_panel.Size = new System.Drawing.Size(645, 514);
+            this.task_panel.Size = new System.Drawing.Size(644, 514);
             this.task_panel.TabIndex = 0;
             // 
             // label118
@@ -890,7 +890,7 @@
             this.normal_task_panel.Location = new System.Drawing.Point(110, 4);
             this.normal_task_panel.Name = "normal_task_panel";
             this.normal_task_panel.Padding = new System.Windows.Forms.Padding(3);
-            this.normal_task_panel.Size = new System.Drawing.Size(531, 65);
+            this.normal_task_panel.Size = new System.Drawing.Size(530, 65);
             this.normal_task_panel.TabIndex = 1;
             // 
             // normal_usbcon_button
@@ -957,7 +957,7 @@
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel3.Location = new System.Drawing.Point(110, 76);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(531, 65);
+            this.panel3.Size = new System.Drawing.Size(530, 65);
             this.panel3.TabIndex = 5;
             // 
             // voltageSweep_btn
@@ -966,7 +966,7 @@
             this.voltageSweep_btn.Dock = System.Windows.Forms.DockStyle.Right;
             this.voltageSweep_btn.Font = new System.Drawing.Font("SimSun", 9F);
             this.voltageSweep_btn.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.voltageSweep_btn.Location = new System.Drawing.Point(383, 0);
+            this.voltageSweep_btn.Location = new System.Drawing.Point(382, 0);
             this.voltageSweep_btn.Margin = new System.Windows.Forms.Padding(30, 3, 15, 3);
             this.voltageSweep_btn.Name = "voltageSweep_btn";
             this.voltageSweep_btn.Size = new System.Drawing.Size(74, 65);
@@ -981,7 +981,7 @@
             this.volSweepStop_btn.Dock = System.Windows.Forms.DockStyle.Right;
             this.volSweepStop_btn.Font = new System.Drawing.Font("SimSun", 9F);
             this.volSweepStop_btn.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.volSweepStop_btn.Location = new System.Drawing.Point(457, 0);
+            this.volSweepStop_btn.Location = new System.Drawing.Point(456, 0);
             this.volSweepStop_btn.Margin = new System.Windows.Forms.Padding(30, 3, 15, 3);
             this.volSweepStop_btn.Name = "volSweepStop_btn";
             this.volSweepStop_btn.Size = new System.Drawing.Size(74, 65);
@@ -1115,7 +1115,7 @@
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel4.Location = new System.Drawing.Point(110, 148);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(531, 65);
+            this.panel4.Size = new System.Drawing.Size(530, 65);
             this.panel4.TabIndex = 7;
             // 
             // scSweep_btn
@@ -1124,7 +1124,7 @@
             this.scSweep_btn.Dock = System.Windows.Forms.DockStyle.Right;
             this.scSweep_btn.Font = new System.Drawing.Font("SimSun", 9F);
             this.scSweep_btn.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.scSweep_btn.Location = new System.Drawing.Point(383, 0);
+            this.scSweep_btn.Location = new System.Drawing.Point(382, 0);
             this.scSweep_btn.Margin = new System.Windows.Forms.Padding(30, 3, 15, 3);
             this.scSweep_btn.Name = "scSweep_btn";
             this.scSweep_btn.Size = new System.Drawing.Size(74, 65);
@@ -1139,7 +1139,7 @@
             this.scSweepStop_btn.Dock = System.Windows.Forms.DockStyle.Right;
             this.scSweepStop_btn.Font = new System.Drawing.Font("SimSun", 9F);
             this.scSweepStop_btn.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.scSweepStop_btn.Location = new System.Drawing.Point(457, 0);
+            this.scSweepStop_btn.Location = new System.Drawing.Point(456, 0);
             this.scSweepStop_btn.Margin = new System.Windows.Forms.Padding(30, 3, 15, 3);
             this.scSweepStop_btn.Name = "scSweepStop_btn";
             this.scSweepStop_btn.Size = new System.Drawing.Size(74, 65);
@@ -1278,7 +1278,7 @@
             this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel5.Location = new System.Drawing.Point(110, 220);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(531, 65);
+            this.panel5.Size = new System.Drawing.Size(530, 65);
             this.panel5.TabIndex = 9;
             // 
             // volDelay_sweep_btn
@@ -1332,7 +1332,7 @@
             this.panel6.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel6.Location = new System.Drawing.Point(110, 292);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(531, 65);
+            this.panel6.Size = new System.Drawing.Size(530, 65);
             this.panel6.TabIndex = 12;
             // 
             // LED_calib_btn
@@ -1357,7 +1357,7 @@
             this.SC_tab.Location = new System.Drawing.Point(4, 22);
             this.SC_tab.Name = "SC_tab";
             this.SC_tab.Padding = new System.Windows.Forms.Padding(3);
-            this.SC_tab.Size = new System.Drawing.Size(651, 520);
+            this.SC_tab.Size = new System.Drawing.Size(650, 520);
             this.SC_tab.TabIndex = 1;
             this.SC_tab.Text = "Slow Control";
             this.SC_tab.UseVisualStyleBackColor = true;
@@ -1368,7 +1368,7 @@
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox2.Location = new System.Drawing.Point(3, 73);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(645, 444);
+            this.groupBox2.Size = new System.Drawing.Size(644, 444);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Delay and Shape";
@@ -1445,13 +1445,13 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.333333F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.333333F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.333333F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(639, 424);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(638, 424);
             this.tableLayoutPanel2.TabIndex = 0;
             // 
             // backSCA_enable
             // 
             this.backSCA_enable.AutoSize = true;
-            this.backSCA_enable.Location = new System.Drawing.Point(499, 391);
+            this.backSCA_enable.Location = new System.Drawing.Point(498, 391);
             this.backSCA_enable.Name = "backSCA_enable";
             this.backSCA_enable.Size = new System.Drawing.Size(66, 16);
             this.backSCA_enable.TabIndex = 64;
@@ -1463,7 +1463,7 @@
             // or36_enable
             // 
             this.or36_enable.AutoSize = true;
-            this.or36_enable.Location = new System.Drawing.Point(499, 356);
+            this.or36_enable.Location = new System.Drawing.Point(498, 356);
             this.or36_enable.Name = "or36_enable";
             this.or36_enable.Size = new System.Drawing.Size(66, 16);
             this.or36_enable.TabIndex = 63;
@@ -1475,7 +1475,7 @@
             // analogOutput_enable
             // 
             this.analogOutput_enable.AutoSize = true;
-            this.analogOutput_enable.Location = new System.Drawing.Point(499, 321);
+            this.analogOutput_enable.Location = new System.Drawing.Point(498, 321);
             this.analogOutput_enable.Name = "analogOutput_enable";
             this.analogOutput_enable.Size = new System.Drawing.Size(66, 16);
             this.analogOutput_enable.TabIndex = 62;
@@ -1487,7 +1487,7 @@
             // probe_enable
             // 
             this.probe_enable.AutoSize = true;
-            this.probe_enable.Location = new System.Drawing.Point(499, 286);
+            this.probe_enable.Location = new System.Drawing.Point(498, 286);
             this.probe_enable.Name = "probe_enable";
             this.probe_enable.Size = new System.Drawing.Size(66, 16);
             this.probe_enable.TabIndex = 61;
@@ -1499,7 +1499,7 @@
             // startRampTdcExt_enable
             // 
             this.startRampTdcExt_enable.AutoSize = true;
-            this.startRampTdcExt_enable.Location = new System.Drawing.Point(499, 251);
+            this.startRampTdcExt_enable.Location = new System.Drawing.Point(498, 251);
             this.startRampTdcExt_enable.Name = "startRampTdcExt_enable";
             this.startRampTdcExt_enable.Size = new System.Drawing.Size(66, 16);
             this.startRampTdcExt_enable.TabIndex = 60;
@@ -1511,7 +1511,7 @@
             // startRampAdcExt_enable
             // 
             this.startRampAdcExt_enable.AutoSize = true;
-            this.startRampAdcExt_enable.Location = new System.Drawing.Point(499, 216);
+            this.startRampAdcExt_enable.Location = new System.Drawing.Point(498, 216);
             this.startRampAdcExt_enable.Name = "startRampAdcExt_enable";
             this.startRampAdcExt_enable.Size = new System.Drawing.Size(66, 16);
             this.startRampAdcExt_enable.TabIndex = 59;
@@ -1523,7 +1523,7 @@
             // flagTdcExt_enable
             // 
             this.flagTdcExt_enable.AutoSize = true;
-            this.flagTdcExt_enable.Location = new System.Drawing.Point(499, 181);
+            this.flagTdcExt_enable.Location = new System.Drawing.Point(498, 181);
             this.flagTdcExt_enable.Name = "flagTdcExt_enable";
             this.flagTdcExt_enable.Size = new System.Drawing.Size(66, 16);
             this.flagTdcExt_enable.TabIndex = 58;
@@ -1536,7 +1536,7 @@
             // 
             this.label27.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(391, 398);
+            this.label27.Location = new System.Drawing.Point(390, 398);
             this.label27.Name = "label27";
             this.label27.Size = new System.Drawing.Size(65, 12);
             this.label27.TabIndex = 56;
@@ -1546,7 +1546,7 @@
             // 
             this.label25.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(382, 328);
+            this.label25.Location = new System.Drawing.Point(381, 328);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(83, 12);
             this.label25.TabIndex = 50;
@@ -1556,7 +1556,7 @@
             // 
             this.label14.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(379, 13);
+            this.label14.Location = new System.Drawing.Point(378, 13);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(89, 12);
             this.label14.TabIndex = 30;
@@ -1565,7 +1565,7 @@
             // hgShapeValue
             // 
             this.hgShapeValue.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.hgShapeValue.Location = new System.Drawing.Point(236, 78);
+            this.hgShapeValue.Location = new System.Drawing.Point(235, 78);
             this.hgShapeValue.Name = "hgShapeValue";
             this.hgShapeValue.Size = new System.Drawing.Size(94, 21);
             this.hgShapeValue.TabIndex = 22;
@@ -1594,7 +1594,7 @@
             // trig_dac_value
             // 
             this.trig_dac_value.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.trig_dac_value.Location = new System.Drawing.Point(236, 8);
+            this.trig_dac_value.Location = new System.Drawing.Point(235, 8);
             this.trig_dac_value.Name = "trig_dac_value";
             this.trig_dac_value.Size = new System.Drawing.Size(94, 21);
             this.trig_dac_value.TabIndex = 2;
@@ -1603,7 +1603,7 @@
             // gain_sel_value
             // 
             this.gain_sel_value.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.gain_sel_value.Location = new System.Drawing.Point(236, 43);
+            this.gain_sel_value.Location = new System.Drawing.Point(235, 43);
             this.gain_sel_value.Name = "gain_sel_value";
             this.gain_sel_value.Size = new System.Drawing.Size(94, 21);
             this.gain_sel_value.TabIndex = 3;
@@ -1632,7 +1632,7 @@
             // lgAmpComp
             // 
             this.lgAmpComp.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.lgAmpComp.Location = new System.Drawing.Point(236, 183);
+            this.lgAmpComp.Location = new System.Drawing.Point(235, 183);
             this.lgAmpComp.Name = "lgAmpComp";
             this.lgAmpComp.Size = new System.Drawing.Size(94, 21);
             this.lgAmpComp.TabIndex = 27;
@@ -1661,7 +1661,7 @@
             // hgAmpComp
             // 
             this.hgAmpComp.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.hgAmpComp.Location = new System.Drawing.Point(236, 148);
+            this.hgAmpComp.Location = new System.Drawing.Point(235, 148);
             this.hgAmpComp.Name = "hgAmpComp";
             this.hgAmpComp.Size = new System.Drawing.Size(94, 21);
             this.hgAmpComp.TabIndex = 24;
@@ -1670,7 +1670,7 @@
             // lgShapeValue
             // 
             this.lgShapeValue.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.lgShapeValue.Location = new System.Drawing.Point(236, 113);
+            this.lgShapeValue.Location = new System.Drawing.Point(235, 113);
             this.lgShapeValue.Name = "lgShapeValue";
             this.lgShapeValue.Size = new System.Drawing.Size(94, 21);
             this.lgShapeValue.TabIndex = 26;
@@ -1689,7 +1689,7 @@
             // startrampDelay
             // 
             this.startrampDelay.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.startrampDelay.Location = new System.Drawing.Point(236, 218);
+            this.startrampDelay.Location = new System.Drawing.Point(235, 218);
             this.startrampDelay.Name = "startrampDelay";
             this.startrampDelay.Size = new System.Drawing.Size(94, 21);
             this.startrampDelay.TabIndex = 20;
@@ -1728,7 +1728,7 @@
             // triggerDelay
             // 
             this.triggerDelay.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.triggerDelay.Location = new System.Drawing.Point(236, 253);
+            this.triggerDelay.Location = new System.Drawing.Point(235, 253);
             this.triggerDelay.Name = "triggerDelay";
             this.triggerDelay.Size = new System.Drawing.Size(94, 21);
             this.triggerDelay.TabIndex = 21;
@@ -1737,7 +1737,7 @@
             // validholdDelay
             // 
             this.validholdDelay.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.validholdDelay.Location = new System.Drawing.Point(236, 288);
+            this.validholdDelay.Location = new System.Drawing.Point(235, 288);
             this.validholdDelay.Name = "validholdDelay";
             this.validholdDelay.Size = new System.Drawing.Size(94, 21);
             this.validholdDelay.TabIndex = 23;
@@ -1746,7 +1746,7 @@
             // rstcolDelay
             // 
             this.rstcolDelay.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.rstcolDelay.Location = new System.Drawing.Point(236, 323);
+            this.rstcolDelay.Location = new System.Drawing.Point(235, 323);
             this.rstcolDelay.Name = "rstcolDelay";
             this.rstcolDelay.Size = new System.Drawing.Size(94, 21);
             this.rstcolDelay.TabIndex = 25;
@@ -1760,7 +1760,7 @@
             "12bit",
             "10bit",
             "8bit"});
-            this.adcRampSlope_combo.Location = new System.Drawing.Point(499, 6);
+            this.adcRampSlope_combo.Location = new System.Drawing.Point(498, 6);
             this.adcRampSlope_combo.Name = "adcRampSlope_combo";
             this.adcRampSlope_combo.Size = new System.Drawing.Size(97, 20);
             this.adcRampSlope_combo.TabIndex = 29;
@@ -1779,7 +1779,7 @@
             // adcResolution
             // 
             this.adcResolution.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.adcResolution.Location = new System.Drawing.Point(236, 358);
+            this.adcResolution.Location = new System.Drawing.Point(235, 358);
             this.adcResolution.Name = "adcResolution";
             this.adcResolution.Size = new System.Drawing.Size(94, 21);
             this.adcResolution.TabIndex = 34;
@@ -1798,7 +1798,7 @@
             // chipID
             // 
             this.chipID.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.chipID.Location = new System.Drawing.Point(236, 394);
+            this.chipID.Location = new System.Drawing.Point(235, 394);
             this.chipID.Name = "chipID";
             this.chipID.Size = new System.Drawing.Size(94, 21);
             this.chipID.TabIndex = 36;
@@ -1808,7 +1808,7 @@
             // 
             this.label16.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(379, 48);
+            this.label16.Location = new System.Drawing.Point(378, 48);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(89, 12);
             this.label16.TabIndex = 32;
@@ -1818,7 +1818,7 @@
             // 
             this.label15.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(367, 83);
+            this.label15.Location = new System.Drawing.Point(366, 83);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(113, 12);
             this.label15.TabIndex = 31;
@@ -1831,7 +1831,7 @@
             this.fastShaperFrom_combo.Items.AddRange(new object[] {
             "High Gain",
             "Low Gain"});
-            this.fastShaperFrom_combo.Location = new System.Drawing.Point(499, 76);
+            this.fastShaperFrom_combo.Location = new System.Drawing.Point(498, 76);
             this.fastShaperFrom_combo.Name = "fastShaperFrom_combo";
             this.fastShaperFrom_combo.Size = new System.Drawing.Size(97, 20);
             this.fastShaperFrom_combo.TabIndex = 37;
@@ -1844,7 +1844,7 @@
             this.tdcRampSlope_combo.Items.AddRange(new object[] {
             "fast",
             "slow"});
-            this.tdcRampSlope_combo.Location = new System.Drawing.Point(499, 41);
+            this.tdcRampSlope_combo.Location = new System.Drawing.Point(498, 41);
             this.tdcRampSlope_combo.Name = "tdcRampSlope_combo";
             this.tdcRampSlope_combo.Size = new System.Drawing.Size(97, 20);
             this.tdcRampSlope_combo.TabIndex = 38;
@@ -1854,7 +1854,7 @@
             // 
             this.label19.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(376, 118);
+            this.label19.Location = new System.Drawing.Point(375, 118);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(95, 12);
             this.label19.TabIndex = 39;
@@ -1867,7 +1867,7 @@
             this.adjust4BitDAC_combo.Items.AddRange(new object[] {
             "Fine",
             "Coarse"});
-            this.adjust4BitDAC_combo.Location = new System.Drawing.Point(499, 111);
+            this.adjust4BitDAC_combo.Location = new System.Drawing.Point(498, 111);
             this.adjust4BitDAC_combo.Name = "adjust4BitDAC_combo";
             this.adjust4BitDAC_combo.Size = new System.Drawing.Size(97, 20);
             this.adjust4BitDAC_combo.TabIndex = 40;
@@ -1877,7 +1877,7 @@
             // 
             this.label20.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(388, 153);
+            this.label20.Location = new System.Drawing.Point(387, 153);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(71, 12);
             this.label20.TabIndex = 42;
@@ -1887,7 +1887,7 @@
             // 
             this.label21.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(385, 188);
+            this.label21.Location = new System.Drawing.Point(384, 188);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(77, 12);
             this.label21.TabIndex = 43;
@@ -1897,7 +1897,7 @@
             // 
             this.label22.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(367, 223);
+            this.label22.Location = new System.Drawing.Point(366, 223);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(113, 12);
             this.label22.TabIndex = 44;
@@ -1907,7 +1907,7 @@
             // 
             this.label23.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(367, 258);
+            this.label23.Location = new System.Drawing.Point(366, 258);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(113, 12);
             this.label23.TabIndex = 47;
@@ -1917,7 +1917,7 @@
             // 
             this.label24.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(385, 293);
+            this.label24.Location = new System.Drawing.Point(384, 293);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(77, 12);
             this.label24.TabIndex = 49;
@@ -1927,7 +1927,7 @@
             // 
             this.label26.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(409, 363);
+            this.label26.Location = new System.Drawing.Point(408, 363);
             this.label26.Name = "label26";
             this.label26.Size = new System.Drawing.Size(29, 12);
             this.label26.TabIndex = 53;
@@ -1936,7 +1936,7 @@
             // triggerExt_enable
             // 
             this.triggerExt_enable.AutoSize = true;
-            this.triggerExt_enable.Location = new System.Drawing.Point(499, 146);
+            this.triggerExt_enable.Location = new System.Drawing.Point(498, 146);
             this.triggerExt_enable.Name = "triggerExt_enable";
             this.triggerExt_enable.Size = new System.Drawing.Size(66, 16);
             this.triggerExt_enable.TabIndex = 57;
@@ -1951,7 +1951,7 @@
             this.config_sel_group.Dock = System.Windows.Forms.DockStyle.Top;
             this.config_sel_group.Location = new System.Drawing.Point(3, 3);
             this.config_sel_group.Name = "config_sel_group";
-            this.config_sel_group.Size = new System.Drawing.Size(645, 70);
+            this.config_sel_group.Size = new System.Drawing.Size(644, 70);
             this.config_sel_group.TabIndex = 0;
             this.config_sel_group.TabStop = false;
             this.config_sel_group.Text = "Settings";
@@ -1979,7 +1979,7 @@
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(639, 50);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(638, 50);
             this.tableLayoutPanel3.TabIndex = 4;
             // 
             // config_set1
@@ -2065,25 +2065,27 @@
             this.tableLayoutPanel12.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel12.Controls.Add(this.label144, 0, 0);
             this.tableLayoutPanel12.Controls.Add(this.comboBox1, 1, 0);
-            this.tableLayoutPanel12.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel12.Dock = System.Windows.Forms.DockStyle.Top;
             this.tableLayoutPanel12.Location = new System.Drawing.Point(479, 24);
             this.tableLayoutPanel12.Margin = new System.Windows.Forms.Padding(2);
             this.tableLayoutPanel12.Name = "tableLayoutPanel12";
             this.tableLayoutPanel12.RowCount = 1;
             this.tableLayoutPanel12.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel12.Size = new System.Drawing.Size(158, 35);
+            this.tableLayoutPanel12.Size = new System.Drawing.Size(157, 24);
             this.tableLayoutPanel12.TabIndex = 7;
             // 
             // label144
             // 
-            this.label144.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.label144.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.label144.AutoSize = true;
-            this.label144.Location = new System.Drawing.Point(2, 11);
+            this.label144.Location = new System.Drawing.Point(2, 0);
             this.label144.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label144.Name = "label144";
-            this.label144.Size = new System.Drawing.Size(47, 12);
+            this.label144.Size = new System.Drawing.Size(47, 24);
             this.label144.TabIndex = 0;
             this.label144.Text = "Version";
+            this.label144.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // comboBox1
             // 
@@ -2092,11 +2094,12 @@
             this.comboBox1.Items.AddRange(new object[] {
             "SPIROC2B",
             "SPIROC2E"});
-            this.comboBox1.Location = new System.Drawing.Point(81, 7);
+            this.comboBox1.Location = new System.Drawing.Point(80, 2);
             this.comboBox1.Margin = new System.Windows.Forms.Padding(2);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(74, 20);
             this.comboBox1.TabIndex = 1;
+            this.comboBox1.Text = "SPIROC2B";
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // SC_tab2
@@ -5784,7 +5787,7 @@
             this.tableLayoutPanel8.ColumnCount = 3;
             this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 19.66825F));
             this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 80.33176F));
-            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 248F));
+            this.tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 249F));
             this.tableLayoutPanel8.Controls.Add(this.label104, 0, 0);
             this.tableLayoutPanel8.Controls.Add(this.HV_value, 1, 0);
             this.tableLayoutPanel8.Controls.Add(this.label105, 0, 1);
@@ -5806,7 +5809,7 @@
             this.label104.AutoSize = true;
             this.label104.Location = new System.Drawing.Point(3, 0);
             this.label104.Name = "label104";
-            this.label104.Size = new System.Drawing.Size(72, 39);
+            this.label104.Size = new System.Drawing.Size(71, 39);
             this.label104.TabIndex = 0;
             this.label104.Text = "Voltage";
             this.label104.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -5814,7 +5817,7 @@
             // HV_value
             // 
             this.HV_value.Dock = System.Windows.Forms.DockStyle.Left;
-            this.HV_value.Location = new System.Drawing.Point(81, 3);
+            this.HV_value.Location = new System.Drawing.Point(80, 3);
             this.HV_value.Name = "HV_value";
             this.HV_value.Size = new System.Drawing.Size(120, 21);
             this.HV_value.TabIndex = 1;
@@ -5828,7 +5831,7 @@
             this.label105.AutoSize = true;
             this.label105.Location = new System.Drawing.Point(3, 39);
             this.label105.Name = "label105";
-            this.label105.Size = new System.Drawing.Size(72, 61);
+            this.label105.Size = new System.Drawing.Size(71, 61);
             this.label105.TabIndex = 2;
             this.label105.Text = "Switch";
             this.label105.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -5837,7 +5840,7 @@
             // 
             this.HVswitch_btn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.HVswitch_btn.Location = new System.Drawing.Point(81, 42);
+            this.HVswitch_btn.Location = new System.Drawing.Point(80, 42);
             this.HVswitch_btn.Name = "HVswitch_btn";
             this.HVswitch_btn.Size = new System.Drawing.Size(75, 55);
             this.HVswitch_btn.TabIndex = 3;
@@ -6655,7 +6658,7 @@
             this.calib_tab.Location = new System.Drawing.Point(4, 22);
             this.calib_tab.Name = "calib_tab";
             this.calib_tab.Padding = new System.Windows.Forms.Padding(3);
-            this.calib_tab.Size = new System.Drawing.Size(651, 520);
+            this.calib_tab.Size = new System.Drawing.Size(650, 520);
             this.calib_tab.TabIndex = 9;
             this.calib_tab.Text = "Calibration";
             this.calib_tab.UseVisualStyleBackColor = true;
@@ -6681,50 +6684,13 @@
             this.Calib_panel.RowCount = 2;
             this.Calib_panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.Calib_panel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.Calib_panel.Size = new System.Drawing.Size(645, 100);
+            this.Calib_panel.Size = new System.Drawing.Size(644, 100);
             this.Calib_panel.TabIndex = 0;
-            // 
-            // calib_status
-            // 
-            this.calib_status.BackColor = System.Drawing.Color.DarkRed;
-            this.calib_status.ForeColor = System.Drawing.Color.White;
-            this.calib_status.Location = new System.Drawing.Point(397, 3);
-            this.calib_status.Name = "calib_status";
-            this.calib_status.Size = new System.Drawing.Size(104, 44);
-            this.calib_status.TabIndex = 0;
-            this.calib_status.Tag = "0";
-            this.calib_status.Text = "OFF";
-            this.calib_status.UseVisualStyleBackColor = false;
-            this.calib_status.Click += new System.EventHandler(this.calib_status_Click);
-            // 
-            // calib_trig
-            // 
-            this.calib_trig.Enabled = false;
-            this.calib_trig.Location = new System.Drawing.Point(397, 53);
-            this.calib_trig.Name = "calib_trig";
-            this.calib_trig.Size = new System.Drawing.Size(104, 44);
-            this.calib_trig.TabIndex = 1;
-            this.calib_trig.Text = "Trigger Once";
-            this.calib_trig.UseVisualStyleBackColor = true;
-            this.calib_trig.Click += new System.EventHandler(this.calib_trig_Click);
-            // 
-            // label148
-            // 
-            this.label148.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label148.AutoSize = true;
-            this.label148.Location = new System.Drawing.Point(3, 0);
-            this.label148.Name = "label148";
-            this.label148.Size = new System.Drawing.Size(75, 50);
-            this.label148.TabIndex = 3;
-            this.label148.Text = "Group Select";
-            this.label148.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Calib_groupSel
             // 
             this.Calib_groupSel.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.Calib_groupSel.Location = new System.Drawing.Point(84, 14);
+            this.Calib_groupSel.Location = new System.Drawing.Point(83, 14);
             this.Calib_groupSel.Maximum = new decimal(new int[] {
             8,
             0,
@@ -6746,6 +6712,90 @@
             0});
             this.Calib_groupSel.ValueChanged += new System.EventHandler(this.Calib_groupSel_ValueChanged);
             // 
+            // label149
+            // 
+            this.label149.AutoSize = true;
+            this.label149.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label149.Location = new System.Drawing.Point(3, 50);
+            this.label149.Name = "label149";
+            this.label149.Size = new System.Drawing.Size(74, 50);
+            this.label149.TabIndex = 5;
+            this.label149.Text = "DAC value";
+            this.label149.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // calib_dac_text
+            // 
+            this.calib_dac_text.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.calib_dac_text.Location = new System.Drawing.Point(83, 64);
+            this.calib_dac_text.Name = "calib_dac_text";
+            this.calib_dac_text.Size = new System.Drawing.Size(100, 21);
+            this.calib_dac_text.TabIndex = 6;
+            this.calib_dac_text.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.calib_dac_text.Leave += new System.EventHandler(this.calib_dac_text_TextChanged);
+            // 
+            // label148
+            // 
+            this.label148.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label148.AutoSize = true;
+            this.label148.Location = new System.Drawing.Point(3, 0);
+            this.label148.Name = "label148";
+            this.label148.Size = new System.Drawing.Size(74, 50);
+            this.label148.TabIndex = 3;
+            this.label148.Text = "Group Select";
+            this.label148.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // calib_status
+            // 
+            this.calib_status.BackColor = System.Drawing.Color.DarkRed;
+            this.calib_status.ForeColor = System.Drawing.Color.White;
+            this.calib_status.Location = new System.Drawing.Point(396, 3);
+            this.calib_status.Name = "calib_status";
+            this.calib_status.Size = new System.Drawing.Size(104, 44);
+            this.calib_status.TabIndex = 0;
+            this.calib_status.Tag = "0";
+            this.calib_status.Text = "OFF";
+            this.calib_status.UseVisualStyleBackColor = false;
+            this.calib_status.Click += new System.EventHandler(this.calib_status_Click);
+            // 
+            // calib_trig
+            // 
+            this.calib_trig.Enabled = false;
+            this.calib_trig.Location = new System.Drawing.Point(396, 53);
+            this.calib_trig.Name = "calib_trig";
+            this.calib_trig.Size = new System.Drawing.Size(104, 44);
+            this.calib_trig.TabIndex = 1;
+            this.calib_trig.Text = "Trigger Once";
+            this.calib_trig.UseVisualStyleBackColor = true;
+            this.calib_trig.Click += new System.EventHandler(this.calib_trig_Click);
+            // 
+            // auto_calib_btn
+            // 
+            this.auto_calib_btn.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.auto_calib_btn.Location = new System.Drawing.Point(509, 53);
+            this.auto_calib_btn.Name = "auto_calib_btn";
+            this.auto_calib_btn.Size = new System.Drawing.Size(132, 44);
+            this.auto_calib_btn.TabIndex = 7;
+            this.auto_calib_btn.Text = "Switch auto mode";
+            this.auto_calib_btn.UseVisualStyleBackColor = true;
+            this.auto_calib_btn.Click += new System.EventHandler(this.auto_calib_btn_Click);
+            // 
+            // auto_calib_status
+            // 
+            this.auto_calib_status.AutoSize = true;
+            this.auto_calib_status.BackColor = System.Drawing.Color.LightGray;
+            this.auto_calib_status.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.auto_calib_status.ForeColor = System.Drawing.Color.Black;
+            this.auto_calib_status.Location = new System.Drawing.Point(516, 10);
+            this.auto_calib_status.Margin = new System.Windows.Forms.Padding(10);
+            this.auto_calib_status.Name = "auto_calib_status";
+            this.auto_calib_status.Size = new System.Drawing.Size(118, 30);
+            this.auto_calib_status.TabIndex = 8;
+            this.auto_calib_status.Tag = "0";
+            this.auto_calib_status.Text = "MANUAL";
+            this.auto_calib_status.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // clear_button
             // 
             this.clear_button.Anchor = System.Windows.Forms.AnchorStyles.Top;
@@ -6762,7 +6812,7 @@
             this.File_group.Dock = System.Windows.Forms.DockStyle.Fill;
             this.File_group.Location = new System.Drawing.Point(231, 619);
             this.File_group.Name = "File_group";
-            this.File_group.Size = new System.Drawing.Size(665, 58);
+            this.File_group.Size = new System.Drawing.Size(664, 58);
             this.File_group.TabIndex = 2;
             this.File_group.TabStop = false;
             this.File_group.Text = "File Path";
@@ -6775,7 +6825,7 @@
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 17);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(659, 38);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(658, 38);
             this.flowLayoutPanel1.TabIndex = 0;
             // 
             // file_path_label
@@ -6838,7 +6888,7 @@
             this.tableLayoutPanel1.ColumnCount = 3;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 24.60497F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 75.39503F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 191F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 192F));
             this.tableLayoutPanel1.Controls.Add(this.Msg_label, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.textBox1, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.File_group, 1, 2);
@@ -6880,53 +6930,6 @@
             // timer1
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
-            // label149
-            // 
-            this.label149.AutoSize = true;
-            this.label149.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label149.Location = new System.Drawing.Point(3, 50);
-            this.label149.Name = "label149";
-            this.label149.Size = new System.Drawing.Size(75, 50);
-            this.label149.TabIndex = 5;
-            this.label149.Text = "DAC value";
-            this.label149.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // calib_dac_text
-            // 
-            this.calib_dac_text.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.calib_dac_text.Location = new System.Drawing.Point(84, 64);
-            this.calib_dac_text.Name = "calib_dac_text";
-            this.calib_dac_text.Size = new System.Drawing.Size(100, 21);
-            this.calib_dac_text.TabIndex = 6;
-            this.calib_dac_text.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.calib_dac_text.TextChanged += new System.EventHandler(this.calib_dac_text_TextChanged);
-            // 
-            // auto_calib_btn
-            // 
-            this.auto_calib_btn.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.auto_calib_btn.Location = new System.Drawing.Point(510, 53);
-            this.auto_calib_btn.Name = "auto_calib_btn";
-            this.auto_calib_btn.Size = new System.Drawing.Size(132, 44);
-            this.auto_calib_btn.TabIndex = 7;
-            this.auto_calib_btn.Text = "Switch auto mode";
-            this.auto_calib_btn.UseVisualStyleBackColor = true;
-            this.auto_calib_btn.Click += new System.EventHandler(this.auto_calib_btn_Click);
-            // 
-            // auto_calib_status
-            // 
-            this.auto_calib_status.AutoSize = true;
-            this.auto_calib_status.BackColor = System.Drawing.Color.LightGray;
-            this.auto_calib_status.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.auto_calib_status.ForeColor = System.Drawing.Color.Black;
-            this.auto_calib_status.Location = new System.Drawing.Point(517, 10);
-            this.auto_calib_status.Margin = new System.Windows.Forms.Padding(10);
-            this.auto_calib_status.Name = "auto_calib_status";
-            this.auto_calib_status.Size = new System.Drawing.Size(118, 30);
-            this.auto_calib_status.TabIndex = 8;
-            this.auto_calib_status.Tag = "0";
-            this.auto_calib_status.Text = "MANUAL";
-            this.auto_calib_status.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Main_Form
             // 
