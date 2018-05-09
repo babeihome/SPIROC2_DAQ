@@ -434,6 +434,22 @@ namespace SPIROC_DAQ
             }
             return bResult;
         }
+        private bool CommandSend(int Outdata, int xferLen)
+        {
+            bool bResult = false;
+            byte[] cmdbytes = new byte[2];
+            cmdbytes[0] = (byte)Outdata;
+            cmdbytes[1] = (byte)(Outdata >> 8);
+            if(bulkOutEndPt == null)
+            {
+                bResult = false;
+            }
+            else
+            {
+                bResult = bulkOutEndPt.XferData(ref cmdbytes, ref xferLen);
+            }
+            return bResult;
+        }
         //data recieve method
         private bool DataRecieve(byte[] InData, ref int xferLen)
         {
@@ -445,6 +461,7 @@ namespace SPIROC_DAQ
         #endregion
 
         #region Thread-used function
+
         private void dataAcq_threadFunc(CancellationToken token, BinaryWriter bw)
         {
             byte[] data_buffer = new byte[512];
@@ -482,7 +499,103 @@ namespace SPIROC_DAQ
             bw.Dispose();
 
         }
+        private void electronicSweep_threadFunc(CancellationToken token)
+        {
+            byte[] cmdbytes = new byte[2];
 
+            int startGroup = 1;
+            int stepGroup = 1;
+            int stopGroup = 8;
+
+            uint startDAC = 0;
+            uint stepDAC = 500;
+            uint stopDAC = 4000;
+            byte value_h;
+            byte value_l;
+
+            CommandSend(0x0f01,2);  //enable calibration selection
+            BinaryWriter bw;
+            DateTime dayStamp = DateTime.Now;
+            string subDic = string.Format("{0:yyyyMMdd}_{0:HHmm}_Electronic_Calib", dayStamp);
+            string fullPath = folderBrowserDialog1.SelectedPath + '\\' + subDic;
+            if (!Directory.Exists(fullPath))
+                Directory.CreateDirectory(fullPath);
+            for (int groupID = startGroup; groupID <= stopGroup; groupID += stepGroup)
+            {
+                CommandSend(0x1200, 2); //close auto calib
+                
+                
+
+
+                cmdbytes[1] = 0x0b;
+                cmdbytes[0] = (byte)(groupID-1);
+                CommandSend(cmdbytes, 2);
+                if (token.IsCancellationRequested == true)
+                {
+                    break;
+                }
+                else
+                {
+                    for(uint valueDAC = startDAC; valueDAC <= stopDAC; valueDAC += stepDAC)
+                    {
+                        value_h = (byte)(valueDAC >> 8);
+                        value_l = (byte)(valueDAC);
+                        cmdbytes[1] = 0x07;
+                        cmdbytes[0] = value_h;
+                        CommandSend(cmdbytes, 2);
+                        cmdbytes[0] = value_l;
+                        CommandSend(cmdbytes, 2);
+
+                        byte chn1_mask = 0x80;
+                        value_h = (byte)(chn1_mask | value_h);
+
+                        cmdbytes[0] = value_h;
+                        CommandSend(cmdbytes, 2);
+                        cmdbytes[0] = value_l;
+                        CommandSend(cmdbytes, 2);
+                        sendMessage("GROUP " + groupID.ToString() + "is being calibrated with DAC: "+valueDAC+" now\n");
+                        string fileName = string.Format("{0}group_{1}DAC.dat", groupID, valueDAC);
+                        //create file writer
+                        bw = new BinaryWriter(File.Open(fullPath + '\\' + fileName, FileMode.Create, FileAccess.Write, FileShare.Read));
+
+                        dataAcqTks.Dispose();       //clean up old token source
+                        dataAcqTks = new CancellationTokenSource(); // generate a new token
+                        CommandSend(0x1201, 2); //open auto calib
+
+                        CommandSend(0x0100, 2); //start acq cycle
+
+                        // check USB status
+                        if (usbStatus == false)
+                        {
+                            MessageBox.Show("USB is not connected");
+                        }
+                        
+                        try
+                        {
+                            Task dataAcqTsk = Task.Factory.StartNew(() => this.dataAcq_threadFunc(dataAcqTks.Token, bw), dataAcqTks.Token);
+                            Thread.Sleep(3 * 1000);
+                            // time up!
+                            // stop asic first
+                            CommandSend(0x0200, 2);
+                            // stop data receiving
+                            dataAcqTks.Cancel();
+                            while (!dataAcqTsk.IsCompleted) ;
+                        }
+                        catch (AggregateException excption)
+                        {
+                            foreach (var value in excption.InnerExceptions)
+                            {
+                                exceptionReport.AppendLine(excption.Message + " " + value.Message);
+                            }
+                        }
+                        CommandSend(0x1200, 2);
+                    }
+                }
+            }
+            CommandSend(0x0f00, 2); // close calibration selection
+            Acq_status_label.Text = "IDLE";
+            Acq_status_label.ForeColor = Color.Black;
+        }
         private void voltageSweep_threadFunc(CancellationToken taskToken)
         {
             int startVoltage = int.Parse(startVol_textbox.Text);
@@ -548,7 +661,15 @@ namespace SPIROC_DAQ
                     try
                     {
                         Task dataAcqTsk = Task.Factory.StartNew(() => this.dataAcq_threadFunc(dataAcqTks.Token, bw), dataAcqTks.Token);
+                        // time up!
+                        // stop asic first
+                        cmdBytes[1] = 0x02;
+                        cmdBytes[0] = 0x00;
+                        CommandSend(cmdBytes, 2);
 
+                        // stop data receiving
+                        dataAcqTks.Cancel();
+                        while (!dataAcqTsk.IsCompleted) ;
                     }
                     catch (AggregateException excption)
                     {
@@ -562,14 +683,7 @@ namespace SPIROC_DAQ
                     }
                     Thread.Sleep(int.Parse(duration_sweep.Text)*1000);
 
-                    // time up!
-                    // stop asic first
-                    cmdBytes[1] = 0x02;
-                    cmdBytes[0] = 0x00;
-                    CommandSend(cmdBytes, 2);
 
-                    // stop data receiving
-                    dataAcqTks.Cancel();
 
                     // stop signal
                     SignalSource.closeOutput();
@@ -663,7 +777,16 @@ namespace SPIROC_DAQ
                     try
                     {
                         Task dataAcqTsk = Task.Factory.StartNew(() => this.dataAcq_threadFunc(dataAcqTks.Token, bw), dataAcqTks.Token);
+                        Thread.Sleep(int.Parse(scSweepTime_value.Text) * 1000);
+                        // time up!
+                        // stop asic first
+                        cmdBytes[1] = 0x02;
+                        cmdBytes[0] = 0x00;
+                        CommandSend(cmdBytes, 2);
 
+                        // stop data receiving
+                        dataAcqTks.Cancel();
+                        while (!dataAcqTsk.IsCompleted) ;
                     }
                     catch (AggregateException excption)
                     {
@@ -675,16 +798,9 @@ namespace SPIROC_DAQ
                         }
 
                     }
-                    Thread.Sleep(int.Parse(scSweepTime_value.Text) * 1000);
 
-                    // time up!
-                    // stop asic first
-                    cmdBytes[1] = 0x02;
-                    cmdBytes[0] = 0x00;
-                    CommandSend(cmdBytes, 2);
 
-                    // stop data receiving
-                    dataAcqTks.Cancel();
+
 
                     // stop signal
                     if(SignalSource.isConnected())
@@ -776,7 +892,17 @@ namespace SPIROC_DAQ
                     try
                     {
                         Task dataAcqTsk = Task.Factory.StartNew(() => this.dataAcq_threadFunc(dataAcqTks.Token, bw), dataAcqTks.Token);
+                        Thread.Sleep(int.Parse(scSweepTime_value.Text) * 1000);
 
+                        // time up!
+                        // stop asic first
+                        cmdBytes[1] = 0x02;
+                        cmdBytes[0] = 0x00;
+                        CommandSend(cmdBytes, 2);
+
+                        // stop data receiving
+                        dataAcqTks.Cancel();
+                        while (!dataAcqTsk.IsCompleted) ;
                     }
                     catch (AggregateException excption)
                     {
@@ -788,16 +914,7 @@ namespace SPIROC_DAQ
                         }
 
                     }
-                    Thread.Sleep(int.Parse(scSweepTime_value.Text) * 1000);
 
-                    // time up!
-                    // stop asic first
-                    cmdBytes[1] = 0x02;
-                    cmdBytes[0] = 0x00;
-                    CommandSend(cmdBytes, 2);
-
-                    // stop data receiving
-                    dataAcqTks.Cancel();
 
                     // stop signal
                     if (SignalSource.isConnected())
@@ -899,7 +1016,17 @@ namespace SPIROC_DAQ
                     try
                     {
                         Task dataAcqTsk = Task.Factory.StartNew(() => this.dataAcq_threadFunc(dataAcqTks.Token, bw), dataAcqTks.Token);
+                        Thread.Sleep(5 * 1000);  //acq 5 seconds
+                                                 // time up!
+                                                 // stop asic first
+                        cmdBytes[1] = 0x02;
+                        cmdBytes[0] = 0x00;
+                        CommandSend(cmdBytes, 2);
 
+                        // stop data receiving
+                        dataAcqTks.Cancel();
+                        Thread.Sleep(500);
+                        while (!dataAcqTsk.IsCompleted) ;
                     }
                     catch (AggregateException excption)
                     {
@@ -911,16 +1038,7 @@ namespace SPIROC_DAQ
                         }
 
                     }
-                    Thread.Sleep(5 * 1000);  //acq 5 seconds
-                    // time up!
-                    // stop asic first
-                    cmdBytes[1] = 0x02;
-                    cmdBytes[0] = 0x00;
-                    CommandSend(cmdBytes, 2);
 
-                    // stop data receiving
-                    dataAcqTks.Cancel();
-                    Thread.Sleep(500);
 
                     // stop signal
                     SignalSource.closeOutput();
@@ -1013,7 +1131,17 @@ namespace SPIROC_DAQ
                     try
                     {
                         Task dataAcqTsk = Task.Factory.StartNew(() => this.dataAcq_threadFunc(dataAcqTks.Token, bw), dataAcqTks.Token);
+                        Thread.Sleep(5 * 1000);  //acq 5 seconds
+                                                 // time up!
+                                                 // stop asic first
+                        cmdBytes[1] = 0x02;
+                        cmdBytes[0] = 0x00;
+                        CommandSend(cmdBytes, 2);
 
+                        // stop data receiving
+                        dataAcqTks.Cancel();
+                        Thread.Sleep(300);
+                        while (!dataAcqTsk.IsCompleted) ;
                     }
                     catch (AggregateException excption)
                     {
@@ -1025,16 +1153,7 @@ namespace SPIROC_DAQ
                         }
 
                     }
-                    Thread.Sleep(5 * 1000);  //acq 5 seconds
-                    // time up!
-                    // stop asic first
-                    cmdBytes[1] = 0x02;
-                    cmdBytes[0] = 0x00;
-                    CommandSend(cmdBytes, 2);
 
-                    // stop data receiving
-                    dataAcqTks.Cancel();
-                    Thread.Sleep(300);
                     // stop signal
                     SignalSource.closeOutput();    
                                     
@@ -1124,7 +1243,17 @@ namespace SPIROC_DAQ
                     try
                     {
                         Task dataAcqTsk = Task.Factory.StartNew(() => this.dataAcq_threadFunc(dataAcqTks.Token, bw), dataAcqTks.Token);
+                        Thread.Sleep(5 * 1000);  //acq 5 seconds
+                                                 // time up!
+                                                 // stop asic first
+                        cmdBytes[1] = 0x02;
+                        cmdBytes[0] = 0x00;
+                        CommandSend(cmdBytes, 2);
 
+                        // stop data receiving
+                        dataAcqTks.Cancel();
+                        Thread.Sleep(300);
+                        while (!dataAcqTsk.IsCompleted) ;
                     }
                     catch (AggregateException excption)
                     {
@@ -1136,16 +1265,7 @@ namespace SPIROC_DAQ
                         }
 
                     }
-                    Thread.Sleep(5 * 1000);  //acq 5 seconds
-                    // time up!
-                    // stop asic first
-                    cmdBytes[1] = 0x02;
-                    cmdBytes[0] = 0x00;
-                    CommandSend(cmdBytes, 2);
 
-                    // stop data receiving
-                    dataAcqTks.Cancel();
-                    Thread.Sleep(300);
                     // stop signal
                     SignalSource.closeOutput();
 

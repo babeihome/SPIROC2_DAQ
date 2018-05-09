@@ -974,7 +974,7 @@ namespace SPIROC_DAQ
         {
             byte[] commandByte = new byte[2];
             commandByte[1] = 0x0c;
-            commandByte[0] = Ext_trigger_fpga_enable.Checked ? (byte)0x06 : (byte)0x02;
+            commandByte[0] = Ext_trigger_fpga_enable.Checked ? (byte)0x04 : (byte)0x00;
 
             var isUSBConnected = check_USB();
             if (isUSBConnected)
@@ -1039,7 +1039,9 @@ namespace SPIROC_DAQ
             decimal voltage;
             byte[] voltage_hex = new byte[4];
             uint temp;
-            byte[] cmd = new byte[100];
+            uint checksum = 0;
+            string cmd;
+            byte[] cmd_hex = new byte[100];
             int cmd_length = 0;
 
             voltage = HV_value.Value;
@@ -1049,7 +1051,37 @@ namespace SPIROC_DAQ
             voltage_hex[2] = toascii((byte)((temp >> 4) & 0x0f));
             voltage_hex[3] = toascii((byte)(temp & 0x0f));
 
-            //"HST".CopyTo()
+            cmd = "HST0000000000000000" + System.Text.Encoding.ASCII.GetString(voltage_hex) + "C8BE";
+            cmd_hex = System.Text.Encoding.ASCII.GetBytes(cmd);
+            cmd_length = 27;
+            CommandSend(0x0503, 2); //选通HV control config sending channel
+            byte[] cmdbytes = new byte[2];
+            cmdbytes[1] = 0x03;
+            cmdbytes[0] = 0x02; //STX signal 0x02
+            CommandSend(cmdbytes, 2);
+            for (int i = 0; i < cmd.Length; i++)
+            {
+                checksum += cmd_hex[i];
+                cmdbytes[0] = cmd_hex[i];
+                CommandSend(cmdbytes, 2);
+            }
+            cmdbytes[0] = 0x03;     //ETX signal 0x03
+            CommandSend(cmdbytes, 2);
+            //sum check
+            checksum += (char)0x05;
+            byte letter_high = toascii((byte)(checksum >> 4));
+            byte letter_low = toascii((byte)(checksum & 0x0F));
+
+            cmdbytes[0] = letter_high;
+            CommandSend(cmdbytes, 2);
+            cmdbytes[0] = letter_low;
+            CommandSend(cmdbytes, 2);
+
+            cmdbytes[0] = 0x0D;
+            CommandSend(cmdbytes, 2);
+
+            CommandSend(0x0502, 2); //停止选通HV control config sending channel
+
         }
 
         private void afg3252_btn_Click(object sender, EventArgs e)
@@ -1927,7 +1959,7 @@ namespace SPIROC_DAQ
                     calib_status.Tag = 1;
                     calib_status.Text = "READY";
                     calib_status.BackColor = Color.MediumSeaGreen;
-                    calib_trig.Enabled = true;
+                    //calib_trig.Enabled = true;
                 }
                 else
                 {
@@ -1941,7 +1973,7 @@ namespace SPIROC_DAQ
                     calib_status.Tag = 0;
                     calib_status.Text = "OFF";
                     calib_status.BackColor = Color.DarkRed;
-                    calib_trig.Enabled = false;
+                    //calib_trig.Enabled = false;
                 }
                 else
                 {
@@ -2011,6 +2043,10 @@ namespace SPIROC_DAQ
             byte value_l = 0x00;
 
             uint value = 0;
+            if(calib_dac_text.Text == null)
+            {
+                calib_dac_text.Text = "0";
+            }
             value = uint.Parse(calib_dac_text.Text);
             value_h = (byte)(value >> 8);
             value_l = (byte)value;
@@ -2028,6 +2064,46 @@ namespace SPIROC_DAQ
             cmdbytes[0] = value_l;
             CommandSend(cmdbytes, 2);
 
+        }
+
+        private void inter_calib_btn_Click(object sender, EventArgs e)
+        {
+            specialTaskTks.Dispose();       //clean up old token source
+            specialTaskTks = new CancellationTokenSource(); // generate a new token
+            if (check_USB() == false)
+            {
+                MessageBox.Show("USB or Instrument is not connected", "Error");
+                return;
+            }
+
+            if (usbStatus == true)
+
+
+                try
+                {
+                    Task electonicCalib = Task.Factory.StartNew(() => this.electronicSweep_threadFunc(specialTaskTks.Token), specialTaskTks.Token);
+
+                }
+                catch (AggregateException excption)
+                {
+
+                    foreach (var v in excption.InnerExceptions)
+                    {
+
+                        exceptionReport.AppendLine(excption.Message + " " + v.Message);
+                    }
+
+                }
+            Acq_status_label.Text = "Calib";
+            Acq_status_label.ForeColor = Color.Green;
+        }
+
+        private void task_stop_btn_Click(object sender, EventArgs e)
+        {
+            specialTaskTks.Cancel();
+            textBox1.AppendText("Special Task stop\n");
+            Acq_status_label.Text = "IDLE";
+            Acq_status_label.ForeColor = Color.Black;
         }
     }
 }
