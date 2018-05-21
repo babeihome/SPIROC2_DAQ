@@ -46,8 +46,13 @@ namespace SPIROC_DAQ
 
         private int settingChoosen = 0;
         Iversion slowConfig;
-
-        SC_model slowConfig_2B = new SC_model();
+        SC_board_manager slowControlManager = new SC_board_manager();
+        
+        List<SC_model> slowConfig_2B_store = new List<SC_model>();
+        SC_model slowConfig_2B_1 = new SC_model();
+        SC_model slowConfig_2B_2 = new SC_model();
+        SC_model slowConfig_2B_3 = new SC_model();
+        SC_model slowConfig_2B_4 = new SC_model();
         SC_model_2E slowConfig_2E = new SC_model_2E();
         private DateTime startTime;
         // recording information such as slow control config of every data;
@@ -67,13 +72,17 @@ namespace SPIROC_DAQ
             bindEventHandle(preamp_group, new EventHandler(preamp_Changed));
             File_path_showbox.Text = folderBrowserDialog1.SelectedPath;
             fileDic = folderBrowserDialog1.SelectedPath + "\\\\default_test";
+            slowControlManager.clearChip();
             // Dynamic list of USB devices bound to CyUSB.sys
             usbDevices = new USBDeviceList(CyConst.DEVICES_CYUSB);
             loadsettings();
-            
+            slowConfig_2B_store.Add(slowConfig_2B_1);
+            slowConfig_2B_store.Add(slowConfig_2B_2);
+            slowConfig_2B_store.Add(slowConfig_2B_3);
+            slowConfig_2B_store.Add(slowConfig_2B_4);
             if (version_num == 1)
             {
-                slowConfig = slowConfig_2B;
+                slowConfig = slowConfig_2B_store[0];
 
 
                 slowConfig.save_settings(0);
@@ -131,8 +140,26 @@ namespace SPIROC_DAQ
             int byte_count = 0;
 
             byte[] cmdBytes = new byte[2];
-            byte[] bit_block = new byte[117];  //SPIROC2b has 929 config bit, 929 / 8 = 116 ... 1, need 117 bytes
-            byte_count = slowConfig.bit_transform(ref bit_block);
+            byte[] bit_block = new byte[1000];  //SPIROC2b has 929 config bit, 929 / 8 = 116 ... 1, need 117 bytes
+
+
+            // Is not pretty use slowControlManager this way!!!!!!! but I just used it.
+            // setting should detech with config
+            if(chip_selection_combo.Text == "Global")
+            {
+                for(int i = 0; i< chip_num_input.Value; i++)
+                {
+                    slowConfig_2B_store[i] = Copy<SC_model>(slowConfig_2B_1);
+                    slowConfig_2B_store[i].set_property(slowConfig_2B_1.settings["CHIPID"], reverse_bit(bin2gray((uint)(chip_num_input.Value-i)),8));  // the last chip config first
+                }
+                slowControlManager.clearChip();
+                for (int i = 0; i < chip_num_input.Value; i++)
+                {                                    
+                    slowControlManager.pushChip(slowConfig_2B_store[i]);
+                }
+
+            }          
+            byte_count = slowControlManager.bit_transform(bit_block);
 
             // reset spiroc2b
             cmdBytes[1] = 0x04;
@@ -1561,7 +1588,7 @@ namespace SPIROC_DAQ
             }
             if (version_num == 1)
             {
-                slowConfig = slowConfig_2B;
+                slowConfig = slowConfig_2B_store[0];
                 slowConfig.save_settings(0);
                 hgAmpComp.Enabled = true ;
                 lgAmpComp.Enabled = true;
@@ -2104,6 +2131,14 @@ namespace SPIROC_DAQ
             textBox1.AppendText("Special Task stop\n");
             Acq_status_label.Text = "IDLE";
             Acq_status_label.ForeColor = Color.Black;
+        }
+
+        private void chip_num_input_ValueChanged(object sender, EventArgs e)
+        {
+            int chip_num = (int)chip_num_input.Value;
+            CommandSend(0x1300 + chip_num, 2);
+
+
         }
     }
 }

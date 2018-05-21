@@ -9,6 +9,8 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 using System.Threading.Tasks;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 namespace SPIROC_DAQ
 {
     partial class Main_Form
@@ -799,9 +801,6 @@ namespace SPIROC_DAQ
 
                     }
 
-
-
-
                     // stop signal
                     if(SignalSource.isConnected())
                     {
@@ -1382,6 +1381,19 @@ namespace SPIROC_DAQ
         #endregion
 
         #region other function
+        //要复制的实例必须可序列化，包括实例引用的其它实例都必须在类定义时加[Serializable]特性。  
+        public static T Copy<T>(T RealObject)
+        {
+            using (Stream objectStream = new MemoryStream())
+            {
+                //利用 System.Runtime.Serialization序列化与反序列化完成引用对象的复制     
+                IFormatter formatter = new BinaryFormatter();
+                formatter.Serialize(objectStream, RealObject);
+                objectStream.Seek(0, SeekOrigin.Begin);
+                return (T)formatter.Deserialize(objectStream);
+            }
+        }
+
         byte toascii(byte origin)
         {
             byte ascii_out = 0;
@@ -1500,6 +1512,21 @@ namespace SPIROC_DAQ
             return (1);
 
         }
+
+        uint bin2gray(uint x)
+        {
+            return x ^ (x >> 1);
+        }
+
+        uint gray2bin(uint x)
+        {
+            x ^= x >> 16;
+            x ^= x >> 8;
+            x ^= x >> 4;
+            x ^= x >> 2;
+            x ^= x ^ 1;
+             return x;
+        }
         uint reverse_bit(uint c, uint width)
         {
             // reverse a 6bit width value in bit-wise
@@ -1507,6 +1534,11 @@ namespace SPIROC_DAQ
             {
                 c = (c & 0x24) >> 2 | (c & 0x09) << 2 | (c & 0x12);
                 c = (c & 0x38) >> 3 | (c & 0x07) << 3;
+            }
+            else if(width == 8){
+                c = (c & 0xf0) >> 4 | (c & 0x0f) << 4;
+                c = (c & 0xcc) >> 2 | (c & 0x33) << 2;
+                c = (c & 0xaa) >> 1 | (c & 0x55) << 1;
             }
             return c;
         }

@@ -9,12 +9,74 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace SPIROC_DAQ
 {
+    class SC_board_manager
+    {
+        private int chip_num;
+        private List<Iversion> chipChain = new List<Iversion>();
+
+        public Boolean pushChip(Iversion oneChip)
+        {
+            // should push the end of chip chain first first
+            chipChain.Add(oneChip);
+            chip_num++;
+            return true;
+        }
+        public int clearChip()
+        {
+            int origin_chip_num = chip_num;
+            chipChain.Clear();
+            chip_num = 0;
+
+            return origin_chip_num;
+        }
+        public int bit_transform(byte[] bit_block)
+        {
+
+            int bit_count = 0;
+            int byte_count = 0; //byte_count shold be bit_count/8;
+
+            StringBuilder bit_As_Char = new StringBuilder();
+            int bit_length = 0;
+            foreach (Iversion chip in chipChain)
+            {
+                bit_As_Char.Append(chip.string_transform());
+            }
+
+
+            String bit_string = bit_As_Char.ToString();
+            bit_length = bit_As_Char.Length;
+
+            // transform 'bit in char form' into real bit stream
+            // MSB in byte is bigger conig bit
+            while (bit_count + 8 < bit_length)
+            {
+                bit_block[byte_count] = Convert.ToByte(bit_string.Substring(bit_count, 8), 2);
+                byte_count++;
+                bit_count += 8;
+            }
+
+
+            bit_block[byte_count] = Convert.ToByte(bit_string.Substring(bit_count, bit_length - bit_count).PadRight(8, '0'), 2);
+
+            // for example if congfig data is 1101 0100 10
+            // so now the bit block is 0100 1010 1100
+            // bit_block[0]: 0x4
+            // bit_block[1]: 0xA
+            // bit_block[2]: 0xC
+            return byte_count + 1;
+
+        }
+
+
+    }
+    
     
     interface Iversion
     {
         void test();
         void set_property(int id, uint value);
         uint get_property(int id);
+        StringBuilder string_transform();
         int bit_transform(ref byte[] bit_block);
         void save_settings(int settings_id);
         void recall_settings(int settings_id);
@@ -288,6 +350,28 @@ namespace SPIROC_DAQ
 
         }
 
+        public StringBuilder string_transform()
+        {
+            // for multi-chip aggregate configuration data in one byte block consequently
+
+            // to record how many bit has been transformed
+            StringBuilder buffer = new StringBuilder(bit_length);
+            for (int i = 0; i < properties_num; i++)
+            {
+                // 将配置的bit串用字符串的形式保存
+                buffer.Append(Convert.ToString(config_data[i], 2).PadLeft(property_length[i], '0'));
+            }
+            StringBuilder bitAsChar_MsbFirst = new StringBuilder(bit_length);
+            for (int i = bit_length - 1; i >= 0; i--)
+            {
+                bitAsChar_MsbFirst.Append(buffer[i]);   //now MSB in config data is at bitAsChar_MsbFirst[0]
+            }
+            buffer = bitAsChar_MsbFirst;
+            // don't worry about memory leakage, because c# has ability of detecting garbage heap occupation.
+            return buffer;
+        }
+
+
         public  int bit_transform(ref byte[] bit_block)
         {
             // to record how many bit has been transformed
@@ -299,7 +383,7 @@ namespace SPIROC_DAQ
             // now bit is as this
             // location 0   1   2   3   4   ... 13  14  15
             // bit      1   1   1   1   1   ... 1   x   x
-            for(int i = 0; i < 175; i++)
+            for(int i = 0; i < properties_num; i++)
             {
                 // 将配置的bit串用字符串的形式保存
                 bit_As_Char.Append(Convert.ToString(config_data[i], 2).PadLeft(property_length[i], '0'));
@@ -685,18 +769,39 @@ namespace SPIROC_DAQ
 
         }
 
+        public StringBuilder string_transform()
+        {
+            // for multi-chip aggregate configuration data in one byte block consequently
+
+            // to record how many bit has been transformed
+            StringBuilder buffer = new StringBuilder(bit_length);
+            for (int i = 0; i < properties_num; i++)
+            {
+                // 将配置的bit串用字符串的形式保存
+                buffer.Append(Convert.ToString(config_data[i], 2).PadLeft(property_length[i], '0'));
+            }
+            StringBuilder bitAsChar_MsbFirst = new StringBuilder(bit_length);
+            for (int i = bit_length - 1; i >= 0; i--)
+            {
+                bitAsChar_MsbFirst.Append(buffer[i]);   //now MSB in config data is at bitAsChar_MsbFirst[0]
+            }
+            buffer = bitAsChar_MsbFirst;
+            // don't worry about memory leakage, because c# has ability of detecting garbage heap occupation.
+            return buffer;
+        }
+
         public int bit_transform(ref byte[] bit_block)
         {
             // to record how many bit has been transformed
             int bit_count = 0;
             int byte_count = 0; //byte_count shold be bit_count/8;
 
-            StringBuilder bit_As_Char = new StringBuilder(1000);
+            StringBuilder bit_As_Char = new StringBuilder(bit_length);
 
             // now bit is as this
             // location 0   1   2   3   4   ... 13  14  15
             // bit      1   1   1   1   1   ... 1   x   x
-            for (int i = 0; i < 175; i++)
+            for (int i = 0; i < properties_num; i++)
             {
                 // 将配置的bit串用字符串的形式保存
                 bit_As_Char.Append(Convert.ToString(config_data[i], 2).PadLeft(property_length[i], '0'));
