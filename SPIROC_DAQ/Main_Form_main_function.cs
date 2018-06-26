@@ -463,7 +463,55 @@ namespace SPIROC_DAQ
         #endregion
 
         #region Thread-used function
+        private void HV_set_smooth_threadFunc(CancellationToken token, bool turnOff, bool turnOn)
+        {
+            decimal target_voltage;
+            target_voltage = HV_value.Value;
+            decimal tmp_v = current_hv;
+            if (turnOn)
+            {
+                hv_switch(true);
+            }
+            while (Math.Abs(tmp_v - target_voltage) > (decimal)0.2)
+            {
+                if(token.IsCancellationRequested != true)
+                {
+                    if (tmp_v < 68)
+                    {
+                        if (target_voltage > tmp_v)
+                            tmp_v += 1;
+                        else
+                            tmp_v -= 1;
+                    }
+                    else
+                    {
+                        if (target_voltage > tmp_v)
+                            tmp_v += (decimal)0.1;
+                        else
+                            tmp_v -= (decimal)0.1;
+                    }
+                    hv_set(tmp_v);
+                    current_hv = tmp_v;
+                    temp_HV.Text = tmp_v.ToString();
+                    temp_HV.ForeColor = Color.Black;
+                    Thread.Sleep(500);
+                    hv_set(tmp_v);
+                    temp_HV.ForeColor = Color.Green;
+                }
+                else
+                {
+                    break;
+                }   
+            }
+            
 
+
+            if (turnOff)
+            {
+                hv_switch(false);
+            }
+
+        }
         private void dataAcq_threadFunc(CancellationToken token, BinaryWriter bw)
         {
             byte[] data_buffer = new byte[512];
@@ -1490,6 +1538,50 @@ namespace SPIROC_DAQ
                 */
             return (1);
 
+        }
+
+        void hv_set(decimal voltage)
+        {
+            byte[] voltage_hex = new byte[4];
+            uint temp;
+            string cmd;
+            byte[] cmd_hex = new byte[100];
+            int cmd_length = 0;
+
+            temp = (uint)(voltage / (decimal)1.812 * 1000);
+            voltage_hex[0] = toascii((byte)(temp >> 12));
+            voltage_hex[1] = toascii((byte)((temp >> 8) & 0x0f));
+            voltage_hex[2] = toascii((byte)((temp >> 4) & 0x0f));
+            voltage_hex[3] = toascii((byte)(temp & 0x0f));
+
+            cmd = "HST0000000000000000" + System.Text.Encoding.ASCII.GetString(voltage_hex) + "C8BE";
+            cmd_hex = System.Text.Encoding.ASCII.GetBytes(cmd);
+            cmd_length = 27;
+            CommandSend(0x0503, 2); //选通HV control config sending channel
+
+            uart_send(cmd_hex, cmd_length);
+
+            CommandSend(0x0502, 2); //停止选通HV control config sending channel
+        }
+
+        void hv_switch(bool turnOn)
+        {
+            string cmd = "";
+            byte[] cmd_hex = new byte[100];
+            int cmd_length = cmd.Length;
+            if (turnOn)
+            {
+                cmd = "HON";
+            }
+            else
+            {
+                cmd = "HOF";
+            }
+            cmd_hex = System.Text.Encoding.ASCII.GetBytes(cmd);
+            cmd_length = 3;
+            CommandSend(0x0503, 2); //选通HV control config sending channel
+            uart_send(cmd_hex, cmd_length);
+            CommandSend(0x0502, 2); //停止选通HV control config sending channel
         }
 
         uint bin2gray(uint x)

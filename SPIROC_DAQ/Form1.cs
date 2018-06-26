@@ -37,6 +37,7 @@ namespace SPIROC_DAQ
         private CancellationTokenSource voltageSweepTks = new CancellationTokenSource();
         private CancellationTokenSource scSweepTks = new CancellationTokenSource();
         private CancellationTokenSource specialTaskTks = new CancellationTokenSource();
+        private CancellationTokenSource hv_setTks = new CancellationTokenSource();
         private StringBuilder exceptionReport = new StringBuilder();
 
         private string rx_Command = @"\b[0-9a-fA-F]{4}\b";//match 16 bit Hex
@@ -45,6 +46,7 @@ namespace SPIROC_DAQ
         private string rx_Integer = @"^\d+$";   //匹配非负 整数
 
         private int settingChoosen = 0;
+        private decimal current_hv = 50;
         Iversion slowConfig;
         SC_board_manager slowControlManager = new SC_board_manager();
         
@@ -1063,29 +1065,6 @@ namespace SPIROC_DAQ
 
         private void HV_value_ValueChanged(object sender, EventArgs e)
         {
-            decimal voltage;
-            byte[] voltage_hex = new byte[4];
-            uint temp;
-            uint checksum = 0;
-            string cmd;
-            byte[] cmd_hex = new byte[100];
-            int cmd_length = 0;
-
-            voltage = HV_value.Value;
-            temp = (uint)(voltage / (decimal)1.812 * 1000);
-            voltage_hex[0] = toascii((byte)(temp >> 12));
-            voltage_hex[1] = toascii((byte)((temp >> 8) & 0x0f));
-            voltage_hex[2] = toascii((byte)((temp >> 4) & 0x0f));
-            voltage_hex[3] = toascii((byte)(temp & 0x0f));
-
-            cmd = "HST0000000000000000" + System.Text.Encoding.ASCII.GetString(voltage_hex) + "C8BE";
-            cmd_hex = System.Text.Encoding.ASCII.GetBytes(cmd);
-            cmd_length = 27;
-            CommandSend(0x0503, 2); //选通HV control config sending channel
-
-            uart_send(cmd_hex, cmd_length);
-
-            CommandSend(0x0502, 2); //停止选通HV control config sending channel
 
         }
 
@@ -2115,8 +2094,6 @@ namespace SPIROC_DAQ
         {
             int chip_num = (int)chip_num_input.Value;
             CommandSend(0x1300 + chip_num, 2);
-
-
         }
 
         private void HVswitch_btn_Click(object sender, EventArgs e)
@@ -2124,25 +2101,40 @@ namespace SPIROC_DAQ
             bool status;
             string cmd = "";
             status = (HVswitch_btn.Tag.ToString() == "1");
-            if(status == true)
+            hv_setTks.Dispose();       //clean up old token source
+            hv_setTks = new CancellationTokenSource(); // generate a new token
+            if (status == true)
             {
-                cmd = "HOF";
-                HVswitch_btn.Text = "OFF";
+                try
+                {
+                    HV_value.Value = 50;
+                    Task hv_setting = Task.Factory.StartNew(() => this.HV_set_smooth_threadFunc(hv_setTks.Token, true, false), hv_setTks.Token);
+
+                }
+                catch (AggregateException excption)
+                {
+
+                    foreach (var v in excption.InnerExceptions)
+                    {
+
+                        exceptionReport.AppendLine(excption.Message + " " + v.Message);
+                    }
+
+                }
+                HVswitch_btn.Text = "Open";
+                HV_status_label.Text = "OFF";
+                HV_status_label.ForeColor = Color.Red;
                 HVswitch_btn.Tag = 0;
             }
             else if(status == false)
             {
-                cmd = "HON";
-                HVswitch_btn.Text = "ON";
+                hv_switch(true);
+                HVswitch_btn.Text = "Close";
+                HV_status_label.Text = "ON";
+                HV_status_label.ForeColor = Color.Green;
                 HVswitch_btn.Tag = 1;
             }
-            byte[] cmd_hex = new byte[100];
-            int cmd_length = cmd.Length;        
-            cmd_hex = System.Text.Encoding.ASCII.GetBytes(cmd);
-            cmd_length = 3;
-            CommandSend(0x0503, 2); //选通HV control config sending channel
-            uart_send(cmd_hex, cmd_length);
-            CommandSend(0x0502, 2); //停止选通HV control config sending channel
+
         }
 
         private void HV_CompSwitch_btn_Click(object sender, EventArgs e)
@@ -2169,6 +2161,39 @@ namespace SPIROC_DAQ
             CommandSend(0x0503, 2); //选通HV control config sending channel
             uart_send(cmd_hex, cmd_length);
             CommandSend(0x0502, 2); //停止选通HV control config sending channel
+        }
+
+        private void hv_smooth_set_btn_Click(object sender, EventArgs e)
+        {
+            decimal target_voltage;
+            target_voltage = HV_value.Value;
+            hv_setTks.Dispose();       //clean up old token source
+            hv_setTks = new CancellationTokenSource(); // generate a new token
+            if (check_USB() == false)
+            {
+                MessageBox.Show("USB or Instrument is not connected", "Error");
+                return;
+            }
+
+            if (usbStatus == true)
+
+
+                try
+                {
+                    Task hv_setting = Task.Factory.StartNew(() => this.HV_set_smooth_threadFunc(hv_setTks.Token, false,false), hv_setTks.Token);
+
+                }
+                catch (AggregateException excption)
+                {
+
+                    foreach (var v in excption.InnerExceptions)
+                    {
+
+                        exceptionReport.AppendLine(excption.Message + " " + v.Message);
+                    }
+
+                }
+
         }
     }
 }
