@@ -1082,30 +1082,8 @@ namespace SPIROC_DAQ
             cmd_hex = System.Text.Encoding.ASCII.GetBytes(cmd);
             cmd_length = 27;
             CommandSend(0x0503, 2); //选通HV control config sending channel
-            byte[] cmdbytes = new byte[2];
-            cmdbytes[1] = 0x03;
-            cmdbytes[0] = 0x02; //STX signal 0x02
-            CommandSend(cmdbytes, 2);
-            for (int i = 0; i < cmd.Length; i++)
-            {
-                checksum += cmd_hex[i];
-                cmdbytes[0] = cmd_hex[i];
-                CommandSend(cmdbytes, 2);
-            }
-            cmdbytes[0] = 0x03;     //ETX signal 0x03
-            CommandSend(cmdbytes, 2);
-            //sum check
-            checksum += (char)0x05;
-            byte letter_high = toascii((byte)(checksum >> 4));
-            byte letter_low = toascii((byte)(checksum & 0x0F));
 
-            cmdbytes[0] = letter_high;
-            CommandSend(cmdbytes, 2);
-            cmdbytes[0] = letter_low;
-            CommandSend(cmdbytes, 2);
-
-            cmdbytes[0] = 0x0D;
-            CommandSend(cmdbytes, 2);
+            uart_send(cmd_hex, cmd_length);
 
             CommandSend(0x0502, 2); //停止选通HV control config sending channel
 
@@ -2139,6 +2117,58 @@ namespace SPIROC_DAQ
             CommandSend(0x1300 + chip_num, 2);
 
 
+        }
+
+        private void HVswitch_btn_Click(object sender, EventArgs e)
+        {
+            bool status;
+            string cmd = "";
+            status = (HVswitch_btn.Tag.ToString() == "1");
+            if(status == true)
+            {
+                cmd = "HOF";
+                HVswitch_btn.Text = "OFF";
+                HVswitch_btn.Tag = 0;
+            }
+            else if(status == false)
+            {
+                cmd = "HON";
+                HVswitch_btn.Text = "ON";
+                HVswitch_btn.Tag = 1;
+            }
+            byte[] cmd_hex = new byte[100];
+            int cmd_length = cmd.Length;        
+            cmd_hex = System.Text.Encoding.ASCII.GetBytes(cmd);
+            cmd_length = 3;
+            CommandSend(0x0503, 2); //选通HV control config sending channel
+            uart_send(cmd_hex, cmd_length);
+            CommandSend(0x0502, 2); //停止选通HV control config sending channel
+        }
+
+        private void HV_CompSwitch_btn_Click(object sender, EventArgs e)
+        {
+            bool status;
+            string cmd = "";
+            status = (HV_CompSwitch_btn.Tag.ToString() == "1");
+            if (status == true)
+            {
+                cmd = "HCM0";
+                HVswitch_btn.Text = "Comp. OFF";
+                HVswitch_btn.Tag = 0;
+            }
+            else if (status == false)
+            {
+                cmd = "HCM1";
+                HVswitch_btn.Text = "Comp. ON";
+                HVswitch_btn.Tag = 1;
+            }
+            byte[] cmd_hex = new byte[100];
+            int cmd_length = cmd.Length;
+            cmd_hex = System.Text.Encoding.ASCII.GetBytes(cmd);
+            cmd_length = 4;
+            CommandSend(0x0503, 2); //选通HV control config sending channel
+            uart_send(cmd_hex, cmd_length);
+            CommandSend(0x0502, 2); //停止选通HV control config sending channel
         }
     }
 }

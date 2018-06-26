@@ -509,9 +509,9 @@ namespace SPIROC_DAQ
             int stepGroup = 1;
             int stopGroup = 8;
 
-            uint startDAC = 0;
-            uint stepDAC = 500;
-            uint stopDAC = 4000;
+            uint startDAC = 1000;
+            uint stepDAC = 10;
+            uint stopDAC = 4095;
             byte value_h;
             byte value_l;
 
@@ -1429,7 +1429,7 @@ namespace SPIROC_DAQ
             //ViStatus status;
             //int return_count = 0;
             //STX signal 0x02.
-            TempCommand[1] = 0x05;      //0x05 stand for this is uart-form data
+            TempCommand[1] = 0x03;      //0x05 stand for this is uart-form data
             TempCommand[0] = 0x02;
 
             CommandSend(TempCommand, 2);
@@ -1447,19 +1447,13 @@ namespace SPIROC_DAQ
                 TempCommand[0] = cmd[i];
                 CommandSend(TempCommand, 2);
 
-                //if (status != VI_SUCCESS)
-                //    return (-1);
-                //Sleep(10);
             }
 
 
             //ETX signal 0x03
             TempCommand[0] = 0x03;
             CommandSend(TempCommand, 2);
-            //status = viWrite(instr, TempCommand, 2, &return_count);
 
-            //if (status != VI_SUCCESS)
-            //    return (-1);
 
 
             // sum check
@@ -1468,25 +1462,10 @@ namespace SPIROC_DAQ
             letter_low = toascii((byte)(checksum & 0x0F));
 
             TempCommand[0] = letter_high;
-
             CommandSend(TempCommand, 2);
-            /*
-            status = viWrite(instr, TempCommand, 2, &return_count);
-
-            if (status != VI_SUCCESS)
-                return (-1);
-            //Sleep(10);
-            */
 
             TempCommand[0] = letter_low;
-
             CommandSend(TempCommand, 2);
-            /*
-            status = viWrite(instr, TempCommand, 2, &return_count);
-
-            if (status != VI_SUCCESS)
-                return (-1);
-                */
 
             //CR send
 
@@ -1500,8 +1479,8 @@ namespace SPIROC_DAQ
                 */
             Thread.Sleep(10);
 
-            TempCommand[1] = 0x07;
-            TempCommand[0] = 0x00;
+            TempCommand[1] = 0x05;
+            TempCommand[0] = 0x02;
             CommandSend(TempCommand, 2);
             /*
             status = viWrite(instr, TempCommand, 2, &return_count);
