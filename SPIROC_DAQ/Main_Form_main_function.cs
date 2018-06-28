@@ -495,17 +495,20 @@ namespace SPIROC_DAQ
                     temp_HV.Text = tmp_v.ToString();
                     temp_HV.ForeColor = Color.Black;
                     Thread.Sleep(500);
-                    hv_set(tmp_v);
-                    temp_HV.ForeColor = Color.Green;
+
                 }
                 else
                 {
                     break;
-                }   
+                }
+
             }
-            
-
-
+            if(token.IsCancellationRequested != true)
+            {
+                hv_set(target_voltage);
+                temp_HV.Text = target_voltage.ToString();
+                temp_HV.ForeColor = Color.Green;
+            }
             if (turnOff)
             {
                 hv_switch(false);

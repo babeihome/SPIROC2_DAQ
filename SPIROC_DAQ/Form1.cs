@@ -2101,12 +2101,14 @@ namespace SPIROC_DAQ
             bool status;
             string cmd = "";
             status = (HVswitch_btn.Tag.ToString() == "1");
-            hv_setTks.Dispose();       //clean up old token source
-            hv_setTks = new CancellationTokenSource(); // generate a new token
+
             if (status == true)
             {
                 try
                 {
+                    hv_setTks.Cancel();
+                    hv_setTks.Dispose();       //clean up old token source
+                    hv_setTks = new CancellationTokenSource(); // generate a new token
                     HV_value.Value = 50;
                     Task hv_setting = Task.Factory.StartNew(() => this.HV_set_smooth_threadFunc(hv_setTks.Token, true, false), hv_setTks.Token);
 
@@ -2167,6 +2169,7 @@ namespace SPIROC_DAQ
         {
             decimal target_voltage;
             target_voltage = HV_value.Value;
+            hv_setTks.Cancel();
             hv_setTks.Dispose();       //clean up old token source
             hv_setTks = new CancellationTokenSource(); // generate a new token
             if (check_USB() == false)

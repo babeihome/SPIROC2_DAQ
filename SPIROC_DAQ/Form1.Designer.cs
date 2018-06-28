@@ -5994,7 +5994,7 @@
             this.HVswitch_btn.Size = new System.Drawing.Size(75, 35);
             this.HVswitch_btn.TabIndex = 3;
             this.HVswitch_btn.Tag = "1";
-            this.HVswitch_btn.Text = "Open";
+            this.HVswitch_btn.Text = "Close";
             this.HVswitch_btn.UseVisualStyleBackColor = true;
             this.HVswitch_btn.Click += new System.EventHandler(this.HVswitch_btn_Click);
             // 
