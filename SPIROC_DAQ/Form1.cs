@@ -2198,5 +2198,57 @@ namespace SPIROC_DAQ
                 }
 
         }
+
+        private void s_curve_btn_Click(object sender, EventArgs e)
+        {
+            specialTaskTks.Dispose();       //clean up old token source
+            specialTaskTks = new CancellationTokenSource(); // generate a new token
+            if (check_USB() == false)
+            {
+                MessageBox.Show("USB or Instrument is not connected", "Error");
+                return;
+            }
+
+            Form2 paraWindows = new Form2();
+            paraWindows.label1.Text = "dac sweep";
+            paraWindows.label2.Text = "null";
+            paraWindows.ShowDialog(this);
+
+
+            if (paraWindows.confirm == false)
+            {
+                return;
+            }
+            if (usbStatus == true)
+            {
+
+                // create file writer
+                fileName = string.Format("{0:yyyyMMdd_HHHHmmss}", DateTime.Now) + ".dat";
+                if (!Directory.Exists(fileDic))
+                {
+                    Directory.CreateDirectory(fileDic);
+                }
+
+                BinaryWriter bw = new BinaryWriter(File.Open(fileDic + "\\\\" + fileName, FileMode.Append, FileAccess.Write, FileShare.Read));
+                resultRecord = new FileStream(fileDic + '\\' + recordPath, FileMode.Append);
+                try
+                {
+                    Task voltageSweepTask = Task.Factory.StartNew(() => this.s_curve_sweep_threadFunc(specialTaskTks.Token, paraWindows, bw), specialTaskTks.Token);
+
+                }
+                catch (AggregateException excption)
+                {
+
+                    foreach (var v in excption.InnerExceptions)
+                    {
+
+                        exceptionReport.AppendLine(excption.Message + " " + v.Message);
+                    }
+
+                }
+                Acq_status_label.Text = "S curve acq";
+                Acq_status_label.ForeColor = Color.Green;
+            }
+        }
     }
 }

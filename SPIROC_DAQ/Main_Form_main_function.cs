@@ -463,6 +463,40 @@ namespace SPIROC_DAQ
         #endregion
 
         #region Thread-used function
+        private void s_curve_sweep_threadFunc(CancellationToken token,Form2 paraWindows, BinaryWriter bw)
+        { 
+            uint dac_start = uint.Parse(paraWindows.start1.Text);
+            uint dac_step = uint.Parse(paraWindows.step1.Text);
+            uint dac_stop = uint.Parse(paraWindows.stop1.Text);
+            byte[] data_buffer = new byte[512];
+            int len;
+            bool bResult;
+
+            len = 512;
+
+            for (uint dac_value = dac_start; dac_value <= dac_stop; dac_value += dac_step)
+            {
+                if(token.IsCancellationRequested == true)
+                {
+                    bResult = DataRecieve(data_buffer, ref len); // len could be changed for transmit actually num of byte that received
+                    bw.Write(data_buffer, 0, len);   // data source, start_index, data_length
+                    bw.Flush();
+                    break;
+                }
+                slowConfig.set_property(slowConfig.settings["TRIG_DAC"], dac_value);
+                normal_config_button_Click(null, null);
+                CommandSend(0x1101, 2);
+                Thread.Sleep(10000);  // 10 seconds
+                CommandSend(0x1100, 2);
+
+                bResult = DataRecieve(data_buffer, ref len); // len could be changed for transmit actually num of byte that received
+                bw.Write(data_buffer, 0, len);   // data source, start_index, data_length
+                bw.Flush();
+            }
+
+            bw.Close();
+
+        }
         private void HV_set_smooth_threadFunc(CancellationToken token, bool turnOff, bool turnOn)
         {
             decimal target_voltage;
