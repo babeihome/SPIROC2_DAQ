@@ -594,8 +594,8 @@ namespace SPIROC_DAQ
             int stepGroup = 1;
             int stopGroup = 8;
 
-            uint startDAC = 1000;
-            uint stepDAC = 10;
+            uint startDAC = 0;
+            uint stepDAC = 50;
             uint stopDAC = 4095;
             byte value_h;
             byte value_l;
@@ -609,7 +609,7 @@ namespace SPIROC_DAQ
                 Directory.CreateDirectory(fullPath);
             for (int groupID = startGroup; groupID <= stopGroup; groupID += stepGroup)
             {
-                CommandSend(0x1200, 2); //close auto calib
+                //CommandSend(0x1200, 2); //close auto calib
                 
                 
 
@@ -625,6 +625,10 @@ namespace SPIROC_DAQ
                 {
                     for(uint valueDAC = startDAC; valueDAC <= stopDAC; valueDAC += stepDAC)
                     {
+                        if (token.IsCancellationRequested == true)
+                        {
+                            break;
+                        }
                         value_h = (byte)(valueDAC >> 8);
                         value_l = (byte)(valueDAC);
                         cmdbytes[1] = 0x07;
@@ -647,7 +651,7 @@ namespace SPIROC_DAQ
 
                         dataAcqTks.Dispose();       //clean up old token source
                         dataAcqTks = new CancellationTokenSource(); // generate a new token
-                        CommandSend(0x1201, 2); //open auto calib
+                        //CommandSend(0x1201, 2); //open auto calib
 
                         CommandSend(0x0100, 2); //start acq cycle
 

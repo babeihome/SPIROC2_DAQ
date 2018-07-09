@@ -2250,5 +2250,25 @@ namespace SPIROC_DAQ
                 Acq_status_label.ForeColor = Color.Green;
             }
         }
+
+        private void ext_calib_en_CheckedChanged(object sender, EventArgs e)
+        {
+            byte[] commandByte = new byte[2];
+            commandByte[1] = 0x14;
+            commandByte[0] = ext_calib_en.Checked ? (byte)0x01 : (byte)0x00;
+
+            var isUSBConnected = check_USB();
+            if (isUSBConnected)
+            {
+                CommandSend(commandByte, 2);
+            }
+            else
+            {
+                MessageBox.Show("Please connect USB first", "Error");
+                return;
+            }
+
+            textBox1.AppendText("Ext trigger of calib function has been changed\n");
+        }
     }
 }
