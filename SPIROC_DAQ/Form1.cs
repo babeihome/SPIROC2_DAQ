@@ -51,11 +51,15 @@ namespace SPIROC_DAQ
         SC_board_manager slowControlManager = new SC_board_manager();
         
         List<SC_model> slowConfig_2B_store = new List<SC_model>();
+        List<SC_model_2E> slowConfig_2E_store = new List<SC_model_2E>();
         SC_model slowConfig_2B_1 = new SC_model();
         SC_model slowConfig_2B_2 = new SC_model();
         SC_model slowConfig_2B_3 = new SC_model();
         SC_model slowConfig_2B_4 = new SC_model();
-        SC_model_2E slowConfig_2E = new SC_model_2E();
+        SC_model_2E slowConfig_2E_1 = new SC_model_2E();
+        SC_model_2E slowConfig_2E_2 = new SC_model_2E();
+        SC_model_2E slowConfig_2E_3 = new SC_model_2E();
+        SC_model_2E slowConfig_2E_4 = new SC_model_2E();
         private DateTime startTime;
         // recording information such as slow control config of every data;
         private string recordPath = "record.txt";
@@ -64,7 +68,7 @@ namespace SPIROC_DAQ
         private int pwr_vector = 0x0f;
         // for changing textbox1.Text from different thread (not from main thread)
         delegate void SetTextCallback(string text);
-        public int version_num=1;
+        public int version_num=2;
         public Main_Form()
         {
             InitializeComponent();
@@ -82,6 +86,10 @@ namespace SPIROC_DAQ
             slowConfig_2B_store.Add(slowConfig_2B_2);
             slowConfig_2B_store.Add(slowConfig_2B_3);
             slowConfig_2B_store.Add(slowConfig_2B_4);
+            slowConfig_2E_store.Add(slowConfig_2E_1);
+            slowConfig_2E_store.Add(slowConfig_2E_2);
+            slowConfig_2E_store.Add(slowConfig_2E_3);
+            slowConfig_2E_store.Add(slowConfig_2E_4);
             if (version_num == 1)
             {
                 slowConfig = slowConfig_2B_store[0];
@@ -92,7 +100,7 @@ namespace SPIROC_DAQ
             }
             if (version_num == 2)
             {
-                slowConfig = slowConfig_2E;
+                slowConfig = slowConfig_2E_1;
                 slowConfig.save_settings(0);
                 refreshParamPanel_2E();
             }
@@ -142,7 +150,7 @@ namespace SPIROC_DAQ
             int byte_count = 0;
 
             byte[] cmdBytes = new byte[2];
-            byte[] bit_block = new byte[1000];  //SPIROC2b has 929 config bit, 929 / 8 = 116 ... 1, need 117 bytes
+            byte[] bit_block = new byte[1000];  //SPIROC2b has 929 config bit, 929 / 8 = 116 ... 1, need 117 bytes, SPIROC2E need 1186 / 8 = 148 ... 2, so 149 bytes
 
 
             // Is not pretty use slowControlManager this way!!!!!!! but I just used it.
@@ -151,13 +159,29 @@ namespace SPIROC_DAQ
             {
                 for(int i = 0; i< chip_num_input.Value; i++)
                 {
-                    slowConfig_2B_store[i] = Copy<SC_model>(slowConfig_2B_1);
-                    slowConfig_2B_store[i].set_property(slowConfig_2B_1.settings["CHIPID"], reverse_bit(bin2gray((uint)(chip_num_input.Value-i)),8));  // the last chip config first
+                    if(version_num == 1)
+                    {
+                        slowConfig_2B_store[i] = Copy<SC_model>(slowConfig_2B_1);
+                        slowConfig_2B_store[i].set_property(slowConfig_2B_1.settings["CHIPID"], reverse_bit(bin2gray((uint)(chip_num_input.Value - i)), 8));  // the last chip config first
+                    }
+                    else if(version_num == 2)
+                    {
+                        slowConfig_2E_store[i] = Copy<SC_model_2E>(slowConfig_2E_1);
+                        slowConfig_2E_store[i].set_property(slowConfig_2E_1.settings["CHIPID"], reverse_bit(bin2gray((uint)(chip_num_input.Value - i)), 8));  // the last chip config first
+                    }                 
                 }
                 slowControlManager.clearChip();
                 for (int i = 0; i < chip_num_input.Value; i++)
-                {                                    
-                    slowControlManager.pushChip(slowConfig_2B_store[i]);
+                {
+                    if(version_num == 1)
+                    {
+                        slowControlManager.pushChip(slowConfig_2B_store[i]);
+                    }
+                    else if(version_num == 2)
+                    {
+                        slowControlManager.pushChip(slowConfig_2E_store[i]);
+                    }
+                    
                 }
 
             }          
@@ -1556,7 +1580,7 @@ namespace SPIROC_DAQ
             }
             if (version_num == 2)
             {
-                slowConfig = slowConfig_2E;
+                slowConfig = slowConfig_2E_1;
                 slowConfig.save_settings(0);
                 hgAmpComp.Enabled = false;
                 lgAmpComp.Enabled = false;
@@ -1855,7 +1879,7 @@ namespace SPIROC_DAQ
             else
             {
                 ENLvdsTrigExt.Text = "\tDisable";
-                value = 0;
+                value = 0; 
             }
             slowConfig.set_property(slowConfig.settings["EN_LVDS_receiver_TrigExt"], value);
         }
@@ -2269,6 +2293,119 @@ namespace SPIROC_DAQ
             }
 
             textBox1.AppendText("Ext trigger of calib function has been changed\n");
+        }
+
+        private void slow_clock_combo_SelectedIndexChanged(object sender, EventArgs e)
+        {          
+            var isUSBConnected = check_USB();
+            if(isUSBConnected)
+            {
+                switch (slow_clock_combo.SelectedIndex)
+                {
+                    case 0:
+                        CommandSend(0x1500, 2);
+                        textBox1.AppendText("Frequency of Slow Clock is 5MHz now\n");
+                        break;
+                    case 1:
+                        CommandSend(0x1501, 2);
+                        textBox1.AppendText("Frequency of Slow Clock is 1MHz now\n");
+                        break;
+                    case 2:
+                        CommandSend(0x1502, 2);
+                        textBox1.AppendText("Frequency of Slow Clock is 250KHz now\n");
+                        break;
+                    default:                    
+                        break;
+                }
+
+            }
+            else
+            {
+                MessageBox.Show("USB is not connected, please Check");
+            }
+
+        }
+
+        private void sync_combo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var isUSBConnected = check_USB();
+            if (isUSBConnected)
+            {
+                switch (sync_combo.SelectedIndex)
+                {
+                    case 0:
+                        CommandSend(0x1600, 2);
+                        textBox1.AppendText("Sync signal output every 1000 Slow clock period\n");
+                        break;
+                    case 1:
+                        CommandSend(0x1601, 2);
+                        textBox1.AppendText("Sync signal output every 100 Slow clock period\n");
+                        break;
+                    case 2:
+                        CommandSend(0x1602, 2);
+                        textBox1.AppendText("Sync signal output every 10 Slow clock period\n");
+                        break;
+                    case 3:
+                        CommandSend(0x1603, 2);
+                        textBox1.AppendText("Sync signal output every 2 Slow clock period\n");
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+            else
+            {
+                MessageBox.Show("USB is not connected, please Check");
+            }
+
+
+        }
+
+        private void tdc_sweep_btn_Click(object sender, EventArgs e)
+        {
+            specialTaskTks.Dispose();       //clean up old token source
+            specialTaskTks = new CancellationTokenSource(); // generate a new token
+            if (check_USB() == false)
+            {
+                MessageBox.Show("USB or Instrument is not connected", "Error");
+                return;
+            }
+
+            Form2 paraWindows = new Form2();
+            paraWindows.label1.Text = "delay of AFG3252";
+            paraWindows.ShowDialog(this);
+
+
+            if (paraWindows.confirm == false)
+            {
+                return;
+            }
+            if (usbStatus == true)
+
+
+                try
+                {
+                    Task voltageSweepTask = Task.Factory.StartNew(() => this.ext_trig_sweep_threadFunc(specialTaskTks.Token, paraWindows), specialTaskTks.Token);
+
+                }
+                catch (AggregateException excption)
+                {
+
+                    foreach (var v in excption.InnerExceptions)
+                    {
+
+                        exceptionReport.AppendLine(excption.Message + " " + v.Message);
+                    }
+
+                }
+            Acq_status_label.Text = "TDC Testing";
+            Acq_status_label.ForeColor = Color.Green;
+        }
+
+        private void File_path_showbox_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

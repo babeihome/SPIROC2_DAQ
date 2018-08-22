@@ -463,6 +463,67 @@ namespace SPIROC_DAQ
         #endregion
 
         #region Thread-used function
+        private void ext_trig_sweep_threadFunc(CancellationToken token, Form2 parawindows)
+        {
+            uint trig_delay_start = uint.Parse(parawindows.start1.Text);
+            uint trig_delay_step = uint.Parse(parawindows.step1.Text);
+            uint trig_delay_stop = uint.Parse(parawindows.stop1.Text);
+            byte[] data_buffer = new byte[512];
+
+            BinaryWriter bw = null;
+            DateTime dayStamp = DateTime.Now;
+            string subDic = string.Format("{0:yyyyMMdd}_{0:HHmm}_TDC_sweep", dayStamp);
+            string fullPath = folderBrowserDialog1.SelectedPath + '\\' + subDic;
+            string fileName;
+            if (!Directory.Exists(fullPath))
+                Directory.CreateDirectory(fullPath);
+
+            for (uint delay_value = trig_delay_start; delay_value <= trig_delay_stop; delay_value += trig_delay_step)
+            {
+                dataAcqTks.Dispose();       //clean up old token source
+                dataAcqTks = new CancellationTokenSource(); // generate a new token
+                fileName = string.Format("{0}ns_trig_ext.dat", delay_value);
+                bw = new BinaryWriter(File.Open(fullPath + '\\' + fileName, FileMode.Create, FileAccess.Write, FileShare.Read));
+
+                // Source1 is signal channel and Source2 is pulse channel
+
+                SignalSource.delaySet(1, (int)delay_value);
+                SignalSource.delaySet(2, (int)delay_value);
+
+                SignalSource.openOutput();
+                CommandSend(0x0100, 2);
+                if (usbStatus == false)
+                {
+                    MessageBox.Show("USB is not connected");
+                }
+
+                try
+                {
+                    Task dataAcqTsk = Task.Factory.StartNew(() => this.dataAcq_threadFunc(dataAcqTks.Token, bw), dataAcqTks.Token);
+                    Thread.Sleep(5 * 1000);
+                    // time up!
+                    // stop asic first
+                    CommandSend(0x0200, 2);
+                    // stop data receiving
+                    dataAcqTks.Cancel();
+                    while (!dataAcqTsk.IsCompleted) ;
+                }
+                catch (AggregateException excption)
+                {
+                    foreach (var value in excption.InnerExceptions)
+                    {
+                        exceptionReport.AppendLine(excption.Message + " " + value.Message);
+                    }
+                }
+
+                // stop signal
+                SignalSource.closeOutput();
+                if (token.IsCancellationRequested == true)
+                {
+                    break;
+                }
+            }
+        }
         private void s_curve_sweep_threadFunc(CancellationToken token,Form2 paraWindows, BinaryWriter bw)
         { 
             uint dac_start = uint.Parse(paraWindows.start1.Text);
@@ -799,6 +860,7 @@ namespace SPIROC_DAQ
             // property Table information
             propertyTable.Add("trig delay", slowConfig.settings["DELAY_TRIGGER"]);
             propertyTable.Add("trig dac", slowConfig.settings["TRIG_DAC"]);
+            propertyTable.Add("gain dac", slowConfig.settings["GAIN_DAC"]);
 
             BinaryWriter bw;
 

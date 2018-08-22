@@ -313,7 +313,7 @@ namespace SPIROC_DAQ
             foreach (KeyValuePair<string, int> kvp in settings)
             {
 
-                string msg = kvp.Key + "     " + kvp.Value + "     " + get_property(kvp.Value) + "    " + property_length [kvp.Value];
+                string msg = kvp.Key + "     " + kvp.Value + "     " + get_property(kvp.Value) + "    " + property_length[kvp.Value];
                 var path = @"c:\test.txt";
                 WriteMessage(path, msg);
             }
@@ -613,73 +613,63 @@ namespace SPIROC_DAQ
             this.set_property(settings["FLAG_TDC_EXT"], 0);
             this.set_property(settings["START_RAMP_ADC_EXT"], 0);
             this.set_property(settings["START_RAMP_TDC_EXT"], 0);
-            this.set_property(settings["ADC_GRAY"], 1);
+            this.set_property(settings["ADC_GRAY"], 0);
             this.set_property(settings["CHIPID"], 0x80);
             this.set_property(settings["PROBE_OTA"], 0);
-            this.set_property(settings["ENABLE_ANALOGUE_OUTPUT"], 1);
-            this.set_property(settings["DISABLE_ANALOGUE_OUTPUT_PP"], 1);
+            this.set_property(settings["ENABLE_ANALOGUE_OUTPUT"], 0);
+            this.set_property(settings["DISABLE_ANALOGUE_OUTPUT_PP"], 0);
             this.set_property(settings["NC"], 0);
-            this.set_property(settings["EN_OR36"], 1);
+            this.set_property(settings["EN_OR36"], 0);
             this.set_property(settings["ADC_RAMP_SLOPE"], 0);
             this.set_property(settings["ADC_RAMP_CURRENT_SOURCE"], 0); // PP 
             this.set_property(settings["ADC_RAMP_INTEGRATOR"], 0);     // PP
             this.set_property(settings["EN_input_dac"], 1);//?
-            this.set_property(settings["GC_8_bit_DAC_reference"], 0);//?
+            this.set_property(settings["GC_8_bit_DAC_reference"], 1);//?
             for (i = 0; i < 36; i++)
             {
                 string Key = "INDAC" + i.ToString();
                 this.set_property(settings[Key.ToString()], 0x1ff);
             }
             this.set_property(settings["LG_PA_bias"], 0);//?
-            this.set_property(settings["High_Gain_PreAmplifier"], 0);//?
-            this.set_property(settings["Low_Gain_PreAmplifier"], 0);//?
+            this.set_property(settings["High_Gain_PreAmplifier"], 1);//?
+            this.set_property(settings["Low_Gain_PreAmplifier"], 1);//?
             this.set_property(settings["EN_High_Gain_PA"], 0);//?
             this.set_property(settings["EN_Low_Gain_PA"], 0);//?
             this.set_property(settings["Fast_Shaper_on_LG"], 0);//?
             this.set_property(settings["NC2"], 0);
-            this.set_property(settings["NC3"], 0);
 
             for (i = 0; i < 36; i++)
             {
                 string Key = "PREAMP_GAIN" + i.ToString();
-                this.set_property(settings[Key.ToString()], 0xd8);
+                this.set_property(settings[Key.ToString()], 0x6db0);//110110+ 110110+000
             }
             //disable channel 0
             //this.set_property(settings["PREAMP_GAIN[0], 0xec);
-            this.set_property(settings["EN_Low_Gain_Slow_Shaper"], 0);//?
-            this.set_property(settings["ENABLE_HG_SS"], 0);//?
-            this.set_property(settings["EN_FS"], 0);//?
-            this.set_property(settings["GC_Temp_sensor_high_current"], 0);//?
-            this.set_property(settings["PP_Temp"], 0);//?
-            this.set_property(settings["EN_Temp"], 0);//?
-            this.set_property(settings["EN_DAC1"], 0);//?
-            this.set_property(settings["DAC1_PP"], 0);//?
-            this.set_property(settings["EN_DAC2"], 0);//?
-            this.set_property(settings["PP_DAC2"], 0);//?
-            this.set_property(settings["TDC_RAMP_EN"], 0);//?
-            this.set_property(settings["Discri_Delay_Vref_I_source_EN"], 0);//?
-            this.set_property(settings["Discri_Delay_Vref_I_source_PP"], 0);//?
-            this.set_property(settings["EN_LVDS_receiver_NoTrig"], 0);//?
-            this.set_property(settings["PP_LVDS_receiver_NoTrig"], 0);//?
-            this.set_property(settings["EN_LVDS_receiver_TrigExt"], 0);//?
-            this.set_property(settings["PP_LVDS_receiver_TrigExt"], 0);//?
-            this.set_property(settings["EN_LVDS_receiver_ValEvt"], 0);//?
-            this.set_property(settings["PP_LVDS_receiver_ValEvt"], 0); //?
-            this.set_property(settings["LG_SS_TIME_CONSTANT"], 0x04);
             this.set_property(settings["ENABLE_LG_SS_PP"], 0);
-
-            this.set_property(settings["HG_SS_TIME_CONSTANT"], 0x04);
+            this.set_property(settings["EN_Low_Gain_Slow_Shaper"], 1);//?
+            this.set_property(settings["LG_SS_TIME_CONSTANT"], 0x04);
             this.set_property(settings["ENABLE_HG_SS_PP"], 0);
+            this.set_property(settings["ENABLE_HG_SS"], 0);//?
+            this.set_property(settings["HG_SS_TIME_CONSTANT"], 0x04);
             this.set_property(settings["FS_FOLLOWER_PP"], 0);
+            this.set_property(settings["EN_FS"], 1);//?
             this.set_property(settings["FS_PP"], 0);
             this.set_property(settings["BACKUP_SCA"], 0);
             this.set_property(settings["SCA_PP"], 0);
+            this.set_property(settings["GC_Temp_sensor_high_current"], 0);//?
+            this.set_property(settings["PP_Temp"], 0);//?
+            this.set_property(settings["EN_Temp"], 1);//?
+            this.set_property(settings["BANDGAP_PP"], 0);
             this.set_property(settings["EN_BANDGAP"], 1);
-            this.set_property(settings["BANDGAP_PP"], 1);
+
+            this.set_property(settings["EN_DAC1"], 1);//?
+            this.set_property(settings["DAC1_PP"], 0);//?
+            this.set_property(settings["EN_DAC2"], 1);//?
+            this.set_property(settings["PP_DAC2"], 0);//?
             this.set_property(settings["TRIG_DAC"], 0x0fa);
             this.set_property(settings["GAIN_DAC"], 0x1f4);
-
             this.set_property(settings["TDC_RAMP_SLOPE_GC"], 0);
+            this.set_property(settings["TDC_RAMP_EN"], 1);//?
             this.set_property(settings["TDC_RAMP_PP"], 0);
             this.set_property(settings["ADC_DISCRI_PP"], 0);
             this.set_property(settings["GAIN_SELECT_DISCRI_PP"], 0);
@@ -689,22 +679,31 @@ namespace SPIROC_DAQ
             this.set_property(settings["SWITCH_TDC_ON"], 1);
             this.set_property(settings["DISCRIMINATOR_MASK1"], 0);
             this.set_property(settings["DISCRIMINATOR_MASK2"], 0);
-            this.set_property(settings["NC3"], 0);
-            this.set_property(settings["DISCRI_DELAY_PP"], 1);
-            this.set_property(settings["DELAY_TRIGGER"], 0x02);
 
+            this.set_property(settings["Discri_Delay_Vref_I_source_EN"], 0);//?
+            this.set_property(settings["Discri_Delay_Vref_I_source_PP"], 0);//?
+            this.set_property(settings["DELAY_TRIGGER"], 0x14);
             for (i = 0; i < 36; i++)
             {
                 string Key = "DISCRI_4BIT_ADJUST" + i.ToString();
                 this.set_property(settings[Key.ToString()], 0);
             }
-
-            this.set_property(settings["DAC_4BIT_PP"], 0);
             this.set_property(settings["TRIG_DISCRI_PP"], 0);
+            this.set_property(settings["DAC_4BIT_PP"], 0);
+
+            this.set_property(settings["DISCRI_DELAY_PP"], 0);
+            this.set_property(settings["NC3"], 0);
             this.set_property(settings["DELAY_VALIDHOLD_PP"], 0);
-            this.set_property(settings["DELAY_VALIDHOLD"], 0x14);
+            this.set_property(settings["DELAY_VALIDHOLD"], 0x0);
             this.set_property(settings["DELAY_RSTCOL_PP"], 0);
-            this.set_property(settings["DELAY_RSTCOL"], 0x14);
+            this.set_property(settings["DELAY_RSTCOL"], 0x0);
+
+            this.set_property(settings["EN_LVDS_receiver_NoTrig"], 1);//?
+            this.set_property(settings["PP_LVDS_receiver_NoTrig"], 0);//?
+            this.set_property(settings["EN_LVDS_receiver_TrigExt"], 1);//?
+            this.set_property(settings["PP_LVDS_receiver_TrigExt"], 0);//?
+            this.set_property(settings["EN_LVDS_receiver_ValEvt"], 1);//?
+            this.set_property(settings["PP_LVDS_receiver_ValEvt"], 0); //?
             this.set_property(settings["CLOCK_LVDS_RECEIVE"], 0);
             this.set_property(settings["POD"], 0);
             this.set_property(settings["END_READOUT"], 1);
@@ -714,7 +713,6 @@ namespace SPIROC_DAQ
             this.set_property(settings["TRANSMITON1"], 1);
             this.set_property(settings["DOUT2"], 1);
             this.set_property(settings["DOUT1"], 1);
-
 
         }
         public void WriteMessage(string path, string msg)
