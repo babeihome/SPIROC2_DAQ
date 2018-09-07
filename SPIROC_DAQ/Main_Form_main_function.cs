@@ -199,11 +199,23 @@ namespace SPIROC_DAQ
             switchTDCon_Check.Checked = slowConfig.get_property(slowConfig.settings["SWITCH_TDC_ON"]) == 1;
             bandGap_Check.Checked = slowConfig.get_property(slowConfig.settings["EN_BANDGAP"]) == 1;
             dacEnable_Check.Checked = slowConfig.get_property(slowConfig.settings["EN_DAC"]) == 1;
+            hgAmpComp.Enabled = true;
+            lgAmpComp.Enabled = true;
+            startrampDelay.Enabled = true;
+            fastShaperFrom_combo.Enabled = true;
+            adjust4BitDAC_combo.Enabled = true;
+            dacEnable_Check.Enabled = true;
 
-            
         }
         private void refreshParamPanel_2E()
         {
+            // disable some controller
+            hgAmpComp.Enabled = false;
+            lgAmpComp.Enabled = false;
+            startrampDelay.Enabled = false;
+            fastShaperFrom_combo.Enabled = false;
+            adjust4BitDAC_combo.Enabled = false;
+            dacEnable_Check.Enabled = false;
             // text box
             trig_dac_value.Text = slowConfig.get_property(slowConfig.settings["TRIG_DAC"]).ToString();
             gain_sel_value.Text = slowConfig.get_property(slowConfig.settings["GAIN_DAC"]).ToString();
@@ -318,14 +330,14 @@ namespace SPIROC_DAQ
                             var result = rx_preamp_value.Match(c.Name);
                             chnNum = uint.Parse(result.Groups[1].Value);
                             string Key = "PREAMP_GAIN" + chnNum.ToString();
-                            c.Text = reverse_bit(slowConfig.get_property(slowConfig.settings[Key.ToString()]) >> 2, 6).ToString();
+                            c.Text = reverse_bit((slowConfig.get_property(slowConfig.settings[Key.ToString()]) >> 3) & 0x3f, 6).ToString();
                         }
                         else if (c is CheckBox)
                         {
                             var result = rx_preamp_check.Match(c.Name);
                             chnNum = uint.Parse(result.Groups[1].Value);
                             string Key = "PREAMP_GAIN" + chnNum.ToString();
-                            (c as CheckBox).Checked = !((slowConfig.get_property(slowConfig.settings[Key.ToString()]) & 0x02) == 0x02);
+                            (c as CheckBox).Checked = !((slowConfig.get_property(slowConfig.settings[Key.ToString()]) & 0x01) == 0x01);
                         }
                         else
                             continue;

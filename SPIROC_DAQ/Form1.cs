@@ -60,6 +60,7 @@ namespace SPIROC_DAQ
         SC_model_2E slowConfig_2E_2 = new SC_model_2E();
         SC_model_2E slowConfig_2E_3 = new SC_model_2E();
         SC_model_2E slowConfig_2E_4 = new SC_model_2E();
+        Probe_2E Probe_config = new Probe_2E();
         private DateTime startTime;
         // recording information such as slow control config of every data;
         private string recordPath = "record.txt";
@@ -101,7 +102,7 @@ namespace SPIROC_DAQ
             if (version_num == 2)
             {
                 slowConfig = slowConfig_2E_1;
-                slowConfig.save_settings(0);
+                slowConfig.save_settings(0);               
                 refreshParamPanel_2E();
             }
            
@@ -109,7 +110,7 @@ namespace SPIROC_DAQ
             // Adding event handles for action of attachment and removal of device
             usbDevices.DeviceAttached += new EventHandler(deviceAttached);
             usbDevices.DeviceRemoved += new EventHandler(deviceRemoved);
-
+            Probe_config.init();
             check_USB();
         }
 
@@ -187,10 +188,8 @@ namespace SPIROC_DAQ
             }          
             byte_count = slowControlManager.bit_transform(bit_block);
 
-            // reset spiroc2b
-            cmdBytes[1] = 0x04;
-            cmdBytes[0] = 0x00;
-            CommandSend(cmdBytes, 2);
+            // reset spiroc2b           
+            //CommandSend(0x0400, 2);
             Thread.Sleep(100);
 
             // set probe/sc setting as slow control
@@ -639,15 +638,29 @@ namespace SPIROC_DAQ
             if (rx_int.IsMatch(triggerDelay.Text))
             {
                 value = uint.Parse(triggerDelay.Text);
-                if (0 <= value && value <= 63)
+                if (version_num ==1)
                 {
-                    slowConfig.set_property(slowConfig.settings["DELAY_TRIGGER"], value);
-                    return;
+                    if(0 <= value && value <= 63)
+                    {
+                        slowConfig.set_property(slowConfig.settings["DELAY_TRIGGER"], value);
+                    }
+                    else
+                    {
+                        MessageBox.Show("value need be in range of 0-63", "Value invalid");
+                    }
                 }
-            }
-
-            MessageBox.Show("value need be in range of 0-63", "Value invalid");
-
+                else if(version_num == 2)
+                {
+                    if(0<= value && value <= 255)
+                    {
+                        slowConfig.set_property(slowConfig.settings["DELAY_TRIGGER"], value);
+                    }
+                    else
+                    {
+                        MessageBox.Show("value need be in range of 0-63", "Value invalid");
+                    }
+                }
+            }         
         }
 
         private void validholdDelay_TextChanged(object sender, EventArgs e)
@@ -1571,23 +1584,12 @@ namespace SPIROC_DAQ
             {
                 slowConfig = slowConfig_2B_store[0];
                 slowConfig.save_settings(0);
-                hgAmpComp.Enabled = true ;
-                lgAmpComp.Enabled = true;
-                startrampDelay.Enabled = true;
-                fastShaperFrom_combo.Enabled = true;
-                adjust4BitDAC_combo.Enabled = true;
-                dacEnable_Check.Enabled = true;
             }
             if (version_num == 2)
             {
                 slowConfig = slowConfig_2E_1;
                 slowConfig.save_settings(0);
-                hgAmpComp.Enabled = false;
-                lgAmpComp.Enabled = false;
-                startrampDelay.Enabled = false;
-                fastShaperFrom_combo.Enabled = false;
-                adjust4BitDAC_combo.Enabled = false;
-                dacEnable_Check.Enabled = false;
+                
             }
         }
 
@@ -2405,6 +2407,65 @@ namespace SPIROC_DAQ
 
         private void File_path_showbox_TextChanged(object sender, EventArgs e)
         {
+
+        }
+
+        private void probe_set_btn_Click(object sender, EventArgs e)
+        {
+            var dac_p = dac_probe_select.Text;
+            var ana_p = analog_probe_select.Text;
+            var dig1_p = digital_probe1_select.Text;
+            var dig2_p = digital_probe2_select.Text;
+
+            Probe_config.init();
+            uint dac_p_chn = (uint)dac_probe_chn.Value;
+            uint ana_p_chn = (uint)analog_probe_chn.Value;
+            uint dig1_p_chn = (uint)digital_probe1_chn.Value;
+            uint dig2_p_chn = (uint)digital_probe2_chn.Value;
+
+            uint gain = (uint)(HGLG_select_checkbox.Checked ? 1 : 0);
+
+            uint depth_dig1 = (uint)dig1_depth.Value;
+            uint depth_dig2 = (uint)dig2_depth.Value;
+            Probe_config.set_property(dac_p, dac_p_chn, 0, 0);
+            Probe_config.set_property(ana_p, ana_p_chn, 0, gain);
+            Probe_config.set_property(dig1_p, dig1_p_chn, depth_dig1, 0);
+            Probe_config.set_property(dig2_p, dig2_p_chn, depth_dig2, 0);
+
+            int byte_count = 0;
+
+            byte[] cmdBytes = new byte[2];
+            byte[] bit_block = new byte[125];  //SPIROC2E has 992 Probe config bit, 992 / 8 = 124 , need 124 bytes
+
+            byte_count = Probe_config.bit_transform(bit_block);
+
+            // set probe/sc setting as probe
+            CommandSend(0x0600, 2);
+
+            // choose data transfer to sc buffer
+            cmdBytes[1] = 0x05;
+            cmdBytes[0] = 0x01;
+            CommandSend(cmdBytes, 2);
+            Thread.Sleep(100);
+            // send config data
+            cmdBytes[1] = 0x03;
+            for (int i = 0; i < byte_count; i++)
+            {
+                cmdBytes[0] = bit_block[i];
+                CommandSend(cmdBytes, 2);
+                //Thread.Sleep(100);
+            }
+
+            // close channel of data to sc buffer
+            cmdBytes[1] = 0x05;
+            cmdBytes[0] = 0x00;
+
+            CommandSend(cmdBytes, 2);
+
+            // start slow config from fpga to asic
+            cmdBytes[1] = 0x08;
+            cmdBytes[0] = 0x00;
+            CommandSend(cmdBytes, 2);
 
         }
     }

@@ -87,6 +87,266 @@ namespace SPIROC_DAQ
     }
 
     [Serializable]
+    class Probe_2E
+    {
+        private uint[] config_data;
+        
+        public String bit_string;
+        public const int bit_length = 992;
+
+        private Dictionary<string, int> locate_dac = new Dictionary<string, int>();
+        private Dictionary<string, int> locate_analog = new Dictionary<string, int>();
+        private Dictionary<string, int> locate_dig1 = new Dictionary<string, int>();
+        private Dictionary<string, int> locate_dig2 = new Dictionary<string, int>();
+
+        public Probe_2E()
+        {
+            config_data = new uint[992];
+            //DAC location offset
+            locate_dac.Add("8-bit DAC output",6); // 36
+            locate_dac.Add("Vbandgap",42); //1 
+            locate_dac.Add("VDAC_Trigger threshold",43); //1
+            locate_dac.Add("VDAC_Gain selection threshold", 44); //1
+            locate_dac.Add("Temperature sensor", 45); //1
+
+            //Analog location offset
+            locate_analog.Add("Out PA HG/Out PA LG", 46); //72
+            locate_analog.Add("Threshold", 766); //36
+            locate_analog.Add("Out fs", 802); //36
+            locate_analog.Add("Out ramp TDC", 910); //1
+
+            //Digital 1 location offset
+            locate_dig1.Add("Ext Trigger (OR36)", 2); //1
+            locate_dig1.Add("Out t delayed", 838); //36
+            locate_dig1.Add("Out t", 874); //36
+
+            //Digital 2 location offset
+            locate_dig2.Add("Flag TDC", 3); //1
+            locate_dig2.Add("Startb ramp ADC (delayed)", 4); //1
+            locate_dig2.Add("Start ramp TDC", 5);//1
+            locate_dig2.Add("Holdb SCA 0-15", 118);// 576
+            locate_dig2.Add("Out ADC Discri", 694);//36
+            locate_dig2.Add("Out Gain Select Discri", 730);//36
+
+            locate_dig2.Add("Rst SCA/Rst SCA delayed", 911);//32
+            locate_dig2.Add("ValidHold/ValidHold delayed", 943);//32
+            locate_dig2.Add("Read", 975);//16
+        }
+        private void clearDAC()
+        {
+            for(int i = 6; i<=45; i++)
+            {
+                config_data[i] = 0;
+            }
+        }
+        private void clearAnalog()
+        {
+            for(int i = 46; i < 118; i++)
+            {
+                config_data[i] = 0;
+            }
+            for(int i = 766; i < 838; i++)
+            {
+                config_data[i] = 0;
+            }
+        }
+        private void clearDig1()
+        {
+            config_data[2] = 0;
+            for(int i =838; i < 910; i++)
+            {
+                config_data[i] = 0;
+            }
+        }
+
+        private void clearDig2()
+        {
+            config_data[3] = 0;
+            config_data[4] = 0;
+            config_data[5] = 0;
+            for(int i = 118; i < 766; i++)
+            {
+                config_data[i] = 0;
+            }
+            for(int i =911; i<992; i++)
+            {
+                config_data[i] = 0;
+            }
+        }
+
+        public void init()
+        {
+            clearAnalog();
+            clearDAC();
+            clearDig1();
+            clearDig2();
+        }
+        public void set_property(String Probe, uint chn, uint depth, uint gain)
+        {
+            //!
+            //when you call this function, please notice that chn and depth must be 0 when there is no those parameter
+            //!
+
+
+            var isDAC = locate_dac.ContainsKey(Probe);
+            var isAnalog = locate_analog.ContainsKey(Probe);
+            var isDig1 = locate_dig1.ContainsKey(Probe);
+            var isDig2 = locate_dig2.ContainsKey(Probe);
+
+            if (isDAC)
+            {
+                clearDAC();
+                if (String.Equals(Probe, "8-bit DAC output"))
+                {
+                    config_data[locate_dac[Probe] + chn] = 1;
+                }
+                else
+                {
+                    config_data[locate_dac[Probe]] = 1;
+                }               
+            }
+            else if (isAnalog)
+            {
+                clearAnalog();
+                if(String.Equals(Probe, "Out PA HG/Out PA LG"))
+                {
+                    config_data[locate_analog["Out PA HG/Out PA LG"] + chn * 2 + gain] = 1;
+                }
+                else if(String.Equals(Probe, "Threshold"))
+                {
+                    config_data[locate_analog["Threshold"] + 35 - chn] = 1;
+                }
+                else if(String.Equals(Probe, "Out fs"))
+                {
+                    config_data[locate_analog["Out fs"] + chn] = 1;
+                }
+                else if(String.Equals(Probe, "Out ramp TDC"))
+                {
+                    config_data[locate_analog[Probe]] = 1;
+                }                
+            }
+            else if (isDig1)
+            {
+                clearDig1();
+                if(String.Equals(Probe,"Out t delayed"))
+                {
+                    config_data[locate_dig1[Probe] + 35 - chn] = 1;     // out t delayed is special, from 35 - 0
+                }
+                else if(String.Equals(Probe, "Out t"))
+                {
+                    config_data[locate_dig1[Probe] + chn] = 1;
+                }             
+                else if(String.Equals(Probe, "Ext Trigger (OR36)"))
+                {
+                    config_data[locate_dig1[Probe]] = 1;
+                }
+            }
+            else if (isDig2)
+            {
+                clearDig2();
+                if(String.Equals(Probe, "Holdb SCA 0-15"))
+                {
+                    config_data[locate_dig2[Probe] + depth * 16 + chn] = 1;
+                }
+                else if(String.Equals(Probe, "Out ADC Discri") || String.Equals(Probe, "Out Gain Select Discri"))
+                {
+                    config_data[locate_dig2[Probe] + chn] = 1;
+                }
+                else if(String.Equals(Probe, "Rst SCA/Rst SCA delayed"))
+                {
+                    config_data[locate_dig2[Probe] + depth] = 1;
+                }
+                else if(String.Equals(Probe, "ValidHold/ValidHold_delayed") || String.Equals(Probe, "Read"))
+                {
+                    config_data[locate_dig2[Probe] + 15 - depth] = 1;
+                }
+                else
+                {
+                    config_data[locate_dig2[Probe]] = 1;
+                }
+            }           
+        }
+
+        public uint get_property(int id)
+        {
+            return config_data[id];
+
+        }
+
+        public StringBuilder string_transform()
+        {
+            // for multi-chip aggregate configuration data in one byte block consequently
+
+            // to record how many bit has been transformed
+            StringBuilder buffer = new StringBuilder(bit_length);
+            for (int i = 0; i < bit_length; i++)
+            {
+                // 将配置的bit串用字符串的形式保存
+                buffer.Append(Convert.ToString(config_data[i], 2).PadLeft(1, '0'));
+            }
+            StringBuilder bitAsChar_MsbFirst = new StringBuilder(bit_length);
+            for (int i = bit_length - 1; i >= 0; i--)
+            {
+                bitAsChar_MsbFirst.Append(buffer[i]);   //now MSB in config data is at bitAsChar_MsbFirst[0]
+            }
+            buffer = bitAsChar_MsbFirst;
+            // don't worry about memory leakage, because c# has ability of detecting garbage heap occupation.
+            return buffer;
+        }
+
+        public int bit_transform(byte[] bit_block)
+        {
+            // to record how many bit has been transformed
+            int bit_count = 0;
+            int byte_count = 0; //byte_count shold be bit_count/8;
+
+            StringBuilder bit_As_Char = new StringBuilder(bit_length);
+
+            // now bit is as this
+            // location 0   1   2   3   4   ... 13  14  15
+            // bit      1   1   1   1   1   ... 1   x   x
+            for (int i = 0; i < bit_length; i++)
+            {
+                // 将配置的bit串用字符串的形式保存
+                bit_As_Char.Append(Convert.ToString(config_data[i], 2).PadLeft(1, '0'));
+            }
+
+            // reverse sequence of chars in bit_As_Char
+            // now bit is as this
+            // location 13  12  11  10  9   ... 3   2   1
+            // bit      1   1   1   1   1   ... 1   1   1
+            StringBuilder bitAsChar_MsbFirst = new StringBuilder(bit_length);
+            for (int i = bit_length - 1; i >= 0; i--)
+            {
+                bitAsChar_MsbFirst.Append(bit_As_Char[i]);
+            }
+
+
+            bit_string = bitAsChar_MsbFirst.ToString();
+
+
+            // transform 'bit in char form' into real bit stream
+            // MSB in byte is bigger conig bit
+            while (bit_count + 8 < bit_length)
+            {
+                bit_block[byte_count] = Convert.ToByte(bit_string.Substring(bit_count, 8), 2);
+                byte_count++;
+                bit_count += 8;
+            }
+
+
+            bit_block[byte_count] = Convert.ToByte(bit_string.Substring(bit_count, bit_length - bit_count).PadRight(8, '0'), 2);
+
+            // for example if congfig data is 1101 0100 10
+            // so now the bit block is 0100 1010 1100
+            // bit_block[0]: 0x4
+            // bit_block[1]: 0xA
+            // bit_block[2]: 0xC
+            return byte_count + 1;
+
+        }
+    }
+    [Serializable]
     class SC_model: Iversion 
     {
         // member variables
@@ -631,10 +891,10 @@ namespace SPIROC_DAQ
                 this.set_property(settings[Key.ToString()], 0x1ff);
             }
             this.set_property(settings["LG_PA_bias"], 0);//?
-            this.set_property(settings["High_Gain_PreAmplifier"], 1);//?
-            this.set_property(settings["Low_Gain_PreAmplifier"], 1);//?
-            this.set_property(settings["EN_High_Gain_PA"], 0);//?
-            this.set_property(settings["EN_Low_Gain_PA"], 0);//?
+            this.set_property(settings["High_Gain_PreAmplifier"], 0);//?
+            this.set_property(settings["Low_Gain_PreAmplifier"], 0);//?
+            this.set_property(settings["EN_High_Gain_PA"], 1);//?
+            this.set_property(settings["EN_Low_Gain_PA"], 1);//?
             this.set_property(settings["Fast_Shaper_on_LG"], 0);//?
             this.set_property(settings["NC2"], 0);
 
@@ -649,7 +909,7 @@ namespace SPIROC_DAQ
             this.set_property(settings["EN_Low_Gain_Slow_Shaper"], 1);//?
             this.set_property(settings["LG_SS_TIME_CONSTANT"], 0x04);
             this.set_property(settings["ENABLE_HG_SS_PP"], 0);
-            this.set_property(settings["ENABLE_HG_SS"], 0);//?
+            this.set_property(settings["ENABLE_HG_SS"], 1);//?
             this.set_property(settings["HG_SS_TIME_CONSTANT"], 0x04);
             this.set_property(settings["FS_FOLLOWER_PP"], 0);
             this.set_property(settings["EN_FS"], 1);//?
@@ -682,7 +942,7 @@ namespace SPIROC_DAQ
 
             this.set_property(settings["Discri_Delay_Vref_I_source_EN"], 0);//?
             this.set_property(settings["Discri_Delay_Vref_I_source_PP"], 0);//?
-            this.set_property(settings["DELAY_TRIGGER"], 0x14);
+            this.set_property(settings["DELAY_TRIGGER"], 0x50);
             for (i = 0; i < 36; i++)
             {
                 string Key = "DISCRI_4BIT_ADJUST" + i.ToString();
@@ -694,9 +954,9 @@ namespace SPIROC_DAQ
             this.set_property(settings["DISCRI_DELAY_PP"], 0);
             this.set_property(settings["NC3"], 0);
             this.set_property(settings["DELAY_VALIDHOLD_PP"], 0);
-            this.set_property(settings["DELAY_VALIDHOLD"], 0x0);
+            this.set_property(settings["DELAY_VALIDHOLD"], 0x14);
             this.set_property(settings["DELAY_RSTCOL_PP"], 0);
-            this.set_property(settings["DELAY_RSTCOL"], 0x0);
+            this.set_property(settings["DELAY_RSTCOL"], 0x14);
 
             this.set_property(settings["EN_LVDS_receiver_NoTrig"], 1);//?
             this.set_property(settings["PP_LVDS_receiver_NoTrig"], 0);//?
