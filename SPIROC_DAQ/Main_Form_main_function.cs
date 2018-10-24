@@ -353,6 +353,9 @@ namespace SPIROC_DAQ
             bandGap_Check.Checked = slowConfig.get_property(slowConfig.settings["EN_BANDGAP"]) == 1;
             ENDac1.Checked = slowConfig.get_property(slowConfig.settings["EN_DAC1"]) == 1;
             ENDac2.Checked = slowConfig.get_property(slowConfig.settings["EN_DAC2"]) == 1;
+            ENHighGain.Checked = slowConfig.get_property(slowConfig.settings["EN_High_Gain_PA"]) == 1;
+            ENLowGain.Checked = slowConfig.get_property(slowConfig.settings["EN_Low_Gain_PA"]) == 1;
+
 
 
         }
@@ -793,7 +796,8 @@ namespace SPIROC_DAQ
                     bw = new BinaryWriter(File.Open(fullPath + '\\' + fileName, FileMode.Create,FileAccess.Write,FileShare.Read));
 
                     // tune voltage of channel 1
-                    SignalSource.setVoltage(1, v);
+                    SignalSource.setOffset(1, v);
+                    //SignalSource.setVoltage(1, v);
                     SignalSource.openOutput();
                     Thread.Sleep(1000); //wait 1 seconds
 
@@ -825,6 +829,7 @@ namespace SPIROC_DAQ
                     try
                     {
                         Task dataAcqTsk = Task.Factory.StartNew(() => this.dataAcq_threadFunc(dataAcqTks.Token, bw), dataAcqTks.Token);
+                        Thread.Sleep(int.Parse(duration_sweep.Text) * 1000);
                         // time up!
                         // stop asic first
                         cmdBytes[1] = 0x02;
@@ -845,10 +850,7 @@ namespace SPIROC_DAQ
                         }
 
                     }
-                    Thread.Sleep(int.Parse(duration_sweep.Text)*1000);
-
-
-
+                   
                     // stop signal
                     SignalSource.closeOutput();
                     Thread.Sleep(500);

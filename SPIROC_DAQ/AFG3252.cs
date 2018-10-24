@@ -57,6 +57,18 @@ namespace SPIROC_DAQ
 
         }
 
+        public void setOffset(int chn,int mV)
+        {
+            try
+            {
+                session.Write("SOURce" + chn.ToString() + ":VOLTage:LEVel:IMMediate:OFFSet " + mV + "mV");
+            }
+            catch(Exception exp)
+            {
+                MessageBox.Show(exp.Message);
+            }
+        }
+
         public void closeOutput()
         {
             try
