@@ -246,7 +246,7 @@ namespace SPIROC_DAQ
                 clearDig2();
                 if(String.Equals(Probe, "Holdb SCA 0-15"))
                 {
-                    config_data[locate_dig2[Probe] + depth * 16 + chn] = 1;
+                    config_data[locate_dig2[Probe] + depth + chn*16] = 1;
                 }
                 else if(String.Equals(Probe, "Out ADC Discri") || String.Equals(Probe, "Out Gain Select Discri"))
                 {
@@ -256,7 +256,11 @@ namespace SPIROC_DAQ
                 {
                     config_data[locate_dig2[Probe] + depth] = 1;
                 }
-                else if(String.Equals(Probe, "ValidHold/ValidHold_delayed") || String.Equals(Probe, "Read"))
+                else if(String.Equals(Probe, "ValidHold/ValidHold_delayed"))
+                {
+                    config_data[locate_dig2[Probe] + 31 - depth *2] = 1;
+                }
+                else if (String.Equals(Probe, "Read"))
                 {
                     config_data[locate_dig2[Probe] + 15 - depth] = 1;
                 }
@@ -888,7 +892,7 @@ namespace SPIROC_DAQ
             for (i = 0; i < 36; i++)
             {
                 string Key = "INDAC" + i.ToString();
-                this.set_property(settings[Key.ToString()], 0x001);
+                this.set_property(settings[Key.ToString()], 0x1ff);
             }
             this.set_property(settings["LG_PA_bias"], 0);//?
             this.set_property(settings["High_Gain_PreAmplifier"], 1);//PP
@@ -901,7 +905,7 @@ namespace SPIROC_DAQ
             for (i = 0; i < 36; i++)
             {
                 string Key = "PREAMP_GAIN" + i.ToString();
-                this.set_property(settings[Key.ToString()], 0x6db0);//110110+ 110110+000
+                this.set_property(settings[Key.ToString()], 0x6D80);//110110+ 110110+000
             }
             //disable channel 0
             //this.set_property(settings["PREAMP_GAIN[0], 0xec);

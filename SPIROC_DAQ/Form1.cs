@@ -417,41 +417,105 @@ namespace SPIROC_DAQ
         {
             int chnNum;
             string controlName = (sender as Control).Name;
-            Regex chnNum_reg = new Regex(@"preamp(Check|Value)_(\d+)");
+            Regex chnNum_reg = new Regex(@"preamp(Check|Value)_(\d+)");     // Attention! Controler name must be named strictly in this way
 
-            var result = chnNum_reg.Match(controlName);
-            chnNum = int.Parse(result.Groups[2].Value);
+            var result = chnNum_reg.Match(controlName);     //Now we get channel number in result
+            chnNum = int.Parse(result.Groups[2].Value);     // chnNum is a int
+            Queue<int> changedChn = new Queue<int>();
+            if(preamp_global_sw.Checked is true)
+            {
+                for(chnNum = 0; chnNum < 36; chnNum++)
+                {
+                    changedChn.Enqueue(chnNum);
+                }
+            }
+            else
+            {
+                changedChn.Enqueue(chnNum);
+            }
+            string Key;
+            uint old_value = 0;
+            uint new_value = 0;
             if (string.Equals(result.Groups[1].Value, "Value"))
             {
                 //is textbox whose name is preampValue_x
                 uint value;
-                Regex rx_int = new Regex(rx_Integer);
+                Regex rx_int = new Regex(rx_Integer);   //rx_Integer is defined outside in Form. @"^\d+$"
+
+                //make sure the input text is a integer
                 if (rx_int.IsMatch((sender as TextBox).Text))
                 {
                     value = uint.Parse((sender as TextBox).Text);
-                    string Key = "PREAMP_GAIN" + chnNum.ToString();
-                    uint old_value = slowConfig.get_property(slowConfig.settings[Key.ToString()]);
-                    uint new_value = (reverse_bit(value,6) << 2) + (old_value & 0x03);
-                    slowConfig.set_property(slowConfig.settings[Key.ToString()], new_value);
+
+                    if (version_num == 2)// 2E version
+                    {
+                        if (HLGain_Select.Text == "High Gain")
+                        {
+                            foreach(int chn in changedChn)
+                            {
+                                Key = "PREAMP_GAIN" + chn.ToString();
+                                old_value = slowConfig.get_property(slowConfig.settings[Key.ToString()]);
+                                new_value = (reverse_bit(value, 6) << 9) + (old_value & 0x1ff); //0x1ff is 000000 111111 111
+                                slowConfig.set_property(slowConfig.settings[Key.ToString()], new_value);
+                            }
+                        }
+                        else if(HLGain_Select.Text == "Low Gain")
+                        {
+                            foreach(int chn in changedChn)
+                            {
+                                Key = "PREAMP_GAIN" + chn.ToString();
+                                old_value = slowConfig.get_property(slowConfig.settings[Key.ToString()]);
+                                new_value = (reverse_bit(value, 6) << 3) + (old_value & 0x3E07);  // 0x3E07 is 111111 000000 111
+                                slowConfig.set_property(slowConfig.settings[Key.ToString()], new_value);
+                            }
+                        }
+                        refreshParamPanel_2E();
+                    } 
+                    else if(version_num == 1)// 2B version
+                    {
+                        foreach(int chn in changedChn)
+                        {
+                            Key = "PREAMP_GAIN" + chn.ToString();
+                            old_value = slowConfig.get_property(slowConfig.settings[Key.ToString()]);
+                            new_value = (reverse_bit(value, 6) << 2) + (old_value & 0x3); //0x3 is 00000 11
+                            slowConfig.set_property(slowConfig.settings[Key.ToString()], new_value);
+                        }
+                        refreshParamPanel_2B();
+                    }                                   
                 }
                 else
                 {
                     MessageBox.Show("Input DAC is configured by 6bit,LSB -> MSB, 0-63 is valid", "Invalid Value");
                 }
             }
-            else
+            else if(string.Equals(result.Groups[1].Value, "Check"))
             {
                 //is checkbox whose name is preampCheck_x;
                 bool isEnable = (sender as CheckBox).Checked;
                 uint value = isEnable ? 0U : 1U;
-                string Key = "PREAMP_GAIN" + chnNum.ToString();
-                uint old_value = slowConfig.get_property(slowConfig.settings[Key.ToString()]);
-                uint new_value = (old_value & 0xfd) + value<<1;  // old_value & 111111 0 1 + 000000 ? 0
-                slowConfig.set_property(slowConfig.settings[Key.ToString()], new_value);
-                (sender as CheckBox).Text = isEnable ? "Enable" : "Disable";
+                if (version_num == 2)// 2E version
+                {
+                    foreach (int chn in changedChn)
+                    {
+                        Key = "PREAMP_GAIN" + chn.ToString();
+                        old_value = slowConfig.get_property(slowConfig.settings[Key.ToString()]);
+                        new_value = (old_value & 0x4FFE) + (value & 0x1); //0x4FFE is 111111 111111 110
+                        slowConfig.set_property(slowConfig.settings[Key.ToString()], new_value);
+                    }
+                    refreshParamPanel_2E();
+                }
+                else if (version_num == 1)// 2B version
+                {
+                    foreach (int chn in changedChn)
+                    {
+                        Key = "PREAMP_GAIN" + chn.ToString();
+                        old_value = slowConfig.get_property(slowConfig.settings[Key.ToString()]);
+                        new_value = (old_value & 0xFD) + value << 1; //0xFD is 111111 01
+                        slowConfig.set_property(slowConfig.settings[Key.ToString()], new_value);
+                    }
+                    refreshParamPanel_2B();
+                }
             }
-
-
         }
 
         private void discri_Changed(object sender, EventArgs e)
@@ -1589,6 +1653,7 @@ namespace SPIROC_DAQ
             {
                 slowConfig = slowConfig_2E_1;
                 slowConfig.save_settings(0);
+                HLGain_Select.Enabled = false;
                 
             }
         }
@@ -2467,6 +2532,11 @@ namespace SPIROC_DAQ
             cmdBytes[0] = 0x00;
             CommandSend(cmdBytes, 2);
 
+        }
+
+        private void HLGain_Select_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            refreshParamPanel_2E();
         }
     }
 }

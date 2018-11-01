@@ -330,7 +330,15 @@ namespace SPIROC_DAQ
                             var result = rx_preamp_value.Match(c.Name);
                             chnNum = uint.Parse(result.Groups[1].Value);
                             string Key = "PREAMP_GAIN" + chnNum.ToString();
-                            c.Text = reverse_bit((slowConfig.get_property(slowConfig.settings[Key.ToString()]) >> 3) & 0x3f, 6).ToString();
+                            if(HLGain_Select.Text == "High Gain")
+                            {
+                                c.Text = reverse_bit((slowConfig.get_property(slowConfig.settings[Key.ToString()]) >> 9) & 0x3f, 6).ToString();
+                            }
+                            else if(HLGain_Select.Text == "Low Gain")
+                            {
+                                c.Text = reverse_bit((slowConfig.get_property(slowConfig.settings[Key.ToString()]) >> 3) & 0x3f, 6).ToString();
+                            }
+                            
                         }
                         else if (c is CheckBox)
                         {
@@ -796,8 +804,8 @@ namespace SPIROC_DAQ
                     bw = new BinaryWriter(File.Open(fullPath + '\\' + fileName, FileMode.Create,FileAccess.Write,FileShare.Read));
 
                     // tune voltage of channel 1
-                    SignalSource.setOffset(1, v);
-                    //SignalSource.setVoltage(1, v);
+                    //SignalSource.setOffset(1, v);
+                    SignalSource.setVoltage(1, v);
                     SignalSource.openOutput();
                     Thread.Sleep(1000); //wait 1 seconds
 
