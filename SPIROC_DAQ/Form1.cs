@@ -465,7 +465,7 @@ namespace SPIROC_DAQ
                             {
                                 Key = "PREAMP_GAIN" + chn.ToString();
                                 old_value = slowConfig.get_property(slowConfig.settings[Key.ToString()]);
-                                new_value = (reverse_bit(value, 6) << 3) + (old_value & 0x3E07);  // 0x3E07 is 111111 000000 111
+                                new_value = (reverse_bit(value, 6) << 3) + (old_value & 0x7E07);  // 0x3E07 is 111111 000000 111
                                 slowConfig.set_property(slowConfig.settings[Key.ToString()], new_value);
                             }
                         }
@@ -1246,6 +1246,8 @@ namespace SPIROC_DAQ
             textBox1.AppendText("Sweep stop\n");
             Acq_status_label.Text = "IDLE";
             Acq_status_label.ForeColor = Color.Black;
+            timer1.Stop();
+            time_textbox.Text = "00:00:00:00";
         }
 
         private void scSweep_btn_Click(object sender, EventArgs e)
@@ -1310,6 +1312,8 @@ namespace SPIROC_DAQ
             textBox1.AppendText("Sweep stop\n");
             Acq_status_label.Text = "IDLE";
             Acq_status_label.ForeColor = Color.Black;
+            timer1.Stop();
+            time_textbox.Text = "00:00:00:00";
         }
 
         private void delayMatrix_task_Click(object sender, EventArgs e)
@@ -2179,6 +2183,8 @@ namespace SPIROC_DAQ
             textBox1.AppendText("Special Task stop\n");
             Acq_status_label.Text = "IDLE";
             Acq_status_label.ForeColor = Color.Black;
+            timer1.Stop();
+            time_textbox.Text = "00:00:00:00";
         }
 
         private void chip_num_input_ValueChanged(object sender, EventArgs e)

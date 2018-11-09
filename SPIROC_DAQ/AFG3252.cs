@@ -28,7 +28,7 @@ namespace SPIROC_DAQ
             }
             catch (Exception exp)
             {
-                //MessageBox.Show(exp.Message);
+               // MessageBox.Show(exp.Message);
             }
             
             return (session != null);

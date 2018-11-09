@@ -905,7 +905,7 @@ namespace SPIROC_DAQ
             for (i = 0; i < 36; i++)
             {
                 string Key = "PREAMP_GAIN" + i.ToString();
-                this.set_property(settings[Key.ToString()], 0x6D80);//110110+ 110110+000
+                this.set_property(settings[Key.ToString()], 0x6DB0);//110110+ 110110+000
             }
             //disable channel 0
             //this.set_property(settings["PREAMP_GAIN[0], 0xec);

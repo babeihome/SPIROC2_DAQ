@@ -27,11 +27,11 @@ namespace SPIROC_DAQ
             {
                 if(item is TextBox)
                 {
-                    item.TextChanged += handle;
+                    item.Validated += handle;
                 }
                 else if(item is CheckBox)
                 {
-                    (item as CheckBox).CheckedChanged += handle;
+                    (item as CheckBox).Validated += handle;
                 }
                 else if(item is TableLayoutPanel)
                 {
@@ -39,11 +39,11 @@ namespace SPIROC_DAQ
                     {
                         if(sub_item is TextBox)
                         {
-                            sub_item.TextChanged += handle;
+                            sub_item.Validated += handle;
                         }
                         else if(sub_item is CheckBox)
                         {
-                            (sub_item as CheckBox).CheckedChanged += handle;
+                            (sub_item as CheckBox).Validated += handle;
                         }
                     }
                 }
@@ -419,7 +419,7 @@ namespace SPIROC_DAQ
             }
             catch (Exception exp)
             {
-                MessageBox.Show(exp.Message);
+                //MessageBox.Show(exp.Message);
             }
             finally
             {
@@ -803,11 +803,8 @@ namespace SPIROC_DAQ
                     //create file writer
                     bw = new BinaryWriter(File.Open(fullPath + '\\' + fileName, FileMode.Create,FileAccess.Write,FileShare.Read));
 
-                    // tune voltage of channel 1
-                    //SignalSource.setOffset(1, v);
-                    SignalSource.setVoltage(1, v);
-                    SignalSource.openOutput();
-                    Thread.Sleep(1000); //wait 1 seconds
+
+
 
                     // For each voltage, acq DURATION_SWEEP ms. Now set the timer
                     /*
@@ -826,6 +823,12 @@ namespace SPIROC_DAQ
                     cmdBytes[0] = 0x00;
 
                     CommandSend(cmdBytes, 2);
+                    Thread.Sleep(1000); //wait 1 seconds
+
+                    // tune voltage of channel 1
+                    //SignalSource.setOffset(1, v);
+                    SignalSource.setVoltage(1, v);
+                    SignalSource.openOutput();
                     // check USB status
                     if (usbStatus == false)
                     {
@@ -839,7 +842,12 @@ namespace SPIROC_DAQ
                         Task dataAcqTsk = Task.Factory.StartNew(() => this.dataAcq_threadFunc(dataAcqTks.Token, bw), dataAcqTks.Token);
                         Thread.Sleep(int.Parse(duration_sweep.Text) * 1000);
                         // time up!
-                        // stop asic first
+
+                        // stop signal first
+                        SignalSource.closeOutput();
+                        Thread.Sleep(500);
+
+                        // stop asic
                         cmdBytes[1] = 0x02;
                         cmdBytes[0] = 0x00;
                         CommandSend(cmdBytes, 2);
@@ -859,9 +867,8 @@ namespace SPIROC_DAQ
 
                     }
                    
-                    // stop signal
-                    SignalSource.closeOutput();
-                    Thread.Sleep(500);
+
+
 
                 }
 
@@ -1030,14 +1037,30 @@ namespace SPIROC_DAQ
                     // get ready for start acq thread
                     dataAcqTks.Dispose();       //clean up old token source
                     dataAcqTks = new CancellationTokenSource(); // generate a new token
+                    
 
-                    for(int chn = 0; chn<36; chn++)
+                    // SC change
+                    if(version_num == 1)
                     {
-                        string Key = "PREAMP_GAIN" + chn.ToString();
-                        uint old_value = slowConfig.get_property(slowConfig.settings[Key.ToString()]);
-                        uint new_value = (reverse_bit(v,6) << 2) + (old_value & 0x03);
-                        slowConfig.set_property(slowConfig.settings[Key.ToString()], new_value);
+                        for (int chn = 0; chn < 36; chn++)
+                        {
+                            string Key = "PREAMP_GAIN" + chn.ToString();
+                            uint old_value = slowConfig.get_property(slowConfig.settings[Key.ToString()]);
+                            uint new_value = (reverse_bit(v, 6) << 2) + (old_value & 0x03);
+                            slowConfig.set_property(slowConfig.settings[Key.ToString()], new_value);
+                        }
                     }
+                    else if (version_num == 2)
+                    {
+                        for (int chn = 0; chn < 36; chn++)
+                        {
+                            string Key = "PREAMP_GAIN" + chn.ToString();
+                            uint old_value = slowConfig.get_property(slowConfig.settings[Key.ToString()]);
+                            uint new_value = (reverse_bit(v, 6) << 3)+ (reverse_bit(v, 6) << 3) + (old_value & 0x07);
+                            slowConfig.set_property(slowConfig.settings[Key.ToString()], new_value);
+                        }
+                    }
+
                     
                     normal_config_button_Click(null, null);
                     Thread.Sleep(100);
