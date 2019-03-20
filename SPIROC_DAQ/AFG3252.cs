@@ -16,7 +16,8 @@ namespace SPIROC_DAQ
             try
             {
                 var rsrc = ResourceManager.GetLocalManager().FindResources(settings.AFG_DESCR3252);
-                if(rsrc != null)
+                rsrc = ResourceManager.GetLocalManager().FindResources(settings.AFG_DESCR3252);
+                if (rsrc != null)
                 {
                     session = (MessageBasedSession)ResourceManager.GetLocalManager().Open(rsrc[0]);
                 }              
@@ -121,12 +122,13 @@ namespace SPIROC_DAQ
             }
         }
 
-        public void delaySet(int channel, int value)
+        public void delaySet(int channel, int value, int offset=0)
         {
             string cmd;
             try
             {
-                cmd = string.Format("SOURce{0}:BURSt:TDELay {1}ns", channel, value);
+                //cmd = string.Format("SOURce{0}:BURSt:TDELay {1}ns", channel, value);
+                cmd = string.Format("SOURce{0}:BURSt:TDELay {1}ns", channel, value + offset);
                 session.Write(cmd);
             }
             catch(Exception exp)

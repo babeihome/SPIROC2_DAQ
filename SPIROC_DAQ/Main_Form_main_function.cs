@@ -514,6 +514,7 @@ namespace SPIROC_DAQ
                 SignalSource.delaySet(2, (int)delay_value);
 
                 SignalSource.openOutput();
+                Thread.Sleep(1000);
                 CommandSend(0x0100, 2);
                 if (usbStatus == false)
                 {
@@ -821,14 +822,14 @@ namespace SPIROC_DAQ
                     // start acq cmd is 0x0100;
                     cmdBytes[1] = 0x01;
                     cmdBytes[0] = 0x00;
-
-                    CommandSend(cmdBytes, 2);
+                    SignalSource.setVoltage(1, v);
+                    SignalSource.openOutput();
                     Thread.Sleep(1000); //wait 1 seconds
+                    CommandSend(cmdBytes, 2);
 
                     // tune voltage of channel 1
                     //SignalSource.setOffset(1, v);
-                    SignalSource.setVoltage(1, v);
-                    SignalSource.openOutput();
+
                     // check USB status
                     if (usbStatus == false)
                     {
@@ -894,7 +895,7 @@ namespace SPIROC_DAQ
             BinaryWriter bw;
 
             DateTime dayStamp = DateTime.Now;
-            string subDic = string.Format("{0:yyyyMMdd}_{0:hhmm}_scSweep", dayStamp);
+            string subDic = string.Format("{0:yyyyMMdd}_{0:HHmm}_scSweep", dayStamp);
             string fullPath = folderBrowserDialog1.SelectedPath + '\\' + subDic;
             if (!Directory.Exists(fullPath))
                 Directory.CreateDirectory(fullPath);
@@ -940,6 +941,10 @@ namespace SPIROC_DAQ
                     dataAcqTks = new CancellationTokenSource(); // generate a new token
 
                     slowConfig.set_property(propertyTable[selectedPara], v);
+                    if(selectedPara == "trig delay" && (version_num == 2))
+                    {
+                        slowConfig.set_property(slowConfig.settings["DELAY_VALIDHOLD"], (uint)(v / 4));
+                    }
                     normal_config_button_Click(null, null);
                     Thread.Sleep(100);
                     byte[] cmdBytes = new byte[2];
@@ -1186,6 +1191,7 @@ namespace SPIROC_DAQ
                     }
 
                     SignalSource.openOutput();
+                    Thread.Sleep(1000); //wait 1s
                     //file name include voltage value;                  
                     string fileName = string.Format("delay_{0:#0}x{1:#0}.dat", delay_asic, delay_afg);
                     //create file writer
@@ -1195,16 +1201,17 @@ namespace SPIROC_DAQ
                     // get ready for start acq thread
                     dataAcqTks.Dispose();       //clean up old token source
                     dataAcqTks = new CancellationTokenSource(); // generate a new token
-
-                    SignalSource.openOutput(0);
-                    Thread.Sleep(100); //wait 100ms
-
                     byte[] cmdBytes = new byte[2];
                     // start acq cmd is 0x0100;
                     cmdBytes[1] = 0x01;
                     cmdBytes[0] = 0x00;
 
                     CommandSend(cmdBytes, 2);
+
+
+                    
+
+
                     // check USB status
 
                     // Start data acquision thread
