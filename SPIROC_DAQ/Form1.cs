@@ -69,7 +69,7 @@ namespace SPIROC_DAQ
         private int pwr_vector = 0x0f;
         // for changing textbox1.Text from different thread (not from main thread)
         delegate void SetTextCallback(string text);
-        public int version_num=2;
+        public int version_num=1;
         public Main_Form()
         {
             InitializeComponent();
