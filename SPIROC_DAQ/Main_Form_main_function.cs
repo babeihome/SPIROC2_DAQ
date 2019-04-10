@@ -401,10 +401,16 @@ namespace SPIROC_DAQ
                 normal_acq_button.Enabled = false;
                 normal_stop_button.Enabled = false;
 
+                //hv status need reset
+                HV_dashboard_label.Text = "Unknown";
+                HV_dashboard_label.ForeColor = Color.Black;
+                HV_dashboard_label.BackColor = Color.Yellow;
                 bulkOutEndPt = null;
                 bulkInEndPt = null;
 
                 result = false;
+
+                
 
             }
 

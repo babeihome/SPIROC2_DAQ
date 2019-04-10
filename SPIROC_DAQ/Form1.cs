@@ -11,6 +11,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Reflection;
 using CyUSB;
 using NationalInstruments.VisaNS;
 
@@ -67,6 +68,8 @@ namespace SPIROC_DAQ
         private FileStream resultRecord;
 
         private int pwr_vector = 0x0f;
+        private int ecalib_cfg = 0x00;
+        private int ledcalib_cfg = 0x00;
         // for changing textbox1.Text from different thread (not from main thread)
         delegate void SetTextCallback(string text);
         public int version_num=1;
@@ -112,6 +115,10 @@ namespace SPIROC_DAQ
             usbDevices.DeviceRemoved += new EventHandler(deviceRemoved);
             Probe_config.init();
             check_USB();
+            Version version = Assembly.GetExecutingAssembly().GetName().Version;
+            version_label.Text = String.Format("{0}.{1}.{2}.{3}", version.Major, version.Minor,
+                version.Build, version.Revision);
+            
         }
 
         // Event handler
@@ -477,7 +484,7 @@ namespace SPIROC_DAQ
                         {
                             Key = "PREAMP_GAIN" + chn.ToString();
                             old_value = slowConfig.get_property(slowConfig.settings[Key.ToString()]);
-                            new_value = (reverse_bit(value, 6) << 2) + (old_value & 0x3); //0x3 is 00000 11
+                            new_value = (reverse_bit(value, 6) << 2) + (old_value & 0x3); //0x3 is 000000 11
                             slowConfig.set_property(slowConfig.settings[Key.ToString()], new_value);
                         }
                         refreshParamPanel_2B();
@@ -2198,8 +2205,13 @@ namespace SPIROC_DAQ
             bool status;
             string cmd = "";
             status = (HVswitch_btn.Tag.ToString() == "1");
-
-            if (status == true)
+            if (myDevice == null)
+            {
+                HV_dashboard_label.Text = "Unknown";
+                HV_dashboard_label.ForeColor = Color.Black;
+                HV_dashboard_label.BackColor = Color.Yellow;
+            }
+            else if (status == true)
             {
                 try
                 {
@@ -2223,6 +2235,9 @@ namespace SPIROC_DAQ
                 HVswitch_btn.Text = "Open";
                 HV_status_label.Text = "OFF";
                 HV_status_label.ForeColor = Color.Red;
+                HV_dashboard_label.Text = "OFF";
+                HV_dashboard_label.ForeColor = Color.Red;
+                HV_dashboard_label.BackColor = Color.White;
                 HVswitch_btn.Tag = 0;
             }
             else if(status == false)
@@ -2231,6 +2246,9 @@ namespace SPIROC_DAQ
                 HVswitch_btn.Text = "Close";
                 HV_status_label.Text = "ON";
                 HV_status_label.ForeColor = Color.Green;
+                HV_dashboard_label.Text = "ON";
+                HV_dashboard_label.ForeColor = Color.White;
+                HV_dashboard_label.BackColor = Color.Red;
                 HVswitch_btn.Tag = 1;
             }
 
@@ -2543,6 +2561,630 @@ namespace SPIROC_DAQ
         private void HLGain_Select_SelectedIndexChanged(object sender, EventArgs e)
         {
             refreshParamPanel_2E();
+        }
+
+        private void ecalib_textbox_Leave(object sender, EventArgs e)
+        {
+            byte[] cmdbytes = new byte[2];
+            cmdbytes[1] = 0x0f;
+            byte value_h = 0x00;
+            byte value_l = 0x00;
+
+            uint value = 0;
+            if (ecalib_textbox.Text == null)
+            {
+                ecalib_textbox.Text = "0";
+            }
+            value = uint.Parse(ecalib_textbox.Text);
+            value_h = (byte)(value >> 8);
+            value_l = (byte)value;
+
+            cmdbytes[0] = value_h;
+            CommandSend(cmdbytes, 2);
+            cmdbytes[0] = value_l;
+            CommandSend(cmdbytes, 2);
+
+            byte chn1_mask = 0x80;
+            value_h = (byte)(chn1_mask | value_h);
+
+            cmdbytes[0] = value_h;
+            CommandSend(cmdbytes, 2);
+            cmdbytes[0] = value_l;
+            CommandSend(cmdbytes, 2);
+        }
+
+        private void ledcalib_dac_textbox_Leave(object sender, EventArgs e)
+        {
+            byte[] cmdbytes = new byte[2];
+            cmdbytes[1] = 0x07;
+            byte value_h = 0x00;
+            byte value_l = 0x00;
+
+            uint value = 0;
+            if (ledcalib_dac_textbox.Text == null)
+            {
+                ledcalib_dac_textbox.Text = "0";
+            }
+            value = uint.Parse(ledcalib_dac_textbox.Text);
+            value_h = (byte)(value >> 8);
+            value_l = (byte)value;
+
+            cmdbytes[0] = value_h;
+            CommandSend(cmdbytes, 2);
+            cmdbytes[0] = value_l;
+            CommandSend(cmdbytes, 2);
+
+            byte chn1_mask = 0x80;
+            value_h = (byte)(chn1_mask | value_h);
+
+            cmdbytes[0] = value_h;
+            CommandSend(cmdbytes, 2);
+            cmdbytes[0] = value_l;
+            CommandSend(cmdbytes, 2);
+        }
+
+        private void ecalib_chn1_sel_btn_Click(object sender, EventArgs e)
+        {
+            if (ecalib_chn1_sel_btn.Tag.ToString() == "0")
+            {
+                ecalib_cfg = ecalib_cfg & 0xfe + 0x01;    // set bit0 high , let calib signal be able to access chip1
+                byte[] cmdbytes = new byte[2];
+                cmdbytes[1] = 0x12;
+                cmdbytes[0] = (byte)ecalib_cfg; // only use low 8 bit
+                if (CommandSend(cmdbytes, 2))               
+                {
+                    ecalib_chn1_sel_btn.Tag = 1;
+                    ecalib_chn1_sel_btn.Text = "CHIP1 ON";
+                    ecalib_chn1_sel_btn.BackColor = Color.DarkGreen;
+                    //calib_trig.Enabled = true;
+                }
+                else
+                {
+                    MessageBox.Show("Can't send command");
+                }
+            }
+            else if (ecalib_chn1_sel_btn.Tag.ToString() == "1")
+            {
+                ecalib_cfg = ecalib_cfg & 0xfe + 0x00;    // set bit0 low , let calib signal be not able to access chip1
+                byte[] cmdbytes = new byte[2];
+                cmdbytes[1] = 0x12;
+                cmdbytes[0] = (byte)ecalib_cfg; // only use low 8 bit
+                if (CommandSend(cmdbytes,2))
+                {
+                    ecalib_chn1_sel_btn.Tag = 0;
+                    ecalib_chn1_sel_btn.Text = "CHIP1 OFF";
+                    ecalib_chn1_sel_btn.BackColor = Color.DarkRed;
+                    //calib_trig.Enabled = false;
+                }
+                else
+                {
+                    MessageBox.Show("Can't send command");
+                }
+            }
+        }
+
+        private void ecalib_chn2_sel_btn_Click(object sender, EventArgs e)
+        {
+            if (ecalib_chn2_sel_btn.Tag.ToString() == "0")
+            {
+                ecalib_cfg = ecalib_cfg & 0xfd + 0x01<<1;    // set bit1 high , let calib signal be able to access chip2
+                byte[] cmdbytes = new byte[2];
+                cmdbytes[1] = 0x12;
+                cmdbytes[0] = (byte)ecalib_cfg; // only use low 8 bit
+                if (CommandSend(cmdbytes, 2))
+                {
+                    ecalib_chn2_sel_btn.Tag = 1;
+                    ecalib_chn2_sel_btn.Text = "CHIP2 ON";
+                    ecalib_chn2_sel_btn.BackColor = Color.DarkGreen;
+                    //calib_trig.Enabled = true;
+                }
+                else
+                {
+                    MessageBox.Show("Can't send command");
+                }
+            }
+            else if (ecalib_chn2_sel_btn.Tag.ToString() == "1")
+            {
+                ecalib_cfg = ecalib_cfg & 0xfd ;    // set bit1 low , let calib signal be not able to access chip2
+                byte[] cmdbytes = new byte[2];
+                cmdbytes[1] = 0x12;
+                cmdbytes[0] = (byte)ecalib_cfg; // only use low 8 bit
+                if (CommandSend(cmdbytes, 2))
+                {
+                    ecalib_chn2_sel_btn.Tag = 0;
+                    ecalib_chn2_sel_btn.Text = "CHIP2 OFF";
+                    ecalib_chn2_sel_btn.BackColor = Color.DarkRed;
+                    //calib_trig.Enabled = false;
+                }
+                else
+                {
+                    MessageBox.Show("Can't send command");
+                }
+            }
+        }
+
+        private void ecalib_chn3_sel_btn_Click(object sender, EventArgs e)
+        {
+            if (ecalib_chn3_sel_btn.Tag.ToString() == "0")
+            {
+                ecalib_cfg = ecalib_cfg & 0xfb + 0x01<<2;    // set bit2 high , let calib signal be able to access chip3
+                byte[] cmdbytes = new byte[2];
+                cmdbytes[1] = 0x12;
+                cmdbytes[0] = (byte)ecalib_cfg; // only use low 8 bit
+                if (CommandSend(cmdbytes, 2))
+                {
+                    ecalib_chn3_sel_btn.Tag = 1;
+                    ecalib_chn3_sel_btn.Text = "CHIP3 ON";
+                    ecalib_chn3_sel_btn.BackColor = Color.DarkGreen;
+                    //calib_trig.Enabled = true;
+                }
+                else
+                {
+                    MessageBox.Show("Can't send command");
+                }
+            }
+            else if (ecalib_chn3_sel_btn.Tag.ToString() == "1")
+            {
+                ecalib_cfg = ecalib_cfg & 0xfb;    // set bit2 low , let calib signal be not able to access chip3
+                byte[] cmdbytes = new byte[2];
+                cmdbytes[1] = 0x12;
+                cmdbytes[0] = (byte)ecalib_cfg; // only use low 8 bit
+                if (CommandSend(cmdbytes, 2))
+                {
+                    ecalib_chn3_sel_btn.Tag = 0;
+                    ecalib_chn3_sel_btn.Text = "CHIP3 OFF";
+                    ecalib_chn3_sel_btn.BackColor = Color.DarkRed;
+                    //calib_trig.Enabled = false;
+                }
+                else
+                {
+                    MessageBox.Show("Can't send command");
+                }
+            }
+        }
+
+        private void ecalib_chn6_sel_btn_Click(object sender, EventArgs e)
+        {
+            if (ecalib_chn6_sel_btn.Tag.ToString() == "0")
+            {
+                ecalib_cfg = ecalib_cfg & 0xdf + 0x01<<5;    // set bit5 high , let calib signal be able to access chip6
+                byte[] cmdbytes = new byte[2];
+                cmdbytes[1] = 0x12;
+                cmdbytes[0] = (byte)ecalib_cfg; // only use low 8 bit
+                if (CommandSend(cmdbytes, 2))
+                {
+                    ecalib_chn6_sel_btn.Tag = 1;
+                    ecalib_chn6_sel_btn.Text = "CHIP6 ON";
+                    ecalib_chn6_sel_btn.BackColor = Color.DarkGreen;
+                    //calib_trig.Enabled = true;
+                }
+                else
+                {
+                    MessageBox.Show("Can't send command");
+                }
+            }
+            else if (ecalib_chn6_sel_btn.Tag.ToString() == "1")
+            {
+                ecalib_cfg = ecalib_cfg & 0xdf;    // set bit5 low , let calib signal be not able to access chip6
+                byte[] cmdbytes = new byte[2];
+                cmdbytes[1] = 0x12;
+                cmdbytes[0] = (byte)ecalib_cfg; // only use low 8 bit
+                if (CommandSend(cmdbytes, 2))
+                {
+                    ecalib_chn6_sel_btn.Tag = 0;
+                    ecalib_chn6_sel_btn.Text = "CHIP6 OFF";
+                    ecalib_chn6_sel_btn.BackColor = Color.DarkRed;
+                    //calib_trig.Enabled = false;
+                }
+                else
+                {
+                    MessageBox.Show("Can't send command");
+                }
+            }
+        }
+
+        private void ecalib_chn4_sel_btn_Click(object sender, EventArgs e)
+        {
+            if (ecalib_chn4_sel_btn.Tag.ToString() == "0")
+            {
+                ecalib_cfg = ecalib_cfg & 0xf7 + 0x01<<3;    // set bit3 high , let calib signal be able to access chip4
+                byte[] cmdbytes = new byte[2];
+                cmdbytes[1] = 0x12;
+                cmdbytes[0] = (byte)ecalib_cfg; // only use low 8 bit
+                if (CommandSend(cmdbytes, 2))
+                {
+                    ecalib_chn4_sel_btn.Tag = 1;
+                    ecalib_chn4_sel_btn.Text = "CHIP4 ON";
+                    ecalib_chn4_sel_btn.BackColor = Color.DarkGreen;
+                    //calib_trig.Enabled = true;
+                }
+                else
+                {
+                    MessageBox.Show("Can't send command");
+                }
+            }
+            else if (ecalib_chn4_sel_btn.Tag.ToString() == "1")
+            {
+                ecalib_cfg = ecalib_cfg & 0xf7;    // set bit3 low , let calib signal be not able to access chip4
+                byte[] cmdbytes = new byte[2];
+                cmdbytes[1] = 0x12;
+                cmdbytes[0] = (byte)ecalib_cfg; // only use low 8 bit
+                if (CommandSend(cmdbytes, 2))
+                {
+                    ecalib_chn4_sel_btn.Tag = 0;
+                    ecalib_chn4_sel_btn.Text = "CHIP4 OFF";
+                    ecalib_chn4_sel_btn.BackColor = Color.DarkRed;
+                    //calib_trig.Enabled = false;
+                }
+                else
+                {
+                    MessageBox.Show("Can't send command");
+                }
+            }
+        }
+
+        private void ecalib_chn5_sel_btn_Click(object sender, EventArgs e)
+        {
+            if (ecalib_chn5_sel_btn.Tag.ToString() == "0")
+            {
+                ecalib_cfg = ecalib_cfg & 0xef + 0x01<<4;    // set bit4 high , let calib signal be able to access chip5
+                byte[] cmdbytes = new byte[2];
+                cmdbytes[1] = 0x12;
+                cmdbytes[0] = (byte)ecalib_cfg; // only use low 8 bit
+                if (CommandSend(cmdbytes, 2))
+                {
+                    ecalib_chn5_sel_btn.Tag = 1;
+                    ecalib_chn5_sel_btn.Text = "CHIP5 ON";
+                    ecalib_chn5_sel_btn.BackColor = Color.DarkGreen;
+                    //calib_trig.Enabled = true;
+                }
+                else
+                {
+                    MessageBox.Show("Can't send command");
+                }
+            }
+            else if (ecalib_chn5_sel_btn.Tag.ToString() == "1")
+            {
+                ecalib_cfg = ecalib_cfg & 0xef;    // set bit4 low , let calib signal be not able to access chip5
+                byte[] cmdbytes = new byte[2];
+                cmdbytes[1] = 0x12;
+                cmdbytes[0] = (byte)ecalib_cfg; // only use low 8 bit
+                if (CommandSend(cmdbytes, 2))
+                {
+                    ecalib_chn5_sel_btn.Tag = 0;
+                    ecalib_chn5_sel_btn.Text = "CHIP5 OFF";
+                    ecalib_chn5_sel_btn.BackColor = Color.DarkRed;
+                    //calib_trig.Enabled = false;
+                }
+                else
+                {
+                    MessageBox.Show("Can't send command");
+                }
+            }
+        }
+
+        private void ecalib_en_btn_Click(object sender, EventArgs e)
+        {
+            if (ecalib_en_btn.Tag.ToString() == "0")
+            {
+                ecalib_cfg = ecalib_cfg | 0x01 << 6;    //  operator '<<' is prior to '|', set bit6 to 1
+                byte[] cmdbytes = new byte[2];
+                cmdbytes[1] = 0x12;
+                cmdbytes[0] = (byte)ecalib_cfg; // only use low 8 bit
+                if (CommandSend(cmdbytes, 2))
+                {
+                    ecalib_en_btn.Tag = 1;
+                    ecalib_en_btn.Text = "ACTIVE";
+                    ecalib_en_btn.BackColor = Color.DarkGreen;
+                    //calib_trig.Enabled = true;
+                }
+                else
+                {
+                    MessageBox.Show("Can't send command");
+                }
+            }
+            else if (ecalib_en_btn.Tag.ToString() == "1")
+            {
+                ecalib_cfg = ecalib_cfg & 0xbf;    //  set bit5 to 0
+                byte[] cmdbytes = new byte[2];
+                cmdbytes[1] = 0x12;
+                cmdbytes[0] = (byte)ecalib_cfg; // only use low 8 bit
+                if (CommandSend(cmdbytes, 2))
+                {
+                    ecalib_en_btn.Tag = 0;
+                    ecalib_en_btn.Text = "DISABLE";
+                    ecalib_en_btn.BackColor = Color.DarkRed;
+                    //calib_trig.Enabled = false;
+                }
+                else
+                {
+                    MessageBox.Show("Can't send command");
+                }
+            }
+        }
+
+        private void ecalib_mod_btn_Click(object sender, EventArgs e)
+        {
+            if (ecalib_mod_label.Tag.ToString() == "0")     // 0 means ext_trig mode, so let's set cfg to auto-trigger mode
+            {
+                ecalib_cfg = ecalib_cfg | 0x01 << 7;    //  operator '<<' is prior to '|', set bit7(mode bit) to 1
+                byte[] cmdbytes = new byte[2];
+                cmdbytes[1] = 0x12;
+                cmdbytes[0] = (byte)ecalib_cfg; // only use low 8 bit
+                if (CommandSend(cmdbytes, 2))
+                {
+                    ecalib_mod_label.Tag = 1;
+                    ecalib_mod_label.Text = "AUTO TRIG.";
+                    ecalib_mod_label.BackColor = Color.DarkSalmon;
+                    //calib_trig.Enabled = true;
+                }
+                else
+                {
+                    MessageBox.Show("Can't send command");
+                }
+            }
+            else if (ecalib_mod_label.Tag.ToString() == "1")   // 1 means auto-trigger mode, so let's set cfg to ext-source mode
+            {
+                ecalib_cfg = ecalib_cfg & 0x7f;    //  set bit5 to 0
+                byte[] cmdbytes = new byte[2];
+                cmdbytes[1] = 0x12;
+                cmdbytes[0] = (byte)ecalib_cfg; // only use low 8 bit
+                if (CommandSend(cmdbytes, 2))
+                {
+                    ecalib_mod_label.Tag = 0;
+                    ecalib_mod_label.Text = "EXT SOURCE";
+                    ecalib_mod_label.BackColor = Color.LightGray;
+
+                    //calib_trig.Enabled = false;
+                }
+                else
+                {
+                    MessageBox.Show("Can't send command");
+                }
+            }
+        }
+
+        private void ecalib_trig_btn_Click(object sender, EventArgs e)
+        {
+            CommandSend(0x1400, 2); // 14xx cmd will let ecalib module generate a single pulse for calib
+        }
+
+        private void ledcalib_en_btn_Click(object sender, EventArgs e)
+        {
+            if(ledcalib_en_btn.Tag.ToString() == "0")
+            {
+                ledcalib_cfg = ledcalib_cfg & 0xcf + 0x01 << 4; //set bit[5,4] to 01
+                byte[] cmdbytes = new byte[2];
+                cmdbytes[1] = 0x0b;
+                cmdbytes[0] = (byte)ledcalib_cfg; // only use low 8 bit
+                if (CommandSend(cmdbytes, 2))
+                {
+                    ledcalib_en_btn.Tag = 1;
+                    ledcalib_en_btn.Text = "ACTIVE";
+                    ledcalib_en_btn.BackColor = Color.DarkGreen;
+                    //calib_trig.Enabled = true;
+                }
+                else
+                {
+                    MessageBox.Show("Can't send command");
+                }
+            }
+            else if(ledcalib_en_btn.Tag.ToString() == "1")
+            {
+                ledcalib_cfg = ledcalib_cfg & 0xcf + 0x10 << 4; //set bit[5..4] to 0b10
+                byte[] cmdbytes = new byte[2];
+                cmdbytes[1] = 0x0b;
+                cmdbytes[0] = (byte)ledcalib_cfg; // only use low 8 bit
+                if (CommandSend(cmdbytes, 2))
+                {
+                    ledcalib_en_btn.Tag = 0;
+                    ledcalib_en_btn.Text = "Disable";
+                    ledcalib_en_btn.BackColor = Color.DarkRed;
+                    //calib_trig.Enabled = true;
+                }
+                else
+                {
+                    MessageBox.Show("Can't send command");
+                }
+            }
+                   
+        }
+
+        private void ledcalib_sw_mod_btn_Click(object sender, EventArgs e)
+        {
+            if(ledcalib_mod_label.Tag.ToString() == "0")    // 0 means manual mode,
+            {
+                ledcalib_cfg = ledcalib_cfg | 0x80;    // set bit7 high
+                byte[] cmdbytes = new byte[2];
+                cmdbytes[1] = 0x0b;
+                cmdbytes[0] = (byte)ledcalib_cfg; // only use low 8 bit
+                if (CommandSend(cmdbytes, 2))
+                {
+                    ledcalib_mod_label.Tag = 1;
+                    ledcalib_mod_label.Text = "Auto Mode";
+                    ledcalib_mod_label.BackColor = Color.DarkSalmon;
+                    //calib_trig.Enabled = true;
+                }
+                else
+                {
+                    MessageBox.Show("Can't send command");
+                }
+            }
+            else if(ledcalib_mod_label.Tag.ToString() == "1")
+            {
+                ledcalib_cfg = ledcalib_cfg & 0x7f; // set bit7 low
+                byte[] cmdbytes = new byte[2];
+                cmdbytes[1] = 0x0b;
+                cmdbytes[0] = (byte)ledcalib_cfg; // only use low 8 bit
+                if (CommandSend(cmdbytes, 2))
+                {
+                    ledcalib_mod_label.Tag = 0;
+                    ledcalib_mod_label.Text = "MANUAL";
+                    ledcalib_mod_label.BackColor = Color.LightGray;
+                    //calib_trig.Enabled = true;
+                }
+                else
+                {
+                    MessageBox.Show("Can't send command");
+                }
+            }
+        }
+
+        private void ledcalib_group_sel_ValueChanged(object sender, EventArgs e)
+        {
+            int groupNum = int.Parse((ledcalib_group_sel.Value - 1).ToString());
+            ledcalib_cfg = ledcalib_cfg & 0xf0 + groupNum;
+
+            byte[] cmdbytes = new byte[2];
+
+            cmdbytes[1] = 0x0b;
+            cmdbytes[0] = (byte)ledcalib_cfg;
+            if (!CommandSend(cmdbytes, 2))
+            {
+                MessageBox.Show("Can't send command");
+            } 
+        }
+
+        private void ledcalib_ext_check_CheckedChanged(object sender, EventArgs e)
+        {
+            int ledcalib_ext_en = ext_calib_en.Checked ? 0x01 : 0x00;
+            ledcalib_cfg = ledcalib_cfg & 0xbf + ledcalib_ext_en << 6;
+            byte[] commandByte = new byte[2];
+            commandByte[1] = 0x0b;
+            commandByte[0] = (byte)ledcalib_cfg;
+
+            if(!CommandSend(commandByte, 2))
+            { 
+                MessageBox.Show("Please connect USB first", "Error");
+            }
+
+        }
+
+        private void ledcalib_trigger_btn_Click(object sender, EventArgs e)
+        {
+            CommandSend(0x1000, 2); // 14xx cmd will let ecalib module generate a single pulse for calib
+        }
+
+        private void I2CSwitch_Changed(object sender, EventArgs e)
+        {
+            int[] chn_check = new int[8];
+            chn_check[0] = temp_sw_chn1.Checked ? 0x01 : 0x00;
+            chn_check[1] = temp_sw_chn2.Checked ? 0x01 : 0x00;
+            chn_check[2] = temp_sw_chn3.Checked ? 0x01 : 0x00;
+            chn_check[3] = temp_sw_chn4.Checked ? 0x01 : 0x00;
+            chn_check[4] = temp_sw_chn5.Checked ? 0x01 : 0x00;
+            chn_check[5] = temp_sw_chn6.Checked ? 0x01 : 0x00;
+            chn_check[6] = temp_sw_chn7.Checked ? 0x01 : 0x00;
+            chn_check[7] = temp_sw_chn8.Checked ? 0x01 : 0x00;
+
+            byte[] cmdbytes = new byte[2];
+            cmdbytes[1] = 0x18;
+            cmdbytes[2] = 0x00;
+            for(int i = 0; i < 8; i++)
+            {
+                cmdbytes[2] += (byte)(chn_check[i] << i);   //MSB is corresponding to CHN8
+            }
+            var isConnected = check_USB();
+            if (isConnected)
+            {
+                CommandSend(0x1806, 2);
+                CommandSend(cmdbytes, 2);
+            }
+            else
+            {
+                MessageBox.Show("Please connect USB first", "Error");
+            }
+        }
+
+        private void temp_addr_combo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            byte[] cmdbytes = new byte[2];
+            cmdbytes[1] = 0x18;
+            cmdbytes[2] = 0x00;
+            if (temp_addr_combo.SelectedIndex == 1)
+            {
+                cmdbytes[2] = 0x01;
+            }
+            var isConnected = check_USB();
+            if (isConnected)
+            {
+                CommandSend(0x1802, 2);
+                CommandSend(cmdbytes, 2);
+            }
+            
+        }
+
+        private void pg_combo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            byte[] cmdbytes = new byte[2];
+            cmdbytes[1] = 0x18;
+            cmdbytes[2] = (byte)(pg_combo.SelectedIndex);
+            if (pg_combo.SelectedIndex == 9)
+            {
+                cmdbytes[2] = 0x0f;         // please check tmp117 datasheet 7.6 Registers map for more information
+            }
+            var isConnected = check_USB();
+            if (isConnected)
+            {
+                CommandSend(0x1801, 2);
+                CommandSend(cmdbytes, 2);
+            }               
+        }
+
+        private void temp_rx_highbyte_Leave(object sender, EventArgs e)
+        {
+            byte[] cmdbytes = new byte[2];
+            cmdbytes[1] = 0x18;
+            cmdbytes[2] = (byte)(temp_rx_highbyte.Value);
+            var isConnected = check_USB();
+            if (isConnected)
+            {
+                CommandSend(0x1804, 2);
+                CommandSend(cmdbytes, 2);
+            }
+        }
+
+        private void temp_rx_lowbyte_Leave(object sender, EventArgs e)
+        {
+            byte[] cmdbytes = new byte[2];
+            cmdbytes[1] = 0x18;
+            cmdbytes[2] = (byte)(temp_rx_lowbyte.Value);
+            var isConnected = check_USB();
+            if (isConnected)
+            {
+                CommandSend(0x1805, 2);     // write address first
+                CommandSend(cmdbytes, 2);
+            }
+        }
+
+        private void temp_op_combo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            byte[] cmdbytes = new byte[2];
+            cmdbytes[1] = 0x18;
+            cmdbytes[2] = (byte)(temp_op_combo.SelectedIndex );
+            var isConnected = check_USB();
+            if (isConnected)
+            {
+                CommandSend(0x1803, 2);
+                CommandSend(cmdbytes, 2);
+            }
+            else
+            {
+                MessageBox.Show("Please connect USB first");
+            }
+        }
+
+        private void temp_exe_btn_Click(object sender, EventArgs e)
+        {
+            var isConnected = check_USB();
+            if (isConnected)
+            {
+                CommandSend(0x1700, 2); 
+            }
+            else
+            {
+                MessageBox.Show("Please connect USB first");
+            }
         }
     }
 }
