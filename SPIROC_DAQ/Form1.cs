@@ -50,6 +50,7 @@ namespace SPIROC_DAQ
         private decimal current_hv = 50;
         Iversion slowConfig;
         SC_board_manager slowControlManager = new SC_board_manager();
+        SC_board_manager probeManager = new SC_board_manager();
         
         List<SC_model> slowConfig_2B_store = new List<SC_model>();
         List<SC_model_2E> slowConfig_2E_store = new List<SC_model_2E>();
@@ -61,6 +62,8 @@ namespace SPIROC_DAQ
         SC_model_2E slowConfig_2E_2 = new SC_model_2E();
         SC_model_2E slowConfig_2E_3 = new SC_model_2E();
         SC_model_2E slowConfig_2E_4 = new SC_model_2E();
+        SC_model_2E slowConfig_2E_5 = new SC_model_2E();
+        SC_model_2E slowConfig_2E_6 = new SC_model_2E();
         Probe_2E Probe_config = new Probe_2E();
         private DateTime startTime;
         // recording information such as slow control config of every data;
@@ -72,7 +75,7 @@ namespace SPIROC_DAQ
         private int ledcalib_cfg = 0x00;
         // for changing textbox1.Text from different thread (not from main thread)
         delegate void SetTextCallback(string text);
-        public int version_num=1;
+        public int version_num=2;
         public Main_Form()
         {
             InitializeComponent();
@@ -94,6 +97,8 @@ namespace SPIROC_DAQ
             slowConfig_2E_store.Add(slowConfig_2E_2);
             slowConfig_2E_store.Add(slowConfig_2E_3);
             slowConfig_2E_store.Add(slowConfig_2E_4);
+            slowConfig_2E_store.Add(slowConfig_2E_5);
+            slowConfig_2E_store.Add(slowConfig_2E_6);
             if (version_num == 1)
             {
                 slowConfig = slowConfig_2B_store[0];
@@ -2028,7 +2033,10 @@ namespace SPIROC_DAQ
             else
             {
                 dataAcqTks.Cancel();
+                timer1.Stop();
+                time_textbox.Text = "00:00:00:00";
                 debug_rxdata.Text = "Receive Data";
+                resultRecord.Close();
                 debug_rxdata.BackColor = Color.White;
                 debug_rxdata.ForeColor = Color.Black;
                 debug_rxdata.Tag = 0;
@@ -2338,14 +2346,14 @@ namespace SPIROC_DAQ
             {
 
                 // create file writer
-                fileName = string.Format("{0:yyyyMMdd_HHHHmmss}", DateTime.Now) + ".dat";
+                fileName = string.Format("{0:yyyyMMdd_HHHHmmss}_dac_{1}_{2}_{3}", DateTime.Now,paraWindows.start1.Text,paraWindows.step1.Text,paraWindows.stop1.Text) + ".dat";
                 if (!Directory.Exists(fileDic))
                 {
                     Directory.CreateDirectory(fileDic);
                 }
 
                 BinaryWriter bw = new BinaryWriter(File.Open(fileDic + "\\\\" + fileName, FileMode.Append, FileAccess.Write, FileShare.Read));
-                resultRecord = new FileStream(fileDic + '\\' + recordPath, FileMode.Append);
+                //resultRecord = new FileStream(fileDic + '\\' + recordPath, FileMode.Append);
                 try
                 {
                     Task voltageSweepTask = Task.Factory.StartNew(() => this.s_curve_sweep_threadFunc(specialTaskTks.Token, paraWindows, bw), specialTaskTks.Token);
@@ -2524,9 +2532,16 @@ namespace SPIROC_DAQ
             int byte_count = 0;
 
             byte[] cmdBytes = new byte[2];
-            byte[] bit_block = new byte[125];  //SPIROC2E has 992 Probe config bit, 992 / 8 = 124 , need 124 bytes
-
-            byte_count = Probe_config.bit_transform(bit_block);
+            byte[] bit_block = new byte[1000];  //SPIROC2E has 992 Probe config bit, 992 * 6 / 8 = 744 , need 744 bytes
+            probeManager.clearChip();
+            for (int i = 0; i< chip_num_input.Value; i++)
+            {
+                if(version_num == 2)
+                {
+                    probeManager.pushChip(Copy<Probe_2E>(Probe_config));
+                }
+            }
+            byte_count = probeManager.bit_transform(bit_block);
 
             // set probe/sc setting as probe
             CommandSend(0x0600, 2);
@@ -2627,7 +2642,7 @@ namespace SPIROC_DAQ
         {
             if (ecalib_chn1_sel_btn.Tag.ToString() == "0")
             {
-                ecalib_cfg = ecalib_cfg & 0xfe + 0x01;    // set bit0 high , let calib signal be able to access chip1
+                ecalib_cfg = (ecalib_cfg & 0xfe) + 0x01;    // set bit0 high , let calib signal be able to access chip1
                 byte[] cmdbytes = new byte[2];
                 cmdbytes[1] = 0x12;
                 cmdbytes[0] = (byte)ecalib_cfg; // only use low 8 bit
@@ -2645,7 +2660,7 @@ namespace SPIROC_DAQ
             }
             else if (ecalib_chn1_sel_btn.Tag.ToString() == "1")
             {
-                ecalib_cfg = ecalib_cfg & 0xfe + 0x00;    // set bit0 low , let calib signal be not able to access chip1
+                ecalib_cfg = (ecalib_cfg & 0xfe) + 0x00;    // set bit0 low , let calib signal be not able to access chip1
                 byte[] cmdbytes = new byte[2];
                 cmdbytes[1] = 0x12;
                 cmdbytes[0] = (byte)ecalib_cfg; // only use low 8 bit
@@ -2667,7 +2682,7 @@ namespace SPIROC_DAQ
         {
             if (ecalib_chn2_sel_btn.Tag.ToString() == "0")
             {
-                ecalib_cfg = ecalib_cfg & 0xfd + 0x01<<1;    // set bit1 high , let calib signal be able to access chip2
+                ecalib_cfg = (ecalib_cfg & 0xfd) + (0x01<<1);    // set bit1 high , let calib signal be able to access chip2
                 byte[] cmdbytes = new byte[2];
                 cmdbytes[1] = 0x12;
                 cmdbytes[0] = (byte)ecalib_cfg; // only use low 8 bit
@@ -2707,7 +2722,7 @@ namespace SPIROC_DAQ
         {
             if (ecalib_chn3_sel_btn.Tag.ToString() == "0")
             {
-                ecalib_cfg = ecalib_cfg & 0xfb + 0x01<<2;    // set bit2 high , let calib signal be able to access chip3
+                ecalib_cfg = (ecalib_cfg & 0xfb) + (0x01<<2);    // set bit2 high , let calib signal be able to access chip3
                 byte[] cmdbytes = new byte[2];
                 cmdbytes[1] = 0x12;
                 cmdbytes[0] = (byte)ecalib_cfg; // only use low 8 bit
@@ -2747,7 +2762,7 @@ namespace SPIROC_DAQ
         {
             if (ecalib_chn6_sel_btn.Tag.ToString() == "0")
             {
-                ecalib_cfg = ecalib_cfg & 0xdf + 0x01<<5;    // set bit5 high , let calib signal be able to access chip6
+                ecalib_cfg = (ecalib_cfg & 0xdf) + (0x01<<5);    // set bit5 high , let calib signal be able to access chip6
                 byte[] cmdbytes = new byte[2];
                 cmdbytes[1] = 0x12;
                 cmdbytes[0] = (byte)ecalib_cfg; // only use low 8 bit
@@ -2787,7 +2802,7 @@ namespace SPIROC_DAQ
         {
             if (ecalib_chn4_sel_btn.Tag.ToString() == "0")
             {
-                ecalib_cfg = ecalib_cfg & 0xf7 + 0x01<<3;    // set bit3 high , let calib signal be able to access chip4
+                ecalib_cfg = (ecalib_cfg & 0xf7) + (0x01<<3);    // set bit3 high , let calib signal be able to access chip4
                 byte[] cmdbytes = new byte[2];
                 cmdbytes[1] = 0x12;
                 cmdbytes[0] = (byte)ecalib_cfg; // only use low 8 bit
@@ -2827,7 +2842,7 @@ namespace SPIROC_DAQ
         {
             if (ecalib_chn5_sel_btn.Tag.ToString() == "0")
             {
-                ecalib_cfg = ecalib_cfg & 0xef + 0x01<<4;    // set bit4 high , let calib signal be able to access chip5
+                ecalib_cfg = (ecalib_cfg & 0xef) + (0x01<<4);    // set bit4 high , let calib signal be able to access chip5
                 byte[] cmdbytes = new byte[2];
                 cmdbytes[1] = 0x12;
                 cmdbytes[0] = (byte)ecalib_cfg; // only use low 8 bit
@@ -2953,7 +2968,7 @@ namespace SPIROC_DAQ
         {
             if(ledcalib_en_btn.Tag.ToString() == "0")
             {
-                ledcalib_cfg = ledcalib_cfg & 0xcf + 0x01 << 4; //set bit[5,4] to 01
+                ledcalib_cfg = (ledcalib_cfg & 0xcf) + (0x01 << 4); //set bit[5,4] to 01
                 byte[] cmdbytes = new byte[2];
                 cmdbytes[1] = 0x0b;
                 cmdbytes[0] = (byte)ledcalib_cfg; // only use low 8 bit
@@ -2971,7 +2986,7 @@ namespace SPIROC_DAQ
             }
             else if(ledcalib_en_btn.Tag.ToString() == "1")
             {
-                ledcalib_cfg = ledcalib_cfg & 0xcf + 0x10 << 4; //set bit[5..4] to 0b10
+                ledcalib_cfg = (ledcalib_cfg & 0xcf) + (0x10 << 4); //set bit[5..4] to 0b10
                 byte[] cmdbytes = new byte[2];
                 cmdbytes[1] = 0x0b;
                 cmdbytes[0] = (byte)ledcalib_cfg; // only use low 8 bit
@@ -3033,7 +3048,7 @@ namespace SPIROC_DAQ
         private void ledcalib_group_sel_ValueChanged(object sender, EventArgs e)
         {
             int groupNum = int.Parse((ledcalib_group_sel.Value - 1).ToString());
-            ledcalib_cfg = ledcalib_cfg & 0xf0 + groupNum;
+            ledcalib_cfg = (ledcalib_cfg & 0xf0) + groupNum;
 
             byte[] cmdbytes = new byte[2];
 
@@ -3047,8 +3062,8 @@ namespace SPIROC_DAQ
 
         private void ledcalib_ext_check_CheckedChanged(object sender, EventArgs e)
         {
-            int ledcalib_ext_en = ext_calib_en.Checked ? 0x01 : 0x00;
-            ledcalib_cfg = ledcalib_cfg & 0xbf + ledcalib_ext_en << 6;
+            int ledcalib_ext_en = ledcalib_ext_check.Checked ? 0x01 : 0x00;
+            ledcalib_cfg = (ledcalib_cfg & 0xbf) + (ledcalib_ext_en << 6);
             byte[] commandByte = new byte[2];
             commandByte[1] = 0x0b;
             commandByte[0] = (byte)ledcalib_cfg;
@@ -3079,10 +3094,10 @@ namespace SPIROC_DAQ
 
             byte[] cmdbytes = new byte[2];
             cmdbytes[1] = 0x18;
-            cmdbytes[2] = 0x00;
+            cmdbytes[0] = 0x00;
             for(int i = 0; i < 8; i++)
             {
-                cmdbytes[2] += (byte)(chn_check[i] << i);   //MSB is corresponding to CHN8
+                cmdbytes[0] += (byte)(chn_check[i] << i);   //MSB is corresponding to CHN8
             }
             var isConnected = check_USB();
             if (isConnected)
@@ -3100,10 +3115,10 @@ namespace SPIROC_DAQ
         {
             byte[] cmdbytes = new byte[2];
             cmdbytes[1] = 0x18;
-            cmdbytes[2] = 0x00;
+            cmdbytes[0] = 0x00;
             if (temp_addr_combo.SelectedIndex == 1)
             {
-                cmdbytes[2] = 0x01;
+                cmdbytes[0] = 0x01;
             }
             var isConnected = check_USB();
             if (isConnected)
@@ -3118,10 +3133,10 @@ namespace SPIROC_DAQ
         {
             byte[] cmdbytes = new byte[2];
             cmdbytes[1] = 0x18;
-            cmdbytes[2] = (byte)(pg_combo.SelectedIndex);
+            cmdbytes[0] = (byte)(pg_combo.SelectedIndex);
             if (pg_combo.SelectedIndex == 9)
             {
-                cmdbytes[2] = 0x0f;         // please check tmp117 datasheet 7.6 Registers map for more information
+                cmdbytes[0] = 0x0f;         // please check tmp117 datasheet 7.6 Registers map for more information
             }
             var isConnected = check_USB();
             if (isConnected)
@@ -3135,7 +3150,7 @@ namespace SPIROC_DAQ
         {
             byte[] cmdbytes = new byte[2];
             cmdbytes[1] = 0x18;
-            cmdbytes[2] = (byte)(temp_rx_highbyte.Value);
+            cmdbytes[0] = (byte)(temp_rx_highbyte.Value);
             var isConnected = check_USB();
             if (isConnected)
             {
@@ -3148,7 +3163,7 @@ namespace SPIROC_DAQ
         {
             byte[] cmdbytes = new byte[2];
             cmdbytes[1] = 0x18;
-            cmdbytes[2] = (byte)(temp_rx_lowbyte.Value);
+            cmdbytes[0] = (byte)(temp_rx_lowbyte.Value);
             var isConnected = check_USB();
             if (isConnected)
             {
@@ -3161,7 +3176,7 @@ namespace SPIROC_DAQ
         {
             byte[] cmdbytes = new byte[2];
             cmdbytes[1] = 0x18;
-            cmdbytes[2] = (byte)(temp_op_combo.SelectedIndex );
+            cmdbytes[0] = (byte)(temp_op_combo.SelectedIndex );
             var isConnected = check_USB();
             if (isConnected)
             {
@@ -3185,6 +3200,155 @@ namespace SPIROC_DAQ
             {
                 MessageBox.Show("Please connect USB first");
             }
+        }
+
+        private void elec_calib_2E_btn_Click(object sender, EventArgs e)
+        {
+            specialTaskTks.Dispose();       //clean up old token source
+            specialTaskTks = new CancellationTokenSource(); // generate a new token
+            if (check_USB() == false)
+            {
+                MessageBox.Show("USB or Instrument is not connected", "Error");
+                return;
+            }
+
+            Form2 paraWindows = new Form2();
+            paraWindows.label2.Visible = false;
+            paraWindows.start2.Visible = false;
+            paraWindows.stop2.Visible = false;
+            paraWindows.step2.Visible = false;
+            paraWindows.label6.Visible = true;
+            paraWindows.autoPulse_checkbox.Visible = true;
+            paraWindows.label1.Text = "DAC Scan Setting";
+
+            paraWindows.ShowDialog(this);
+
+
+            if (paraWindows.confirm == false)
+            {
+                return;
+            }
+            if (usbStatus == true)
+
+
+                try
+                {
+                    Task voltageSweepTask = Task.Factory.StartNew(() => this.elecCalib2E_threadFunc(specialTaskTks.Token, paraWindows), specialTaskTks.Token);
+
+                }
+                catch (AggregateException excption)
+                {
+
+                    foreach (var v in excption.InnerExceptions)
+                    {
+
+                        exceptionReport.AppendLine(excption.Message + " " + v.Message);
+                    }
+
+                }
+            Acq_status_label.Text = "Elec. Calibrating";
+            Acq_status_label.ForeColor = Color.Green;
+        }
+
+        private void auto_trigger_cfg_btn_Click(object sender, EventArgs e)
+        {
+            byte[] cmdbytes = new byte[2];
+            cmdbytes[1] = 0x19;
+
+            int enable = auto_trigger_checkbox.Checked ? 1 : 0;
+            int delay = (int)sync_delay_num.Value;
+            cmdbytes[0] = (byte)((enable << 7) + delay);
+            if(usbStatus== true)
+            {
+                CommandSend(cmdbytes, 2);
+            }
+            else
+            {
+                MessageBox.Show("Please connect USB first");
+            }
+
+        }
+
+        private void temp_task_btn_Click(object sender, EventArgs e)
+        {
+            specialTaskTks.Dispose();       //clean up old token source
+            specialTaskTks = new CancellationTokenSource(); // generate a new token
+
+            // create file writer
+            fileName = string.Format("{0:yyyyMMdd_HHHHmmss}_Temp", DateTime.Now) + ".dat";
+            if (!Directory.Exists(fileDic))
+            {
+                Directory.CreateDirectory(fileDic);
+            }
+
+            BinaryWriter bw = new BinaryWriter(File.Open(fileDic + "\\\\" + fileName, FileMode.Append, FileAccess.Write, FileShare.Read));
+
+            if (usbStatus == true)
+
+            {
+                try
+                {
+                    Task voltageSweepTask = Task.Factory.StartNew(() => this.tempMonitor_threadFunc(specialTaskTks.Token, bw), specialTaskTks.Token);
+
+                }
+                catch (AggregateException excption)
+                {
+
+                    foreach (var v in excption.InnerExceptions)
+                    {
+
+                        exceptionReport.AppendLine(excption.Message + " " + v.Message);
+                    }
+
+                }
+            }              
+          
+        }
+
+        private void led_calib_2E_btn_Click(object sender, EventArgs e)
+        {
+            specialTaskTks.Dispose();       //clean up old token source
+            specialTaskTks = new CancellationTokenSource(); // generate a new token
+            if (check_USB() == false)
+            {
+                MessageBox.Show("USB or Instrument is not connected", "Error");
+                return;
+            }
+
+            Form2 paraWindows = new Form2();
+            paraWindows.label2.Text = "DAC Range 2";
+
+            paraWindows.label6.Visible = true;
+            paraWindows.autoPulse_checkbox.Visible = true;
+            paraWindows.label1.Text = "DAC Range 1";
+
+            paraWindows.ShowDialog(this);
+
+
+            if (paraWindows.confirm == false)
+            {
+                return;
+            }
+            if (usbStatus == true)
+
+
+                try
+                {
+                    Task voltageSweepTask = Task.Factory.StartNew(() => this.ledCalib2E_threadFunc(specialTaskTks.Token, paraWindows), specialTaskTks.Token);
+
+                }
+                catch (AggregateException excption)
+                {
+
+                    foreach (var v in excption.InnerExceptions)
+                    {
+
+                        exceptionReport.AppendLine(excption.Message + " " + v.Message);
+                    }
+
+                }
+            Acq_status_label.Text = "LED. Calibrating";
+            Acq_status_label.ForeColor = Color.Green;
         }
     }
 }

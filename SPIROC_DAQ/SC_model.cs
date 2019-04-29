@@ -12,9 +12,9 @@ namespace SPIROC_DAQ
     class SC_board_manager
     {
         private int chip_num;
-        private List<Iversion> chipChain = new List<Iversion>();
+        private List<IBitBlock> chipChain = new List<IBitBlock>();
 
-        public Boolean pushChip(Iversion oneChip)
+        public Boolean pushChip(IBitBlock oneChip)
         {
             // should push the end of chip chain first first
             chipChain.Add(oneChip);
@@ -37,7 +37,7 @@ namespace SPIROC_DAQ
 
             StringBuilder bit_As_Char = new StringBuilder();
             int bit_length = 0;
-            foreach (Iversion chip in chipChain)
+            foreach (IBitBlock chip in chipChain)
             {
                 bit_As_Char.Append(chip.string_transform());
             }
@@ -69,28 +69,30 @@ namespace SPIROC_DAQ
 
 
     }
+    interface IBitBlock
+    {
+        StringBuilder string_transform();
+    }
     
-    
-    interface Iversion
+    interface Iversion : IBitBlock
     {
         void test();
         void set_property(int id, uint value);
         uint get_property(int id);
-        StringBuilder string_transform();
+        //StringBuilder string_transform();
         int bit_transform(ref byte[] bit_block);
         void save_settings(int settings_id);
         void recall_settings(int settings_id);
         string getTag();
         Dictionary <string ,int > settings { get; set; }
         string settingName { get; set; }
-        void testoutput();
     }
 
     [Serializable]
-    class Probe_2E
+    class Probe_2E : IBitBlock
     {
         private uint[] config_data;
-        
+        public Dictionary<string, int> settings { get; set; } = new Dictionary<string, int>();
         public String bit_string;
         public const int bit_length = 992;
 
@@ -298,7 +300,7 @@ namespace SPIROC_DAQ
             return buffer;
         }
 
-        public int bit_transform(byte[] bit_block)
+        public int bit_transform(ref byte[] bit_block)
         {
             // to record how many bit has been transformed
             int bit_count = 0;
@@ -348,6 +350,14 @@ namespace SPIROC_DAQ
             // bit_block[2]: 0xC
             return byte_count + 1;
 
+        }
+        public string getTag()
+        {
+            string result;
+            StringBuilder builder = new StringBuilder();
+            builder.AppendLine("Probe2E");
+            result = builder.ToString();
+            return result;
         }
     }
     [Serializable]

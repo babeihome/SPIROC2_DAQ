@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using System.Threading.Tasks;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
+
 namespace SPIROC_DAQ
 {
     partial class Main_Form
@@ -492,6 +493,138 @@ namespace SPIROC_DAQ
         #endregion
 
         #region Thread-used function
+        private void tempMonitor_threadFunc(CancellationToken token, BinaryWriter bw)
+        {
+            int I2CSwtich_chn = 0;
+            int Tmp117Addr = 0;
+            dataAcqTks.Dispose();       //clean up old token source
+            dataAcqTks = new CancellationTokenSource(); // generate a new token    
+
+            // Start data acquision thread
+            try
+            {
+                Task dataAcqTsk = Task.Factory.StartNew(() => this.dataAcq_threadFunc(dataAcqTks.Token, bw), dataAcqTks.Token);
+                startTime = DateTime.Now;
+                timer1.Start();
+            }
+            catch (AggregateException excption)
+            {
+
+                foreach (var v in excption.InnerExceptions)
+                {
+
+                    exceptionReport.AppendLine(excption.Message + " " + v.Message);
+                }
+
+            }
+
+            var isConnected = check_USB();
+            var originalColor = Acq_status_label.ForeColor;
+            if (isConnected)
+            {
+                Acq_status_label.Text = "Temperature Read";
+                Acq_status_label.ForeColor = Color.Turquoise;
+                int count = 0;
+                while(token.IsCancellationRequested != true)
+                {
+
+                    // Configure the register which is going to send to TMP
+                    CommandSend(0x1804, 2); // Point at High byte reg in FPGA
+                    CommandSend(0x180e, 2); // write
+                    CommandSend(0x1805, 2); // Point at Low byte reg in FPGA
+                    CommandSend(0x1820, 2); // write
+
+                    textBox1.AppendText("Set the Write Register as 0x0e20\n");
+
+
+                    // If you need more details, please check command table in "cmd_datasheet.docx", or contact me, beibei@mail.ustc.edu.cn
+
+                    // Tell all Tmp Devices run a temp. measure shot
+                    CommandSend(0x1806, 2); // Point at PCA register in FPGA
+                    CommandSend(0x18ff, 2); // Select all channel
+                    CommandSend(0x1803, 2); // Point at Op Register in FPGA
+                    CommandSend(0x1802, 2); // Set Op as write PCA reg
+                    CommandSend(0x1700, 2); // Execute
+                    textBox1.AppendText("All channel selected.\n");
+                    Thread.Sleep(1);
+
+
+                    CommandSend(0x1801, 2); // Point at TMP reg reg in FPGA
+                    CommandSend(0x1801, 2); // Select configure reg in TMP
+                    CommandSend(0x1803, 2); // Point at Op Reg in FPGA
+                    CommandSend(0x1801, 2); // Write TMP Register
+
+                    CommandSend(0x1802, 2); // Point at TMP addr reg in FPGA
+                    CommandSend(0x1800, 2); // Select TMP whose addr is 0;
+                    CommandSend(0x1700, 2); // Execute
+                    textBox1.AppendText("TMP which address is 0 is acquiring temp. value\n");
+
+                    Thread.Sleep(1);
+
+                    CommandSend(0x1802, 2);
+                    CommandSend(0x1801, 2); // Select TMP whose addr is 1;
+                    CommandSend(0x1700, 2); // Let TMP get temp. value
+                    textBox1.AppendText("TMP which address is 1 is acquiring temp. value\n");
+                    Thread.Sleep(1);
+                    // Let TMP reg pointer point at temp. reg.
+                    CommandSend(0x1801, 2);
+                    CommandSend(0x1800, 2);
+                    CommandSend(0x1803, 2);
+                    CommandSend(0x1803, 2);
+                    CommandSend(0x1700, 2);
+
+
+                    Thread.Sleep(1);
+
+                    CommandSend(0x1802, 2);
+                    CommandSend(0x1800, 2);
+                    CommandSend(0x1700, 2);
+                    textBox1.AppendText("All reg in temp. sensor has pointed at temp. reg. \n");
+
+                    for (I2CSwtich_chn = 0; I2CSwtich_chn < 8; I2CSwtich_chn++)
+                    {
+                        // Connect PCA chn
+                        CommandSend(0x1806, 2);
+                        CommandSend(0x1800 + (1 << I2CSwtich_chn), 2);
+                        CommandSend(0x1803, 2);
+                        CommandSend(0x1802, 2);
+                        CommandSend(0x1700, 2);
+                        textBox1.AppendText("Channel " + I2CSwtich_chn + " has been selected.\n");
+
+                        Thread.Sleep(1);
+
+                        // Prepare to temp. read
+                        CommandSend(0x1803, 2);
+                        CommandSend(0x1800, 2);
+
+                        for (Tmp117Addr = 0; Tmp117Addr < 2; Tmp117Addr++)
+                        {
+
+                            CommandSend(0x1802, 2);
+                            CommandSend(0x1800 + (byte)Tmp117Addr, 2);
+                            CommandSend(0x1700, 2);
+                            textBox1.AppendText("Sensor whose address is " + Tmp117Addr + " has been read.\n");
+                            Thread.Sleep(1);
+                        }
+                    }
+                    count++;
+                    textBox1.AppendText(count + " temperature point(s) have been get. \n");
+                    Thread.Sleep(5000); // interval between acquisition
+                }
+                textBox1.AppendText("Temperature Monitoring Done.\n");
+            }
+            else
+            {
+                MessageBox.Show("Please connect USB first", "Error");
+            }
+
+            Thread.Sleep(1000);
+            dataAcqTks.Cancel();
+            timer1.Stop();
+            time_textbox.Text = "00:00:00:00";
+            Acq_status_label.Text = "IDLE";
+            Acq_status_label.ForeColor = originalColor;
+        }
         private void ext_trig_sweep_threadFunc(CancellationToken token, Form2 parawindows)
         {
             uint trig_delay_start = uint.Parse(parawindows.start1.Text);
@@ -1572,6 +1705,263 @@ namespace SPIROC_DAQ
             Acq_status_label.ForeColor = Color.Black;
         }
         // change textbox1.Text from sub-thread
+        private void elecCalib2E_threadFunc(CancellationToken taskToken, Form2 paraWindows)
+        {
+            int DAC_start = int.Parse(paraWindows.start1.Text);
+            int DAC_step = int.Parse(paraWindows.step1.Text);
+            int DAC_stop = int.Parse(paraWindows.stop1.Text);
+
+            int autoSource = paraWindows.autoPulse_checkbox.Checked ? 1 : 0;
+
+            // initiate file writer and dictionary
+            BinaryWriter bw;
+            DateTime dayStamp = DateTime.Now;
+            string subDic = string.Format("{0:yyyyMMdd}_{0:HHmm}_Electronic_Calib", dayStamp);
+            string fullPath = folderBrowserDialog1.SelectedPath + '\\' + subDic;
+            if (!Directory.Exists(fullPath))
+                Directory.CreateDirectory(fullPath);
+
+            // enable all chip, and make amplifier active
+            CommandSend(0x127f + (autoSource << 7), 2); // auto-calib: off(0), sd: not shut down(1), chipx_en: enable(1)
+
+            // Probe system initiate
+            Probe_config.init();
+            Probe_config.set_property("8-bit DAC output", 0, 0, 0);
+            // set probe/sc setting as probe
+            CommandSend(0x0600, 2);
+            //the outside loop is on channel
+            for (uint chn = 0; chn <36; chn++)
+            {
+
+                //config probe to specific channel
+                Probe_config.set_property("8-bit DAC output", chn, 0, 0);
+                int byte_count = 0;
+
+                byte[] cmdBytes = new byte[2];
+                byte[] bit_block = new byte[1000];  //SPIROC2E has 992 Probe config bit, 992 * 6 / 8 = 744 , need 744 bytes
+                probeManager.clearChip();
+                for (int i = 0; i < chip_num_input.Value; i++)
+                {
+                    if (version_num == 2)
+                    {
+                        probeManager.pushChip(Copy<Probe_2E>(Probe_config));
+                    }
+                }
+                byte_count = probeManager.bit_transform(bit_block);
+                // choose data transfer to sc buffer
+                cmdBytes[1] = 0x05;
+                cmdBytes[0] = 0x01;
+                CommandSend(cmdBytes, 2);
+                Thread.Sleep(100);
+                // send config data
+                cmdBytes[1] = 0x03;
+                for (int i = 0; i < byte_count; i++)
+                {
+                    cmdBytes[0] = bit_block[i];
+                    CommandSend(cmdBytes, 2);
+                    //Thread.Sleep(100);
+                }
+
+                // close channel of data to sc buffer
+                cmdBytes[1] = 0x05;
+                cmdBytes[0] = 0x00;
+
+                CommandSend(cmdBytes, 2);
+
+                // start slow config from fpga to asic
+                cmdBytes[1] = 0x08;
+                cmdBytes[0] = 0x00;
+                CommandSend(cmdBytes, 2);
+
+
+                // the loop of dac
+                for(int dacV = DAC_start; dacV <= DAC_stop; dacV += DAC_step)
+                {
+                    //setting of dac
+                    byte[] cmdbytes = new byte[2];
+                    cmdbytes[1] = 0x0f;
+                    byte value_h = (byte)(dacV >> 8);
+                    byte value_l = (byte)dacV;
+
+                    cmdbytes[0] = value_h;
+                    CommandSend(cmdbytes, 2);
+                    cmdbytes[0] = value_l;
+                    CommandSend(cmdbytes, 2);
+
+                    byte chn1_mask = 0x80;
+                    value_h = (byte)(chn1_mask | value_h);
+
+                    cmdbytes[0] = value_h;
+                    CommandSend(cmdbytes, 2);
+                    cmdbytes[0] = value_l;
+                    CommandSend(cmdbytes, 2);
+
+                    // initiate file writter
+                    sendMessage("CHANNEL " + chn.ToString() + "is being calibrated with DAC: " + dacV + " now\n");
+                    string fileName = string.Format("chn{0}_{1}DAC.dat", chn, dacV);
+                    //create file writer
+                    bw = new BinaryWriter(File.Open(fullPath + '\\' + fileName, FileMode.Create, FileAccess.Write, FileShare.Read));
+                    dataAcqTks.Dispose();       //clean up old token source
+                    dataAcqTks = new CancellationTokenSource(); // generate a new token
+                    CommandSend(0x0100, 2); //start acq cycle
+                    try
+                    {
+                        Task dataAcqTsk = Task.Factory.StartNew(() => this.dataAcq_threadFunc(dataAcqTks.Token, bw), dataAcqTks.Token);
+                        Thread.Sleep(3 * 1000);
+                        // time up!
+                        // stop asic first
+                        CommandSend(0x0200, 2);
+                        // stop data receiving
+                        dataAcqTks.Cancel();
+                        while (!dataAcqTsk.IsCompleted) ;
+                    }
+                    catch (AggregateException excption)
+                    {
+                        foreach (var value in excption.InnerExceptions)
+                        {
+                            exceptionReport.AppendLine(excption.Message + " " + value.Message);
+                        }
+                    }                   
+                }               
+            }                                                                                                                                                             
+                          
+            CommandSend(0x1200, 2); // close calibration
+            Acq_status_label.Text = "IDLE";
+            Acq_status_label.ForeColor = Color.Black;
+        }
+        private void ledCalib2E_threadFunc(CancellationToken taskToken, Form2 paraWindows)
+        {
+            int DAC_start1 = int.Parse(paraWindows.start1.Text);
+            int DAC_step1 = int.Parse(paraWindows.step1.Text);
+            int DAC_stop1 = int.Parse(paraWindows.stop1.Text);
+
+            int DAC_start2 = int.Parse(paraWindows.start2.Text);
+            int DAC_step2 = int.Parse(paraWindows.step2.Text);
+            int DAC_stop2 = int.Parse(paraWindows.stop2.Text);
+            int autoSource = paraWindows.autoPulse_checkbox.Checked ? 1 : 0;
+
+            // initiate file writer and dictionary
+            BinaryWriter bw;
+            DateTime dayStamp = DateTime.Now;
+            string subDic = string.Format("{0:yyyyMMdd}_{0:HHmm}_LED_Calib", dayStamp);
+            string fullPath = folderBrowserDialog1.SelectedPath + '\\' + subDic;
+            if (!Directory.Exists(fullPath))
+                Directory.CreateDirectory(fullPath);
+
+            // enable all chip, and make amplifier active
+            CommandSend(0x0b59, 2); // auto-calib: off(0),ext enable(1), output enable (0)  sd: not shut down(1), group selected 9
+
+            // the loop of dac
+            for (int dacV = DAC_start1; dacV <= DAC_stop1; dacV += DAC_step1)
+            {
+                if(taskToken.IsCancellationRequested == true)
+                {
+                    break;
+                }
+                //setting of dac
+                byte[] cmdbytes = new byte[2];
+                cmdbytes[1] = 0x07; // led dac control
+                byte value_h = (byte)(dacV >> 8);
+                byte value_l = (byte)dacV;
+
+                cmdbytes[0] = value_h;
+                CommandSend(cmdbytes, 2);
+                cmdbytes[0] = value_l;
+                CommandSend(cmdbytes, 2);
+
+                byte chn1_mask = 0x80;
+                value_h = (byte)(chn1_mask | value_h);
+
+                cmdbytes[0] = value_h;
+                CommandSend(cmdbytes, 2);
+                cmdbytes[0] = value_l;
+                CommandSend(cmdbytes, 2);
+
+                // initiate file writter
+                sendMessage("CHANNEL is being calibrated with DAC: " + dacV + " now\n");
+                string fileName = string.Format("chn{0}_{1}DAC.dat", 2, dacV);
+                //create file writer
+                bw = new BinaryWriter(File.Open(fullPath + '\\' + fileName, FileMode.Create, FileAccess.Write, FileShare.Read));
+                dataAcqTks.Dispose();       //clean up old token source
+                dataAcqTks = new CancellationTokenSource(); // generate a new token
+                CommandSend(0x0100, 2); //start acq cycle
+                try
+                {
+                    Task dataAcqTsk = Task.Factory.StartNew(() => this.dataAcq_threadFunc(dataAcqTks.Token, bw), dataAcqTks.Token);
+                    Thread.Sleep(3 * 1000);
+                    // time up!
+                    // stop asic first
+                    CommandSend(0x0200, 2);
+                    // stop data receiving
+                    dataAcqTks.Cancel();
+                    while (!dataAcqTsk.IsCompleted) ;
+                }
+                catch (AggregateException excption)
+                {
+                    foreach (var value in excption.InnerExceptions)
+                    {
+                        exceptionReport.AppendLine(excption.Message + " " + value.Message);
+                    }
+                }
+            }
+
+            for (int dacV = DAC_start2; dacV <= DAC_stop2; dacV += DAC_step2)
+            {
+                if (taskToken.IsCancellationRequested == true)
+                {
+                    break;
+                }
+                //setting of dac
+                byte[] cmdbytes = new byte[2];
+                cmdbytes[1] = 0x07; // led dac control
+                byte value_h = (byte)(dacV >> 8);
+                byte value_l = (byte)dacV;
+
+                cmdbytes[0] = value_h;
+                CommandSend(cmdbytes, 2);
+                cmdbytes[0] = value_l;
+                CommandSend(cmdbytes, 2);
+
+                byte chn1_mask = 0x80;
+                value_h = (byte)(chn1_mask | value_h);
+
+                cmdbytes[0] = value_h;
+                CommandSend(cmdbytes, 2);
+                cmdbytes[0] = value_l;
+                CommandSend(cmdbytes, 2);
+
+                // initiate file writter
+                sendMessage("CHANNEL is being calibrated with DAC: " + dacV + " now\n");
+                string fileName = string.Format("chn{0}_{1}DAC.dat", 2, dacV);
+                //create file writer
+                bw = new BinaryWriter(File.Open(fullPath + '\\' + fileName, FileMode.Create, FileAccess.Write, FileShare.Read));
+                dataAcqTks.Dispose();       //clean up old token source
+                dataAcqTks = new CancellationTokenSource(); // generate a new token
+                CommandSend(0x0100, 2); //start acq cycle
+                try
+                {
+                    Task dataAcqTsk = Task.Factory.StartNew(() => this.dataAcq_threadFunc(dataAcqTks.Token, bw), dataAcqTks.Token);
+                    Thread.Sleep(3 * 1000);
+                    // time up!
+                    // stop asic first
+                    CommandSend(0x0200, 2);
+                    // stop data receiving
+                    dataAcqTks.Cancel();
+                    while (!dataAcqTsk.IsCompleted) ;
+                }
+                catch (AggregateException excption)
+                {
+                    foreach (var value in excption.InnerExceptions)
+                    {
+                        exceptionReport.AppendLine(excption.Message + " " + value.Message);
+                    }
+                }
+            }
+
+            CommandSend(0x0b00, 2); // close calibration
+            Acq_status_label.Text = "IDLE";
+            Acq_status_label.ForeColor = Color.Black;
+        }
         private void sendMessage(string text)
         {
             if (this.textBox1.InvokeRequired)
