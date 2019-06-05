@@ -39,6 +39,7 @@ namespace SPIROC_DAQ
         private CancellationTokenSource scSweepTks = new CancellationTokenSource();
         private CancellationTokenSource specialTaskTks = new CancellationTokenSource();
         private CancellationTokenSource hv_setTks = new CancellationTokenSource();
+        private CancellationTokenSource dacSweepTks = new CancellationTokenSource(); 
         private StringBuilder exceptionReport = new StringBuilder();
 
         private string rx_Command = @"\b[0-9a-fA-F]{4}\b";//match 16 bit Hex
@@ -1281,18 +1282,18 @@ namespace SPIROC_DAQ
                         Task scSweepTask = Task.Factory.StartNew(() => this.preampSweep_threadFunc(scSweepTks.Token), scSweepTks.Token);
 
                     }
-                    catch (AggregateException excption)
+                    catch (AggregateException exception)
                     {
 
-                        foreach (var v in excption.InnerExceptions)
+                        foreach (var v in exception.InnerExceptions)
                         {
 
-                            exceptionReport.AppendLine(excption.Message + " " + v.Message);
+                            exceptionReport.AppendLine(exception.Message + " " + v.Message);
                         }
 
                     }
                     break;
-
+                
                 default:
                     try
                     {
@@ -3213,17 +3214,16 @@ namespace SPIROC_DAQ
             }
 
             Form2 paraWindows = new Form2();
-            paraWindows.label2.Visible = false;
-            paraWindows.start2.Visible = false;
-            paraWindows.stop2.Visible = false;
-            paraWindows.step2.Visible = false;
+            paraWindows.label2.Text = "DAC Range 2";
+
             paraWindows.label6.Visible = true;
             paraWindows.autoPulse_checkbox.Visible = true;
-            paraWindows.label1.Text = "DAC Scan Setting";
+            paraWindows.label1.Text = "DAC Range 1";
+            paraWindows.label6.Text = "Auto Source";
 
             paraWindows.ShowDialog(this);
 
-
+            
             if (paraWindows.confirm == false)
             {
                 return;
@@ -3348,6 +3348,40 @@ namespace SPIROC_DAQ
 
                 }
             Acq_status_label.Text = "LED. Calibrating";
+            Acq_status_label.ForeColor = Color.Green;
+        }
+
+        private void dacSweep_btn_Click(object sender, EventArgs e)
+        {
+            dacSweepTks.Dispose();       //clean up old token source
+            dacSweepTks = new CancellationTokenSource(); // generate a new token
+            if (check_USB() == false)
+            {
+                MessageBox.Show("USB or Instrument is not connected", "Error");
+                return;
+            }
+            if (usbStatus == true)
+            {
+                try
+                {
+                    Task voltageSweepTask = Task.Factory.StartNew(() => this.dacSweep_threadFunc(dacSweepTks.Token), dacSweepTks.Token);
+                    startTime = DateTime.Now;
+                    timer1.Start();
+                }
+                catch (AggregateException excption)
+                {
+
+                    foreach (var v in excption.InnerExceptions)
+                    {
+
+                        exceptionReport.AppendLine(excption.Message + " " + v.Message);
+                    }
+
+                }
+            }
+
+
+            Acq_status_label.Text = "Calib. DAC Sweep";
             Acq_status_label.ForeColor = Color.Green;
         }
     }

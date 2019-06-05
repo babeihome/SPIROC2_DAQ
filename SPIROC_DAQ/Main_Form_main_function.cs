@@ -1707,9 +1707,13 @@ namespace SPIROC_DAQ
         // change textbox1.Text from sub-thread
         private void elecCalib2E_threadFunc(CancellationToken taskToken, Form2 paraWindows)
         {
-            int DAC_start = int.Parse(paraWindows.start1.Text);
-            int DAC_step = int.Parse(paraWindows.step1.Text);
-            int DAC_stop = int.Parse(paraWindows.stop1.Text);
+            int DAC_start1 = int.Parse(paraWindows.start1.Text);
+            int DAC_step1 = int.Parse(paraWindows.step1.Text);
+            int DAC_stop1 = int.Parse(paraWindows.stop1.Text);
+
+            int DAC_start2 = int.Parse(paraWindows.start2.Text);
+            int DAC_step2 = int.Parse(paraWindows.step2.Text);
+            int DAC_stop2 = int.Parse(paraWindows.stop2.Text);
 
             int autoSource = paraWindows.autoPulse_checkbox.Checked ? 1 : 0;
 
@@ -1775,7 +1779,7 @@ namespace SPIROC_DAQ
 
 
                 // the loop of dac
-                for(int dacV = DAC_start; dacV <= DAC_stop; dacV += DAC_step)
+                for(int dacV = DAC_start1; dacV <= DAC_stop1; dacV += DAC_step1)
                 {
                     //setting of dac
                     byte[] cmdbytes = new byte[2];
@@ -1822,7 +1826,55 @@ namespace SPIROC_DAQ
                             exceptionReport.AppendLine(excption.Message + " " + value.Message);
                         }
                     }                   
-                }               
+                }
+                for (int dacV = DAC_start2; dacV <= DAC_stop2; dacV += DAC_step2)
+                {
+                    //setting of dac
+                    byte[] cmdbytes = new byte[2];
+                    cmdbytes[1] = 0x0f;
+                    byte value_h = (byte)(dacV >> 8);
+                    byte value_l = (byte)dacV;
+
+                    cmdbytes[0] = value_h;
+                    CommandSend(cmdbytes, 2);
+                    cmdbytes[0] = value_l;
+                    CommandSend(cmdbytes, 2);
+
+                    byte chn1_mask = 0x80;
+                    value_h = (byte)(chn1_mask | value_h);
+
+                    cmdbytes[0] = value_h;
+                    CommandSend(cmdbytes, 2);
+                    cmdbytes[0] = value_l;
+                    CommandSend(cmdbytes, 2);
+
+                    // initiate file writter
+                    sendMessage("CHANNEL " + chn.ToString() + "is being calibrated with DAC: " + dacV + " now\n");
+                    string fileName = string.Format("chn{0}_{1}DAC.dat", chn, dacV);
+                    //create file writer
+                    bw = new BinaryWriter(File.Open(fullPath + '\\' + fileName, FileMode.Create, FileAccess.Write, FileShare.Read));
+                    dataAcqTks.Dispose();       //clean up old token source
+                    dataAcqTks = new CancellationTokenSource(); // generate a new token
+                    CommandSend(0x0100, 2); //start acq cycle
+                    try
+                    {
+                        Task dataAcqTsk = Task.Factory.StartNew(() => this.dataAcq_threadFunc(dataAcqTks.Token, bw), dataAcqTks.Token);
+                        Thread.Sleep(3 * 1000);
+                        // time up!
+                        // stop asic first
+                        CommandSend(0x0200, 2);
+                        // stop data receiving
+                        dataAcqTks.Cancel();
+                        while (!dataAcqTsk.IsCompleted) ;
+                    }
+                    catch (AggregateException excption)
+                    {
+                        foreach (var value in excption.InnerExceptions)
+                        {
+                            exceptionReport.AppendLine(excption.Message + " " + value.Message);
+                        }
+                    }
+                }
             }                                                                                                                                                             
                           
             CommandSend(0x1200, 2); // close calibration
@@ -1961,6 +2013,99 @@ namespace SPIROC_DAQ
             CommandSend(0x0b00, 2); // close calibration
             Acq_status_label.Text = "IDLE";
             Acq_status_label.ForeColor = Color.Black;
+        }
+        private void dacSweep_threadFunc(CancellationToken taskToken)
+        {
+            int DAC_start = int.Parse(dacSweepStart_textbox.Text);
+            int DAC_step = int.Parse(dacSweepStep_textbox.Text);
+            int DAC_stop = int.Parse(dacSweepStop_textbox.Text);
+
+            BinaryWriter bw;
+            DateTime dayStamp = DateTime.Now;
+            string subDic = string.Format("{0:yyyyMMdd}_{0:HHmm}_Calib", dayStamp);
+            string fullPath = folderBrowserDialog1.SelectedPath + '\\' + subDic;
+            if (!Directory.Exists(fullPath))
+                Directory.CreateDirectory(fullPath);
+
+            for (int dacV = DAC_start; dacV <= DAC_stop; dacV += DAC_step)
+            {
+                if (taskToken.IsCancellationRequested == true)
+                {
+                    break;
+                }
+                if(dacSweepElec_checkbox.Checked == true)
+                {
+                    //setting of elec. dac
+                    byte[] cmdbytes = new byte[2];
+                    cmdbytes[1] = 0x0f;
+                    byte value_h = (byte)(dacV >> 8);
+                    byte value_l = (byte)dacV;
+
+                    cmdbytes[0] = value_h;
+                    CommandSend(cmdbytes, 2);
+                    cmdbytes[0] = value_l;
+                    CommandSend(cmdbytes, 2);
+
+                    byte chn1_mask = 0x80;
+                    value_h = (byte)(chn1_mask | value_h);
+
+                    cmdbytes[0] = value_h;
+                    CommandSend(cmdbytes, 2);
+                    cmdbytes[0] = value_l;
+                    CommandSend(cmdbytes, 2);
+                }
+
+                if(dacSweepLED_checkbox.Checked == true)
+                {
+                    //setting of dac of
+                    byte[] cmdbytes = new byte[2];
+                    cmdbytes[1] = 0x07; // led dac control
+                    byte value_h = (byte)(dacV >> 8);
+                    byte value_l = (byte)dacV;
+
+                    cmdbytes[0] = value_h;
+                    CommandSend(cmdbytes, 2);
+                    cmdbytes[0] = value_l;
+                    CommandSend(cmdbytes, 2);
+
+                    byte chn1_mask = 0x80;
+                    value_h = (byte)(chn1_mask | value_h);
+
+                    cmdbytes[0] = value_h;
+                    CommandSend(cmdbytes, 2);
+                    cmdbytes[0] = value_l;
+                    CommandSend(cmdbytes, 2);
+                }
+
+                
+
+                // initiate file writter
+                sendMessage("Calibrating with DAC: " + dacV + " now\n");
+                string fileName = string.Format("{0}DAC.dat", dacV);
+                //create file writer
+                bw = new BinaryWriter(File.Open(fullPath + '\\' + fileName, FileMode.Create, FileAccess.Write, FileShare.Read));
+                dataAcqTks.Dispose();       //clean up old token source
+                dataAcqTks = new CancellationTokenSource(); // generate a new token
+                CommandSend(0x0100, 2); //start acq cycle
+                try
+                {
+                    Task dataAcqTsk = Task.Factory.StartNew(() => this.dataAcq_threadFunc(dataAcqTks.Token, bw), dataAcqTks.Token);
+                    Thread.Sleep(3 * 1000);
+                    // time up!
+                    // stop asic first
+                    CommandSend(0x0200, 2);
+                    // stop data receiving
+                    dataAcqTks.Cancel();
+                    while (!dataAcqTsk.IsCompleted) ;
+                }
+                catch (AggregateException excption)
+                {
+                    foreach (var value in excption.InnerExceptions)
+                    {
+                        exceptionReport.AppendLine(excption.Message + " " + value.Message);
+                    }
+                }
+            }
         }
         private void sendMessage(string text)
         {
