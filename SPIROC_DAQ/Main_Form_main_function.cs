@@ -1901,7 +1901,7 @@ namespace SPIROC_DAQ
                 Directory.CreateDirectory(fullPath);
 
             // enable all chip, and make amplifier active
-            CommandSend(0x0b59, 2); // auto-calib: off(0),ext enable(1), output enable (0)  sd: not shut down(1), group selected 9
+            //CommandSend(0x0b59, 2); // auto-calib: off(0),ext enable(1), output enable (0)  sd: not shut down(1), group selected 9
 
             // the loop of dac
             for (int dacV = DAC_start1; dacV <= DAC_stop1; dacV += DAC_step1)
@@ -1931,7 +1931,7 @@ namespace SPIROC_DAQ
 
                 // initiate file writter
                 sendMessage("CHANNEL is being calibrated with DAC: " + dacV + " now\n");
-                string fileName = string.Format("chn{0}_{1}DAC.dat", 2, dacV);
+                string fileName = string.Format("Group{0}_{1}DAC.dat", ledcalib_group_sel.Value, dacV);
                 //create file writer
                 bw = new BinaryWriter(File.Open(fullPath + '\\' + fileName, FileMode.Create, FileAccess.Write, FileShare.Read));
                 dataAcqTks.Dispose();       //clean up old token source
@@ -1984,7 +1984,7 @@ namespace SPIROC_DAQ
 
                 // initiate file writter
                 sendMessage("CHANNEL is being calibrated with DAC: " + dacV + " now\n");
-                string fileName = string.Format("chn{0}_{1}DAC.dat", 2, dacV);
+                string fileName = string.Format("Group{0}_{1}DAC.dat", ledcalib_group_sel.Value, dacV);
                 //create file writer
                 bw = new BinaryWriter(File.Open(fullPath + '\\' + fileName, FileMode.Create, FileAccess.Write, FileShare.Read));
                 dataAcqTks.Dispose();       //clean up old token source

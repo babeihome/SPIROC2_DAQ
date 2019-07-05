@@ -1113,11 +1113,15 @@ namespace SPIROC_DAQ
 
         }
 
-        private void Ext_trigger_fpga_enable_CheckedChanged(object sender, EventArgs e)
+        private void RealTime_enable_CheckedChanged(object sender, EventArgs e)
         {
             byte[] commandByte = new byte[2];
+            byte trigger_enable = Ext_trigger_fpga_enable.Checked ? (byte)0x04 : (byte)0x00;
+            byte valid_enable = Valid_pin_enable_checkbox.Checked ? (byte)0x02 : (byte)0x00;
+            byte eraze_enable = eraze_enable_checkbox.Checked ? (byte)0x01 : (byte)0x00;
+
             commandByte[1] = 0x0c;
-            commandByte[0] = Ext_trigger_fpga_enable.Checked ? (byte)0x04 : (byte)0x00;
+            commandByte[0] = (byte)(trigger_enable + valid_enable + eraze_enable);
 
             var isUSBConnected = check_USB();
             if (isUSBConnected)
@@ -3384,5 +3388,6 @@ namespace SPIROC_DAQ
             Acq_status_label.Text = "Calib. DAC Sweep";
             Acq_status_label.ForeColor = Color.Green;
         }
+
     }
 }
