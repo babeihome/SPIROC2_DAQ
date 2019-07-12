@@ -70,7 +70,7 @@ namespace SPIROC_DAQ
             validholdDelay.Text = slowConfig.get_property(slowConfig.settings["DELAY_VALIDHOLD"]).ToString();
             rstcolDelay.Text = slowConfig.get_property(slowConfig.settings["DELAY_RSTCOL"]).ToString();
             adcResolution.Text = slowConfig.get_property(slowConfig.settings["ADC_GRAY"]).ToString();
-            chipID.Text = slowConfig.get_property(slowConfig.settings["CHIPID"]).ToString();
+            chipID.Text = gray2bin(reverse_bit(slowConfig.get_property(slowConfig.settings["CHIPID"]), 8)).ToString();
 
 
             // combo box
@@ -229,8 +229,8 @@ namespace SPIROC_DAQ
             validholdDelay.Text = slowConfig.get_property(slowConfig.settings["DELAY_VALIDHOLD"]).ToString();
             rstcolDelay.Text = slowConfig.get_property(slowConfig.settings["DELAY_RSTCOL"]).ToString();
             adcResolution.Text = slowConfig.get_property(slowConfig.settings["ADC_GRAY"]).ToString();
-            chipID.Text = slowConfig.get_property(slowConfig.settings["CHIPID"]).ToString();
-
+            chipID.Text = gray2bin(reverse_bit(slowConfig.get_property(slowConfig.settings["CHIPID"]),8)).ToString(); //in ram, CHIPID save in LSB-MSB gray code
+            
 
             // combo box
             Dictionary<uint, string> adcramp_dic = new Dictionary<uint, string>();

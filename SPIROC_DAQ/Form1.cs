@@ -166,39 +166,61 @@ namespace SPIROC_DAQ
             byte[] cmdBytes = new byte[2];
             byte[] bit_block = new byte[1000];  //SPIROC2b has 929 config bit, 929 / 8 = 116 ... 1, need 117 bytes, SPIROC2E need 1186 / 8 = 148 ... 2, so 149 bytes
 
-
+            List<SC_model> slowConfigTmpChain2B = new List<SC_model>();
+            List<SC_model_2E> slowConfigTmpChain2E = new List<SC_model_2E>();
             // Is not pretty use slowControlManager this way!!!!!!! but I just used it.
             // setting should detech with config
-            if(chip_selection_combo.Text == "Global")
+            slowControlManager.clearChip();
+            if (chip_selection_combo.Text == "Global")
             {
-                for(int i = 0; i< chip_num_input.Value; i++)
+                for(int i = 0 ; i<chip_num_input.Value; i++)
                 {
                     if(version_num == 1)
                     {
-                        slowConfig_2B_store[i] = Copy<SC_model>(slowConfig_2B_1);
-                        slowConfig_2B_store[i].set_property(slowConfig_2B_1.settings["CHIPID"], reverse_bit(bin2gray((uint)(chip_num_input.Value - i)), 8));  // the last chip config first
+                        slowConfigTmpChain2B[i] = Copy<SC_model>(slowConfig_2B_1);
+                        slowConfigTmpChain2B[i].set_property(slowConfig_2B_1.settings["CHIPID"], reverse_bit(bin2gray((uint)(chip_num_input.Value)), 8));  // the last chip config first
                     }
                     else if(version_num == 2)
                     {
-                        slowConfig_2E_store[i] = Copy<SC_model_2E>(slowConfig_2E_1);
-                        slowConfig_2E_store[i].set_property(slowConfig_2E_1.settings["CHIPID"], reverse_bit(bin2gray((uint)(chip_num_input.Value - i)), 8));  // the last chip config first
+                        slowConfigTmpChain2E[i] = Copy<SC_model_2E>(slowConfig_2E_1);
+                        slowConfigTmpChain2E[i].set_property(slowConfig_2E_1.settings["CHIPID"], reverse_bit(bin2gray((uint)(chip_num_input.Value)), 8));  // the last chip config first
                     }                 
                 }
-                slowControlManager.clearChip();
-                for (int i = 0; i < chip_num_input.Value; i++)
+                
+
+                // First chip that push in the manager will transmit first, configure the furthest chip
+                for (int i = (int)chip_num_input.Value -1; i >= 0; i--)
                 {
                     if(version_num == 1)
                     {
-                        slowControlManager.pushChip(slowConfig_2B_store[i]);
+                        slowControlManager.chipVersion = 1;
+                        slowControlManager.pushChip(slowConfigTmpChain2B[i]);
                     }
                     else if(version_num == 2)
                     {
-                        slowControlManager.pushChip(slowConfig_2E_store[i]);
+                        slowControlManager.chipVersion = 2;
+                        slowControlManager.pushChip(slowConfigTmpChain2E[i]);
                     }
                     
                 }
 
-            }          
+            }
+            else
+            {
+                for(int i = (int)chip_num_input.Value - 1; i >= 0; i--)
+                {
+                    if (version_num == 1)
+                    {
+                        slowControlManager.chipVersion = 1;
+                        slowControlManager.pushChip(slowConfig_2B_store[i]);
+                    }
+                    else if(version_num == 2)
+                    {
+                        slowControlManager.chipVersion = 2;
+                        slowControlManager.pushChip(slowConfig_2E_store[i]);
+                    }
+                }
+            }
             byte_count = slowControlManager.bit_transform(bit_block);
 
             // reset spiroc2b           
@@ -563,9 +585,23 @@ namespace SPIROC_DAQ
 
         private void saveSetting_btn_Click(object sender, EventArgs e)
         {
+            slowControlManager.clearChip();
+            slowControlManager.settingName = setting_name.Text;          
+            for (int i = (int)chip_num_input.Value-1; i >=0 ; i--)
+            {
+                if (version_num == 1)
+                {
+                    slowControlManager.chipVersion = 1;
+                    slowControlManager.pushChip(slowConfig_2B_store[i]);
+                }
+                else if (version_num == 2)
+                {
+                    slowControlManager.chipVersion = 2;
+                    slowControlManager.pushChip(slowConfig_2E_store[i]);
+                }
 
-            slowConfig.settingName = setting_name.Text;
-            slowConfig.save_settings(settingChoosen);
+            }
+            slowControlManager.SaveSettings(settingChoosen);
             switch(settingChoosen)
             {
                 case 1:
@@ -810,7 +846,7 @@ namespace SPIROC_DAQ
                 value = uint.Parse(chipID.Text);
                 if (0 <= value && value <= 255)
                 {
-                    slowConfig.set_property(slowConfig.settings["CHIPID"], value);
+                    slowConfig.set_property(slowConfig.settings["CHIPID"], reverse_bit(bin2gray((uint)(value)), 8));
                     return;
                 }
             }
@@ -1043,21 +1079,35 @@ namespace SPIROC_DAQ
 
         private void recallSetting_btn_Click(object sender, EventArgs e)
         {
-            slowConfig.recall_settings(settingChoosen);
+            slowControlManager.RecallSettings(settingChoosen);
+            for(int i = 0; i < slowControlManager.chip_num; i++)
+            {
+                if (slowControlManager.chipVersion == 1)
+                {
+                    slowConfig_2B_store[slowControlManager.chip_num - i - 1] = slowControlManager.getChip(i) as SC_model;
+                }
+                else if(slowControlManager.chipVersion == 2)
+                {
+                    slowConfig_2E_store[slowControlManager.chip_num - i - 1] = slowControlManager.getChip(i) as SC_model_2E;
+                }
+                
+            }
+            chip_num_input.Value = slowControlManager.chip_num;
 
+            
             switch (settingChoosen)
             {
                 case 1:
-                    config_set1.Text = slowConfig.settingName;
+                    config_set1.Text = slowControlManager.settingName;
                     break;
                 case 2:
-                    config_set2.Text = slowConfig.settingName;
+                    config_set2.Text = slowControlManager.settingName;
                     break;
                 case 3:
-                    config_set3.Text = slowConfig.settingName;
+                    config_set3.Text = slowControlManager.settingName;
                     break;
                 case 4:
-                    config_set4.Text = slowConfig.settingName;
+                    config_set4.Text = slowControlManager.settingName;
                     break;
                 default:
                     MessageBox.Show("Please choose which setting plot you want to use", "Error");
@@ -1065,10 +1115,12 @@ namespace SPIROC_DAQ
             }
             if (version_num ==1)
             {
+                slowConfig = slowConfig_2B_store[0];
                 refreshParamPanel_2B();
             }
             else
             {
+                slowConfig = slowConfig_2E_store[0];
                 refreshParamPanel_2E();
             }
         }
@@ -3389,5 +3441,148 @@ namespace SPIROC_DAQ
             Acq_status_label.ForeColor = Color.Green;
         }
 
+        private void chip_selection_combo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (chip_selection_combo.Text)
+            {
+                case "Global":
+                    if (version_num == 2)
+                    {
+                        slowConfig = slowConfig_2E_store[0];
+                    }
+                    else if (version_num == 1)
+                    {
+                        slowConfig = slowConfig_2B_1;
+                    }
+                    break;
+                case "CHIP1":
+                    if (version_num == 2)
+                    {
+                        slowConfig = slowConfig_2E_store[0];
+                    }
+                    else if (version_num == 1)
+                    {
+                        slowConfig = slowConfig_2B_1;
+                    }
+                    break;
+                case "CHIP2":
+                    if (version_num == 2)
+                    {
+                        slowConfig = slowConfig_2E_store[1];
+                    }
+                    else if (version_num == 1)
+                    {
+                        slowConfig = slowConfig_2B_2;
+                    }
+                    break;
+                case "CHIP3":
+                    if (version_num == 2)
+                    {
+                        slowConfig = slowConfig_2E_store[2];
+                    }
+                    else if (version_num == 1)
+                    {
+                        slowConfig = slowConfig_2B_3;
+                    }
+                    break;
+                case "CHIP4":
+                    if (version_num == 2)
+                    {
+                        slowConfig = slowConfig_2E_store[3];
+                    }
+                    else if (version_num == 1)
+                    {
+                        slowConfig = slowConfig_2B_4;
+                    }
+                    break;
+                case "CHIP5":
+                    if (version_num == 2)
+                    {
+                        slowConfig = slowConfig_2E_store[4];
+                    }
+                    else if (version_num == 1)
+                    {
+                        MessageBox.Show("2B chips only have 4 pieces at most");
+                        chip_selection_combo.Text = "CHIP1";
+                    }
+                    break;
+                case "CHIP6":
+                    if (version_num == 2)
+                    {
+                        slowConfig = slowConfig_2E_store[5];
+                    }
+                    else if (version_num == 1)
+                    {
+                        MessageBox.Show("2B chips only have 4 pieces at most");
+                        chip_selection_combo.Text = "CHIP1";
+                    }
+                    break;
+            }
+            if(version_num == 1)
+            {
+                refreshParamPanel_2B();
+            }
+            else if (version_num == 2)
+            {
+                refreshParamPanel_2E();
+            }
+
+        }
+
+        private void dacParaLoad_btn_Click(object sender, EventArgs e)
+        {
+            string fileContent = string.Empty;
+            var filePath = string.Empty;
+            openFileDialog1.InitialDirectory = ".\\dacPara\\";
+            openFileDialog1.Filter = "txt files (*.txt)|*.txt|All files(*.*)|*.*";
+            openFileDialog1.FilterIndex = 2;
+            openFileDialog1.RestoreDirectory = true;
+
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                filePath = openFileDialog1.FileName;
+
+                var fileStream = openFileDialog1.OpenFile();
+
+                using (StreamReader reader = new StreamReader(fileStream))
+                {
+                    fileContent = reader.ReadToEnd();
+                }
+            }
+            string[] lines = Regex.Split(fileContent, @"(?:\r|\n)+");
+            int i = 0;
+            double[] dacValues = new double[210];
+            uint old_value;
+            uint new_value;
+            foreach(string line in lines)
+            {
+                dacValues[i] = double.Parse(line.Split('\t')[1]);
+                uint code = (uint)(256 / 4 * (4.5 - dacValues[i])); //dacValue = 4.5 - code/256*4  =>  code =  (4.5 - dacValue)*256/4
+                string Key = "INDAC" + (i%36).ToString();
+                if (version_num == 1)
+                {
+                    slowConfig = slowConfig_2B_store[i / 36];
+                }
+                else if (version_num == 2)
+                {
+                    slowConfig = slowConfig_2E_store[i / 36];
+                }
+                old_value = slowConfig.get_property(slowConfig.settings[Key.ToString()]);
+                new_value = (code << 1) + (old_value & 1);
+                slowConfig.set_property(slowConfig.settings[Key.ToString()], new_value);
+                i++;
+            }
+            if (version_num == 1)
+            {
+                slowConfig = slowConfig_2B_store[0];
+                refreshParamPanel_2B();
+            }
+            else if (version_num == 2)
+            {
+                slowConfig = slowConfig_2E_store[0];
+                refreshParamPanel_2E();
+            }
+            
+        }
     }
 }

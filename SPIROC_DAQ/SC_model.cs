@@ -9,17 +9,24 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace SPIROC_DAQ
 {
+    [Serializable]
     class SC_board_manager
     {
-        private int chip_num;
+        public int chip_num;
+        public int chipVersion;  // 1 means SP2B, 2 means SP2E;
         private List<IBitBlock> chipChain = new List<IBitBlock>();
-
+        public string settingName { get; set; }
+        private const string cache_loc = ".\\cache\\";
         public Boolean pushChip(IBitBlock oneChip)
         {
             // should push the end of chip chain first first
             chipChain.Add(oneChip);
             chip_num++;
             return true;
+        }
+        public IBitBlock getChip(int index)
+        {
+            return chipChain[index];
         }
         public int clearChip()
         {
@@ -66,7 +73,48 @@ namespace SPIROC_DAQ
             return byte_count + 1;
 
         }
+        public void SaveSettings(int settings_id)
+        {
+            // save SlowContorl
+            // Serialize
+            String cache_path = cache_loc + settings_id.ToString() + ".cache";
 
+            if (!Directory.Exists(cache_loc))
+                Directory.CreateDirectory(cache_loc);
+
+            FileStream fileStream = new FileStream(cache_path, FileMode.Create);
+            BinaryFormatter b = new BinaryFormatter();
+            b.Serialize(fileStream, this);
+            fileStream.Close();
+        }
+        public void RecallSettings(int settings_id)
+        {
+            // load SlowControl saving config
+            // Deserialize
+            String cache_path = cache_loc + settings_id.ToString() + ".cache";
+
+            if (!File.Exists(cache_path))
+            {
+                throw new InvalidOperationException("Settings doesn't exist");
+            }
+
+
+            FileStream fileStream = new FileStream(cache_path, FileMode.Open, FileAccess.Read, FileShare.Read);
+            BinaryFormatter b = new BinaryFormatter();
+
+            // restore config_data and settingName property
+            var tmp = b.Deserialize(fileStream) as SC_board_manager;
+            this.chip_num = tmp.chip_num;
+            for(int i = 0; i < tmp.chip_num; i++)
+            {
+                this.chipChain.Add(tmp.chipChain[i]);
+            }
+            
+            this.settingName = tmp.settingName;
+            this.chipVersion = tmp.chipVersion;
+            fileStream.Close();
+
+        }
 
     }
     interface IBitBlock
