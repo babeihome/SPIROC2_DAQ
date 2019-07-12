@@ -2291,7 +2291,7 @@ namespace SPIROC_DAQ
             x ^= x >> 8;
             x ^= x >> 4;
             x ^= x >> 2;
-            x ^= x ^ 1;
+            x ^= x >> 1;
              return x;
         }
         uint reverse_bit(uint c, uint width)

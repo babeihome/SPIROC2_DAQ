@@ -2323,7 +2323,7 @@
             this.chipID.Name = "chipID";
             this.chipID.Size = new System.Drawing.Size(94, 21);
             this.chipID.TabIndex = 36;
-            this.chipID.TextChanged += new System.EventHandler(this.chipID_TextChanged);
+            this.chipID.Leave += new System.EventHandler(this.chipID_TextChanged);
             // 
             // label16
             // 
