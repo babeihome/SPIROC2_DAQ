@@ -1724,7 +1724,7 @@ namespace SPIROC_DAQ
             }
             if (version_num == 2)
             {
-                slowConfig = slowConfig_2E_1;
+                slowConfig = slowConfig_2E_store[0];
                 slowConfig.save_settings(0);
                 HLGain_Select.Enabled = false;
                 

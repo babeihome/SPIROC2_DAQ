@@ -91,6 +91,7 @@ namespace SPIROC_DAQ
         {
             // load SlowControl saving config
             // Deserialize
+            this.clearChip();
             String cache_path = cache_loc + settings_id.ToString() + ".cache";
 
             if (!File.Exists(cache_path))
