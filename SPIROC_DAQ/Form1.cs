@@ -177,12 +177,12 @@ namespace SPIROC_DAQ
                 {
                     if(version_num == 1)
                     {
-                        slowConfigTmpChain2B[i] = Copy<SC_model>(slowConfig_2B_1);
+                        slowConfigTmpChain2B.Add(Copy<SC_model>(slowConfig_2B_1));
                         slowConfigTmpChain2B[i].set_property(slowConfig_2B_1.settings["CHIPID"], reverse_bit(bin2gray((uint)(chip_num_input.Value)), 8));  // the last chip config first
                     }
                     else if(version_num == 2)
                     {
-                        slowConfigTmpChain2E[i] = Copy<SC_model_2E>(slowConfig_2E_1);
+                        slowConfigTmpChain2E.Add(Copy<SC_model_2E>(slowConfig_2E_1));
                         slowConfigTmpChain2E[i].set_property(slowConfig_2E_1.settings["CHIPID"], reverse_bit(bin2gray((uint)(chip_num_input.Value)), 8));  // the last chip config first
                     }                 
                 }
