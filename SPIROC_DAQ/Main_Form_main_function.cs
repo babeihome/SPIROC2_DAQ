@@ -2090,7 +2090,7 @@ namespace SPIROC_DAQ
                 try
                 {
                     Task dataAcqTsk = Task.Factory.StartNew(() => this.dataAcq_threadFunc(dataAcqTks.Token, bw), dataAcqTks.Token);
-                    Thread.Sleep(3 * 1000);
+                    Thread.Sleep(int.Parse(dacSweepDuration_textbox.Text) * 1000);
                     // time up!
                     // stop asic first
                     CommandSend(0x0200, 2);

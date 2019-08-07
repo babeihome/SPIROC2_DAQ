@@ -1033,9 +1033,9 @@ namespace SPIROC_DAQ
             this.set_property(settings["END_READOUT"], 1);
             this.set_property(settings["START_READOUT"], 1);
             this.set_property(settings["CHIPSAT"], 1);
-            this.set_property(settings["TRANSMITON2"], 1);
+            this.set_property(settings["TRANSMITON2"], 0);
             this.set_property(settings["TRANSMITON1"], 1);
-            this.set_property(settings["DOUT2"], 1);
+            this.set_property(settings["DOUT2"], 0);
             this.set_property(settings["DOUT1"], 1);
 
         }

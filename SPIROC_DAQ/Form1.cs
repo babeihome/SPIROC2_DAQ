@@ -3584,5 +3584,36 @@ namespace SPIROC_DAQ
             }
             
         }
+
+        private void transmiton1b_checkbox_CheckedChanged(object sender, EventArgs e)
+        {
+            uint value = transmiton1b_checkbox.Checked ? 1U : 0U;
+            transmiton1b_checkbox.Text = transmiton1b_checkbox.Checked ? "Enable" : "Disable";
+            slowConfig.set_property(slowConfig.settings["TRANSMITON1"], value);
+        }
+
+        private void dout1b_checkbox_CheckedChanged(object sender, EventArgs e)
+        {
+            uint value = dout1b_checkbox.Checked ? 1U : 0U;
+            dout1b_checkbox.Text = dout1b_checkbox.Checked ? "Enable" : "Disable";
+            slowConfig.set_property(slowConfig.settings["DOUT1"], value);
+        }
+
+        private void chipsatb_checkbox_CheckedChanged(object sender, EventArgs e)
+        {
+            uint value = chipsatb_checkbox.Checked ? 1U : 0U;
+            chipsatb_checkbox.Text = chipsatb_checkbox.Checked ? "Enable" : "Disable";
+            slowConfig.set_property(slowConfig.settings["CHIPSAT"], value);
+        }
+
+        private void dacSweepStop_btn_Click(object sender, EventArgs e)
+        {
+            dacSweepTks.Cancel();
+            textBox1.AppendText("DAC Scan stop\n");
+            Acq_status_label.Text = "IDLE";
+            Acq_status_label.ForeColor = Color.Black;
+            timer1.Stop();
+            time_textbox.Text = "00:00:00:00";
+        }
     }
 }

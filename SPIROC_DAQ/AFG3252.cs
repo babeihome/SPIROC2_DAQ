@@ -49,7 +49,7 @@ namespace SPIROC_DAQ
             // low level is 0, set high level
             try
             {
-                session.Write("SOURce" + chn.ToString() + ":VOLTage:LEVel:IMMediate:HIGH " + mV + "mV");
+                session.Write("SOURce" + chn.ToString() + ":VOLTage:LEVel:IMMediate:LOW " + mV + "mV");
             }
             catch (Exception exp)
             {
