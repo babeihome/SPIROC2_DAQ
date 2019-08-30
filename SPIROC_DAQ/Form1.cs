@@ -76,6 +76,7 @@ namespace SPIROC_DAQ
         private int ledcalib_cfg = 0x00;
         // for changing textbox1.Text from different thread (not from main thread)
         delegate void SetTextCallback(string text);
+        int sumByte = 0;
         public int version_num=2;
         public Main_Form()
         {
@@ -1079,7 +1080,10 @@ namespace SPIROC_DAQ
 
         private void recallSetting_btn_Click(object sender, EventArgs e)
         {
-            slowControlManager.RecallSettings(settingChoosen);
+            if(slowControlManager.RecallSettings(settingChoosen) is false)
+            {
+                sendMessage("No Settings");
+            }
             for(int i = 0; i < slowControlManager.chip_num; i++)
             {
                 if (slowControlManager.chipVersion == 1)
@@ -2699,7 +2703,9 @@ namespace SPIROC_DAQ
         {
             if (ecalib_chn1_sel_btn.Tag.ToString() == "0")
             {
+                // config command
                 ecalib_cfg = (ecalib_cfg & 0xfe) + 0x01;    // set bit0 high , let calib signal be able to access chip1
+
                 byte[] cmdbytes = new byte[2];
                 cmdbytes[1] = 0x12;
                 cmdbytes[0] = (byte)ecalib_cfg; // only use low 8 bit

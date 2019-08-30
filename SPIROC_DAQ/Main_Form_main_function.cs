@@ -776,9 +776,11 @@ namespace SPIROC_DAQ
         private void dataAcq_threadFunc(CancellationToken token, BinaryWriter bw)
         {
             byte[] data_buffer = new byte[512];
-            int len;
-
+            int len;           
+            int n = 0;
             bool bResult;
+            System.Threading.Timer tmr = new System.Threading.Timer(new System.Threading.TimerCallback(showSize),null,-1,5000);
+            tmr.Change(0, 5000);
             while (true)
             {
                 if (token.IsCancellationRequested == true)
@@ -801,14 +803,33 @@ namespace SPIROC_DAQ
                     len = 512;
                     bResult = DataRecieve(data_buffer, ref len); // len could be changed for transmit actually num of byte that received
                     bw.Write(data_buffer, 0, len);
+                    sumByte += len;                                       
                     bw.Flush();
                 }
 
             }
+            sumByte = 0;
+            tmr.Change(Timeout.Infinite, 5000);
             bw.Flush();
             bw.Close();
             bw.Dispose();
 
+        }
+        private void showSize(object a)
+        {
+            if (sumByte < 1024)
+            {
+                sendMessage("Received Data Size: " + sumByte + " Byte\n");
+            }
+            else if (sumByte < 1024 * 1024)
+            {
+                sendMessage("Received Data Size: " + sumByte / 1024 + "KB\n");
+            }
+            else
+            {
+                sendMessage("Received Data Size: " + sumByte / 1024 / 1024 + "MB\n");
+            }
+            
         }
         private void electronicSweep_threadFunc(CancellationToken token)
         {
@@ -1707,6 +1728,7 @@ namespace SPIROC_DAQ
         // change textbox1.Text from sub-thread
         private void elecCalib2E_threadFunc(CancellationToken taskToken, Form2 paraWindows)
         {
+            // get parameter 
             int DAC_start1 = int.Parse(paraWindows.start1.Text);
             int DAC_step1 = int.Parse(paraWindows.step1.Text);
             int DAC_stop1 = int.Parse(paraWindows.stop1.Text);

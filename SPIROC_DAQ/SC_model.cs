@@ -87,7 +87,7 @@ namespace SPIROC_DAQ
             b.Serialize(fileStream, this);
             fileStream.Close();
         }
-        public void RecallSettings(int settings_id)
+        public bool RecallSettings(int settings_id)
         {
             // load SlowControl saving config
             // Deserialize
@@ -96,7 +96,8 @@ namespace SPIROC_DAQ
 
             if (!File.Exists(cache_path))
             {
-                throw new InvalidOperationException("Settings doesn't exist");
+                //throw new InvalidOperationException("Settings doesn't exist");               
+                return false;
             }
 
 
@@ -114,6 +115,7 @@ namespace SPIROC_DAQ
             this.settingName = tmp.settingName;
             this.chipVersion = tmp.chipVersion;
             fileStream.Close();
+            return true;
 
         }
 
