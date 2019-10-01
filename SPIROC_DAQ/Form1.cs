@@ -3563,7 +3563,7 @@ namespace SPIROC_DAQ
             foreach(string line in lines)
             {
                 dacValues[i] = double.Parse(line.Split('\t')[1]);
-                uint code = (uint)(256 / 4 * (4.5 - dacValues[i])); //dacValue = 4.5 - code/256*4  =>  code =  (4.5 - dacValue)*256/4
+                uint code = (uint)(255 / 4 * (4.5 - dacValues[i])); //dacValue = 4.5 - code/255*4  =>  code =  (4.5 - dacValue)*255/4
                 string Key = "INDAC" + (i%36).ToString();
                 if (version_num == 1)
                 {

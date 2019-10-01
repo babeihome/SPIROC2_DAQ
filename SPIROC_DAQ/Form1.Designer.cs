@@ -2699,7 +2699,7 @@
             this.SC_tab2.Location = new System.Drawing.Point(4, 40);
             this.SC_tab2.Name = "SC_tab2";
             this.SC_tab2.Padding = new System.Windows.Forms.Padding(3);
-            this.SC_tab2.Size = new System.Drawing.Size(585, 552);
+            this.SC_tab2.Size = new System.Drawing.Size(584, 552);
             this.SC_tab2.TabIndex = 3;
             this.SC_tab2.Text = "Slow Control2";
             this.SC_tab2.UseVisualStyleBackColor = true;
@@ -2711,7 +2711,7 @@
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox3.Location = new System.Drawing.Point(3, 3);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(579, 546);
+            this.groupBox3.Size = new System.Drawing.Size(578, 546);
             this.groupBox3.TabIndex = 1;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Channel Control";
@@ -2722,7 +2722,7 @@
             this.discri_groupbox.Dock = System.Windows.Forms.DockStyle.Top;
             this.discri_groupbox.Location = new System.Drawing.Point(3, 358);
             this.discri_groupbox.Name = "discri_groupbox";
-            this.discri_groupbox.Size = new System.Drawing.Size(573, 184);
+            this.discri_groupbox.Size = new System.Drawing.Size(572, 184);
             this.discri_groupbox.TabIndex = 1;
             this.discri_groupbox.TabStop = false;
             this.discri_groupbox.Text = "Discriminator Mask";
@@ -2783,13 +2783,13 @@
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel5.Size = new System.Drawing.Size(567, 164);
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(566, 164);
             this.tableLayoutPanel5.TabIndex = 0;
             // 
             // discri_checkbox35
             // 
             this.discri_checkbox35.AutoSize = true;
-            this.discri_checkbox35.Location = new System.Drawing.Point(507, 126);
+            this.discri_checkbox35.Location = new System.Drawing.Point(499, 126);
             this.discri_checkbox35.Name = "discri_checkbox35";
             this.discri_checkbox35.Size = new System.Drawing.Size(36, 16);
             this.discri_checkbox35.TabIndex = 35;
@@ -2799,7 +2799,7 @@
             // discri_checkbox34
             // 
             this.discri_checkbox34.AutoSize = true;
-            this.discri_checkbox34.Location = new System.Drawing.Point(444, 126);
+            this.discri_checkbox34.Location = new System.Drawing.Point(437, 126);
             this.discri_checkbox34.Name = "discri_checkbox34";
             this.discri_checkbox34.Size = new System.Drawing.Size(36, 16);
             this.discri_checkbox34.TabIndex = 34;
@@ -2809,7 +2809,7 @@
             // discri_checkbox33
             // 
             this.discri_checkbox33.AutoSize = true;
-            this.discri_checkbox33.Location = new System.Drawing.Point(381, 126);
+            this.discri_checkbox33.Location = new System.Drawing.Point(375, 126);
             this.discri_checkbox33.Name = "discri_checkbox33";
             this.discri_checkbox33.Size = new System.Drawing.Size(36, 16);
             this.discri_checkbox33.TabIndex = 33;
@@ -2819,7 +2819,7 @@
             // discri_checkbox32
             // 
             this.discri_checkbox32.AutoSize = true;
-            this.discri_checkbox32.Location = new System.Drawing.Point(318, 126);
+            this.discri_checkbox32.Location = new System.Drawing.Point(313, 126);
             this.discri_checkbox32.Name = "discri_checkbox32";
             this.discri_checkbox32.Size = new System.Drawing.Size(36, 16);
             this.discri_checkbox32.TabIndex = 32;
@@ -2829,7 +2829,7 @@
             // discri_checkbox31
             // 
             this.discri_checkbox31.AutoSize = true;
-            this.discri_checkbox31.Location = new System.Drawing.Point(255, 126);
+            this.discri_checkbox31.Location = new System.Drawing.Point(251, 126);
             this.discri_checkbox31.Name = "discri_checkbox31";
             this.discri_checkbox31.Size = new System.Drawing.Size(36, 16);
             this.discri_checkbox31.TabIndex = 31;
@@ -2839,7 +2839,7 @@
             // discri_checkbox30
             // 
             this.discri_checkbox30.AutoSize = true;
-            this.discri_checkbox30.Location = new System.Drawing.Point(192, 126);
+            this.discri_checkbox30.Location = new System.Drawing.Point(189, 126);
             this.discri_checkbox30.Name = "discri_checkbox30";
             this.discri_checkbox30.Size = new System.Drawing.Size(36, 16);
             this.discri_checkbox30.TabIndex = 30;
@@ -2849,7 +2849,7 @@
             // discri_checkbox29
             // 
             this.discri_checkbox29.AutoSize = true;
-            this.discri_checkbox29.Location = new System.Drawing.Point(129, 126);
+            this.discri_checkbox29.Location = new System.Drawing.Point(127, 126);
             this.discri_checkbox29.Name = "discri_checkbox29";
             this.discri_checkbox29.Size = new System.Drawing.Size(36, 16);
             this.discri_checkbox29.TabIndex = 29;
@@ -2859,7 +2859,7 @@
             // discri_checkbox28
             // 
             this.discri_checkbox28.AutoSize = true;
-            this.discri_checkbox28.Location = new System.Drawing.Point(66, 126);
+            this.discri_checkbox28.Location = new System.Drawing.Point(65, 126);
             this.discri_checkbox28.Name = "discri_checkbox28";
             this.discri_checkbox28.Size = new System.Drawing.Size(36, 16);
             this.discri_checkbox28.TabIndex = 28;
@@ -2879,7 +2879,7 @@
             // discri_checkbox26
             // 
             this.discri_checkbox26.AutoSize = true;
-            this.discri_checkbox26.Location = new System.Drawing.Point(507, 85);
+            this.discri_checkbox26.Location = new System.Drawing.Point(499, 85);
             this.discri_checkbox26.Name = "discri_checkbox26";
             this.discri_checkbox26.Size = new System.Drawing.Size(36, 16);
             this.discri_checkbox26.TabIndex = 26;
@@ -2889,7 +2889,7 @@
             // discri_checkbox25
             // 
             this.discri_checkbox25.AutoSize = true;
-            this.discri_checkbox25.Location = new System.Drawing.Point(444, 85);
+            this.discri_checkbox25.Location = new System.Drawing.Point(437, 85);
             this.discri_checkbox25.Name = "discri_checkbox25";
             this.discri_checkbox25.Size = new System.Drawing.Size(36, 16);
             this.discri_checkbox25.TabIndex = 25;
@@ -2899,7 +2899,7 @@
             // discri_checkbox24
             // 
             this.discri_checkbox24.AutoSize = true;
-            this.discri_checkbox24.Location = new System.Drawing.Point(381, 85);
+            this.discri_checkbox24.Location = new System.Drawing.Point(375, 85);
             this.discri_checkbox24.Name = "discri_checkbox24";
             this.discri_checkbox24.Size = new System.Drawing.Size(36, 16);
             this.discri_checkbox24.TabIndex = 24;
@@ -2909,7 +2909,7 @@
             // discri_checkbox23
             // 
             this.discri_checkbox23.AutoSize = true;
-            this.discri_checkbox23.Location = new System.Drawing.Point(318, 85);
+            this.discri_checkbox23.Location = new System.Drawing.Point(313, 85);
             this.discri_checkbox23.Name = "discri_checkbox23";
             this.discri_checkbox23.Size = new System.Drawing.Size(36, 16);
             this.discri_checkbox23.TabIndex = 23;
@@ -2919,7 +2919,7 @@
             // discri_checkbox22
             // 
             this.discri_checkbox22.AutoSize = true;
-            this.discri_checkbox22.Location = new System.Drawing.Point(255, 85);
+            this.discri_checkbox22.Location = new System.Drawing.Point(251, 85);
             this.discri_checkbox22.Name = "discri_checkbox22";
             this.discri_checkbox22.Size = new System.Drawing.Size(36, 16);
             this.discri_checkbox22.TabIndex = 22;
@@ -2929,7 +2929,7 @@
             // discri_checkbox21
             // 
             this.discri_checkbox21.AutoSize = true;
-            this.discri_checkbox21.Location = new System.Drawing.Point(192, 85);
+            this.discri_checkbox21.Location = new System.Drawing.Point(189, 85);
             this.discri_checkbox21.Name = "discri_checkbox21";
             this.discri_checkbox21.Size = new System.Drawing.Size(36, 16);
             this.discri_checkbox21.TabIndex = 21;
@@ -2939,7 +2939,7 @@
             // discri_checkbox20
             // 
             this.discri_checkbox20.AutoSize = true;
-            this.discri_checkbox20.Location = new System.Drawing.Point(129, 85);
+            this.discri_checkbox20.Location = new System.Drawing.Point(127, 85);
             this.discri_checkbox20.Name = "discri_checkbox20";
             this.discri_checkbox20.Size = new System.Drawing.Size(36, 16);
             this.discri_checkbox20.TabIndex = 20;
@@ -2949,7 +2949,7 @@
             // discri_checkbox19
             // 
             this.discri_checkbox19.AutoSize = true;
-            this.discri_checkbox19.Location = new System.Drawing.Point(66, 85);
+            this.discri_checkbox19.Location = new System.Drawing.Point(65, 85);
             this.discri_checkbox19.Name = "discri_checkbox19";
             this.discri_checkbox19.Size = new System.Drawing.Size(36, 16);
             this.discri_checkbox19.TabIndex = 19;
@@ -2969,7 +2969,7 @@
             // discri_checkbox17
             // 
             this.discri_checkbox17.AutoSize = true;
-            this.discri_checkbox17.Location = new System.Drawing.Point(507, 44);
+            this.discri_checkbox17.Location = new System.Drawing.Point(499, 44);
             this.discri_checkbox17.Name = "discri_checkbox17";
             this.discri_checkbox17.Size = new System.Drawing.Size(36, 16);
             this.discri_checkbox17.TabIndex = 17;
@@ -2979,7 +2979,7 @@
             // discri_checkbox16
             // 
             this.discri_checkbox16.AutoSize = true;
-            this.discri_checkbox16.Location = new System.Drawing.Point(444, 44);
+            this.discri_checkbox16.Location = new System.Drawing.Point(437, 44);
             this.discri_checkbox16.Name = "discri_checkbox16";
             this.discri_checkbox16.Size = new System.Drawing.Size(36, 16);
             this.discri_checkbox16.TabIndex = 16;
@@ -2989,7 +2989,7 @@
             // discri_checkbox15
             // 
             this.discri_checkbox15.AutoSize = true;
-            this.discri_checkbox15.Location = new System.Drawing.Point(381, 44);
+            this.discri_checkbox15.Location = new System.Drawing.Point(375, 44);
             this.discri_checkbox15.Name = "discri_checkbox15";
             this.discri_checkbox15.Size = new System.Drawing.Size(36, 16);
             this.discri_checkbox15.TabIndex = 15;
@@ -2999,7 +2999,7 @@
             // discri_checkbox14
             // 
             this.discri_checkbox14.AutoSize = true;
-            this.discri_checkbox14.Location = new System.Drawing.Point(318, 44);
+            this.discri_checkbox14.Location = new System.Drawing.Point(313, 44);
             this.discri_checkbox14.Name = "discri_checkbox14";
             this.discri_checkbox14.Size = new System.Drawing.Size(36, 16);
             this.discri_checkbox14.TabIndex = 14;
@@ -3009,7 +3009,7 @@
             // discri_checkbox13
             // 
             this.discri_checkbox13.AutoSize = true;
-            this.discri_checkbox13.Location = new System.Drawing.Point(255, 44);
+            this.discri_checkbox13.Location = new System.Drawing.Point(251, 44);
             this.discri_checkbox13.Name = "discri_checkbox13";
             this.discri_checkbox13.Size = new System.Drawing.Size(36, 16);
             this.discri_checkbox13.TabIndex = 13;
@@ -3019,7 +3019,7 @@
             // discri_checkbox12
             // 
             this.discri_checkbox12.AutoSize = true;
-            this.discri_checkbox12.Location = new System.Drawing.Point(192, 44);
+            this.discri_checkbox12.Location = new System.Drawing.Point(189, 44);
             this.discri_checkbox12.Name = "discri_checkbox12";
             this.discri_checkbox12.Size = new System.Drawing.Size(36, 16);
             this.discri_checkbox12.TabIndex = 12;
@@ -3029,7 +3029,7 @@
             // discri_checkbox11
             // 
             this.discri_checkbox11.AutoSize = true;
-            this.discri_checkbox11.Location = new System.Drawing.Point(129, 44);
+            this.discri_checkbox11.Location = new System.Drawing.Point(127, 44);
             this.discri_checkbox11.Name = "discri_checkbox11";
             this.discri_checkbox11.Size = new System.Drawing.Size(36, 16);
             this.discri_checkbox11.TabIndex = 11;
@@ -3039,7 +3039,7 @@
             // discri_checkbox10
             // 
             this.discri_checkbox10.AutoSize = true;
-            this.discri_checkbox10.Location = new System.Drawing.Point(66, 44);
+            this.discri_checkbox10.Location = new System.Drawing.Point(65, 44);
             this.discri_checkbox10.Name = "discri_checkbox10";
             this.discri_checkbox10.Size = new System.Drawing.Size(36, 16);
             this.discri_checkbox10.TabIndex = 10;
@@ -3059,7 +3059,7 @@
             // discri_checkbox8
             // 
             this.discri_checkbox8.AutoSize = true;
-            this.discri_checkbox8.Location = new System.Drawing.Point(507, 3);
+            this.discri_checkbox8.Location = new System.Drawing.Point(499, 3);
             this.discri_checkbox8.Name = "discri_checkbox8";
             this.discri_checkbox8.Size = new System.Drawing.Size(30, 16);
             this.discri_checkbox8.TabIndex = 8;
@@ -3069,7 +3069,7 @@
             // discri_checkbox7
             // 
             this.discri_checkbox7.AutoSize = true;
-            this.discri_checkbox7.Location = new System.Drawing.Point(444, 3);
+            this.discri_checkbox7.Location = new System.Drawing.Point(437, 3);
             this.discri_checkbox7.Name = "discri_checkbox7";
             this.discri_checkbox7.Size = new System.Drawing.Size(30, 16);
             this.discri_checkbox7.TabIndex = 7;
@@ -3079,7 +3079,7 @@
             // discri_checkbox6
             // 
             this.discri_checkbox6.AutoSize = true;
-            this.discri_checkbox6.Location = new System.Drawing.Point(381, 3);
+            this.discri_checkbox6.Location = new System.Drawing.Point(375, 3);
             this.discri_checkbox6.Name = "discri_checkbox6";
             this.discri_checkbox6.Size = new System.Drawing.Size(30, 16);
             this.discri_checkbox6.TabIndex = 6;
@@ -3089,7 +3089,7 @@
             // discri_checkbox5
             // 
             this.discri_checkbox5.AutoSize = true;
-            this.discri_checkbox5.Location = new System.Drawing.Point(318, 3);
+            this.discri_checkbox5.Location = new System.Drawing.Point(313, 3);
             this.discri_checkbox5.Name = "discri_checkbox5";
             this.discri_checkbox5.Size = new System.Drawing.Size(30, 16);
             this.discri_checkbox5.TabIndex = 5;
@@ -3099,7 +3099,7 @@
             // discri_checkbox4
             // 
             this.discri_checkbox4.AutoSize = true;
-            this.discri_checkbox4.Location = new System.Drawing.Point(255, 3);
+            this.discri_checkbox4.Location = new System.Drawing.Point(251, 3);
             this.discri_checkbox4.Name = "discri_checkbox4";
             this.discri_checkbox4.Size = new System.Drawing.Size(30, 16);
             this.discri_checkbox4.TabIndex = 4;
@@ -3109,7 +3109,7 @@
             // discri_checkbox3
             // 
             this.discri_checkbox3.AutoSize = true;
-            this.discri_checkbox3.Location = new System.Drawing.Point(192, 3);
+            this.discri_checkbox3.Location = new System.Drawing.Point(189, 3);
             this.discri_checkbox3.Name = "discri_checkbox3";
             this.discri_checkbox3.Size = new System.Drawing.Size(30, 16);
             this.discri_checkbox3.TabIndex = 3;
@@ -3119,7 +3119,7 @@
             // discri_checkbox2
             // 
             this.discri_checkbox2.AutoSize = true;
-            this.discri_checkbox2.Location = new System.Drawing.Point(129, 3);
+            this.discri_checkbox2.Location = new System.Drawing.Point(127, 3);
             this.discri_checkbox2.Name = "discri_checkbox2";
             this.discri_checkbox2.Size = new System.Drawing.Size(30, 16);
             this.discri_checkbox2.TabIndex = 2;
@@ -3129,7 +3129,7 @@
             // discri_checkbox1
             // 
             this.discri_checkbox1.AutoSize = true;
-            this.discri_checkbox1.Location = new System.Drawing.Point(66, 3);
+            this.discri_checkbox1.Location = new System.Drawing.Point(65, 3);
             this.discri_checkbox1.Name = "discri_checkbox1";
             this.discri_checkbox1.Size = new System.Drawing.Size(30, 16);
             this.discri_checkbox1.TabIndex = 1;
@@ -3153,7 +3153,7 @@
             this.inputDAC_group.Dock = System.Windows.Forms.DockStyle.Top;
             this.inputDAC_group.Location = new System.Drawing.Point(3, 17);
             this.inputDAC_group.Name = "inputDAC_group";
-            this.inputDAC_group.Size = new System.Drawing.Size(573, 341);
+            this.inputDAC_group.Size = new System.Drawing.Size(572, 341);
             this.inputDAC_group.TabIndex = 0;
             this.inputDAC_group.TabStop = false;
             this.inputDAC_group.Text = "INPUT DAC";
@@ -3306,7 +3306,7 @@
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.333333F));
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.333333F));
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.333333F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(567, 283);
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(566, 283);
             this.tableLayoutPanel4.TabIndex = 0;
             // 
             // label60
@@ -3315,7 +3315,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label60.AutoSize = true;
-            this.label60.Location = new System.Drawing.Point(377, 253);
+            this.label60.Location = new System.Drawing.Point(376, 253);
             this.label60.Name = "label60";
             this.label60.Size = new System.Drawing.Size(41, 30);
             this.label60.TabIndex = 105;
@@ -3324,7 +3324,7 @@
             // 
             // inputdac35_value
             // 
-            this.inputdac35_value.Location = new System.Drawing.Point(424, 256);
+            this.inputdac35_value.Location = new System.Drawing.Point(423, 256);
             this.inputdac35_value.Name = "inputdac35_value";
             this.inputdac35_value.Size = new System.Drawing.Size(59, 21);
             this.inputdac35_value.TabIndex = 106;
@@ -3332,7 +3332,7 @@
             // inputdac35_enable
             // 
             this.inputdac35_enable.AutoSize = true;
-            this.inputdac35_enable.Location = new System.Drawing.Point(490, 256);
+            this.inputdac35_enable.Location = new System.Drawing.Point(489, 256);
             this.inputdac35_enable.Name = "inputdac35_enable";
             this.inputdac35_enable.Size = new System.Drawing.Size(60, 16);
             this.inputdac35_enable.TabIndex = 107;
@@ -3362,7 +3362,7 @@
             // inputdac34_enable
             // 
             this.inputdac34_enable.AutoSize = true;
-            this.inputdac34_enable.Location = new System.Drawing.Point(302, 256);
+            this.inputdac34_enable.Location = new System.Drawing.Point(301, 256);
             this.inputdac34_enable.Name = "inputdac34_enable";
             this.inputdac34_enable.Size = new System.Drawing.Size(60, 16);
             this.inputdac34_enable.TabIndex = 104;
@@ -3407,7 +3407,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label57.AutoSize = true;
-            this.label57.Location = new System.Drawing.Point(377, 230);
+            this.label57.Location = new System.Drawing.Point(376, 230);
             this.label57.Name = "label57";
             this.label57.Size = new System.Drawing.Size(41, 23);
             this.label57.TabIndex = 96;
@@ -3416,7 +3416,7 @@
             // 
             // inputdac32_value
             // 
-            this.inputdac32_value.Location = new System.Drawing.Point(424, 233);
+            this.inputdac32_value.Location = new System.Drawing.Point(423, 233);
             this.inputdac32_value.Name = "inputdac32_value";
             this.inputdac32_value.Size = new System.Drawing.Size(59, 21);
             this.inputdac32_value.TabIndex = 97;
@@ -3424,7 +3424,7 @@
             // inputdac32_enable
             // 
             this.inputdac32_enable.AutoSize = true;
-            this.inputdac32_enable.Location = new System.Drawing.Point(490, 233);
+            this.inputdac32_enable.Location = new System.Drawing.Point(489, 233);
             this.inputdac32_enable.Name = "inputdac32_enable";
             this.inputdac32_enable.Size = new System.Drawing.Size(60, 16);
             this.inputdac32_enable.TabIndex = 98;
@@ -3454,7 +3454,7 @@
             // inputdac31_enable
             // 
             this.inputdac31_enable.AutoSize = true;
-            this.inputdac31_enable.Location = new System.Drawing.Point(302, 233);
+            this.inputdac31_enable.Location = new System.Drawing.Point(301, 233);
             this.inputdac31_enable.Name = "inputdac31_enable";
             this.inputdac31_enable.Size = new System.Drawing.Size(60, 16);
             this.inputdac31_enable.TabIndex = 95;
@@ -3499,7 +3499,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label54.AutoSize = true;
-            this.label54.Location = new System.Drawing.Point(377, 207);
+            this.label54.Location = new System.Drawing.Point(376, 207);
             this.label54.Name = "label54";
             this.label54.Size = new System.Drawing.Size(41, 23);
             this.label54.TabIndex = 87;
@@ -3508,7 +3508,7 @@
             // 
             // inputdac29_value
             // 
-            this.inputdac29_value.Location = new System.Drawing.Point(424, 210);
+            this.inputdac29_value.Location = new System.Drawing.Point(423, 210);
             this.inputdac29_value.Name = "inputdac29_value";
             this.inputdac29_value.Size = new System.Drawing.Size(59, 21);
             this.inputdac29_value.TabIndex = 88;
@@ -3516,7 +3516,7 @@
             // inputdac29_enable
             // 
             this.inputdac29_enable.AutoSize = true;
-            this.inputdac29_enable.Location = new System.Drawing.Point(490, 210);
+            this.inputdac29_enable.Location = new System.Drawing.Point(489, 210);
             this.inputdac29_enable.Name = "inputdac29_enable";
             this.inputdac29_enable.Size = new System.Drawing.Size(60, 16);
             this.inputdac29_enable.TabIndex = 89;
@@ -3546,7 +3546,7 @@
             // inputdac28_enable
             // 
             this.inputdac28_enable.AutoSize = true;
-            this.inputdac28_enable.Location = new System.Drawing.Point(302, 210);
+            this.inputdac28_enable.Location = new System.Drawing.Point(301, 210);
             this.inputdac28_enable.Name = "inputdac28_enable";
             this.inputdac28_enable.Size = new System.Drawing.Size(60, 16);
             this.inputdac28_enable.TabIndex = 86;
@@ -3591,7 +3591,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label51.AutoSize = true;
-            this.label51.Location = new System.Drawing.Point(377, 184);
+            this.label51.Location = new System.Drawing.Point(376, 184);
             this.label51.Name = "label51";
             this.label51.Size = new System.Drawing.Size(41, 23);
             this.label51.TabIndex = 78;
@@ -3600,7 +3600,7 @@
             // 
             // inputdac26_value
             // 
-            this.inputdac26_value.Location = new System.Drawing.Point(424, 187);
+            this.inputdac26_value.Location = new System.Drawing.Point(423, 187);
             this.inputdac26_value.Name = "inputdac26_value";
             this.inputdac26_value.Size = new System.Drawing.Size(59, 21);
             this.inputdac26_value.TabIndex = 79;
@@ -3608,7 +3608,7 @@
             // inputdac26_enable
             // 
             this.inputdac26_enable.AutoSize = true;
-            this.inputdac26_enable.Location = new System.Drawing.Point(490, 187);
+            this.inputdac26_enable.Location = new System.Drawing.Point(489, 187);
             this.inputdac26_enable.Name = "inputdac26_enable";
             this.inputdac26_enable.Size = new System.Drawing.Size(60, 16);
             this.inputdac26_enable.TabIndex = 80;
@@ -3638,7 +3638,7 @@
             // inputdac25_enable
             // 
             this.inputdac25_enable.AutoSize = true;
-            this.inputdac25_enable.Location = new System.Drawing.Point(302, 187);
+            this.inputdac25_enable.Location = new System.Drawing.Point(301, 187);
             this.inputdac25_enable.Name = "inputdac25_enable";
             this.inputdac25_enable.Size = new System.Drawing.Size(60, 16);
             this.inputdac25_enable.TabIndex = 77;
@@ -3683,7 +3683,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label48.AutoSize = true;
-            this.label48.Location = new System.Drawing.Point(377, 161);
+            this.label48.Location = new System.Drawing.Point(376, 161);
             this.label48.Name = "label48";
             this.label48.Size = new System.Drawing.Size(41, 23);
             this.label48.TabIndex = 69;
@@ -3692,7 +3692,7 @@
             // 
             // inputdac23_value
             // 
-            this.inputdac23_value.Location = new System.Drawing.Point(424, 164);
+            this.inputdac23_value.Location = new System.Drawing.Point(423, 164);
             this.inputdac23_value.Name = "inputdac23_value";
             this.inputdac23_value.Size = new System.Drawing.Size(59, 21);
             this.inputdac23_value.TabIndex = 70;
@@ -3700,7 +3700,7 @@
             // inputdac23_enable
             // 
             this.inputdac23_enable.AutoSize = true;
-            this.inputdac23_enable.Location = new System.Drawing.Point(490, 164);
+            this.inputdac23_enable.Location = new System.Drawing.Point(489, 164);
             this.inputdac23_enable.Name = "inputdac23_enable";
             this.inputdac23_enable.Size = new System.Drawing.Size(60, 16);
             this.inputdac23_enable.TabIndex = 71;
@@ -3730,7 +3730,7 @@
             // inputdac22_enable
             // 
             this.inputdac22_enable.AutoSize = true;
-            this.inputdac22_enable.Location = new System.Drawing.Point(302, 164);
+            this.inputdac22_enable.Location = new System.Drawing.Point(301, 164);
             this.inputdac22_enable.Name = "inputdac22_enable";
             this.inputdac22_enable.Size = new System.Drawing.Size(60, 16);
             this.inputdac22_enable.TabIndex = 68;
@@ -3775,7 +3775,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label45.AutoSize = true;
-            this.label45.Location = new System.Drawing.Point(377, 138);
+            this.label45.Location = new System.Drawing.Point(376, 138);
             this.label45.Name = "label45";
             this.label45.Size = new System.Drawing.Size(41, 23);
             this.label45.TabIndex = 60;
@@ -3784,7 +3784,7 @@
             // 
             // inputdac20_value
             // 
-            this.inputdac20_value.Location = new System.Drawing.Point(424, 141);
+            this.inputdac20_value.Location = new System.Drawing.Point(423, 141);
             this.inputdac20_value.Name = "inputdac20_value";
             this.inputdac20_value.Size = new System.Drawing.Size(59, 21);
             this.inputdac20_value.TabIndex = 61;
@@ -3792,7 +3792,7 @@
             // inputdac20_enable
             // 
             this.inputdac20_enable.AutoSize = true;
-            this.inputdac20_enable.Location = new System.Drawing.Point(490, 141);
+            this.inputdac20_enable.Location = new System.Drawing.Point(489, 141);
             this.inputdac20_enable.Name = "inputdac20_enable";
             this.inputdac20_enable.Size = new System.Drawing.Size(60, 16);
             this.inputdac20_enable.TabIndex = 62;
@@ -3822,7 +3822,7 @@
             // inputdac19_enable
             // 
             this.inputdac19_enable.AutoSize = true;
-            this.inputdac19_enable.Location = new System.Drawing.Point(302, 141);
+            this.inputdac19_enable.Location = new System.Drawing.Point(301, 141);
             this.inputdac19_enable.Name = "inputdac19_enable";
             this.inputdac19_enable.Size = new System.Drawing.Size(60, 16);
             this.inputdac19_enable.TabIndex = 59;
@@ -3867,7 +3867,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label42.AutoSize = true;
-            this.label42.Location = new System.Drawing.Point(377, 115);
+            this.label42.Location = new System.Drawing.Point(376, 115);
             this.label42.Name = "label42";
             this.label42.Size = new System.Drawing.Size(41, 23);
             this.label42.TabIndex = 51;
@@ -3876,7 +3876,7 @@
             // 
             // inputdac17_value
             // 
-            this.inputdac17_value.Location = new System.Drawing.Point(424, 118);
+            this.inputdac17_value.Location = new System.Drawing.Point(423, 118);
             this.inputdac17_value.Name = "inputdac17_value";
             this.inputdac17_value.Size = new System.Drawing.Size(59, 21);
             this.inputdac17_value.TabIndex = 52;
@@ -3884,7 +3884,7 @@
             // inputdac17_enable
             // 
             this.inputdac17_enable.AutoSize = true;
-            this.inputdac17_enable.Location = new System.Drawing.Point(490, 118);
+            this.inputdac17_enable.Location = new System.Drawing.Point(489, 118);
             this.inputdac17_enable.Name = "inputdac17_enable";
             this.inputdac17_enable.Size = new System.Drawing.Size(60, 16);
             this.inputdac17_enable.TabIndex = 53;
@@ -3914,7 +3914,7 @@
             // inputdac16_enable
             // 
             this.inputdac16_enable.AutoSize = true;
-            this.inputdac16_enable.Location = new System.Drawing.Point(302, 118);
+            this.inputdac16_enable.Location = new System.Drawing.Point(301, 118);
             this.inputdac16_enable.Name = "inputdac16_enable";
             this.inputdac16_enable.Size = new System.Drawing.Size(60, 16);
             this.inputdac16_enable.TabIndex = 50;
@@ -3959,7 +3959,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label39.AutoSize = true;
-            this.label39.Location = new System.Drawing.Point(377, 92);
+            this.label39.Location = new System.Drawing.Point(376, 92);
             this.label39.Name = "label39";
             this.label39.Size = new System.Drawing.Size(41, 23);
             this.label39.TabIndex = 42;
@@ -3968,7 +3968,7 @@
             // 
             // inputdac14_value
             // 
-            this.inputdac14_value.Location = new System.Drawing.Point(424, 95);
+            this.inputdac14_value.Location = new System.Drawing.Point(423, 95);
             this.inputdac14_value.Name = "inputdac14_value";
             this.inputdac14_value.Size = new System.Drawing.Size(59, 21);
             this.inputdac14_value.TabIndex = 43;
@@ -3976,7 +3976,7 @@
             // inputdac14_enable
             // 
             this.inputdac14_enable.AutoSize = true;
-            this.inputdac14_enable.Location = new System.Drawing.Point(490, 95);
+            this.inputdac14_enable.Location = new System.Drawing.Point(489, 95);
             this.inputdac14_enable.Name = "inputdac14_enable";
             this.inputdac14_enable.Size = new System.Drawing.Size(60, 16);
             this.inputdac14_enable.TabIndex = 44;
@@ -4006,7 +4006,7 @@
             // inputdac13_enable
             // 
             this.inputdac13_enable.AutoSize = true;
-            this.inputdac13_enable.Location = new System.Drawing.Point(302, 95);
+            this.inputdac13_enable.Location = new System.Drawing.Point(301, 95);
             this.inputdac13_enable.Name = "inputdac13_enable";
             this.inputdac13_enable.Size = new System.Drawing.Size(60, 16);
             this.inputdac13_enable.TabIndex = 41;
@@ -4051,7 +4051,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label36.AutoSize = true;
-            this.label36.Location = new System.Drawing.Point(377, 69);
+            this.label36.Location = new System.Drawing.Point(376, 69);
             this.label36.Name = "label36";
             this.label36.Size = new System.Drawing.Size(41, 23);
             this.label36.TabIndex = 33;
@@ -4060,7 +4060,7 @@
             // 
             // inputdac11_value
             // 
-            this.inputdac11_value.Location = new System.Drawing.Point(424, 72);
+            this.inputdac11_value.Location = new System.Drawing.Point(423, 72);
             this.inputdac11_value.Name = "inputdac11_value";
             this.inputdac11_value.Size = new System.Drawing.Size(59, 21);
             this.inputdac11_value.TabIndex = 34;
@@ -4068,7 +4068,7 @@
             // inputdac11_enable
             // 
             this.inputdac11_enable.AutoSize = true;
-            this.inputdac11_enable.Location = new System.Drawing.Point(490, 72);
+            this.inputdac11_enable.Location = new System.Drawing.Point(489, 72);
             this.inputdac11_enable.Name = "inputdac11_enable";
             this.inputdac11_enable.Size = new System.Drawing.Size(60, 16);
             this.inputdac11_enable.TabIndex = 35;
@@ -4098,7 +4098,7 @@
             // inputdac10_enable
             // 
             this.inputdac10_enable.AutoSize = true;
-            this.inputdac10_enable.Location = new System.Drawing.Point(302, 72);
+            this.inputdac10_enable.Location = new System.Drawing.Point(301, 72);
             this.inputdac10_enable.Name = "inputdac10_enable";
             this.inputdac10_enable.Size = new System.Drawing.Size(60, 16);
             this.inputdac10_enable.TabIndex = 32;
@@ -4143,7 +4143,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label33.AutoSize = true;
-            this.label33.Location = new System.Drawing.Point(377, 46);
+            this.label33.Location = new System.Drawing.Point(376, 46);
             this.label33.Name = "label33";
             this.label33.Size = new System.Drawing.Size(41, 23);
             this.label33.TabIndex = 24;
@@ -4152,7 +4152,7 @@
             // 
             // inputdac8_value
             // 
-            this.inputdac8_value.Location = new System.Drawing.Point(424, 49);
+            this.inputdac8_value.Location = new System.Drawing.Point(423, 49);
             this.inputdac8_value.Name = "inputdac8_value";
             this.inputdac8_value.Size = new System.Drawing.Size(59, 21);
             this.inputdac8_value.TabIndex = 25;
@@ -4160,7 +4160,7 @@
             // inputdac8_enable
             // 
             this.inputdac8_enable.AutoSize = true;
-            this.inputdac8_enable.Location = new System.Drawing.Point(490, 49);
+            this.inputdac8_enable.Location = new System.Drawing.Point(489, 49);
             this.inputdac8_enable.Name = "inputdac8_enable";
             this.inputdac8_enable.Size = new System.Drawing.Size(60, 16);
             this.inputdac8_enable.TabIndex = 26;
@@ -4190,7 +4190,7 @@
             // inputdac7_enable
             // 
             this.inputdac7_enable.AutoSize = true;
-            this.inputdac7_enable.Location = new System.Drawing.Point(302, 49);
+            this.inputdac7_enable.Location = new System.Drawing.Point(301, 49);
             this.inputdac7_enable.Name = "inputdac7_enable";
             this.inputdac7_enable.Size = new System.Drawing.Size(60, 16);
             this.inputdac7_enable.TabIndex = 23;
@@ -4235,7 +4235,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label30.AutoSize = true;
-            this.label30.Location = new System.Drawing.Point(377, 23);
+            this.label30.Location = new System.Drawing.Point(376, 23);
             this.label30.Name = "label30";
             this.label30.Size = new System.Drawing.Size(41, 23);
             this.label30.TabIndex = 15;
@@ -4244,7 +4244,7 @@
             // 
             // inputdac5_value
             // 
-            this.inputdac5_value.Location = new System.Drawing.Point(424, 26);
+            this.inputdac5_value.Location = new System.Drawing.Point(423, 26);
             this.inputdac5_value.Name = "inputdac5_value";
             this.inputdac5_value.Size = new System.Drawing.Size(59, 21);
             this.inputdac5_value.TabIndex = 16;
@@ -4252,7 +4252,7 @@
             // inputdac5_enable
             // 
             this.inputdac5_enable.AutoSize = true;
-            this.inputdac5_enable.Location = new System.Drawing.Point(490, 26);
+            this.inputdac5_enable.Location = new System.Drawing.Point(489, 26);
             this.inputdac5_enable.Name = "inputdac5_enable";
             this.inputdac5_enable.Size = new System.Drawing.Size(60, 16);
             this.inputdac5_enable.TabIndex = 17;
@@ -4282,7 +4282,7 @@
             // inputdac4_enable
             // 
             this.inputdac4_enable.AutoSize = true;
-            this.inputdac4_enable.Location = new System.Drawing.Point(302, 26);
+            this.inputdac4_enable.Location = new System.Drawing.Point(301, 26);
             this.inputdac4_enable.Name = "inputdac4_enable";
             this.inputdac4_enable.Size = new System.Drawing.Size(60, 16);
             this.inputdac4_enable.TabIndex = 14;
@@ -4327,7 +4327,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(377, 0);
+            this.label13.Location = new System.Drawing.Point(376, 0);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(41, 23);
             this.label13.TabIndex = 6;
@@ -4336,7 +4336,7 @@
             // 
             // inputdac2_value
             // 
-            this.inputdac2_value.Location = new System.Drawing.Point(424, 3);
+            this.inputdac2_value.Location = new System.Drawing.Point(423, 3);
             this.inputdac2_value.Name = "inputdac2_value";
             this.inputdac2_value.Size = new System.Drawing.Size(59, 21);
             this.inputdac2_value.TabIndex = 7;
@@ -4344,7 +4344,7 @@
             // inputdac2_enable
             // 
             this.inputdac2_enable.AutoSize = true;
-            this.inputdac2_enable.Location = new System.Drawing.Point(490, 3);
+            this.inputdac2_enable.Location = new System.Drawing.Point(489, 3);
             this.inputdac2_enable.Name = "inputdac2_enable";
             this.inputdac2_enable.Size = new System.Drawing.Size(60, 16);
             this.inputdac2_enable.TabIndex = 8;
@@ -4374,7 +4374,7 @@
             // inputdac1_enable
             // 
             this.inputdac1_enable.AutoSize = true;
-            this.inputdac1_enable.Location = new System.Drawing.Point(302, 3);
+            this.inputdac1_enable.Location = new System.Drawing.Point(301, 3);
             this.inputdac1_enable.Name = "inputdac1_enable";
             this.inputdac1_enable.Size = new System.Drawing.Size(60, 16);
             this.inputdac1_enable.TabIndex = 5;
