@@ -1913,13 +1913,20 @@ namespace SPIROC_DAQ
         }
         private void ledCalib2E_threadFunc(CancellationToken taskToken, Form2 paraWindows)
         {
+            byte cmd = 0x00;
             int DAC_start1 = int.Parse(paraWindows.start1.Text);
             int DAC_step1 = int.Parse(paraWindows.step1.Text);
             int DAC_stop1 = int.Parse(paraWindows.stop1.Text);
 
-            int DAC_start2 = int.Parse(paraWindows.start2.Text);
-            int DAC_step2 = int.Parse(paraWindows.step2.Text);
-            int DAC_stop2 = int.Parse(paraWindows.stop2.Text);
+            int DAC_start2 = 0;
+            int DAC_step2 = 0;
+            int DAC_stop2 = 0;
+
+            int acqTime = 10;
+            bool range2Exist = true;
+            range2Exist = range2Exist && int.TryParse(paraWindows.start2.Text, out DAC_start2);
+            range2Exist = range2Exist && int.TryParse(paraWindows.step2.Text,out DAC_step2);
+            range2Exist = range2Exist && int.TryParse(paraWindows.stop2.Text,out DAC_stop2);
             int autoSource = paraWindows.autoPulse_checkbox.Checked ? 1 : 0;
 
             // initiate file writer and dictionary
@@ -1930,9 +1937,7 @@ namespace SPIROC_DAQ
             if (!Directory.Exists(fullPath))
                 Directory.CreateDirectory(fullPath);
 
-            // enable all chip, and make amplifier active
-            //CommandSend(0x0b59, 2); // auto-calib: off(0),ext enable(1), output enable (0)  sd: not shut down(1), group selected 9
-
+            
             // the loop of dac
             for (int dacV = DAC_start1; dacV <= DAC_stop1; dacV += DAC_step1)
             {
@@ -1959,86 +1964,106 @@ namespace SPIROC_DAQ
                 cmdbytes[0] = value_l;
                 CommandSend(cmdbytes, 2);
 
-                // initiate file writter
-                sendMessage("CHANNEL is being calibrated with DAC: " + dacV + " now\n");
-                string fileName = string.Format("Group{0}_{1}DAC.dat", ledcalib_group_sel.Value, dacV);
-                //create file writer
-                bw = new BinaryWriter(File.Open(fullPath + '\\' + fileName, FileMode.Create, FileAccess.Write, FileShare.Read));
-                dataAcqTks.Dispose();       //clean up old token source
-                dataAcqTks = new CancellationTokenSource(); // generate a new token
-                CommandSend(0x0100, 2); //start acq cycle
-                try
+
+                // the loop of group selection
+                for (int groupSel = 1; groupSel <= 14; groupSel++)
                 {
-                    Task dataAcqTsk = Task.Factory.StartNew(() => this.dataAcq_threadFunc(dataAcqTks.Token, bw), dataAcqTks.Token);
-                    Thread.Sleep(3 * 1000);
-                    // time up!
-                    // stop asic first
-                    CommandSend(0x0200, 2);
-                    // stop data receiving
-                    dataAcqTks.Cancel();
-                    while (!dataAcqTsk.IsCompleted) ;
-                }
-                catch (AggregateException excption)
-                {
-                    foreach (var value in excption.InnerExceptions)
+
+                    cmd = (byte)(groupSel + 0x50);
+                    CommandSend(0x0b+cmd, 2); // auto-calib: off(0),ext enable(1), output enable (0)  sd: not shut down(1), group selected 9
+                    // initiate file writter
+                    sendMessage("Group" + groupSel + " is being calibrated with DAC: " + dacV + " now\n");
+                    string fileName = string.Format("Group{0}_{1}DAC.dat", ledcalib_group_sel.Value, dacV);
+                    //create file writer
+                    bw = new BinaryWriter(File.Open(fullPath + '\\' + fileName, FileMode.Create, FileAccess.Write, FileShare.Read));
+                    dataAcqTks.Dispose();       //clean up old token source
+                    dataAcqTks = new CancellationTokenSource(); // generate a new token
+                    CommandSend(0x0100, 2); //start acq cycle
+                    try
                     {
-                        exceptionReport.AppendLine(excption.Message + " " + value.Message);
+                        Task dataAcqTsk = Task.Factory.StartNew(() => this.dataAcq_threadFunc(dataAcqTks.Token, bw), dataAcqTks.Token);
+                        Thread.Sleep(acqTime * 1000);
+                        // time up!
+                        // stop asic first
+                        CommandSend(0x0200, 2);
+                        // stop data receiving
+                        dataAcqTks.Cancel();
+                        while (!dataAcqTsk.IsCompleted) ;
+                    }
+                    catch (AggregateException excption)
+                    {
+                        foreach (var value in excption.InnerExceptions)
+                        {
+                            exceptionReport.AppendLine(excption.Message + " " + value.Message);
+                        }
                     }
                 }
+                
+                
             }
-
-            for (int dacV = DAC_start2; dacV <= DAC_stop2; dacV += DAC_step2)
+            if (range2Exist)
             {
-                if (taskToken.IsCancellationRequested == true)
+                for (int dacV = DAC_start2; dacV <= DAC_stop2; dacV += DAC_step2)
                 {
-                    break;
-                }
-                //setting of dac
-                byte[] cmdbytes = new byte[2];
-                cmdbytes[1] = 0x07; // led dac control
-                byte value_h = (byte)(dacV >> 8);
-                byte value_l = (byte)dacV;
-
-                cmdbytes[0] = value_h;
-                CommandSend(cmdbytes, 2);
-                cmdbytes[0] = value_l;
-                CommandSend(cmdbytes, 2);
-
-                byte chn1_mask = 0x80;
-                value_h = (byte)(chn1_mask | value_h);
-
-                cmdbytes[0] = value_h;
-                CommandSend(cmdbytes, 2);
-                cmdbytes[0] = value_l;
-                CommandSend(cmdbytes, 2);
-
-                // initiate file writter
-                sendMessage("CHANNEL is being calibrated with DAC: " + dacV + " now\n");
-                string fileName = string.Format("Group{0}_{1}DAC.dat", ledcalib_group_sel.Value, dacV);
-                //create file writer
-                bw = new BinaryWriter(File.Open(fullPath + '\\' + fileName, FileMode.Create, FileAccess.Write, FileShare.Read));
-                dataAcqTks.Dispose();       //clean up old token source
-                dataAcqTks = new CancellationTokenSource(); // generate a new token
-                CommandSend(0x0100, 2); //start acq cycle
-                try
-                {
-                    Task dataAcqTsk = Task.Factory.StartNew(() => this.dataAcq_threadFunc(dataAcqTks.Token, bw), dataAcqTks.Token);
-                    Thread.Sleep(3 * 1000);
-                    // time up!
-                    // stop asic first
-                    CommandSend(0x0200, 2);
-                    // stop data receiving
-                    dataAcqTks.Cancel();
-                    while (!dataAcqTsk.IsCompleted) ;
-                }
-                catch (AggregateException excption)
-                {
-                    foreach (var value in excption.InnerExceptions)
+                    if (taskToken.IsCancellationRequested == true)
                     {
-                        exceptionReport.AppendLine(excption.Message + " " + value.Message);
+                        break;
+                    }
+                    //setting of dac
+                    byte[] cmdbytes = new byte[2];
+                    cmdbytes[1] = 0x07; // led dac control
+                    byte value_h = (byte)(dacV >> 8);
+                    byte value_l = (byte)dacV;
+
+                    cmdbytes[0] = value_h;
+                    CommandSend(cmdbytes, 2);
+                    cmdbytes[0] = value_l;
+                    CommandSend(cmdbytes, 2);
+
+                    byte chn1_mask = 0x80;
+                    value_h = (byte)(chn1_mask | value_h);
+
+                    cmdbytes[0] = value_h;
+                    CommandSend(cmdbytes, 2);
+                    cmdbytes[0] = value_l;
+                    CommandSend(cmdbytes, 2);
+
+                    // the loop of group selection
+                    for (int groupSel = 1; groupSel <= 14; groupSel++)
+                    {
+                        cmd = (byte)(groupSel + 0x50);
+                        CommandSend(0x0b + cmd, 2); // auto-calib: off(0),ext enable(1), output enable (0)  sd: not shut down(1), group selected 9
+
+                        // initiate file writter
+                        sendMessage("Group" + groupSel + " is being calibrated with DAC: " + dacV + " now\n");
+                        string fileName = string.Format("Group{0}_{1}DAC.dat", ledcalib_group_sel.Value, dacV);
+                        //create file writer
+                        bw = new BinaryWriter(File.Open(fullPath + '\\' + fileName, FileMode.Create, FileAccess.Write, FileShare.Read));
+                        dataAcqTks.Dispose();       //clean up old token source
+                        dataAcqTks = new CancellationTokenSource(); // generate a new token
+                        CommandSend(0x0100, 2); //start acq cycle
+                        try
+                        {
+                            Task dataAcqTsk = Task.Factory.StartNew(() => this.dataAcq_threadFunc(dataAcqTks.Token, bw), dataAcqTks.Token);
+                            Thread.Sleep(acqTime * 1000);
+                            // time up!
+                            // stop asic first
+                            CommandSend(0x0200, 2);
+                            // stop data receiving
+                            dataAcqTks.Cancel();
+                            while (!dataAcqTsk.IsCompleted) ;
+                        }
+                        catch (AggregateException excption)
+                        {
+                            foreach (var value in excption.InnerExceptions)
+                            {
+                                exceptionReport.AppendLine(excption.Message + " " + value.Message);
+                            }
+                        }
                     }
                 }
             }
+            
 
             CommandSend(0x0b00, 2); // close calibration
             Acq_status_label.Text = "IDLE";
