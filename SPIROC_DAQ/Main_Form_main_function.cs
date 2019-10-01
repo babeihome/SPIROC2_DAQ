@@ -1100,12 +1100,20 @@ namespace SPIROC_DAQ
                     dataAcqTks.Dispose();       //clean up old token source
                     dataAcqTks = new CancellationTokenSource(); // generate a new token
 
-                    slowConfig.set_property(propertyTable[selectedPara], v);
-                    if(selectedPara == "trig delay" && (version_num == 2))
+                    for(int i = 0; i< (int)chip_num_input.Value; i++)   // Multiple chip mode, only consider EBU2E
                     {
-                        slowConfig.set_property(slowConfig.settings["DELAY_VALIDHOLD"], (uint)(v / 4));
-                    }
+                        if (version_num == 2)
+                        {
+                            slowConfig = slowConfig_2E_store[i];
+                        }
+                        slowConfig.set_property(propertyTable[selectedPara], v);
+                        if (selectedPara == "trig delay" && (version_num == 2))
+                        {
+                            slowConfig.set_property(slowConfig.settings["DELAY_VALIDHOLD"], (uint)(v / 4));
+                        }
+                    }                                      
                     normal_config_button_Click(null, null);
+
                     Thread.Sleep(100);
                     byte[] cmdBytes = new byte[2];
                     // start acq cmd is 0x0100;
