@@ -107,16 +107,40 @@ namespace SPIROC_DAQ
             // restore config_data and settingName property
             var tmp = b.Deserialize(fileStream) as SC_board_manager;
             this.chip_num = tmp.chip_num;
-            for(int i = 0; i < tmp.chip_num; i++)
+            for (int i = 0; i < tmp.chip_num; i++)
             {
                 this.chipChain.Add(tmp.chipChain[i]);
             }
-            
+
             this.settingName = tmp.settingName;
             this.chipVersion = tmp.chipVersion;
             fileStream.Close();
             return true;
 
+        }
+
+
+        public bool OutputParatable(String path = cache_loc + "ConfigurationText.txt")
+        {           
+            FileStream fileStream = new FileStream(path, FileMode.Create);
+            StreamWriter sw = new StreamWriter(fileStream);
+            int num = 1;
+            sw.BaseStream.Seek(0, SeekOrigin.End);
+            sw.WriteLine("### Manager Info. ###");
+            foreach (SC_model_2E chip in chipChain)
+            {
+                sw.WriteLine("# CHIP{0} #", num++);
+                foreach (KeyValuePair<string, int> kvp in chip.settings)
+                {
+                    string msg = kvp.Key + "     " + kvp.Value + "     " + chip.get_property(kvp.Value) + "    ";
+                    sw.WriteLine("{0}", msg);
+
+                }
+                sw.WriteLine("");
+            }
+            sw.Flush();
+            sw.Close();
+            return true;
         }
 
     }

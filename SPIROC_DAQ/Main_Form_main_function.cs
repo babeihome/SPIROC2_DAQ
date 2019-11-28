@@ -357,7 +357,7 @@ namespace SPIROC_DAQ
 
             autoGain_Check.Checked = slowConfig.get_property(slowConfig.settings["AUTO_GAIN"]) == 1;
             gainSelect_Check.Checked = slowConfig.get_property(slowConfig.settings["GAIN_SELECT"]) == 1;
-            adcExtInput_Check.Checked = slowConfig.get_property(slowConfig.settings["AUTO_GAIN"]) == 1;
+            adcExtInput_Check.Checked = slowConfig.get_property(slowConfig.settings["ADC_EXT_INPUT"]) == 1;
             switchTDCon_Check.Checked = slowConfig.get_property(slowConfig.settings["SWITCH_TDC_ON"]) == 1;
             bandGap_Check.Checked = slowConfig.get_property(slowConfig.settings["EN_BANDGAP"]) == 1;
             ENDac1.Checked = slowConfig.get_property(slowConfig.settings["EN_DAC1"]) == 1;
@@ -779,8 +779,8 @@ namespace SPIROC_DAQ
             int len;           
             int n = 0;
             bool bResult;
-            System.Threading.Timer tmr = new System.Threading.Timer(new System.Threading.TimerCallback(showSize),null,-1,5000);
-            tmr.Change(0, 5000);
+            System.Threading.Timer tmr = new System.Threading.Timer(new System.Threading.TimerCallback(showSize),null,-1,3000);
+            tmr.Change(0, 3000);
             while (true)
             {
                 if (token.IsCancellationRequested == true)
@@ -1841,7 +1841,7 @@ namespace SPIROC_DAQ
                     try
                     {
                         Task dataAcqTsk = Task.Factory.StartNew(() => this.dataAcq_threadFunc(dataAcqTks.Token, bw), dataAcqTks.Token);
-                        Thread.Sleep(3 * 1000);
+                        Thread.Sleep(500);
                         // time up!
                         // stop asic first
                         CommandSend(0x0200, 2);
@@ -1889,7 +1889,7 @@ namespace SPIROC_DAQ
                     try
                     {
                         Task dataAcqTsk = Task.Factory.StartNew(() => this.dataAcq_threadFunc(dataAcqTks.Token, bw), dataAcqTks.Token);
-                        Thread.Sleep(3 * 1000);
+                        Thread.Sleep(500);
                         // time up!
                         // stop asic first
                         CommandSend(0x0200, 2);
@@ -1966,14 +1966,17 @@ namespace SPIROC_DAQ
 
 
                 // the loop of group selection
-                for (int groupSel = 1; groupSel <= 14; groupSel++)
+                for (int groupSel = 0; groupSel < 14; groupSel++)
                 {
-
+                    if (taskToken.IsCancellationRequested == true)
+                    {
+                        break;
+                    }
                     cmd = (byte)(groupSel + 0x50);
-                    CommandSend(0x0b+cmd, 2); // auto-calib: off(0),ext enable(1), output enable (0)  sd: not shut down(1), group selected 9
+                    CommandSend(0x0b00+cmd, 2); // auto-calib: off(0),ext enable(1), output enable (0)  sd: not shut down(1), group selected 9
                     // initiate file writter
-                    sendMessage("Group" + groupSel + " is being calibrated with DAC: " + dacV + " now\n");
-                    string fileName = string.Format("Group{0}_{1}DAC.dat", ledcalib_group_sel.Value, dacV);
+                    sendMessage("Group" + (groupSel+1) + " is being calibrated with DAC: " + dacV + " now\n");
+                    string fileName = string.Format("Group{0}_{1}DAC.dat", (groupSel+1), dacV);
                     //create file writer
                     bw = new BinaryWriter(File.Open(fullPath + '\\' + fileName, FileMode.Create, FileAccess.Write, FileShare.Read));
                     dataAcqTks.Dispose();       //clean up old token source
@@ -2031,12 +2034,16 @@ namespace SPIROC_DAQ
                     // the loop of group selection
                     for (int groupSel = 1; groupSel <= 14; groupSel++)
                     {
+                        if (taskToken.IsCancellationRequested == true)
+                        {
+                            break;
+                        }
                         cmd = (byte)(groupSel + 0x50);
                         CommandSend(0x0b + cmd, 2); // auto-calib: off(0),ext enable(1), output enable (0)  sd: not shut down(1), group selected 9
 
                         // initiate file writter
                         sendMessage("Group" + groupSel + " is being calibrated with DAC: " + dacV + " now\n");
-                        string fileName = string.Format("Group{0}_{1}DAC.dat", ledcalib_group_sel.Value, dacV);
+                        string fileName = string.Format("Group{0}_{1}DAC.dat", groupSel, dacV);
                         //create file writer
                         bw = new BinaryWriter(File.Open(fullPath + '\\' + fileName, FileMode.Create, FileAccess.Write, FileShare.Read));
                         dataAcqTks.Dispose();       //clean up old token source

@@ -2677,10 +2677,11 @@ namespace SPIROC_DAQ
             byte value_l = 0x00;
 
             uint value = 0;
-            if (ledcalib_dac_textbox.Text == null)
+            if (ledcalib_dac_textbox.Text == "")
             {
                 ledcalib_dac_textbox.Text = "0";
             }
+
             value = uint.Parse(ledcalib_dac_textbox.Text);
             value_h = (byte)(value >> 8);
             value_l = (byte)value;
@@ -3620,6 +3621,72 @@ namespace SPIROC_DAQ
             Acq_status_label.ForeColor = Color.Black;
             timer1.Stop();
             time_textbox.Text = "00:00:00:00";
+        }
+
+        private void debug_btn_Click(object sender, EventArgs e)
+        {
+            slowControlManager.clearChip();
+            for (int i = (int)chip_num_input.Value - 1; i >= 0; i--)
+            {
+                if (version_num == 1)
+                {
+                    slowControlManager.chipVersion = 1;
+                    slowControlManager.pushChip(slowConfig_2B_store[i]);
+                }
+                else if (version_num == 2)
+                {
+                    slowControlManager.chipVersion = 2;
+                    slowControlManager.pushChip(slowConfig_2E_store[i]);
+                }
+            }
+            slowControlManager.OutputParatable(fileDic + "\\Configuration.txt");
+        }
+
+        private void acqAcq_checkbox_CheckedChanged(object sender, EventArgs e)
+        {
+            byte[] commandByte = new byte[2];
+            var isUSBConnected = check_USB();
+
+
+            if (isUSBConnected)
+            {
+                if (acqAcq_checkbox.Checked == true)
+                {
+                    CommandSend(0x1a01, 2);
+                }
+                else
+                {
+                    CommandSend(0x1a00, 2);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please connect USB first", "Error");
+                return;
+            }
+                        
+            textBox1.AppendText("Ext trigger has been changed\n");
+        }
+
+        private void leadBlockTime_num_ValueChanged(object sender, EventArgs e)
+        {
+            byte[] commandByte = new byte[2];
+
+            commandByte[1] = 0x1b;
+            commandByte[0] = byte.Parse(leadBlockTime_num.Value.ToString());
+            var isUSBConnected = check_USB();
+            if (isUSBConnected)
+            {
+                CommandSend(commandByte, 2);
+            }
+            else
+            {
+                MessageBox.Show("Please connect USB first", "Error");
+                return;
+            }
+
+            textBox1.AppendText("The Slow clock leading block duration has been set to " + leadBlockTime_num.Value.ToString() + ".\n");
+
         }
     }
 }
