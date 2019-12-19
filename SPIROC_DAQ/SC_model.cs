@@ -143,6 +143,28 @@ namespace SPIROC_DAQ
             return true;
         }
 
+        public bool OutputParabitblock(String path = cache_loc + "CHIPbitblock.dat")
+        {
+            byte[] bit_block = new byte[1000];
+            int byte_count = 0;
+            FileStream fileStream = new FileStream(path, FileMode.Create);
+            StreamWriter sw = new StreamWriter(fileStream);
+
+            sw.BaseStream.Seek(0, SeekOrigin.End);
+            byte_count = bit_transform(bit_block);
+            for(int i = 0; i < byte_count; i++)
+            {
+                sw.Write(String.Format("0x{0:X2} ", bit_block[i]));
+            }
+
+            sw.Flush();
+            sw.Close();
+
+
+
+            return true;
+        }
+
     }
     interface IBitBlock
     {

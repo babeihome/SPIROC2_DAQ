@@ -495,7 +495,7 @@ namespace SPIROC_DAQ
         #region Thread-used function
         private void tempMonitor_threadFunc(CancellationToken token, BinaryWriter bw)
         {
-            int I2CSwtich_chn = 0;
+            int I2CSwitch_chn = 0;
             int Tmp117Addr = 0;
             dataAcqTks.Dispose();       //clean up old token source
             dataAcqTks = new CancellationTokenSource(); // generate a new token    
@@ -581,15 +581,15 @@ namespace SPIROC_DAQ
                     CommandSend(0x1700, 2);
                     textBox1.AppendText("All reg in temp. sensor has pointed at temp. reg. \n");
 
-                    for (I2CSwtich_chn = 0; I2CSwtich_chn < 8; I2CSwtich_chn++)
+                    for (I2CSwitch_chn = 0; I2CSwitch_chn < 8; I2CSwitch_chn++)
                     {
                         // Connect PCA chn
                         CommandSend(0x1806, 2);
-                        CommandSend(0x1800 + (1 << I2CSwtich_chn), 2);
+                        CommandSend(0x1800 + (1 << I2CSwitch_chn), 2);
                         CommandSend(0x1803, 2);
                         CommandSend(0x1802, 2);
                         CommandSend(0x1700, 2);
-                        textBox1.AppendText("Channel " + I2CSwtich_chn + " has been selected.\n");
+                        textBox1.AppendText("Channel " + I2CSwitch_chn + " has been selected.\n");
 
                         Thread.Sleep(1);
 
@@ -810,6 +810,7 @@ namespace SPIROC_DAQ
             }
             sumByte = 0;
             tmr.Change(Timeout.Infinite, 5000);
+            tmr.Dispose();
             bw.Flush();
             bw.Close();
             bw.Dispose();

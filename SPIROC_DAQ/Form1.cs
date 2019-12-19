@@ -3640,6 +3640,8 @@ namespace SPIROC_DAQ
                 }
             }
             slowControlManager.OutputParatable(fileDic + "\\Configuration.txt");
+            slowControlManager.OutputParabitblock(fileDic + "\\chipConfiguration.txt");
+
         }
 
         private void acqAcq_checkbox_CheckedChanged(object sender, EventArgs e)
