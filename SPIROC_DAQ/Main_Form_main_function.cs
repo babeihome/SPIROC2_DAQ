@@ -1923,7 +1923,7 @@ namespace SPIROC_DAQ
             int DAC_step2 = 0;
             int DAC_stop2 = 0;
 
-            int acqTime = 10;
+            int acqTime = int.Parse(scanDuration_textbox.Text);
             bool range2Exist = true;
             range2Exist = range2Exist && int.TryParse(paraWindows.start2.Text, out DAC_start2);
             range2Exist = range2Exist && int.TryParse(paraWindows.step2.Text,out DAC_step2);
