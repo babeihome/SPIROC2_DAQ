@@ -1787,7 +1787,7 @@ namespace SPIROC_DAQ
                 cmdBytes[1] = 0x05;
                 cmdBytes[0] = 0x01;
                 CommandSend(cmdBytes, 2);
-                Thread.Sleep(100);
+                
                 // send config data
                 cmdBytes[1] = 0x03;
                 for (int i = 0; i < byte_count; i++)
@@ -1807,10 +1807,10 @@ namespace SPIROC_DAQ
                 cmdBytes[1] = 0x08;
                 cmdBytes[0] = 0x00;
                 CommandSend(cmdBytes, 2);
-
+                Thread.Sleep(100);
 
                 // the loop of dac
-                for(int dacV = DAC_start1; dacV <= DAC_stop1; dacV += DAC_step1)
+                for (int dacV = DAC_start1; dacV <= DAC_stop1; dacV += DAC_step1)
                 {
                     //setting of dac
                     byte[] cmdbytes = new byte[2];

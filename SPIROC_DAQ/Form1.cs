@@ -3578,6 +3578,10 @@ namespace SPIROC_DAQ
                 new_value = (code << 1) + (old_value & 1);
                 slowConfig.set_property(slowConfig.settings[Key.ToString()], new_value);
                 i++;
+                if (i == 210)
+                {
+                    break;
+                }
             }
             if (version_num == 1)
             {
